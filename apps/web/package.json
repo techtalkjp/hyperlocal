@@ -1,0 +1,41 @@
+{
+  "name": "@hyperlocal/web",
+  "private": true,
+  "sideEffects": false,
+  "type": "module",
+  "scripts": {
+    "build": "remix vite:build",
+    "dev": "remix vite:dev",
+    "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
+    "start": "remix-serve ./build/server/index.js",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@remix-run/node": "^2.9.2",
+    "@remix-run/react": "^2.9.2",
+    "@remix-run/serve": "^2.9.2",
+    "isbot": "^4.4.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "^2.9.2",
+    "@types/react": "^18.3.2",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "prettier": "^3.2.5",
+    "prettier-plugin-organize-imports": "^3.2.4",
+    "prettier-plugin-tailwindcss": "^0.5.14",
+    "tailwindcss": "^3.4.3",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.11",
+    "vite-tsconfig-paths": "^4.3.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
