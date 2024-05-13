@@ -1,0 +1,455 @@
+{
+  "places": [
+    {
+      "id": "ChIJgSSKS-aLGGARX5Tv-HyJxvg",
+      "types": [
+        "convenience_store",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "location": { "latitude": 35.6693718, "longitude": 139.7643391 },
+      "googleMapsUri": "https://maps.google.com/?cid=17926166536640238687",
+      "businessStatus": "OPERATIONAL",
+      "displayName": { "text": "ローソン GINZA SIX店", "languageCode": "ja" },
+      "primaryTypeDisplayName": {
+        "text": "コンビニエンスストア",
+        "languageCode": "ja"
+      },
+      "primaryType": "convenience_store",
+      "shortFormattedAddress": "中央区銀座６丁目１０−１ GINZA SIX 1F"
+    },
+    {
+      "id": "ChIJ3waU00mLGGARmLRXP_Wi3y0",
+      "types": [
+        "convenience_store",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "location": { "latitude": 35.6691156, "longitude": 139.7649155 },
+      "googleMapsUri": "https://maps.google.com/?cid=3305539825726633112",
+      "businessStatus": "OPERATIONAL",
+      "displayName": {
+        "text": "セブン-イレブン 銀座6丁目中央店",
+        "languageCode": "ja"
+      },
+      "primaryTypeDisplayName": {
+        "text": "コンビニエンスストア",
+        "languageCode": "ja"
+      },
+      "primaryType": "convenience_store",
+      "shortFormattedAddress": "中央区銀座６丁目１３−１６"
+    },
+    {
+      "id": "ChIJoSv9ed6LGGARN0txGj2avLk",
+      "types": [
+        "convenience_store",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "location": { "latitude": 35.669919799999995, "longitude": 139.7647839 },
+      "googleMapsUri": "https://maps.google.com/?cid=13383741779865586487",
+      "businessStatus": "OPERATIONAL",
+      "displayName": {
+        "text": "ファミリーマート 銀座みゆき通り店",
+        "languageCode": "ja"
+      },
+      "primaryTypeDisplayName": {
+        "text": "コンビニエンスストア",
+        "languageCode": "ja"
+      },
+      "primaryType": "convenience_store",
+      "shortFormattedAddress": "中央区銀座５丁目９−１３ 菊正ビル"
+    },
+    {
+      "id": "ChIJoV_cuueLGGARMTdg6i6nJvg",
+      "types": [
+        "convenience_store",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "location": { "latitude": 35.6686238, "longitude": 139.7644992 },
+      "googleMapsUri": "https://maps.google.com/?cid=17881163190463641393",
+      "businessStatus": "OPERATIONAL",
+      "displayName": { "text": "㈱フュージョンズ", "languageCode": "ja" },
+      "primaryTypeDisplayName": {
+        "text": "コンビニエンスストア",
+        "languageCode": "ja"
+      },
+      "primaryType": "convenience_store",
+      "shortFormattedAddress": "中央区銀座６丁目１３−１１"
+    },
+    {
+      "id": "ChIJxXq8bwOLGGARPivYt6sthzI",
+      "types": [
+        "convenience_store",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "location": { "latitude": 35.669269, "longitude": 139.7660865 },
+      "googleMapsUri": "https://maps.google.com/?cid=3640929039299390270",
+      "businessStatus": "OPERATIONAL",
+      "displayName": {
+        "text": "ローソン 王子ホールディングス１号館店",
+        "languageCode": "ja"
+      },
+      "primaryTypeDisplayName": {
+        "text": "コンビニエンスストア",
+        "languageCode": "ja"
+      },
+      "primaryType": "convenience_store",
+      "shortFormattedAddress": "中央区銀座５丁目１２−８"
+    },
+    {
+      "id": "ChIJV8Xzz-eLGGARf87Yr_PvnZw",
+      "types": [
+        "convenience_store",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "location": {
+        "latitude": 35.667965099999996,
+        "longitude": 139.76317140000003
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=11285440071166643839",
+      "businessStatus": "OPERATIONAL",
+      "displayName": {
+        "text": "ファミリーマート フレッサイン銀座店",
+        "languageCode": "ja"
+      },
+      "primaryTypeDisplayName": {
+        "text": "コンビニエンスストア",
+        "languageCode": "ja"
+      },
+      "primaryType": "convenience_store",
+      "shortFormattedAddress": "中央区銀座７丁目１１−１２"
+    },
+    {
+      "id": "ChIJjZRiwueLGGARdSOj5qM9LzE",
+      "types": [
+        "convenience_store",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "location": { "latitude": 35.6677509, "longitude": 139.7634822 },
+      "googleMapsUri": "https://maps.google.com/?cid=3544119205922284405",
+      "businessStatus": "OPERATIONAL",
+      "displayName": {
+        "text": "セブン-イレブン 銀座７丁目中央店",
+        "languageCode": "ja"
+      },
+      "primaryTypeDisplayName": {
+        "text": "コンビニエンスストア",
+        "languageCode": "ja"
+      },
+      "primaryType": "convenience_store",
+      "shortFormattedAddress": "中央区銀座７丁目１２−９"
+    },
+    {
+      "id": "ChIJIzfqeOiLGGARHSTo32mtkyg",
+      "types": [
+        "convenience_store",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "location": { "latitude": 35.6681278, "longitude": 139.7625689 },
+      "googleMapsUri": "https://maps.google.com/?cid=2923871253333287965",
+      "businessStatus": "OPERATIONAL",
+      "displayName": {
+        "text": "ファミリーマート 銀座八丁目店",
+        "languageCode": "ja"
+      },
+      "primaryTypeDisplayName": {
+        "text": "コンビニエンスストア",
+        "languageCode": "ja"
+      },
+      "primaryType": "convenience_store",
+      "shortFormattedAddress": "中央区銀座８丁目１０−１７"
+    },
+    {
+      "id": "ChIJIS99XOeLGGARq0hWLcN-HTI",
+      "types": [
+        "convenience_store",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "location": { "latitude": 35.6683424, "longitude": 139.7667389 },
+      "googleMapsUri": "https://maps.google.com/?cid=3611181852965357739",
+      "businessStatus": "OPERATIONAL",
+      "displayName": { "text": "ローソン 銀座五丁目店", "languageCode": "ja" },
+      "primaryTypeDisplayName": {
+        "text": "コンビニエンスストア",
+        "languageCode": "ja"
+      },
+      "primaryType": "convenience_store",
+      "shortFormattedAddress": "中央区銀座５丁目１４−１０"
+    },
+    {
+      "id": "ChIJdbNBh92LGGARwklpSXYv0TU",
+      "types": [
+        "convenience_store",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "location": { "latitude": 35.6673884, "longitude": 139.7656471 },
+      "googleMapsUri": "https://maps.google.com/?cid=3877932939226991042",
+      "businessStatus": "OPERATIONAL",
+      "displayName": {
+        "text": "ファミリーマート 銀座七丁目店",
+        "languageCode": "ja"
+      },
+      "primaryTypeDisplayName": {
+        "text": "コンビニエンスストア",
+        "languageCode": "ja"
+      },
+      "primaryType": "convenience_store",
+      "shortFormattedAddress": "中央区銀座７丁目１５−３"
+    },
+    {
+      "id": "ChIJ065LTuCLGGARvCqEqQwhlUo",
+      "types": [
+        "convenience_store",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "location": { "latitude": 35.6671611, "longitude": 139.765394 },
+      "googleMapsUri": "https://maps.google.com/?cid=5374238068603890364",
+      "businessStatus": "OPERATIONAL",
+      "displayName": {
+        "text": "セブン-イレブン 銀座７丁目東店",
+        "languageCode": "ja"
+      },
+      "primaryTypeDisplayName": {
+        "text": "コンビニエンスストア",
+        "languageCode": "ja"
+      },
+      "primaryType": "convenience_store",
+      "shortFormattedAddress": "中央区銀座７丁目１５−５"
+    },
+    {
+      "id": "ChIJ4_kp7-WLGGARF-rpsuIgOzQ",
+      "types": [
+        "convenience_store",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "location": {
+        "latitude": 35.671889799999995,
+        "longitude": 139.76352789999999
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=3763638071634553367",
+      "businessStatus": "OPERATIONAL",
+      "displayName": {
+        "text": "セブン-イレブン 銀座地下街店",
+        "languageCode": "ja"
+      },
+      "primaryTypeDisplayName": {
+        "text": "コンビニエンスストア",
+        "languageCode": "ja"
+      },
+      "primaryType": "convenience_store",
+      "shortFormattedAddress": "中央区銀座５丁目４−３ 対鶴館 B２"
+    },
+    {
+      "id": "ChIJpXV2QeSLGGARb-giruaI01c",
+      "types": [
+        "convenience_store",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "location": { "latitude": 35.6693174, "longitude": 139.7677385 },
+      "googleMapsUri": "https://maps.google.com/?cid=6328552425731057775",
+      "businessStatus": "OPERATIONAL",
+      "displayName": { "text": "食品・雑貨 はなみち", "languageCode": "ja" },
+      "primaryTypeDisplayName": {
+        "text": "コンビニエンスストア",
+        "languageCode": "ja"
+      },
+      "primaryType": "convenience_store",
+      "shortFormattedAddress": "中央区銀座４丁目１２−１５"
+    },
+    {
+      "id": "ChIJn3pZU-eLGGARt78ArPBb8tk",
+      "types": [
+        "convenience_store",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "location": { "latitude": 35.6686893, "longitude": 139.76763119999998 },
+      "googleMapsUri": "https://maps.google.com/?cid=15704715939830349751",
+      "businessStatus": "OPERATIONAL",
+      "displayName": {
+        "text": "ファミリーマート 銀座木挽町通り店",
+        "languageCode": "ja"
+      },
+      "primaryTypeDisplayName": {
+        "text": "コンビニエンスストア",
+        "languageCode": "ja"
+      },
+      "primaryType": "convenience_store",
+      "shortFormattedAddress": "中央区銀座５丁目１５−１ 南海東京ビルディング 1F"
+    },
+    {
+      "id": "ChIJcWRr9ICLGGARLKdKI_NiYUo",
+      "types": [
+        "convenience_store",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "location": { "latitude": 35.667329699999996, "longitude": 139.7623489 },
+      "googleMapsUri": "https://maps.google.com/?cid=5359673827956270892",
+      "businessStatus": "OPERATIONAL",
+      "displayName": {
+        "text": "ファミリーマート 銀座御門通り店",
+        "languageCode": "ja"
+      },
+      "primaryTypeDisplayName": {
+        "text": "コンビニエンスストア",
+        "languageCode": "ja"
+      },
+      "primaryType": "convenience_store",
+      "shortFormattedAddress": "中央区銀座８丁目１１−１１ ＤＫ－ＧＩＮＺＡ８"
+    },
+    {
+      "id": "ChIJ0W7rxeiLGGAR7Br-8S_UKYY",
+      "types": [
+        "convenience_store",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "location": { "latitude": 35.669530099999996, "longitude": 139.7610427 },
+      "googleMapsUri": "https://maps.google.com/?cid=9667491377515993836",
+      "businessStatus": "OPERATIONAL",
+      "displayName": {
+        "text": "ナチュラルローソン 銀座並木通店",
+        "languageCode": "ja"
+      },
+      "primaryTypeDisplayName": {
+        "text": "コンビニエンスストア",
+        "languageCode": "ja"
+      },
+      "primaryType": "convenience_store",
+      "shortFormattedAddress": "中央区銀座７丁目５−１０"
+    },
+    {
+      "id": "ChIJcRcX5eeLGGAR6Os_78h8TF8",
+      "types": [
+        "convenience_store",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "location": { "latitude": 35.6668878, "longitude": 139.7629481 },
+      "googleMapsUri": "https://maps.google.com/?cid=6867000734282410984",
+      "businessStatus": "OPERATIONAL",
+      "displayName": {
+        "text": "ナチュラルローソン 銀座三井ビル店",
+        "languageCode": "ja"
+      },
+      "primaryTypeDisplayName": {
+        "text": "コンビニエンスストア",
+        "languageCode": "ja"
+      },
+      "primaryType": "convenience_store",
+      "shortFormattedAddress": "中央区銀座８丁目１３−１"
+    },
+    {
+      "id": "ChIJbUAZSOeLGGARV6ydvqHdjik",
+      "types": [
+        "convenience_store",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "location": { "latitude": 35.669737, "longitude": 139.76805299999998 },
+      "googleMapsUri": "https://maps.google.com/?cid=2994574489005435991",
+      "businessStatus": "OPERATIONAL",
+      "displayName": {
+        "text": "セブン-イレブン 歌舞伎座店",
+        "languageCode": "ja"
+      },
+      "primaryTypeDisplayName": {
+        "text": "コンビニエンスストア",
+        "languageCode": "ja"
+      },
+      "primaryType": "convenience_store",
+      "shortFormattedAddress": "中央区銀座４丁目１２−１５ B2階"
+    },
+    {
+      "id": "ChIJB1paDgCLGGAR5dttS2f2nOQ",
+      "types": [
+        "convenience_store",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "location": { "latitude": 35.6695959, "longitude": 139.7680715 },
+      "googleMapsUri": "https://maps.google.com/?cid=16473312460521987045",
+      "businessStatus": "OPERATIONAL",
+      "displayName": {
+        "text": "セブンイレブン 歌舞伎座タワー店",
+        "languageCode": "ja"
+      },
+      "primaryTypeDisplayName": {
+        "text": "コンビニエンスストア",
+        "languageCode": "ja"
+      },
+      "primaryType": "convenience_store",
+      "shortFormattedAddress": "中央区銀座４丁目１２−１５ 歌舞伎座タワー 7階"
+    },
+    {
+      "id": "ChIJ6Zptnd2LGGAReGihqntTVfs",
+      "types": [
+        "convenience_store",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "location": { "latitude": 35.666601199999995, "longitude": 139.765234 },
+      "googleMapsUri": "https://maps.google.com/?cid=18110473267149105272",
+      "businessStatus": "OPERATIONAL",
+      "displayName": { "text": "ローソン 銀座七丁目店", "languageCode": "ja" },
+      "primaryTypeDisplayName": {
+        "text": "コンビニエンスストア",
+        "languageCode": "ja"
+      },
+      "primaryType": "convenience_store",
+      "shortFormattedAddress": "中央区銀座７丁目１６−１４"
+    }
+  ]
+}

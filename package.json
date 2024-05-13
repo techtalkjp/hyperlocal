@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "turbo dev",
+    "crawl": "dotenv -- turbo crawl",
     "build": "turbo build",
     "clean": "turbo clean"
   },
@@ -21,5 +22,8 @@
     "@biomejs/biome": "^1.7.3",
     "tsx": "^4.10.1",
     "turbo": "^1.13.3"
+  },
+  "dependencies": {
+    "dotenv-cli": "^7.4.2"
   }
 }
