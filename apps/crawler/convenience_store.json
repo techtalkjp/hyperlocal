@@ -1,12 +1,13 @@
 {
   "places": [
     {
+      "name": "places/ChIJgSSKS-aLGGARX5Tv-HyJxvg",
       "id": "ChIJgSSKS-aLGGARX5Tv-HyJxvg",
       "types": [
         "convenience_store",
-        "store",
-        "point_of_interest",
         "food",
+        "point_of_interest",
+        "store",
         "establishment"
       ],
       "location": { "latitude": 35.6693718, "longitude": 139.7643391 },
@@ -21,12 +22,13 @@
       "shortFormattedAddress": "中央区銀座６丁目１０−１ GINZA SIX 1F"
     },
     {
+      "name": "places/ChIJ3waU00mLGGARmLRXP_Wi3y0",
       "id": "ChIJ3waU00mLGGARmLRXP_Wi3y0",
       "types": [
         "convenience_store",
-        "store",
-        "point_of_interest",
         "food",
+        "point_of_interest",
+        "store",
         "establishment"
       ],
       "location": { "latitude": 35.6691156, "longitude": 139.7649155 },
@@ -44,12 +46,13 @@
       "shortFormattedAddress": "中央区銀座６丁目１３−１６"
     },
     {
+      "name": "places/ChIJoSv9ed6LGGARN0txGj2avLk",
       "id": "ChIJoSv9ed6LGGARN0txGj2avLk",
       "types": [
         "convenience_store",
-        "store",
-        "point_of_interest",
         "food",
+        "point_of_interest",
+        "store",
         "establishment"
       ],
       "location": { "latitude": 35.669919799999995, "longitude": 139.7647839 },
@@ -67,12 +70,13 @@
       "shortFormattedAddress": "中央区銀座５丁目９−１３ 菊正ビル"
     },
     {
+      "name": "places/ChIJoV_cuueLGGARMTdg6i6nJvg",
       "id": "ChIJoV_cuueLGGARMTdg6i6nJvg",
       "types": [
         "convenience_store",
-        "store",
-        "point_of_interest",
         "food",
+        "point_of_interest",
+        "store",
         "establishment"
       ],
       "location": { "latitude": 35.6686238, "longitude": 139.7644992 },
@@ -87,12 +91,13 @@
       "shortFormattedAddress": "中央区銀座６丁目１３−１１"
     },
     {
+      "name": "places/ChIJxXq8bwOLGGARPivYt6sthzI",
       "id": "ChIJxXq8bwOLGGARPivYt6sthzI",
       "types": [
         "convenience_store",
-        "store",
-        "point_of_interest",
         "food",
+        "point_of_interest",
+        "store",
         "establishment"
       ],
       "location": { "latitude": 35.669269, "longitude": 139.7660865 },
@@ -110,12 +115,13 @@
       "shortFormattedAddress": "中央区銀座５丁目１２−８"
     },
     {
+      "name": "places/ChIJV8Xzz-eLGGARf87Yr_PvnZw",
       "id": "ChIJV8Xzz-eLGGARf87Yr_PvnZw",
       "types": [
         "convenience_store",
-        "store",
-        "point_of_interest",
         "food",
+        "point_of_interest",
+        "store",
         "establishment"
       ],
       "location": {
@@ -136,12 +142,13 @@
       "shortFormattedAddress": "中央区銀座７丁目１１−１２"
     },
     {
+      "name": "places/ChIJjZRiwueLGGARdSOj5qM9LzE",
       "id": "ChIJjZRiwueLGGARdSOj5qM9LzE",
       "types": [
         "convenience_store",
-        "store",
-        "point_of_interest",
         "food",
+        "point_of_interest",
+        "store",
         "establishment"
       ],
       "location": { "latitude": 35.6677509, "longitude": 139.7634822 },
@@ -159,12 +166,13 @@
       "shortFormattedAddress": "中央区銀座７丁目１２−９"
     },
     {
+      "name": "places/ChIJIzfqeOiLGGARHSTo32mtkyg",
       "id": "ChIJIzfqeOiLGGARHSTo32mtkyg",
       "types": [
         "convenience_store",
-        "store",
-        "point_of_interest",
         "food",
+        "point_of_interest",
+        "store",
         "establishment"
       ],
       "location": { "latitude": 35.6681278, "longitude": 139.7625689 },
@@ -182,12 +190,13 @@
       "shortFormattedAddress": "中央区銀座８丁目１０−１７"
     },
     {
+      "name": "places/ChIJIS99XOeLGGARq0hWLcN-HTI",
       "id": "ChIJIS99XOeLGGARq0hWLcN-HTI",
       "types": [
         "convenience_store",
-        "store",
-        "point_of_interest",
         "food",
+        "point_of_interest",
+        "store",
         "establishment"
       ],
       "location": { "latitude": 35.6683424, "longitude": 139.7667389 },
@@ -202,12 +211,13 @@
       "shortFormattedAddress": "中央区銀座５丁目１４−１０"
     },
     {
+      "name": "places/ChIJdbNBh92LGGARwklpSXYv0TU",
       "id": "ChIJdbNBh92LGGARwklpSXYv0TU",
       "types": [
         "convenience_store",
-        "store",
-        "point_of_interest",
         "food",
+        "point_of_interest",
+        "store",
         "establishment"
       ],
       "location": { "latitude": 35.6673884, "longitude": 139.7656471 },
@@ -225,12 +235,13 @@
       "shortFormattedAddress": "中央区銀座７丁目１５−３"
     },
     {
+      "name": "places/ChIJ065LTuCLGGARvCqEqQwhlUo",
       "id": "ChIJ065LTuCLGGARvCqEqQwhlUo",
       "types": [
         "convenience_store",
-        "store",
-        "point_of_interest",
         "food",
+        "point_of_interest",
+        "store",
         "establishment"
       ],
       "location": { "latitude": 35.6671611, "longitude": 139.765394 },
@@ -248,12 +259,13 @@
       "shortFormattedAddress": "中央区銀座７丁目１５−５"
     },
     {
+      "name": "places/ChIJ4_kp7-WLGGARF-rpsuIgOzQ",
       "id": "ChIJ4_kp7-WLGGARF-rpsuIgOzQ",
       "types": [
         "convenience_store",
-        "store",
-        "point_of_interest",
         "food",
+        "point_of_interest",
+        "store",
         "establishment"
       ],
       "location": {
@@ -274,12 +286,13 @@
       "shortFormattedAddress": "中央区銀座５丁目４−３ 対鶴館 B２"
     },
     {
+      "name": "places/ChIJpXV2QeSLGGARb-giruaI01c",
       "id": "ChIJpXV2QeSLGGARb-giruaI01c",
       "types": [
         "convenience_store",
-        "store",
-        "point_of_interest",
         "food",
+        "point_of_interest",
+        "store",
         "establishment"
       ],
       "location": { "latitude": 35.6693174, "longitude": 139.7677385 },
@@ -294,12 +307,13 @@
       "shortFormattedAddress": "中央区銀座４丁目１２−１５"
     },
     {
+      "name": "places/ChIJn3pZU-eLGGARt78ArPBb8tk",
       "id": "ChIJn3pZU-eLGGARt78ArPBb8tk",
       "types": [
         "convenience_store",
-        "store",
-        "point_of_interest",
         "food",
+        "point_of_interest",
+        "store",
         "establishment"
       ],
       "location": { "latitude": 35.6686893, "longitude": 139.76763119999998 },
@@ -317,12 +331,13 @@
       "shortFormattedAddress": "中央区銀座５丁目１５−１ 南海東京ビルディング 1F"
     },
     {
+      "name": "places/ChIJcWRr9ICLGGARLKdKI_NiYUo",
       "id": "ChIJcWRr9ICLGGARLKdKI_NiYUo",
       "types": [
         "convenience_store",
-        "store",
-        "point_of_interest",
         "food",
+        "point_of_interest",
+        "store",
         "establishment"
       ],
       "location": { "latitude": 35.667329699999996, "longitude": 139.7623489 },
@@ -340,12 +355,13 @@
       "shortFormattedAddress": "中央区銀座８丁目１１−１１ ＤＫ－ＧＩＮＺＡ８"
     },
     {
+      "name": "places/ChIJ0W7rxeiLGGAR7Br-8S_UKYY",
       "id": "ChIJ0W7rxeiLGGAR7Br-8S_UKYY",
       "types": [
         "convenience_store",
-        "store",
-        "point_of_interest",
         "food",
+        "point_of_interest",
+        "store",
         "establishment"
       ],
       "location": { "latitude": 35.669530099999996, "longitude": 139.7610427 },
@@ -363,12 +379,13 @@
       "shortFormattedAddress": "中央区銀座７丁目５−１０"
     },
     {
+      "name": "places/ChIJcRcX5eeLGGAR6Os_78h8TF8",
       "id": "ChIJcRcX5eeLGGAR6Os_78h8TF8",
       "types": [
         "convenience_store",
-        "store",
-        "point_of_interest",
         "food",
+        "point_of_interest",
+        "store",
         "establishment"
       ],
       "location": { "latitude": 35.6668878, "longitude": 139.7629481 },
@@ -386,12 +403,13 @@
       "shortFormattedAddress": "中央区銀座８丁目１３−１"
     },
     {
+      "name": "places/ChIJbUAZSOeLGGARV6ydvqHdjik",
       "id": "ChIJbUAZSOeLGGARV6ydvqHdjik",
       "types": [
         "convenience_store",
-        "store",
-        "point_of_interest",
         "food",
+        "point_of_interest",
+        "store",
         "establishment"
       ],
       "location": { "latitude": 35.669737, "longitude": 139.76805299999998 },
@@ -409,12 +427,13 @@
       "shortFormattedAddress": "中央区銀座４丁目１２−１５ B2階"
     },
     {
+      "name": "places/ChIJB1paDgCLGGAR5dttS2f2nOQ",
       "id": "ChIJB1paDgCLGGAR5dttS2f2nOQ",
       "types": [
         "convenience_store",
-        "store",
-        "point_of_interest",
         "food",
+        "point_of_interest",
+        "store",
         "establishment"
       ],
       "location": { "latitude": 35.6695959, "longitude": 139.7680715 },
@@ -432,12 +451,13 @@
       "shortFormattedAddress": "中央区銀座４丁目１２−１５ 歌舞伎座タワー 7階"
     },
     {
+      "name": "places/ChIJ6Zptnd2LGGAReGihqntTVfs",
       "id": "ChIJ6Zptnd2LGGAReGihqntTVfs",
       "types": [
         "convenience_store",
-        "store",
-        "point_of_interest",
         "food",
+        "point_of_interest",
+        "store",
         "establishment"
       ],
       "location": { "latitude": 35.666601199999995, "longitude": 139.765234 },

@@ -15,9 +15,6 @@ importers:
       '@biomejs/biome':
         specifier: ^1.7.3
         version: 1.7.3
-      tsx:
-        specifier: ^4.10.1
-        version: 4.10.1
       turbo:
         specifier: ^1.13.3
         version: 1.13.3
@@ -28,6 +25,9 @@ importers:
         specifier: ^4.10.1
         version: 4.10.1
     devDependencies:
+      '@types/node':
+        specifier: ^20.12.11
+        version: 20.12.11
       prettier:
         specifier: ^3.2.5
         version: 3.2.5
@@ -104,18 +104,6 @@ importers:
       vite-tsconfig-paths:
         specifier: ^4.3.2
         version: 4.3.2(typescript@5.4.5)(vite@5.2.11(@types/node@20.12.11))
-
-  packages/prettier:
-    devDependencies:
-      prettier:
-        specifier: ^3.2.5
-        version: 3.2.5
-      prettier-plugin-organize-imports:
-        specifier: ^3.2.4
-        version: 3.2.4(prettier@3.2.5)(typescript@5.4.5)
-      prettier-plugin-tailwindcss:
-        specifier: ^0.5.14
-        version: 0.5.14(prettier-plugin-organize-imports@3.2.4(prettier@3.2.5)(typescript@5.4.5))(prettier@3.2.5)
 
 packages:
 

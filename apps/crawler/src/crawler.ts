@@ -3,6 +3,7 @@ export type {}
 const main = async () => {
   const fieldMask = [
     'places.id',
+    'places.name',
     'places.businessStatus',
     'places.types',
     'places.primaryType',
@@ -13,6 +14,7 @@ const main = async () => {
     'places.googleMapsUri',
   ]
 
+  console.log(process.env.GOOGLE_MAPS_API_KEY)
   const ret = await fetch(
     'https://places.googleapis.com/v1/places:searchNearby',
     {
