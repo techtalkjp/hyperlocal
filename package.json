@@ -19,8 +19,8 @@
     "pnpm": ">=9.1.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.7.3",
-    "turbo": "^1.13.3"
+    "@biomejs/biome": "^1.8.3",
+    "turbo": "^2.0.12"
   },
   "dependencies": {
     "dotenv-cli": "^7.4.2"

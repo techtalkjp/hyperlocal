@@ -14,7 +14,7 @@ const main = async () => {
     'places.googleMapsUri',
   ]
 
-  console.log(process.env.GOOGLE_MAPS_API_KEY)
+  console.log({ googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY })
   const ret = await fetch(
     'https://places.googleapis.com/v1/places:searchNearby',
     {
@@ -25,7 +25,7 @@ const main = async () => {
         'X-Goog-Api-Key': process.env.GOOGLE_MAPS_API_KEY ?? '',
       },
       body: JSON.stringify({
-        includedPrimaryTypes: ['convenience_store'],
+        includedPrimaryTypes: ['restaurant'],
         languageCode: 'ja',
         maxResultCount: 20,
         rankPreference: 'distance',
