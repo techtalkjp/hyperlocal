@@ -17,6 +17,7 @@
     "@types/node": "^22.2.0",
     "prettier": "^3.3.3",
     "prettier-plugin-organize-imports": "^4.0.0",
-    "prettier-plugin-tailwindcss": "^0.6.6"
+    "prettier-plugin-tailwindcss": "^0.6.6",
+    "@hyperlocal/typescript-config": "workspace:*"
   }
 }
