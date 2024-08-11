@@ -1,8 +1,0 @@
-{
-  "extends": "@hyperlocal/typescript-config/base.json",
-  "compilerOptions": {
-    "paths": {
-      "~/*": ["./src/*"]
-    }
-  }
-}
