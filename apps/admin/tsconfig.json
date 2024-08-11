@@ -1,0 +1,11 @@
+{
+  "extends": "@hyperlocal/typescript-config/remix.json",
+  "include": [
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "app/**/.server/**/*.ts",
+    "app/**/.server/**/*.tsx",
+    "app/**/.client/**/*.ts",
+    "app/**/.client/**/*.tsx"
+  ]
+}
