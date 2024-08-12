@@ -7,9 +7,18 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+  Input,
   Stack,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
 } from '~/components/ui'
-import { crawl } from './functions/crawl'
+import { Rating } from './components/rating'
+import { nearBySearch, textSearch } from './functions/places'
 
 export const meta: MetaFunction = () => {
   return [
@@ -21,37 +30,74 @@ export const meta: MetaFunction = () => {
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const searchParams = new URL(request.url).searchParams
   const intent = searchParams.get('intent')
-  if (intent === 'search') {
-    const res = await crawl({
-      latitude: 35.6694638,
-      longitude: 139.7644921,
-      radius: 500.0,
-      includedPrimaryTypes: ['restaurant'],
+  if (intent === 'nearby') {
+    const res = await nearBySearch({
+      latitude: 35.6694464,
+      longitude: 139.7670348,
+      radius: 160.0,
+      includedPrimaryTypes: ['cafe'],
     })
-    console.log(JSON.stringify(res.places, null, 2))
-    return { places: res.places }
+    return { places: res.places, intent, textQuery: null }
   }
 
-  return { places: null }
+  if (intent === 'textQuery') {
+    const textQuery = searchParams.get('textQuery') ?? ''
+    const res = await textSearch({
+      textQuery,
+      latitude: 35.6694464,
+      longitude: 139.7670348,
+      radius: 160.0,
+      minRating: 4,
+      // includedType: 'cafe',
+    })
+    return { places: res.places, intent, textQuery }
+  }
+
+  return { places: null, intent, textQuery: null }
 }
 
 export default function Index() {
-  const { places } = useLoaderData<typeof loader>()
+  const { places, intent, textQuery } = useLoaderData<typeof loader>()
 
   return (
     <Stack className="m-4 leading-8">
       <h1 className="mb-4 text-4xl font-bold">Hyperlocal Web</h1>
       <Card>
         <CardHeader>
-          <CardTitle>Crawl</CardTitle>
+          <CardTitle>Places</CardTitle>
           <CardDescription>places api searchNearby testing.</CardDescription>
         </CardHeader>
         <CardContent>
-          <Form method="GET">
-            <Button type="submit" name="intent" value="search">
-              Search
-            </Button>
-          </Form>
+          <Tabs defaultValue={intent ?? undefined}>
+            <TabsList>
+              <TabsTrigger value="nearby">Near By</TabsTrigger>
+              <TabsTrigger value="textQuery">Text Query</TabsTrigger>
+            </TabsList>
+            <TabsContent value="nearby">
+              <Form method="GET">
+                <Stack>
+                  <Button type="submit" name="intent" value="nearby">
+                    Nearby Search
+                  </Button>
+                </Stack>
+              </Form>
+            </TabsContent>
+            <TabsContent value="textQuery">
+              <Form method="GET">
+                <Stack>
+                  <Input
+                    id="textQuery"
+                    name="textQuery"
+                    defaultValue={textQuery ?? undefined}
+                    placeholder="text query"
+                  />
+                  <Button type="submit" name="intent" value="textQuery">
+                    TextQuery
+                  </Button>
+                </Stack>
+              </Form>
+            </TabsContent>
+          </Tabs>
         </CardContent>
       </Card>
 
@@ -59,11 +105,34 @@ export default function Index() {
         return (
           <Card key={place.id}>
             <CardHeader>
-              <CardTitle>{place.displayName.text}</CardTitle>
-              <CardDescription>{place.shortFormattedAddress}</CardDescription>
+              <CardTitle>
+                {place.displayName.text}{' '}
+                <Rating star={place.rating} withLabel />
+              </CardTitle>
+              <CardDescription>
+                {place.userRatingCount} reviews{' | '}
+                <a
+                  className="hover:underline"
+                  href={place.googleMapsUri}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Map
+                </a>
+              </CardDescription>
             </CardHeader>
-            <CardContent>
-              <pre>{JSON.stringify(place, null, 2)}</pre>
+            <CardContent className="overflow-auto">
+              <p>{place.editorialSummary?.text}</p>
+              <Collapsible>
+                <CollapsibleTrigger asChild>
+                  <Button type="button" variant="outline" size="sm">
+                    Details
+                  </Button>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <pre>{JSON.stringify(place, null, 2)}</pre>
+                </CollapsibleContent>
+              </Collapsible>
             </CardContent>
           </Card>
         )
