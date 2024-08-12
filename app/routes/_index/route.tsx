@@ -66,10 +66,10 @@ export default function Index() {
       <Card>
         <CardHeader>
           <CardTitle>Places</CardTitle>
-          <CardDescription>places api searchNearby testing.</CardDescription>
+          <CardDescription>places api testing.</CardDescription>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue={intent ?? undefined}>
+          <Tabs defaultValue={intent ?? 'nearby'}>
             <TabsList>
               <TabsTrigger value="nearby">Near By</TabsTrigger>
               <TabsTrigger value="textQuery">Text Query</TabsTrigger>
