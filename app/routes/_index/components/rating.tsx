@@ -24,23 +24,22 @@ export const Rating = ({
         >
           {arr.map((num: number) => {
             return (
-              <span key={`star-${num}`} className="p-0.5">
+              <span key={`star-${num}`} className="p-[0.1]">
                 ☆
               </span>
             )
           })}
         </div>
         <div
-          className="absolute left-0 top-0 flex overflow-hidden whitespace-nowrap"
+          className="absolute left-0 top-0 flex overflow-hidden whitespace-nowrap text-yellow-400"
           style={{
-            color: color,
             fontSize: `${size}px`,
             width: `${star * 2 * 10}%`,
           }}
         >
           {arr.map((num: number) => {
             return (
-              <span key={`star-active-${num}`} className="p-0.5">
+              <span key={`star-active-${num}`} className="p-[0.1]">
                 ★
               </span>
             )

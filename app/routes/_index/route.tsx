@@ -35,6 +35,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       latitude: 35.6694464,
       longitude: 139.7670348,
       radius: 160.0,
+      minRating: 4,
       includedPrimaryTypes: ['cafe'],
     })
     return { places: res.places, intent, textQuery: null }

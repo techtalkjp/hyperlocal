@@ -1,5 +1,7 @@
 import type { PlaceTypes } from '~/services/google-places'
 
+const defaultLanguageCode = 'ja'
+
 interface Place {
   name: string
   id: string
@@ -83,6 +85,7 @@ interface NearbySearchProps {
   radius: number
   includedPrimaryTypes: [PlaceTypes]
   minRating?: number
+  languageCode?: string
 }
 /**
  * search nearby places using Google Maps Places API.
@@ -94,6 +97,7 @@ export const nearBySearch = async ({
   radius,
   includedPrimaryTypes,
   minRating,
+  languageCode = defaultLanguageCode,
 }: NearbySearchProps): Promise<NearbySearchResponse> => {
   const ret = await fetch(
     'https://places.googleapis.com/v1/places:searchNearby',
@@ -106,7 +110,7 @@ export const nearBySearch = async ({
       },
       body: JSON.stringify({
         includedPrimaryTypes,
-        languageCode: 'ja',
+        languageCode,
         maxResultCount: 20,
         rankPreference: 'POPULARITY',
         minRating,
@@ -170,6 +174,7 @@ interface TextSearchProps {
   longitude: number
   radius: number
   minRating?: number
+  languageCode?: string
 }
 /**
  * Search places using Google Maps Places text-search API.
@@ -183,12 +188,13 @@ export const textSearch = async ({
   longitude,
   radius,
   minRating,
+  languageCode = defaultLanguageCode,
 }: TextSearchProps): Promise<TextSearchResponse> => {
   const params = {
     textQuery,
     includedType,
     strictTypeFiltering: true,
-    languageCode: 'ja',
+    languageCode,
     minRating,
     pageSize: 20,
     locationRestriction: {
