@@ -1,7 +1,7 @@
 import { jaJP } from '@clerk/localizations'
 import { ClerkApp } from '@clerk/remix'
 import { rootAuthLoader } from '@clerk/remix/ssr.server'
-import type { LoaderFunctionArgs } from '@remix-run/node'
+import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
 import {
   Links,
   Meta,
@@ -11,12 +11,12 @@ import {
 } from '@remix-run/react'
 import globalStyles from './styles/globals.css?url'
 
-export const links = () => [
-  {
-    rel: 'stylesheet',
-    href: globalStyles,
-  },
+export const meta: MetaFunction = () => [
+  { name: 'description', content: 'Hyperlocal' },
+  { name: 'viewport', content: 'width=device-width, initial-scale=1' },
 ]
+
+export const links = () => [{ rel: 'stylesheet', href: globalStyles }]
 
 export const loader = (args: LoaderFunctionArgs) => {
   return rootAuthLoader(args)

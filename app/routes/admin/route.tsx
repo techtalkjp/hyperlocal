@@ -1,6 +1,13 @@
 import { UserButton } from '@clerk/remix'
+import { Link, type MetaFunction, Outlet } from '@remix-run/react'
 
-import { Link, Outlet } from '@remix-run/react'
+export const meta: MetaFunction = () => {
+  return [
+    { title: 'Hyperlocal Admin' },
+    { name: 'description', content: 'hyperlocal' },
+  ]
+}
+
 export default function AdminLayout() {
   return (
     <div>
@@ -13,7 +20,7 @@ export default function AdminLayout() {
         </div>
       </header>
 
-      <main>
+      <main className="px-4 pt-2">
         <Outlet />
       </main>
     </div>
