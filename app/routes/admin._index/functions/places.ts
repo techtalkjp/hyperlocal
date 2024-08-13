@@ -84,7 +84,7 @@ interface NearbySearchProps {
   longitude: number
   radius: number
   includedPrimaryTypes: [PlaceTypes]
-  minRating?: number
+  rankPreference?: 'POPULARITY' | 'DISTANCE'
   languageCode?: string
 }
 /**
@@ -96,7 +96,7 @@ export const nearBySearch = async ({
   longitude,
   radius,
   includedPrimaryTypes,
-  minRating,
+  rankPreference = 'POPULARITY',
   languageCode = defaultLanguageCode,
 }: NearbySearchProps): Promise<NearbySearchResponse> => {
   const ret = await fetch(
@@ -112,8 +112,7 @@ export const nearBySearch = async ({
         includedPrimaryTypes,
         languageCode,
         maxResultCount: 20,
-        rankPreference: 'POPULARITY',
-        minRating,
+        rankPreference,
         locationRestriction: {
           circle: { center: { latitude, longitude }, radius },
         },

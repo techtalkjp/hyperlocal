@@ -19,12 +19,15 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  Slider,
   Stack,
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '~/components/ui'
+import type { PlaceTypes } from '~/services/google-places'
+import { PlaceTypeSelect } from './components/place-type-select'
 import { Rating } from './components/rating'
 import { nearBySearch, textSearch } from './functions/places'
 
@@ -39,12 +42,18 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const searchParams = new URL(request.url).searchParams
   const intent = searchParams.get('intent')
   if (intent === 'nearby') {
+    const { radius, primaryType } = zx.parseQuery(
+      request,
+      z.object({
+        radius: zx.NumAsString.optional().default('160'),
+        primaryType: z.string(),
+      }),
+    )
     const res = await nearBySearch({
       latitude: 35.6694464,
       longitude: 139.7670348,
-      radius: 160.0,
-      minRating: 4,
-      includedPrimaryTypes: ['cafe'],
+      radius,
+      includedPrimaryTypes: [primaryType as PlaceTypes],
     })
     return { places: res.places, intent, textQuery: null }
   }
@@ -91,6 +100,21 @@ export default function Index() {
             <TabsContent value="nearby">
               <Form method="GET">
                 <Stack>
+                  <div>
+                    <Label>半径</Label>
+                    <Slider
+                      min={0}
+                      max={1000}
+                      step={10}
+                      defaultValue={[160]}
+                      name="radius"
+                    >
+                      Radius
+                    </Slider>
+                  </div>
+                  <div>
+                    <PlaceTypeSelect name="primaryType" />
+                  </div>
                   <Button type="submit" name="intent" value="nearby">
                     Nearby Search
                   </Button>
@@ -107,18 +131,20 @@ export default function Index() {
                     defaultValue={textQuery ?? undefined}
                     placeholder="text query"
                   />
-                  <Label htmlFor="minRating">Min Raiting</Label>
-                  <Select name="minRating" defaultValue="">
-                    <SelectTrigger id="minRaitng">
-                      <SelectValue placeholder="No Limit" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="4.5">4.5</SelectItem>
-                      <SelectItem value="4.0">4.0</SelectItem>
-                      <SelectItem value="3.5">3.5</SelectItem>
-                      <SelectItem value="3.0">3.0</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <div>
+                    <Label htmlFor="minRating">Min Raiting</Label>
+                    <Select name="minRating" defaultValue="">
+                      <SelectTrigger id="minRaitng">
+                        <SelectValue placeholder="No Limit" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="4.5">4.5</SelectItem>
+                        <SelectItem value="4.0">4.0</SelectItem>
+                        <SelectItem value="3.5">3.5</SelectItem>
+                        <SelectItem value="3.0">3.0</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <Button type="submit" name="intent" value="textQuery">
                     TextQuery
                   </Button>
