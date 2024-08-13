@@ -44,4 +44,9 @@ const App = () => {
   return <Outlet />
 }
 
-export default ClerkApp(App, { localization: jaJP })
+export default ClerkApp(App, {
+  localization: jaJP,
+  appearance: {
+    signIn: { elements: { footer: { display: 'none' } } },
+  },
+})

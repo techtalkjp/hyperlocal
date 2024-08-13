@@ -1,4 +1,4 @@
-import { SignedIn, SignOutButton, UserProfile } from '@clerk/remix'
+import { SignOutButton, UserProfile } from '@clerk/remix'
 import { type LoaderFunctionArgs, redirect } from '@remix-run/node'
 import { requireAdminUser } from '~/services/auth.server'
 
@@ -17,10 +17,7 @@ export default function IndexPage() {
       <header>
         <UserProfile />
       </header>
-      <h1>Logout</h1>
-      <SignedIn>
-        <SignOutButton />
-      </SignedIn>
+      <SignOutButton />
     </div>
   )
 }
