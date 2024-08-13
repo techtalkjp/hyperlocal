@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
-import { Form, useLoaderData } from '@remix-run/react'
+import { useLoaderData } from '@remix-run/react'
 import { z } from 'zod'
 import { zx } from 'zodix'
 import {
@@ -12,14 +12,6 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-  Input,
-  Label,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-  Slider,
   Stack,
   Tabs,
   TabsContent,
@@ -28,8 +20,9 @@ import {
 } from '~/components/ui'
 import { requireAdminUser } from '~/services/auth.server'
 import type { PlaceTypes } from '~/services/google-places'
-import { PlaceTypeSelect } from './components/place-type-select'
 import { Rating } from './components/rating'
+import { NearbyForm } from './forms/nearby-form'
+import { TextQueryForm } from './forms/text-query-form'
 import { nearBySearch, textSearch } from './functions/places'
 
 export const meta: MetaFunction = () => {
@@ -101,58 +94,11 @@ export default function Index() {
               <TabsTrigger value="textQuery">Text Query</TabsTrigger>
             </TabsList>
             <TabsContent value="nearby">
-              <Form method="GET">
-                <Stack>
-                  <div>
-                    <Label>半径</Label>
-                    <Slider
-                      min={0}
-                      max={1000}
-                      step={10}
-                      defaultValue={[160]}
-                      name="radius"
-                    >
-                      Radius
-                    </Slider>
-                  </div>
-                  <div>
-                    <PlaceTypeSelect name="primaryType" />
-                  </div>
-                  <Button type="submit" name="intent" value="nearby">
-                    Nearby Search
-                  </Button>
-                </Stack>
-              </Form>
+              <NearbyForm />
             </TabsContent>
 
             <TabsContent value="textQuery">
-              <Form method="GET">
-                <Stack>
-                  <Input
-                    id="textQuery"
-                    name="textQuery"
-                    defaultValue={textQuery ?? undefined}
-                    placeholder="text query"
-                  />
-                  <div>
-                    <Label htmlFor="minRating">Min Raiting</Label>
-                    <Select name="minRating" defaultValue="">
-                      <SelectTrigger id="minRaitng">
-                        <SelectValue placeholder="No Limit" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="4.5">4.5</SelectItem>
-                        <SelectItem value="4.0">4.0</SelectItem>
-                        <SelectItem value="3.5">3.5</SelectItem>
-                        <SelectItem value="3.0">3.0</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <Button type="submit" name="intent" value="textQuery">
-                    TextQuery
-                  </Button>
-                </Stack>
-              </Form>
+              <TextQueryForm textQuery={textQuery ?? undefined} />
             </TabsContent>
           </Tabs>
         </CardContent>
