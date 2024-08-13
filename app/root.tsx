@@ -1,3 +1,4 @@
+import { jaJP } from '@clerk/localizations'
 import { ClerkApp } from '@clerk/remix'
 import { rootAuthLoader } from '@clerk/remix/ssr.server'
 import type { LoaderFunctionArgs } from '@remix-run/node'
@@ -43,4 +44,4 @@ const App = () => {
   return <Outlet />
 }
 
-export default ClerkApp(App)
+export default ClerkApp(App, { localization: jaJP })

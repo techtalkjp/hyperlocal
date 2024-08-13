@@ -26,6 +26,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '~/components/ui'
+import { requireAdminUser } from '~/services/auth.server'
 import type { PlaceTypes } from '~/services/google-places'
 import { PlaceTypeSelect } from './components/place-type-select'
 import { Rating } from './components/rating'
@@ -39,6 +40,9 @@ export const meta: MetaFunction = () => {
 }
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const userId = await requireAdminUser(request)
+  console.log('login', userId)
+
   const searchParams = new URL(request.url).searchParams
   const intent = searchParams.get('intent')
   if (intent === 'nearby') {
@@ -84,8 +88,7 @@ export default function Index() {
   const { places, intent, textQuery } = useLoaderData<typeof loader>()
 
   return (
-    <Stack className="m-4 leading-8">
-      <h1 className="mb-4 text-4xl font-bold">Hyperlocal Web</h1>
+    <Stack className="p-4 leading-8">
       <Card>
         <CardHeader>
           <CardTitle>Places</CardTitle>

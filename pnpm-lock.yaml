@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@clerk/localizations':
+        specifier: ^2.5.7
+        version: 2.5.7
       '@clerk/remix':
         specifier: ^4.2.13
         version: 4.2.13(@remix-run/react@2.11.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.4))(@remix-run/server-runtime@2.11.1(typescript@5.5.4))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -459,6 +462,10 @@ packages:
     peerDependencies:
       react: '>=18 || >=19.0.0-beta'
       react-dom: '>=18 || >=19.0.0-beta'
+
+  '@clerk/localizations@2.5.7':
+    resolution: {integrity: sha512-W3bnpzpvmY42hO8smyBysjN3nXSYDnOFgmvYqR+usdHid2zW51icZwc/qa0R6tRiNp8k4mdmpiYblGkDGYV3Iw==}
+    engines: {node: '>=18.17.0'}
 
   '@clerk/remix@4.2.13':
     resolution: {integrity: sha512-228ufjtFA4bFWuMJwF4MPyCFTPf0/Zb+gvnOVlrTJIXcCS7UWmeUIjEbBZclcSIDKAo7bpeVGFQinMwKnoBGng==}
@@ -4215,6 +4222,10 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       tslib: 2.4.1
+
+  '@clerk/localizations@2.5.7':
+    dependencies:
+      '@clerk/types': 4.13.0
 
   '@clerk/remix@4.2.13(@remix-run/react@2.11.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.4))(@remix-run/server-runtime@2.11.1(typescript@5.5.4))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
