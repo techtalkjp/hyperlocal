@@ -1,3 +1,6 @@
+import { ClerkApp } from '@clerk/remix'
+import { rootAuthLoader } from '@clerk/remix/ssr.server'
+import type { LoaderFunctionArgs } from '@remix-run/node'
 import {
   Links,
   Meta,
@@ -13,6 +16,10 @@ export const links = () => [
     href: globalStyles,
   },
 ]
+
+export const loader = (args: LoaderFunctionArgs) => {
+  return rootAuthLoader(args)
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -32,6 +39,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
   )
 }
 
-export default function App() {
+const App = () => {
   return <Outlet />
 }
+
+export default ClerkApp(App)
