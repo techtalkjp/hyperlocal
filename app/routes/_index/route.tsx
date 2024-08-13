@@ -1,5 +1,7 @@
 import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
 import { Form, useLoaderData } from '@remix-run/react'
+import { z } from 'zod'
+import { zx } from 'zodix'
 import {
   Button,
   Card,
@@ -11,6 +13,12 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
   Input,
+  Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
   Stack,
   Tabs,
   TabsContent,
@@ -42,13 +50,19 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   }
 
   if (intent === 'textQuery') {
-    const textQuery = searchParams.get('textQuery') ?? ''
+    const { textQuery, minRating } = zx.parseQuery(
+      request,
+      z.object({
+        textQuery: z.string(),
+        minRating: zx.NumAsString.optional(),
+      }),
+    )
     const res = await textSearch({
       textQuery,
       latitude: 35.6694464,
       longitude: 139.7670348,
       radius: 160.0,
-      minRating: 4,
+      minRating,
       // includedType: 'cafe',
     })
     return { places: res.places, intent, textQuery }
@@ -83,6 +97,7 @@ export default function Index() {
                 </Stack>
               </Form>
             </TabsContent>
+
             <TabsContent value="textQuery">
               <Form method="GET">
                 <Stack>
@@ -92,6 +107,18 @@ export default function Index() {
                     defaultValue={textQuery ?? undefined}
                     placeholder="text query"
                   />
+                  <Label htmlFor="minRating">Min Raiting</Label>
+                  <Select name="minRating" defaultValue="">
+                    <SelectTrigger id="minRaitng">
+                      <SelectValue placeholder="No Limit" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="4.5">4.5</SelectItem>
+                      <SelectItem value="4.0">4.0</SelectItem>
+                      <SelectItem value="3.5">3.5</SelectItem>
+                      <SelectItem value="3.0">3.0</SelectItem>
+                    </SelectContent>
+                  </Select>
                   <Button type="submit" name="intent" value="textQuery">
                     TextQuery
                   </Button>
@@ -101,6 +128,8 @@ export default function Index() {
           </Tabs>
         </CardContent>
       </Card>
+
+      {places && <div>{places.length} results found</div>}
 
       {places?.map((place) => {
         return (

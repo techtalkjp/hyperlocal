@@ -5,12 +5,7 @@ type RatingProps = {
   withLabel?: boolean
 }
 
-export const Rating = ({
-  star,
-  size = 24,
-  color = '#f9ce20',
-  withLabel = false,
-}: RatingProps) => {
+export const Rating = ({ star, size = 24, withLabel = false }: RatingProps) => {
   const arr = [1, 2, 3, 4, 5]
 
   return (
