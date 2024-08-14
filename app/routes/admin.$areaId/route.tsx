@@ -1,8 +1,6 @@
+import { parseWithZod } from '@conform-to/zod'
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import { z } from 'zod'
-import { zx } from 'zodix'
-import areas from '~/assets/areas.json'
 import {
   Button,
   Card,
@@ -25,84 +23,81 @@ import type { PlaceTypes } from '~/services/google-places'
 import { Rating } from './components/rating'
 import { NearbyForm } from './forms/nearby-form'
 import { TextQueryForm } from './forms/text-query-form'
+import { getArea } from './functions/get-area-id'
 import { nearBySearch, textSearch } from './functions/places'
+import { schema } from './schema'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
-  const { areaId } = zx.parseParams(
-    params,
-    z.object({
-      areaId: z.string(),
-    }),
-  )
-  const area = areas.find((area) => area.id === areaId)
-  if (!area) {
-    throw new Response('Not Found', { status: 404 })
+  await requireAdminUser(request)
+  const area = getArea(params)
+
+  const searchParams = new URL(request.url).searchParams
+  if (!searchParams.has('intent')) {
+    return {
+      places: null,
+      intent: null,
+      area,
+      lastResult: null,
+    }
   }
 
-  await requireAdminUser(request)
-  const searchParams = new URL(request.url).searchParams
-  const intent = searchParams.get('intent')
-  if (intent === 'nearby') {
-    const { radius, primaryType } = zx.parseQuery(
-      request,
-      z.object({
-        radius: zx.NumAsString.optional().default('160'),
-        primaryType: z.string(),
-      }),
-    )
+  const submission = parseWithZod(searchParams, { schema })
+  if (submission.status !== 'success') {
+    throw new Error('Invalid submission')
+  }
+  if (submission.value.intent === 'nearby') {
     const res = await nearBySearch({
       latitude: area.latitude,
       longitude: area.longitude,
-      radius,
-      includedPrimaryTypes: [primaryType as PlaceTypes],
+      radius: submission.value.radius,
+      includedPrimaryTypes: [submission.value.primaryType as PlaceTypes],
     })
-    return { places: res.places, intent, textQuery: null, area }
+    return {
+      places: res.places,
+      intent: submission.value.intent,
+      area,
+      lastResult: submission.reply(),
+    }
   }
 
-  if (intent === 'textQuery') {
-    const { textQuery, minRating } = zx.parseQuery(
-      request,
-      z.object({
-        textQuery: z.string(),
-        minRating: zx.NumAsString.optional(),
-      }),
-    )
+  if (submission.value.intent === 'textQuery') {
     const res = await textSearch({
-      textQuery,
+      textQuery: submission.value.query,
       latitude: area.latitude,
       longitude: area.longitude,
       radius: 160.0,
-      minRating,
+      minRating: submission.value.minRating,
       // includedType: 'cafe',
     })
-    return { places: res.places, intent, textQuery, area }
+    return {
+      places: res.places,
+      intent: submission.value.intent,
+      area,
+      lastResult: submission.reply(),
+    }
   }
-
-  return { places: null, intent, textQuery: null, area }
 }
 
 export default function Index() {
-  const { places, intent, textQuery, area } = useLoaderData<typeof loader>()
+  const { places, intent, area } = useLoaderData<typeof loader>()
 
   return (
     <Stack className="p-4 leading-8">
       <Card>
         <CardHeader>
           <CardTitle>{area.name}</CardTitle>
-          <CardDescription>
-            <HStack>
-              <div>{area.latitude}</div>
-              <div>{area.longitude}</div>
-              <a
-                className="text-primary hover:underline"
-                target="_blank"
-                rel="noreferrer"
-                href={`https://www.google.com/maps/@${area.latitude},${area.longitude},16z`}
-              >
-                Map
-              </a>
-            </HStack>
-          </CardDescription>
+          <HStack className="text-sm text-muted-foreground">
+            <p>{area.latitude}</p>
+            <p>{area.longitude}</p>
+            <a
+              className="text-primary hover:underline"
+              target="_blank"
+              rel="noreferrer"
+              href={`https://www.google.com/maps/@${area.latitude},${area.longitude},16z`}
+            >
+              Map
+            </a>
+          </HStack>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue={intent ?? 'nearby'}>
@@ -115,7 +110,7 @@ export default function Index() {
             </TabsContent>
 
             <TabsContent value="textQuery">
-              <TextQueryForm textQuery={textQuery ?? undefined} />
+              <TextQueryForm />
             </TabsContent>
           </Tabs>
         </CardContent>

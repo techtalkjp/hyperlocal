@@ -65,12 +65,13 @@ const placeTypes = {
   },
 }
 export const PlaceTypeSelect = ({
+  id,
   name,
   ...rest
-}: React.ComponentProps<typeof Select>) => {
+}: React.ComponentProps<typeof Select> & { id?: string }) => {
   return (
     <Select name={name} {...rest}>
-      <SelectTrigger>
+      <SelectTrigger id={id}>
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
