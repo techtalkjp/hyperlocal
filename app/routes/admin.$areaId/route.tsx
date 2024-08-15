@@ -23,13 +23,16 @@ import type { PlaceTypes } from '~/services/google-places'
 import { Rating } from './components/rating'
 import { NearbyForm } from './forms/nearby-form'
 import { TextQueryForm } from './forms/text-query-form'
-import { getArea } from './functions/get-area-id'
 import { nearBySearch, textSearch } from './functions/places'
+import { getArea } from './queries.server'
 import { schema } from './schema'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   await requireAdminUser(request)
-  const area = getArea(params)
+  const area = await getArea(params.areaId)
+  if (!area) {
+    throw new Response('Not Found', { status: 404 })
+  }
 
   const searchParams = new URL(request.url).searchParams
   if (!searchParams.has('intent')) {

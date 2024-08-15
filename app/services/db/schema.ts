@@ -1,11 +1,11 @@
 import { sql } from 'drizzle-orm'
-import { numeric, sqliteTable, text } from 'drizzle-orm/sqlite-core'
+import { real, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 
 export const areas = sqliteTable('areas', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
-  longitude: numeric('longitude').notNull(),
-  latitude: numeric('latitude').notNull(),
+  longitude: real('longitude').notNull(),
+  latitude: real('latitude').notNull(),
   created_at: text('created_at')
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`),
