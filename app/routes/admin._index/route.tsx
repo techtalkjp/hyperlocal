@@ -1,7 +1,13 @@
-import { Link } from '@remix-run/react'
-import areas from '~/assets/areas.json'
+import { Link, useLoaderData } from '@remix-run/react'
+import { listAreas } from './queries.server'
+
+export const loader = async () => {
+  const areas = await listAreas()
+  return { areas }
+}
 
 export default function AdminIndex() {
+  const { areas } = useLoaderData<typeof loader>()
   return (
     <div>
       <h1 className="text-xl font-bold">Areas</h1>
