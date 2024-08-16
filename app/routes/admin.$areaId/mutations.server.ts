@@ -1,12 +1,13 @@
 import { createInsertSchema } from 'drizzle-zod'
 import { db, takeFirstOrThrow } from '~/services/db.server'
 import { googlePlaces, googlePlacesAreas } from '~/services/db/schema'
+import type { Place } from '~/services/google-places'
 
 const insertGooglePlaceSchema = createInsertSchema(googlePlaces)
 
 export const addGooglePlace = async (areaId: string, place: string) => {
   const json = JSON.parse(place)
-  const row = insertGooglePlaceSchema.parse({
+  const row = {
     id: json.id,
     name: json.name,
     types: json.types,
@@ -16,8 +17,8 @@ export const addGooglePlace = async (areaId: string, place: string) => {
     latitude: json.location.latitude,
     longitude: json.location.longitude,
     displayName: json.displayName.text,
-    raw: json,
-  })
+    raw: json as unknown as Place,
+  }
   const record = takeFirstOrThrow(
     await db
       .insert(googlePlaces)
