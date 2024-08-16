@@ -1,6 +1,6 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
-import { Form } from '@remix-run/react'
+import { Form, useNavigation } from '@remix-run/react'
 import {
   Button,
   HStack,
@@ -15,6 +15,7 @@ import {
   Stack,
 } from '~/components/ui'
 import { textQuerySchema } from '../schema'
+
 export const TextQueryForm = () => {
   const [form, fields] = useForm({
     defaultValue: {
@@ -26,6 +27,7 @@ export const TextQueryForm = () => {
     onValidate: ({ formData }) =>
       parseWithZod(formData, { schema: textQuerySchema }),
   })
+  const navigation = useNavigation()
 
   return (
     <Form method="GET" {...getFormProps(form)}>
@@ -99,8 +101,13 @@ export const TextQueryForm = () => {
             </SelectContent>
           </Select>
         </div>
-        <Button type="submit" name="intent" value="textQuery">
-          TextQuery
+        <Button
+          isLoading={navigation.state === 'loading'}
+          type="submit"
+          name="intent"
+          value="textQuery"
+        >
+          Text Query
         </Button>
       </Stack>
     </Form>

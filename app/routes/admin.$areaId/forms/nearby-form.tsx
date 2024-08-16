@@ -1,6 +1,6 @@
 import { getFormProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
-import { Form } from '@remix-run/react'
+import { Form, useNavigation } from '@remix-run/react'
 import { Button, HStack, Label, Slider, Stack } from '~/components/ui'
 import { PlaceTypeSelect } from '../components/place-type-select'
 import { nearBySchema } from '../schema'
@@ -15,6 +15,8 @@ export const NearbyForm = () => {
     onValidate: ({ formData }) =>
       parseWithZod(formData, { schema: nearBySchema }),
   })
+  const navigation = useNavigation()
+
   return (
     <Form method="GET" {...getFormProps(form)}>
       <Stack>
@@ -59,7 +61,12 @@ export const NearbyForm = () => {
             {fields.primaryType.errors}
           </div>
         </div>
-        <Button type="submit" name="intent" value="nearby">
+        <Button
+          isLoading={navigation.state === 'loading'}
+          type="submit"
+          name="intent"
+          value="nearby"
+        >
           Nearby Search
         </Button>
       </Stack>
