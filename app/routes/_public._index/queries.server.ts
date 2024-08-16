@@ -1,5 +1,5 @@
 import { desc } from 'drizzle-orm'
-import { db } from '~/services/db.server'
+import { db } from '~/services/db'
 import { areas } from '~/services/db/schema'
 
 export const listAreas = async () => {

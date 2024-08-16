@@ -13,7 +13,7 @@ import {
   TableRow,
 } from '~/components/ui'
 import dayjs from '~/libs/dayjs'
-import { db } from '~/services/db.server'
+import { db } from '~/services/db'
 import * as schema from '~/services/db/schema'
 
 export const loader = async () => {

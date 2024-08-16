@@ -1,5 +1,5 @@
 import { eq } from 'drizzle-orm'
-import { db, takeFirst } from '~/services/db.server'
+import { db, takeFirst } from '~/services/db'
 import { areas, googlePlaces, googlePlacesAreas } from '~/services/db/schema'
 
 export const getArea = async (areaId?: string) => {

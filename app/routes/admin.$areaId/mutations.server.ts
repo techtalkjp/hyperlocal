@@ -1,5 +1,5 @@
 import { createInsertSchema } from 'drizzle-zod'
-import { db, takeFirstOrThrow } from '~/services/db.server'
+import { db, takeFirstOrThrow } from '~/services/db'
 import { googlePlaces, googlePlacesAreas } from '~/services/db/schema'
 import type { Place } from '~/services/google-places'
 

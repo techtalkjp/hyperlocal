@@ -1,6 +1,11 @@
 import { desc, eq } from 'drizzle-orm'
-import { db, takeFirst } from '~/services/db.server'
-import { areas, googlePlaces, googlePlacesAreas } from '~/services/db/schema'
+import {
+  areas,
+  db,
+  googlePlaces,
+  googlePlacesAreas,
+  takeFirst,
+} from '~/services/db'
 
 export const getArea = async (areaId?: string) => {
   if (areaId === undefined) {
