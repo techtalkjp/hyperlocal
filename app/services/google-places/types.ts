@@ -219,3 +219,53 @@ type PlaceType_Transportation =
   | 'transit_depot'
   | 'transit_station'
   | 'truck_stop'
+
+export interface Place {
+  name: string
+  id: string
+  types: Place[]
+  formattedAddress: string
+  location: {
+    latitude: number
+    longitude: number
+  }
+  rating: number
+  googleMapsUri: string
+  regularOpeningHours: {
+    openNow: boolean
+    periods: {
+      open: { day: number; hour: number; minute: number }
+      close: { day: number; hour: number; minute: number }
+    }[]
+    weekdayDescriptions: string[]
+  }
+  businessStatus: string
+  priceLevel:
+    | 'PRICE_LEVEL_UNSPECIFIED'
+    | 'PRICE_LEVEL_FREE'
+    | 'PRICE_LEVEL_INEXPENSIVE'
+    | 'PRICE_LEVEL_MODERATE'
+    | 'PRICE_LEVEL_EXPENSIVE'
+  userRatingCount: number
+  displayName: {
+    text: string
+  }
+  primaryTypeDisplayName: {
+    text: string
+  }
+  editorialSummary?: {
+    text: string
+  }
+  primaryType: PlaceTypes
+  shortFormattedAddress: string
+  reviews: {
+    rating: number
+    originalText: {
+      text: string
+    }
+  }[]
+  photos: {
+    name: string
+  }[]
+  goodForChildren: boolean
+}
