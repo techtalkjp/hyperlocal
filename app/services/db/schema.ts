@@ -6,10 +6,10 @@ export const areas = sqliteTable('areas', {
   name: text('name').notNull(),
   longitude: real('longitude').notNull(),
   latitude: real('latitude').notNull(),
-  created_at: text('created_at')
+  createdAt: text('created_at')
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`),
-  updated_at: text('updated_at')
+  updatedAt: text('updated_at')
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`),
 })

@@ -10,7 +10,10 @@ export default function AdminIndex() {
   const { areas } = useLoaderData<typeof loader>()
   return (
     <div>
-      <h1 className="text-xl font-bold">Areas</h1>
+      <Link to="/admin/areas" className="hover:underline">
+        <h1 className="text-xl font-bold">Areas</h1>
+      </Link>
+
       <ul>
         {areas.map((area) => (
           <li key={area.id}>

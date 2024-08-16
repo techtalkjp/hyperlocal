@@ -12,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui'
+import dayjs from '~/libs/dayjs'
 import { db } from '~/services/db.server'
 import * as schema from '~/services/db/schema'
 
@@ -47,8 +48,8 @@ export default function AdminAreasIndexPage() {
                 <TableCell>{area.name}</TableCell>
                 <TableCell>{area.longitude}</TableCell>
                 <TableCell>{area.latitude}</TableCell>
-                <TableCell>{area.updated_at}</TableCell>
-                <TableCell>{area.created_at}</TableCell>
+                <TableCell>{dayjs.utc(area.updatedAt).tz().format()}</TableCell>
+                <TableCell>{dayjs.utc(area.createdAt).tz().format()}</TableCell>
               </TableRow>
             ))}
           </TableBody>
