@@ -1,5 +1,5 @@
-import { eq } from 'drizzle-orm'
-import { areas, db, googlePlacesAreas } from '~/services/db'
+import { desc, eq } from 'drizzle-orm'
+import { areas, db, googlePlaces, googlePlacesAreas } from '~/services/db'
 
 export const getArea = async (areaId?: string) => {
   if (areaId === undefined) {
@@ -17,6 +17,7 @@ export const listAreaGooglePlaces = async (areaId: string) => {
         where: eq(googlePlacesAreas.areaId, areaId),
       },
     },
+    orderBy: desc(googlePlaces.rating),
   })
 
   return ret
