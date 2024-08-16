@@ -1,5 +1,6 @@
 import { sql } from 'drizzle-orm'
 import { real, sqliteTable, text, unique } from 'drizzle-orm/sqlite-core'
+import type { Place } from '../google-places'
 
 export const areas = sqliteTable('areas', {
   id: text('id').primaryKey(),
@@ -24,7 +25,7 @@ export const googlePlaces = sqliteTable('google_places', {
   latitude: real('latitude').notNull(),
   longitude: real('longitude').notNull(),
   displayName: text('display_name').notNull(),
-  raw: text('raw', { mode: 'json' }).notNull(),
+  raw: text('raw', { mode: 'json' }).notNull().$type<Place>(),
 })
 
 export const googlePlacesAreas = sqliteTable(

@@ -1,15 +1,23 @@
-type RatingProps = {
+import { cn } from '~/libs/utils'
+
+interface RatingProps extends React.HTMLAttributes<HTMLDivElement> {
   star: number
   size?: number
   color?: string
   withLabel?: boolean
 }
 
-export const Rating = ({ star, size = 24, withLabel = false }: RatingProps) => {
+export const Rating = ({
+  star,
+  size = 24,
+  withLabel = false,
+  className,
+  ...rest
+}: RatingProps) => {
   const arr = [1, 2, 3, 4, 5]
 
   return (
-    <div className="flex items-center gap-2">
+    <div className={cn('flex items-center gap-2', className)} {...rest}>
       <div className="relative inline-block cursor-auto select-none items-center">
         <div
           className="flex overflow-hidden whitespace-nowrap text-[#e6e6e6]"
@@ -42,11 +50,7 @@ export const Rating = ({ star, size = 24, withLabel = false }: RatingProps) => {
         </div>
       </div>
 
-      {withLabel ? (
-        <span className="font-bold" style={{ fontSize: `${size * 0.65}px` }}>
-          {star}
-        </span>
-      ) : null}
+      {withLabel ? <span className="text-xs font-medium">{star}</span> : null}
     </div>
   )
 }

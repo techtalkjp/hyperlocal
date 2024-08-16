@@ -1,0 +1,133 @@
+{
+  "name": "places/ChIJq6qp_-aLGGARyw4K8g-DSms",
+  "id": "ChIJq6qp_-aLGGARyw4K8g-DSms",
+  "types": [
+    "cafe",
+    "coffee_shop",
+    "food",
+    "store",
+    "point_of_interest",
+    "establishment"
+  ],
+  "formattedAddress": "日本、〒104-0061 東京都中央区銀座５丁目１０−６ 銀座ビル",
+  "location": { "latitude": 35.6696655, "longitude": 139.76544149999998 },
+  "rating": 4.3,
+  "googleMapsUri": "https://maps.google.com/?cid=7731135814843371211",
+  "regularOpeningHours": {
+    "openNow": true,
+    "periods": [
+      {
+        "open": { "day": 0, "hour": 10, "minute": 0 },
+        "close": { "day": 0, "hour": 20, "minute": 0 }
+      },
+      {
+        "open": { "day": 1, "hour": 9, "minute": 0 },
+        "close": { "day": 1, "hour": 22, "minute": 0 }
+      },
+      {
+        "open": { "day": 2, "hour": 9, "minute": 0 },
+        "close": { "day": 2, "hour": 22, "minute": 0 }
+      },
+      {
+        "open": { "day": 3, "hour": 9, "minute": 0 },
+        "close": { "day": 3, "hour": 22, "minute": 0 }
+      },
+      {
+        "open": { "day": 4, "hour": 9, "minute": 0 },
+        "close": { "day": 4, "hour": 22, "minute": 0 }
+      },
+      {
+        "open": { "day": 5, "hour": 9, "minute": 0 },
+        "close": { "day": 5, "hour": 22, "minute": 0 }
+      },
+      {
+        "open": { "day": 6, "hour": 10, "minute": 0 },
+        "close": { "day": 6, "hour": 22, "minute": 0 }
+      }
+    ],
+    "weekdayDescriptions": [
+      "月曜日: 9時00分～22時00分",
+      "火曜日: 9時00分～22時00分",
+      "水曜日: 9時00分～22時00分",
+      "木曜日: 9時00分～22時00分",
+      "金曜日: 9時00分～22時00分",
+      "土曜日: 10時00分～22時00分",
+      "日曜日: 10時00分～20時00分"
+    ]
+  },
+  "businessStatus": "OPERATIONAL",
+  "priceLevel": "PRICE_LEVEL_MODERATE",
+  "userRatingCount": 322,
+  "displayName": { "text": "宮越屋珈琲 銀座店" },
+  "primaryTypeDisplayName": { "text": "Cafe" },
+  "primaryType": "cafe",
+  "shortFormattedAddress": "中央区銀座５丁目１０−６ 銀座ビル",
+  "editorialSummary": {
+    "text": "ボックス席なども完備する落ち着きのある店内で、自家焙煎した豆でいれるコーヒーと、スイーツやトーストなどの軽食を提供する。"
+  },
+  "reviews": [
+    {
+      "rating": 4,
+      "originalText": {
+        "text": "2024/1/XX (Cafe)\n\n札幌が本拠地の珈琲専門店です。\n新橋店は喫煙可ですが、此方は禁煙の喫茶店になります。\n正月営業ということで、座席数を減らしての営業でした。\n\n妻と一緒に訪問し、テーブル席を利用しました。\n内装、照明等、古き良き喫茶店の趣きがあり、個人的には好きです。\n\n注文したのは此方。\n\n◾️マイルドブレンド（スタンダード）＠825円（税込）\n◾️紅茶のパウンドケーキ@330円 ※妻とシェア\n\nマイルドブレンドは、フレンチブレンドより苦味がマイルドとのことでしたが、コクと苦味がしっかりあって飲みごたえのある珈琲でした。\n新橋店もそうですが、カップも湯煎されているのか、熱々の珈琲が頂けるのがグッドポイント。\n\nスイーツは、正月営業とのことで、ケーキの用意が無かったため、パウンドケーキを頂きました。\n小腹を満たすのには丁度良い感じでした。\n\n笑顔のある丁寧な接客は素晴らしいと思います。\n価格は高めですが、美味しい珈琲とゆっくり出来る雰囲気は、結構好きです。\n\n機会があれば、また利用したいと思います。\n尚、新橋店はキャッシュオンリーでしたが、此方はクレジットカード利用可でした。\n\nご馳走様でした。"
+      }
+    },
+    {
+      "rating": 4,
+      "originalText": {
+        "text": "銀座に位置するこちらのお店は、東銀座から徒歩5分の好立地にあります。値段は少々お高めで銀座価格ではありますが、広々とした席や素敵な雰囲気が魅力のお店です。私が訪れたのは平日の14時頃でしたが、席には余裕があり、ビジネスマンやご年配の方、1人できている女性が数人と、落ち着いた空間で過ごしていました。\n作業をしたり読書をゆったりと楽しむことができました。店内の内装やBGMも落ち着いた雰囲気で、大人な空間が漂っています。銀座での散策の合間や疲れた時に、まったりと過ごせる場所があることは嬉しい限りです。\n\n特にこちらの店のチーズケーキは絶品で、一度食べたらやみつきになります。是非きた際はおすすめの一品です"
+      }
+    },
+    {
+      "rating": 5,
+      "originalText": {
+        "text": "店内広めでゆったり。\n照明は少し暗めで暖かく柔らかい雰囲気。\n\nカウンター席、テーブル席、ボックス席あり。\n\n☑コロンビア\n☑りんごのシブースト\n\n自家焙煎珈琲店なのでやはり珈琲を飲もう！\n本日のオススメのコロンビアを注文。\n\nケーキはこの日は3種類ありました。\n私はりんごのシブーストを注文。\n\nりんごのシブーストは高さあります！\n8cmぐらいあったかな。\nボリュームあって煮込まれたカットのりんごが入っていて\n美味しかったです。\n\n珈琲も後味よく、苦味酸味が丁度よく美味しい珈琲でした。\nケーキを食べ終わった時に水を半分しか飲んでないのに新しい水に取り替えてくれました。\n気が利きますね。"
+      }
+    },
+    {
+      "rating": 4,
+      "originalText": {
+        "text": "コーヒー770円、ベイクドチーズケーキ605円、ブラウニー605円をオーダーしました。\nコーヒーもケーキ類も美味しかったです♡\nブラウニーは思っていたよりも濃厚でパクパクと食べれてしまいました。\n雰囲気が落ち着いていてゆっくりできました。"
+      }
+    },
+    {
+      "rating": 4,
+      "originalText": {
+        "text": "土曜日の午後15時過ぎに来店。\nお店の調光やインテリアがシックで落ち着いた雰囲気。\nカウンター席に小さい花瓶に鈴蘭か何かのお花がちょこんといけているのが素敵でした。\nコーヒーはフレンチブレンドを選びましたが、とても飲みやすかったです。\nケーキはりんごのシブーストというもので、ボリュームがあり、カスタード多めのアップルパイみたいな味わいですが、カスタードがそんなに重たくもなくさっぱりとして美味しかったです。\nまた季節を変えて訪れたいお店でした。"
+      }
+    }
+  ],
+  "photos": [
+    {
+      "name": "places/ChIJq6qp_-aLGGARyw4K8g-DSms/photos/AelY_CskxKKXiw2vn7lCFY8eK04vLtU37t3gbtZyGdkm9yLBqy4xUqkEL7P8_1j0QA2AFEZOcyUvt1OIqx7h-r8FA-wXUxrNof-0l5GZU3YxMdvSP4f-SPwf_KtboUjDllkf7bcxaxtmtD860XYSGUGEjZwZLlbn0bmE7FXa"
+    },
+    {
+      "name": "places/ChIJq6qp_-aLGGARyw4K8g-DSms/photos/AelY_CtDmlUp7nDuYw4ABx5GLFLkfrM8X6erpjpjgx9uuWbSvzT3hu7Fv8E_KYffwmlQ_9palK6cvVbWjCmgjzod5r74T52JbKmIdbwOPF4KBK5b9CB0X_E4J09AxQ2FK5u4fGEQl0WTxWS1FFawqaSRDuOGiG1324IADWBb"
+    },
+    {
+      "name": "places/ChIJq6qp_-aLGGARyw4K8g-DSms/photos/AelY_CsttqJ7pFKcU9b0nX_zYsZIlPMM0ayX5LuojuVeKt_6fIuwHNBi92QFMD3EfDkCVgpu7PY2dov5T7kiA1UTjM6fNpfkMiKbtsRhtYno7SDPkWQDbG_DxQfy1L80GV-qwTRGDFLFPjj3T3VadZtdNcciVfQZi19mM43X"
+    },
+    {
+      "name": "places/ChIJq6qp_-aLGGARyw4K8g-DSms/photos/AelY_CspmMpzhyeevLZH7gk7MzufKgM2L86tqcA1tUl3YsMQguurolRKbeSyDOzb_wFGijngkUw4_Ml2l4ZglLAenmx6_RmTKiW5oYUJJvZ5g7nP1ZRxBCqjpba5_YXECD8_rLA2IKJSEMzzsiCWLv8mv_PlIgG8ZlyPmNTf"
+    },
+    {
+      "name": "places/ChIJq6qp_-aLGGARyw4K8g-DSms/photos/AelY_CvhXVjixJ2aN--UA_YJzvzsJmqyyG1KdV9cEyodCpg1w7QEfLCXMzhcSyb6onNHa-v3IdI4QO-JS94ReHzHvSxJwc7GCFe81jWsx1b-t7gfP8TC-FBKp9ULL11sTQqfZlsSlowoJl-8oefwsz1G2Rn58qKoolyt5hDQ"
+    },
+    {
+      "name": "places/ChIJq6qp_-aLGGARyw4K8g-DSms/photos/AelY_Cvj1YGu-xSXLRMtu0KyWrdOl4lzwFodh_wqtA07R9biDTno4ab1TvBZJdEe58EqHiD9ijCv0B-YN3JLXHyrMlD_VG3lOQKVJEj-RiPEKyY07zTBEq6TPUR9NoO_wf0euwZGggvd01eINA7U2ncOJCKgLUQxwyUrvE2o"
+    },
+    {
+      "name": "places/ChIJq6qp_-aLGGARyw4K8g-DSms/photos/AelY_Ctgh8SPf4tMrvbBbGzadLMwrDinSCw_ljZic7jXqF9ccMT7TVCpaIiUvJZ_sYPlYhNGErp8iyqDFswao2X55hy9jKrDUSvfBa9xSlOoYi7PnrcHo7rWsxrZTvENSRpZBSfjthec946GvilMv8WwBrWREtAR0Y5-0kOo"
+    },
+    {
+      "name": "places/ChIJq6qp_-aLGGARyw4K8g-DSms/photos/AelY_CsAHZbvVGSwQvggFNxCLfhmkHruNYVqetMKrVwFIjMjEYUzDZau4uXOushuHrO5rPWzc52Bas8D4H3yAZieFS9kdT0Xpfb2QBcmAD1xLl9CdnJavt1srx6-29-P4jvRTRr8007fcwsAqGDeW-nflQmd-NfpCzvffWs_"
+    },
+    {
+      "name": "places/ChIJq6qp_-aLGGARyw4K8g-DSms/photos/AelY_Cu0sqOeMdyUeeftKwOem0JKyNs68pDhoi9mb_1NEMJVgz6gCCY9PCSPOVT4oxLiz83WV2Y93KNLHR_9ZtiXWuDk3g3EE2bi2KjT8YzIlErBiY6BnkVMv-cHfzNJi2ahe3SmXHlCF0UhfsfzQhC16NgqWbgvPUx91CjF"
+    },
+    {
+      "name": "places/ChIJq6qp_-aLGGARyw4K8g-DSms/photos/AelY_Cu0pBCTWiGcENT9rhow1vftQ5w-BUAWCNN8gmlS2kXCDtCA-j_kkUNt4zAGcKNdgN0a0NIDx-S7SUTNbAVyrzELNgwJ8QSNFpwEOYUkf4GqPURJ5xRr3tDkZ0SpvmfI2wSwABzDsZkJ9xGilI0i9Ih60Ex3FcjtcULW"
+    }
+  ],
+  "goodForChildren": false
+}

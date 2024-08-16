@@ -77,6 +77,9 @@ importers:
       drizzle-zod:
         specifier: ^0.5.1
         version: 0.5.1(drizzle-orm@0.33.0(@libsql/client@0.9.0)(@types/react@18.3.3)(react@18.3.1))(zod@3.23.8)
+      embla-carousel-react:
+        specifier: ^8.1.8
+        version: 8.1.8(react@18.3.1)
       isbot:
         specifier: ^5.1.15
         version: 5.1.15
@@ -2637,6 +2640,19 @@ packages:
 
   electron-to-chromium@1.5.7:
     resolution: {integrity: sha512-6FTNWIWMxMy/ZY6799nBlPtF1DFDQ6VQJ7yyDP27SJNt5lwtQ5ufqVvHylb3fdQefvRcgA3fKcFMJi9OLwBRNw==}
+
+  embla-carousel-react@8.1.8:
+    resolution: {integrity: sha512-b8DcmC+j1vqVWSM6rU/GYGyY6Kp9LX8OoikZPBKmV6qL8s94sSPGl6jtDLLUtV8TTIQGMYOlOKUgoMAt/0TwOQ==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.1 || ^18.0.0
+
+  embla-carousel-reactive-utils@8.1.8:
+    resolution: {integrity: sha512-bwV/23WD3Ecm0YuQ4I6Syzs3tdVJw0Oj3VCZlEODv1kH8LZ5kNDLgX2Uvx5brvoe2hpifBHPBQ8gYlxNL5kMPA==}
+    peerDependencies:
+      embla-carousel: 8.1.8
+
+  embla-carousel@8.1.8:
+    resolution: {integrity: sha512-KuHPA8qcAts6YE6ELtt38XYAb26hnKw8Ga0lSXmrhm1oI97t6oACFkqSsy33dfeZQEhaZB6VwWvaWQJRJVgSgA==}
 
   emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
@@ -6833,6 +6849,18 @@ snapshots:
   ee-first@1.1.1: {}
 
   electron-to-chromium@1.5.7: {}
+
+  embla-carousel-react@8.1.8(react@18.3.1):
+    dependencies:
+      embla-carousel: 8.1.8
+      embla-carousel-reactive-utils: 8.1.8(embla-carousel@8.1.8)
+      react: 18.3.1
+
+  embla-carousel-reactive-utils@8.1.8(embla-carousel@8.1.8):
+    dependencies:
+      embla-carousel: 8.1.8
+
+  embla-carousel@8.1.8: {}
 
   emoji-regex@8.0.0: {}
 
