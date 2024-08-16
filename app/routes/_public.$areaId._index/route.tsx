@@ -32,11 +32,14 @@ export default function AreaIndexPage() {
         const photos = place.raw.photos
         return (
           <HStack className="items-start gap-4 p-2" key={place.id}>
-            <img
-              className="h-32 w-32 rounded object-cover transition-transform hover:scale-125"
-              src={`/resources/photos/${photos?.[0].name}`}
-              alt="photo1"
-            />
+            <div className="h-32 w-32 flex-shrink-0">
+              <img
+                className="h-32 w-32 rounded object-cover transition-transform hover:scale-125"
+                src={`/resources/photos/${photos?.[0].name}`}
+                loading="lazy"
+                alt="photo1"
+              />
+            </div>
             <div className="leading-relaxed">
               <div className="font-bold">
                 <a
