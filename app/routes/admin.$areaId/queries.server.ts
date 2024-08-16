@@ -1,24 +1,22 @@
 import { eq } from 'drizzle-orm'
-import { db, takeFirst } from '~/services/db'
-import { areas, googlePlaces, googlePlacesAreas } from '~/services/db/schema'
+import { db } from '~/services/db'
+import { areas, googlePlacesAreas } from '~/services/db/schema'
 
 export const getArea = async (areaId?: string) => {
   if (areaId === undefined) {
     return null
   }
-  const ret = await db.select().from(areas).where(eq(areas.id, areaId)).limit(1)
-  return takeFirst(ret)
+  return await db.query.areas.findFirst({
+    where: eq(areas.id, areaId),
+  })
 }
 
 export const listAreaGooglePlaces = async (areaId: string) => {
-  const ret = await db
-    .select()
-    .from(googlePlacesAreas)
-    .innerJoin(
-      googlePlaces,
-      eq(googlePlacesAreas.googlePlaceId, googlePlaces.id),
-    )
-    .where(eq(googlePlacesAreas.areaId, areaId))
-
-  return ret.map((r) => r.google_places)
+  return await db.query.googlePlaces.findMany({
+    with: {
+      googlePlacesAreas: {
+        where: eq(googlePlacesAreas.areaId, areaId),
+      },
+    },
+  })
 }

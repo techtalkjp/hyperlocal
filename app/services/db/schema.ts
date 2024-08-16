@@ -1,5 +1,7 @@
 import { sql } from 'drizzle-orm'
+import { relations } from 'drizzle-orm/relations'
 import { real, sqliteTable, text, unique } from 'drizzle-orm/sqlite-core'
+
 import type { Place } from '../google-places'
 
 export const areas = sqliteTable('areas', {
@@ -48,3 +50,25 @@ export const googlePlacesAreas = sqliteTable(
     unique: unique().on(t.googlePlaceId, t.areaId),
   }),
 )
+
+export const areasRelations = relations(areas, ({ many }) => ({
+  googlePlacesAreas: many(googlePlacesAreas),
+}))
+
+export const googlePlacesAreasRelations = relations(
+  googlePlacesAreas,
+  ({ one }) => ({
+    area: one(areas, {
+      fields: [googlePlacesAreas.areaId],
+      references: [areas.id],
+    }),
+    googlePlace: one(googlePlaces, {
+      fields: [googlePlacesAreas.googlePlaceId],
+      references: [googlePlaces.id],
+    }),
+  }),
+)
+
+export const googlePlacesRelations = relations(googlePlaces, ({ many }) => ({
+  googlePlacesAreas: many(googlePlacesAreas),
+}))
