@@ -4,7 +4,6 @@ import { getAdminUserId } from '~/services/auth.server'
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userId = await getAdminUserId(request)
-  console.log('login', userId)
   if (userId) {
     return redirect('/admin')
   }
