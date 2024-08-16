@@ -215,6 +215,5 @@ export const textSearch = async ({
   )
 
   const json = await ret.json()
-  console.log(JSON.stringify(json, null, 2))
   return json
 }

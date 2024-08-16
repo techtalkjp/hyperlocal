@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm'
+import { desc, eq } from 'drizzle-orm'
 import { db, takeFirst } from '~/services/db.server'
 import { areas, googlePlaces, googlePlacesAreas } from '~/services/db/schema'
 
@@ -19,6 +19,7 @@ export const listAreaGooglePlaces = async (areaId: string) => {
       eq(googlePlacesAreas.googlePlaceId, googlePlaces.id),
     )
     .where(eq(googlePlacesAreas.areaId, areaId))
+    .orderBy(desc(googlePlaces.rating))
 
   return ret.map((r) => r.google_places)
 }
