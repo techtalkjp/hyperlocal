@@ -3,6 +3,7 @@ import { useLoaderData } from '@remix-run/react'
 import { MessageSquareIcon } from 'lucide-react'
 import { Rating } from '~/components/rating'
 import { HStack, Stack } from '~/components/ui'
+import type { Place } from '~/services/google-places'
 import { getArea, listAreaGooglePlaces } from './queries.server'
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
@@ -18,7 +19,6 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   }
 
   const places = await listAreaGooglePlaces(area.id)
-
   return { area, places }
 }
 
@@ -29,24 +29,20 @@ export default function AreaIndexPage() {
       <div>{area.name}</div>
 
       {places.map((place, idx) => {
-        const photos = place.raw.photos
+        const raw = place.raw as unknown as Place
         return (
           <HStack className="items-start gap-4 p-2" key={place.id}>
             <div className="h-32 w-32 flex-shrink-0">
               <img
                 className="h-32 w-32 rounded object-cover transition-transform hover:scale-125"
-                src={`/resources/photos/${photos?.[0].name}.jpg`}
+                src={`/resources/photos/${raw.photos?.[0].name}.jpg`}
                 loading="lazy"
                 alt="photo1"
               />
             </div>
             <div className="leading-relaxed">
               <div className="font-bold">
-                <a
-                  href={place.raw.googleMapsUri}
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <a href={raw.googleMapsUri} target="_blank" rel="noreferrer">
                   {idx + 1}. {place.displayName}
                 </a>
               </div>
@@ -63,7 +59,7 @@ export default function AreaIndexPage() {
               <HStack className="items-start">
                 <MessageSquareIcon size="12" className="mt-0.5 flex-shrink-0" />
                 <div className="line-clamp-2 text-xs text-muted-foreground">
-                  "{place.raw.reviews?.[0].originalText.text}"
+                  "{raw.reviews?.[0].originalText.text}"
                 </div>
               </HStack>
             </div>

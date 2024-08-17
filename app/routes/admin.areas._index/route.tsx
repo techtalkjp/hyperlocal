@@ -13,11 +13,10 @@ import {
   TableRow,
 } from '~/components/ui'
 import dayjs from '~/libs/dayjs'
-import { db } from '~/services/db'
-import * as schema from '~/services/db/schema'
+import { listAllAreas } from './queries.server'
 
 export const loader = async () => {
-  const areas = await db.select().from(schema.areas).all()
+  const areas = await listAllAreas()
   return { areas }
 }
 
