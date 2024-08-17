@@ -35,7 +35,7 @@ export default function AreaIndexPage() {
             <div className="h-32 w-32 flex-shrink-0">
               <img
                 className="h-32 w-32 rounded object-cover transition-transform hover:scale-125"
-                src={`/resources/photos/${photos?.[0].name}`}
+                src={`/resources/photos/${photos?.[0].name}.jpg`}
                 loading="lazy"
                 alt="photo1"
               />
