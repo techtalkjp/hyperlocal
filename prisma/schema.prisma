@@ -1,0 +1,51 @@
+
+generator kysely {
+  provider  = "prisma-kysely"
+  output    = "../app/services/db"
+  fileName  = "types.ts"
+  camelCase = "true"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Area {
+  id              String            @id
+  name            String
+  longitude       Float
+  latitude        Float
+  created_at      String            @default("CURRENT_TIMESTAMP")
+  updated_at      String            @default("CURRENT_TIMESTAMP")
+  googlePlaceArea GooglePlaceArea[]
+
+  @@map("areas")
+}
+
+model GooglePlace {
+  id               String            @id
+  name             String
+  types            String
+  primaryType      String            @map("primary_type")
+  rating           Float
+  userRatingCount  Float             @map("user_rating_count")
+  latitude         Float
+  longitude        Float
+  displayName      String            @map("display_name")
+  raw              String
+  googlePlacesArea GooglePlaceArea[]
+  @@map("google_places")
+}
+
+model GooglePlaceArea {
+  googlePlaceId String      @map("google_place_id")
+  areaId        String      @map("area_id")
+  created_at    String      @default("CURRENT_TIMESTAMP")
+  updated_at    String      @default("CURRENT_TIMESTAMP")
+  areas         Area        @relation(fields: [areaId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  google_places GooglePlace @relation(fields: [googlePlaceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([googlePlaceId, areaId], map: "google_places_areas_google_place_id_area_id_unique")
+  @@map("google_places_areas")
+}

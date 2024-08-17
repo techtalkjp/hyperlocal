@@ -1,9 +1,9 @@
 import { db } from '~/services/db'
 
-export const listAreas = async () => {
+export const listAllAreas = async () => {
   return await db
     .selectFrom('areas')
     .selectAll()
-    .orderBy('updatedAt', 'desc')
+    .orderBy('createdAt', 'desc')
     .execute()
 }

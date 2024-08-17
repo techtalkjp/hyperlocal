@@ -1,43 +1,48 @@
-import { createInsertSchema } from 'drizzle-zod'
-import { db, takeFirstOrThrow } from '~/services/db'
-import { googlePlaces, googlePlacesAreas } from '~/services/db/schema'
-import type { Place } from '~/services/google-places'
+import { db } from '~/services/db'
 
-const insertGooglePlaceSchema = createInsertSchema(googlePlaces)
+export const addGooglePlace = async (areaId: string, placeStr: string) => {
+  const json = JSON.parse(placeStr)
 
-export const addGooglePlace = async (areaId: string, place: string) => {
-  const json = JSON.parse(place)
-  const row = {
-    id: json.id,
-    name: json.name,
-    types: json.types,
-    primaryType: json.primaryType,
-    rating: json.rating ?? 0,
-    userRatingCount: json.userRatingCount ?? 0,
-    latitude: json.location.latitude,
-    longitude: json.location.longitude,
-    displayName: json.displayName.text,
-    raw: json as unknown as Place,
-  }
-  const record = takeFirstOrThrow(
-    await db
-      .insert(googlePlaces)
-      .values(row)
-      .onConflictDoUpdate({
-        target: googlePlaces.id,
-        set: row,
+  return await db.transaction().execute(async (tsx) => {
+    const inserted = await tsx
+      .insertInto('googlePlaces')
+      .values({
+        id: json.id,
+        name: json.name,
+        types: json.types,
+        primaryType: json.primaryType,
+        rating: json.rating ?? 0,
+        userRatingCount: json.userRatingCount ?? 0,
+        latitude: json.location.latitude,
+        longitude: json.location.longitude,
+        displayName: json.displayName.text,
+        raw: placeStr,
       })
-      .returning(),
-  )
-  await db
-    .insert(googlePlacesAreas)
-    .values({
-      areaId,
-      googlePlaceId: record.id,
-    })
-    .onConflictDoNothing({
-      target: [googlePlacesAreas.googlePlaceId, googlePlacesAreas.areaId],
-    })
+      .onConflict((oc) =>
+        oc.column('id').doUpdateSet({
+          name: json.name,
+          types: json.types,
+          primaryType: json.primaryType,
+          rating: json.rating ?? 0,
+          userRatingCount: json.userRatingCount ?? 0,
+          latitude: json.location.latitude,
+          longitude: json.location.longitude,
+          displayName: json.displayName.text,
+          raw: placeStr,
+        }),
+      )
+      .returningAll()
+      .executeTakeFirstOrThrow()
 
-  return record
+    await tsx
+      .insertInto('googlePlacesAreas')
+      .values({
+        googlePlaceId: inserted.id,
+        areaId,
+      })
+      .onConflict((oc) => oc.columns(['googlePlaceId', 'areaId']).doNothing())
+      .execute()
+
+    return inserted
+  })
 }
