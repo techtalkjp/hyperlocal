@@ -19,7 +19,6 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   }
 
   const places = await listAreaGooglePlaces(area.id)
-  console.log(places)
   return { area, places }
 }
 
