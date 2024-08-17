@@ -11,4 +11,6 @@ export default {
     authToken: process.env.TURSO_AUTH_TOKEN,
   },
   introspect: { casing: 'camel' },
+  verbose: true,
+  strict: true,
 } satisfies Config
