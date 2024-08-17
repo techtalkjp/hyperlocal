@@ -30,8 +30,6 @@ export const loader = (args: LoaderFunctionArgs) => {
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const { env } = useLoaderData<typeof loader>()
-
   return (
     <html lang="en">
       <head>
@@ -41,28 +39,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {env.NODE_ENV === 'production' && (
-          <>
-            <script
-              async
-              src={`https://www.googletagmanager.com/gtag/js?id=${env.GA_TRACKING_ID}`}
-            />
-            <script
-              async
-              id="gtag-init"
-              // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
-              dangerouslySetInnerHTML={{
-                __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${env.GA_TRACKING_ID}');
-              `,
-              }}
-            />
-          </>
-        )}
-
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -72,7 +48,34 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 const App = () => {
-  return <Outlet />
+  const { env } = useLoaderData<typeof loader>()
+
+  return (
+    <>
+      {env.NODE_ENV === 'production' && (
+        <>
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${env.GA_TRACKING_ID}`}
+          />
+          <script
+            async
+            id="gtag-init"
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+            dangerouslySetInnerHTML={{
+              __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${env.GA_TRACKING_ID}');
+              `,
+            }}
+          />
+        </>
+      )}
+      <Outlet />
+    </>
+  )
 }
 
 export default ClerkApp(App, {
