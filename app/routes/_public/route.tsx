@@ -1,9 +1,13 @@
 import { Outlet } from '@remix-run/react'
+import { AreaTitle } from './components/area-title'
+import { Breadcrumbs } from './components/breadcrumbs'
 
 export default function PublicLayout() {
   return (
     <div>
-      <h1 className="text-xl font-bold">Hyperlocal</h1>
+      <AreaTitle />
+
+      <Breadcrumbs />
 
       <Outlet />
     </div>

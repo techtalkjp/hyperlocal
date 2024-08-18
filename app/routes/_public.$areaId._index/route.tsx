@@ -12,6 +12,13 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => [
   },
 ]
 
+export const handle = {
+  breadcrumb: (data: Awaited<ReturnType<typeof loader>>) => (
+    <div>{data.area.name}</div>
+  ),
+  area: (data: Awaited<ReturnType<typeof loader>>) => data.area.name,
+}
+
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const area = await getArea(params.areaId)
   if (!area) {
@@ -26,8 +33,6 @@ export default function AreaIndexPage() {
   const { area, places } = useLoaderData<typeof loader>()
   return (
     <Stack>
-      <div>{area.name}</div>
-
       {places.map((place, idx) => {
         const raw = place.raw as unknown as Place
         return (
