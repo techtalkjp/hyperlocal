@@ -10,7 +10,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 export default function IndexPage() {
   const { areas } = useLoaderData<typeof loader>()
   return (
-    <div>
+    <div className="px-2">
       {areas.map((area) => (
         <div key={area.id}>
           <Link to={`/${area.id}`}>{area.name}</Link>
