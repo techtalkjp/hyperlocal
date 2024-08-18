@@ -40,6 +40,6 @@ CREATE TABLE "new_google_places_areas" (
 INSERT INTO "new_google_places_areas" ("area_id", "google_place_id") SELECT "area_id", "google_place_id" FROM "google_places_areas";
 DROP TABLE "google_places_areas";
 ALTER TABLE "new_google_places_areas" RENAME TO "google_places_areas";
-CREATE UNIQUE INDEX "google_places_areas_google_place_id_area_id_unique" ON "google_places_areas"("google_place_id", "area_id");
+CREATE UNIQUE INDEX "google_place_area_unique" ON "google_places_areas"("google_place_id", "area_id");
 PRAGMA foreign_keys=ON;
 PRAGMA defer_foreign_keys=OFF;

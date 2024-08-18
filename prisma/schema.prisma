@@ -49,6 +49,6 @@ model GooglePlaceArea {
   areas         Area        @relation(fields: [areaId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   google_places GooglePlace @relation(fields: [googlePlaceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@unique([googlePlaceId, areaId], map: "google_places_areas_google_place_id_area_id_unique")
+  @@unique([googlePlaceId, areaId], map: "google_place_area_unique")
   @@map("google_places_areas")
 }
