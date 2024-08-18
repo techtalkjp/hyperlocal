@@ -1,4 +1,7 @@
-import { UserButton } from '@clerk/remix'
+import { jaJP } from '@clerk/localizations'
+import { ClerkApp, UserButton } from '@clerk/remix'
+import { rootAuthLoader } from '@clerk/remix/ssr.server'
+import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, type MetaFunction, Outlet } from '@remix-run/react'
 
 export const meta: MetaFunction = () => {
@@ -8,7 +11,17 @@ export const meta: MetaFunction = () => {
   ]
 }
 
-export default function AdminLayout() {
+export const loader = (args: LoaderFunctionArgs) => {
+  return rootAuthLoader(args, () => {
+    const env = {
+      GA_TRACKING_ID: process.env.GA_TRACKING_ID,
+      NODE_ENV: process.env.NODE_ENV,
+    }
+    return { env }
+  })
+}
+
+const AdminLayout = () => {
   return (
     <div>
       <header className="flex gap-4 p-4">
@@ -26,3 +39,10 @@ export default function AdminLayout() {
     </div>
   )
 }
+
+export default ClerkApp(AdminLayout, {
+  localization: jaJP,
+  appearance: {
+    signIn: { elements: { footer: { display: 'none' } } },
+  },
+})

@@ -4,7 +4,7 @@ import { redirect } from '@remix-run/node'
 export const requireAdminUser = async (request: Request) => {
   const userId = await getAdminUserId(request)
   if (userId === null) {
-    throw redirect('/login')
+    throw redirect('/admin/login')
   }
   return userId
 }

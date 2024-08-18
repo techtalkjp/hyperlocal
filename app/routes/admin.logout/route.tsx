@@ -5,7 +5,7 @@ import { requireAdminUser } from '~/services/auth.server'
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userId = await requireAdminUser(request)
   if (!userId) {
-    return redirect('/login')
+    return redirect('/admin/login')
   }
   return {}
 }

@@ -1,7 +1,10 @@
+import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
+import { requireAdminUser } from '~/services/auth.server'
 import { listAreas } from './queries.server'
 
-export const loader = async () => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  await requireAdminUser(request)
   const areas = await listAreas()
   return { areas }
 }

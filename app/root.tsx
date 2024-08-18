@@ -1,7 +1,4 @@
-import { jaJP } from '@clerk/localizations'
-import { ClerkApp } from '@clerk/remix'
-import { rootAuthLoader } from '@clerk/remix/ssr.server'
-import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
+import type { MetaFunction } from '@remix-run/node'
 import {
   Links,
   Meta,
@@ -19,14 +16,12 @@ export const meta: MetaFunction = () => [
 
 export const links = () => [{ rel: 'stylesheet', href: globalStyles }]
 
-export const loader = (args: LoaderFunctionArgs) => {
-  return rootAuthLoader(args, () => {
-    const env = {
-      GA_TRACKING_ID: process.env.GA_TRACKING_ID,
-      NODE_ENV: process.env.NODE_ENV,
-    }
-    return { env }
-  })
+export const loader = () => {
+  const env = {
+    GA_TRACKING_ID: process.env.GA_TRACKING_ID,
+    NODE_ENV: process.env.NODE_ENV,
+  }
+  return { env }
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -77,10 +72,4 @@ const App = () => {
     </>
   )
 }
-
-export default ClerkApp(App, {
-  localization: jaJP,
-  appearance: {
-    signIn: { elements: { footer: { display: 'none' } } },
-  },
-})
+export default App
