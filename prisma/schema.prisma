@@ -1,4 +1,3 @@
-
 generator kysely {
   provider  = "prisma-kysely"
   output    = "../app/services/db"
@@ -16,33 +15,37 @@ model Area {
   name            String
   longitude       Float
   latitude        Float
-  created_at      String            @default("CURRENT_TIMESTAMP")
-  updated_at      String            @default("CURRENT_TIMESTAMP")
+  created_at      String            @default(dbgenerated("CURRENT_TIMESTAMP"))
+  updated_at      String            @default(dbgenerated("CURRENT_TIMESTAMP"))
   googlePlaceArea GooglePlaceArea[]
 
   @@map("areas")
 }
 
 model GooglePlace {
-  id               String            @id
-  name             String
-  types            String
-  primaryType      String            @map("primary_type")
-  rating           Float
-  userRatingCount  Float             @map("user_rating_count")
-  latitude         Float
-  longitude        Float
-  displayName      String            @map("display_name")
-  raw              String
+  id              String @id
+  name            String
+  types           String
+  primaryType     String @map("primary_type")
+  rating          Float
+  userRatingCount Float  @map("user_rating_count")
+  latitude        Float
+  longitude       Float
+  displayName     String @map("display_name")
+  raw             String
+  created_at      String @default(dbgenerated("CURRENT_TIMESTAMP"))
+  updated_at      String @default(dbgenerated("CURRENT_TIMESTAMP"))
+
   googlePlacesArea GooglePlaceArea[]
+
   @@map("google_places")
 }
 
 model GooglePlaceArea {
   googlePlaceId String      @map("google_place_id")
   areaId        String      @map("area_id")
-  created_at    String      @default("CURRENT_TIMESTAMP")
-  updated_at    String      @default("CURRENT_TIMESTAMP")
+  created_at    String      @default(dbgenerated("CURRENT_TIMESTAMP"))
+  updated_at    String      @default(dbgenerated("CURRENT_TIMESTAMP"))
   areas         Area        @relation(fields: [areaId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   google_places GooglePlace @relation(fields: [googlePlaceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 

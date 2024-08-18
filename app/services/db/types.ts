@@ -23,6 +23,8 @@ export type GooglePlace = {
     longitude: number;
     displayName: string;
     raw: string;
+    createdAt: Generated<string>;
+    updatedAt: Generated<string>;
 };
 export type GooglePlaceArea = {
     googlePlaceId: string;

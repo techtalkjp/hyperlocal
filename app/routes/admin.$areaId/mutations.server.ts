@@ -1,3 +1,4 @@
+import dayjs from '~/libs/dayjs'
 import { db } from '~/services/db'
 
 export const addGooglePlace = async (areaId: string, placeStr: string) => {
@@ -10,25 +11,27 @@ export const addGooglePlace = async (areaId: string, placeStr: string) => {
         id: json.id,
         name: json.name,
         types: json.types,
-        primaryType: json.primaryType,
+        primaryType: JSON.stringify(json.primaryType),
         rating: json.rating ?? 0,
         userRatingCount: json.userRatingCount ?? 0,
         latitude: json.location.latitude,
         longitude: json.location.longitude,
         displayName: json.displayName.text,
         raw: placeStr,
+        updatedAt: dayjs().utc().format('YYYY-MM-DD HH:mm:ss'),
       })
       .onConflict((oc) =>
         oc.column('id').doUpdateSet({
           name: json.name,
           types: json.types,
-          primaryType: json.primaryType,
+          primaryType: JSON.stringify(json.primaryType),
           rating: json.rating ?? 0,
           userRatingCount: json.userRatingCount ?? 0,
           latitude: json.location.latitude,
           longitude: json.location.longitude,
           displayName: json.displayName.text,
           raw: placeStr,
+          updatedAt: dayjs().utc().format('YYYY-MM-DD HH:mm:ss'),
         }),
       )
       .returningAll()
@@ -39,6 +42,7 @@ export const addGooglePlace = async (areaId: string, placeStr: string) => {
       .values({
         googlePlaceId: inserted.id,
         areaId,
+        updatedAt: dayjs().utc().format('YYYY-MM-DD HH:mm:ss'),
       })
       .onConflict((oc) => oc.columns(['googlePlaceId', 'areaId']).doNothing())
       .execute()
