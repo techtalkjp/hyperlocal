@@ -10,8 +10,8 @@ export const addGooglePlace = async (areaId: string, placeStr: string) => {
       .values({
         id: json.id,
         name: json.name,
-        types: json.types,
-        primaryType: JSON.stringify(json.primaryType),
+        types: JSON.stringify(json.types),
+        primaryType: json.primaryType,
         rating: json.rating ?? 0,
         userRatingCount: json.userRatingCount ?? 0,
         latitude: json.location.latitude,
@@ -23,8 +23,8 @@ export const addGooglePlace = async (areaId: string, placeStr: string) => {
       .onConflict((oc) =>
         oc.column('id').doUpdateSet({
           name: json.name,
-          types: json.types,
-          primaryType: JSON.stringify(json.primaryType),
+          types: JSON.stringify(json.types),
+          primaryType: json.primaryType,
           rating: json.rating ?? 0,
           userRatingCount: json.userRatingCount ?? 0,
           latitude: json.location.latitude,
