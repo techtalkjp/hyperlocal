@@ -1,36 +1,26 @@
-import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
+import type { LoaderFunctionArgs } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { MessageSquareIcon } from 'lucide-react'
 import { Rating } from '~/components/rating'
 import { HStack, Stack } from '~/components/ui'
 import type { Place } from '~/services/google-places'
-import { getArea, listAreaGooglePlaces } from './queries.server'
-
-export const meta: MetaFunction<typeof loader> = ({ data }) => [
-  {
-    title: `${data?.area.name} - Hyperlocal`,
-  },
-]
-
-export const handle = {
-  breadcrumb: (data: Awaited<ReturnType<typeof loader>>) => (
-    <div>{data.area.name}</div>
-  ),
-  area: (data: Awaited<ReturnType<typeof loader>>) => data.area.name,
-}
+import { listAreaGooglePlaces } from './queries.server'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
-  const area = await getArea(params.areaId)
-  if (!area) {
+  const areaId = params.area
+  if (!areaId) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
-
-  const places = await listAreaGooglePlaces(area.id)
-  return { area, places }
+  const categoryId = params.category
+  if (!categoryId) {
+    throw new Response(null, { status: 404, statusText: 'Not Found' })
+  }
+  const places = await listAreaGooglePlaces(areaId, categoryId)
+  return { places }
 }
 
 export default function AreaIndexPage() {
-  const { area, places } = useLoaderData<typeof loader>()
+  const { places } = useLoaderData<typeof loader>()
   return (
     <Stack>
       {places.map((place, idx) => {

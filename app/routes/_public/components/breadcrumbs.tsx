@@ -5,7 +5,6 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from '~/components/ui'
 
@@ -34,21 +33,19 @@ export const Breadcrumbs = ({
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link to="/">Hyperlocal</Link>
+            <Link to="/">東京</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
-        {matches.map(({ handle, data, id }, i) => (
+        {matches.map(({ handle, data, id }) => (
           <React.Fragment key={id}>
+            <BreadcrumbSeparator />
             <BreadcrumbItem
               className="contents"
               itemProp="itemListElement"
               itemScope
               itemType="https://schema.org/ListItem"
             >
-              <BreadcrumbSeparator />
-              <BreadcrumbPage>{handle.breadcrumb(data)}</BreadcrumbPage>
-              {/* {i > 0 && <span className="text-sm">/</span>}
-              <meta itemProp="position" content={`${i + 1}`} /> */}
+              <BreadcrumbLink asChild>{handle.breadcrumb(data)}</BreadcrumbLink>
             </BreadcrumbItem>
           </React.Fragment>
         ))}

@@ -11,7 +11,10 @@ export const getArea = async (areaId?: string) => {
     .executeTakeFirst()
 }
 
-export const listAreaGooglePlaces = async (areaId: string) => {
+export const listAreaGooglePlaces = async (
+  areaId: string,
+  categoryId: string,
+) => {
   return await db
     .selectFrom('googlePlaces')
     .selectAll()
@@ -21,6 +24,8 @@ export const listAreaGooglePlaces = async (areaId: string) => {
       'googlePlacesAreas.googlePlaceId',
     )
     .where('googlePlacesAreas.areaId', '==', areaId)
-    .orderBy('googlePlaces.rating', 'desc')
+    .where('googlePlacesAreas.categoryId', '==', categoryId)
+    .orderBy(['googlePlaces.rating desc', 'googlePlaces.userRatingCount desc'])
+    .limit(10)
     .execute()
 }

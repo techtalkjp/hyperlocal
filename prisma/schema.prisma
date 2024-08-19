@@ -44,11 +44,12 @@ model GooglePlace {
 model GooglePlaceArea {
   googlePlaceId String      @map("google_place_id")
   areaId        String      @map("area_id")
+  categoryId    String      @map("category_id")
   created_at    String      @default(dbgenerated("CURRENT_TIMESTAMP"))
   updated_at    String      @default(dbgenerated("CURRENT_TIMESTAMP"))
   areas         Area        @relation(fields: [areaId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   google_places GooglePlace @relation(fields: [googlePlaceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@unique([googlePlaceId, areaId], map: "google_place_area_unique")
+  @@unique([googlePlaceId, areaId, categoryId], map: "google_place_area_category_unique")
   @@map("google_places_areas")
 }

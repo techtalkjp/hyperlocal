@@ -29,6 +29,7 @@ export type GooglePlace = {
 export type GooglePlaceArea = {
     googlePlaceId: string;
     areaId: string;
+    categoryId: string;
     createdAt: Generated<string>;
     updatedAt: Generated<string>;
 };

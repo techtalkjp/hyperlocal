@@ -118,7 +118,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
     return { lastResult: submission.reply(), place: null }
   }
 
-  const place = await addGooglePlace(areaId, submission.value.place)
+  const place = await addGooglePlace(areaId, 'cafe', submission.value.place)
   return { lastResult: submission.reply(), place }
 }
 

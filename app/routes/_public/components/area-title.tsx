@@ -1,4 +1,4 @@
-import { useMatches, type UIMatch } from '@remix-run/react'
+import { Link, useMatches, type UIMatch } from '@remix-run/react'
 import type React from 'react'
 
 type AreaMatch = UIMatch<
@@ -10,9 +10,13 @@ export const AreaTitle = ({ ...props }: React.HTMLAttributes<HTMLElement>) => {
     ({ handle }) => handle?.area,
   )
 
+  const area = matches?.handle.area(matches.data)
+
   return (
     <h1 className="text-xl font-bold">
-      Hyperlocal {matches?.handle.area(matches.data)}
+      <Link to="/">
+        Hyperlocal Tokyo <small>{area}</small>
+      </Link>
     </h1>
   )
 }
