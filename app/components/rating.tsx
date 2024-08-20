@@ -1,7 +1,7 @@
 import { cn } from '~/libs/utils'
 
 interface RatingProps extends React.HTMLAttributes<HTMLDivElement> {
-  star: number
+  star?: number
   size?: number
   color?: string
   withLabel?: boolean
@@ -33,21 +33,23 @@ export const Rating = ({
             )
           })}
         </div>
-        <div
-          className="absolute left-0 top-0 flex overflow-hidden whitespace-nowrap text-yellow-400"
-          style={{
-            fontSize: `${size}px`,
-            width: `${star * 2 * 10}%`,
-          }}
-        >
-          {arr.map((num: number) => {
-            return (
-              <span key={`star-active-${num}`} className="p-[0.1]">
-                ★
-              </span>
-            )
-          })}
-        </div>
+        {star && (
+          <div
+            className="absolute left-0 top-0 flex overflow-hidden whitespace-nowrap text-yellow-400"
+            style={{
+              fontSize: `${size}px`,
+              width: `${star * 2 * 10}%`,
+            }}
+          >
+            {arr.map((num: number) => {
+              return (
+                <span key={`star-active-${num}`} className="p-[0.1]">
+                  ★
+                </span>
+              )
+            })}
+          </div>
+        )}
       </div>
 
       {withLabel ? <span className="text-xs font-medium">{star}</span> : null}

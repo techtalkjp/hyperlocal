@@ -186,84 +186,83 @@ export default function Index() {
           })}
         </Stack>
 
-        <Stack>
-          {places && <div>found {places.length} places.</div>}
-
-          {places?.map((place) => {
-            return (
-              <Card key={place.id}>
-                <CardHeader>
-                  <HStack>
-                    <CardTitle>{place.displayName.text}</CardTitle>
-                    <div className="text-muted-foreground hover:text-foreground">
-                      <a
-                        className="text-xs hover:underline"
-                        href={place.googleMapsUri}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <MapIcon size="14" className="mr-1 inline" />
-                        Map
-                      </a>
-                    </div>
-                    <div className="flex-1" />
-
-                    <addFetcher.Form method="POST">
-                      <input
-                        type="hidden"
-                        name="place"
-                        value={JSON.stringify(place)}
-                      />
-                      <Button
-                        type="submit"
-                        name="intent"
-                        value="add"
-                        variant="outline"
-                      >
-                        Add
-                      </Button>
-                    </addFetcher.Form>
-                  </HStack>
-                  <HStack>
-                    <Rating star={place.rating} withLabel />
-                    {place.userRatingCount} reviews
-                  </HStack>
-                  <CardDescription>
-                    {place.primaryTypeDisplayName?.text}
-                    <br />
-                    {place.editorialSummary?.text}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="overflow-auto">
-                  {place.reviews?.map((review) => {
-                    return (
-                      <div
-                        key={review.originalText?.text}
-                        className="border-b border-gray-200"
-                      >
-                        <Rating size={12} star={review.rating} withLabel />
-                        <ReviewText className="text-xs">
-                          {review.originalText?.text}
-                        </ReviewText>
+        {places && (
+          <Stack>
+            <div>found {places.length} places.</div>
+            {places.map((place) => {
+              return (
+                <Card key={place.id}>
+                  <CardHeader>
+                    <HStack>
+                      <CardTitle>{place.displayName.text}</CardTitle>
+                      <div className="text-muted-foreground hover:text-foreground">
+                        <a
+                          className="text-xs hover:underline"
+                          href={place.googleMapsUri}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <MapIcon size="14" className="mr-1 inline" />
+                          Map
+                        </a>
                       </div>
-                    )
-                  })}
+                      <div className="flex-1" />
 
-                  <Collapsible>
-                    <CollapsibleTrigger asChild>
-                      <Button type="button" variant="outline" size="sm">
-                        Details
-                      </Button>
-                    </CollapsibleTrigger>
-                    <CollapsibleContent>
-                      <pre>{JSON.stringify(place, null, 2)}</pre>
-                    </CollapsibleContent>
-                  </Collapsible>
-                </CardContent>
-              </Card>
-            )
-          })}
-        </Stack>
+                      <addFetcher.Form method="POST">
+                        <input
+                          type="hidden"
+                          name="place"
+                          value={JSON.stringify(place)}
+                        />
+                        <Button
+                          type="submit"
+                          name="intent"
+                          value="add"
+                          variant="outline"
+                        >
+                          Add
+                        </Button>
+                      </addFetcher.Form>
+                    </HStack>
+                    <HStack>
+                      <Rating star={place.rating} withLabel />
+                      {place.userRatingCount} reviews
+                    </HStack>
+                    <CardDescription>
+                      {place.primaryTypeDisplayName?.text}
+                      <br />
+                      {place.editorialSummary?.text}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="overflow-auto">
+                    {place.reviews?.map((review, idx) => {
+                      return (
+                        // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                        <div key={idx} className="border-b border-gray-200">
+                          <Rating size={12} star={review.rating} withLabel />
+                          <ReviewText className="text-xs">
+                            {review.originalText?.text}
+                          </ReviewText>
+                        </div>
+                      )
+                    })}
+
+                    <Collapsible>
+                      <CollapsibleTrigger asChild>
+                        <Button type="button" variant="outline" size="sm">
+                          Details
+                        </Button>
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <pre>{JSON.stringify(place, null, 2)}</pre>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  </CardContent>
+                </Card>
+              )
+            })}
+          </Stack>
+        )}
       </HStack>
     </Stack>
   )

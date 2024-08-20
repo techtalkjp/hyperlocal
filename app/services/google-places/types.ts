@@ -229,7 +229,7 @@ export interface Place {
     latitude: number
     longitude: number
   }
-  rating: number
+  rating?: number
   googleMapsUri: string
   regularOpeningHours: {
     openNow: boolean
