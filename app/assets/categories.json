@@ -1,0 +1,58 @@
+[
+  {
+    "id": "cafe",
+    "names": {
+      "ja": "カフェ",
+      "en": "Cafe"
+    }
+  },
+  {
+    "id": "restaurant",
+    "names": {
+      "ja": "レストラン",
+      "en": "Restaurant"
+    }
+  },
+  {
+    "id": "convenience_store",
+    "names": {
+      "ja": "コンビニ",
+      "en": "Convenience Store"
+    }
+  },
+  {
+    "id": "drugstore",
+    "names": {
+      "ja": "ドラッグストア",
+      "en": "Drugstore"
+    }
+  },
+  {
+    "id": "tourist_attractions",
+    "names": {
+      "ja": "観光スポット",
+      "en": "Tourist Attractions"
+    }
+  },
+  {
+    "id": "public_transportation",
+    "names": {
+      "ja": "公共交通機関",
+      "en": "Public Transportation"
+    }
+  },
+  {
+    "id": "shopping",
+    "names": {
+      "ja": "ショッピング",
+      "en": "Shopping"
+    }
+  },
+  {
+    "id": "nightlife",
+    "names": {
+      "ja": "ナイトライフ",
+      "en": "Nightlife"
+    }
+  }
+]
