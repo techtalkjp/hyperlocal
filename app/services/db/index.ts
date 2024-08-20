@@ -12,7 +12,7 @@ const debug = createDebug('app:db')
 
 export const db = new Kysely<DB>({
   dialect: new LibsqlDialect({
-    url: process.env.TURSO_DATABASE_URL,
+    url: process.env.DATABASE_URL,
     authToken: process.env.TURSO_AUTH_TOKEN,
   }),
   log: (event) => debug(event),

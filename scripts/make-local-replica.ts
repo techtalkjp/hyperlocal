@@ -12,7 +12,7 @@ for (const file of files) {
 }
 
 const client = createClient({
-  url: 'file:./data/dev.db',
+  url: process.env.DATABASE_URL,
   authToken: process.env.TURSO_AUTH_TOKEN,
   syncUrl: process.env.TURSO_DATABASE_URL,
 })
