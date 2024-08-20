@@ -4,8 +4,6 @@ import { db } from '~/services/db'
 export const helloWorldTask = task({
   id: 'hello-world',
   run: async (payload: { name: string }, { ctx }) => {
-    console.log(process.cwd())
-
     const areas = await db.selectFrom('areas').selectAll().execute()
     logger.log('areas', { areas })
 

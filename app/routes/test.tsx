@@ -11,10 +11,15 @@ import {
   Stack,
 } from '~/components/ui'
 import { helloWorldTask } from '~/trigger/example'
+import { registerGooglePlacesTask } from '~/trigger/register-google-places'
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const name = ((await request.formData()).get('name') as string) ?? 'no name'
   const handle = await helloWorldTask.trigger({ name })
+  await registerGooglePlacesTask.trigger({
+    areaId: 'higashi-ginza',
+    categoryId: 'cafe',
+  })
   return { handle }
 }
 
