@@ -236,9 +236,6 @@ export default function Index() {
                 </CardHeader>
                 <CardContent className="overflow-auto">
                   {place.reviews.map((review) => {
-                    if (review.originalText === undefined) {
-                      console.log(place)
-                    }
                     return (
                       <div
                         key={review.originalText?.text}
