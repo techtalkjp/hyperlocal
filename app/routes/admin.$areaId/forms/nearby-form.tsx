@@ -8,8 +8,8 @@ import { nearBySchema } from '../schema'
 export const NearbyForm = () => {
   const [form, fields] = useForm({
     defaultValue: {
-      radius: 160,
-      minRating: '',
+      radius: 400,
+      minRating: 0,
       primaryType: '',
     },
     onValidate: ({ formData }) =>

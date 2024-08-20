@@ -236,14 +236,17 @@ export default function Index() {
                 </CardHeader>
                 <CardContent className="overflow-auto">
                   {place.reviews.map((review) => {
+                    if (review.originalText === undefined) {
+                      console.log(place)
+                    }
                     return (
                       <div
-                        key={review.originalText.text}
+                        key={review.originalText?.text}
                         className="border-b border-gray-200"
                       >
                         <Rating size={12} star={review.rating} withLabel />
                         <ReviewText className="text-xs">
-                          {review.originalText.text}
+                          {review.originalText?.text}
                         </ReviewText>
                       </div>
                     )

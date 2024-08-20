@@ -260,7 +260,7 @@ export interface Place {
   shortFormattedAddress: string
   reviews: {
     rating: number
-    originalText: {
+    originalText?: {
       text: string
     }
   }[]

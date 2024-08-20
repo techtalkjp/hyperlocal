@@ -20,7 +20,7 @@ export const TextQueryForm = () => {
   const [form, fields] = useForm({
     defaultValue: {
       query: '',
-      radius: 160,
+      radius: 400,
       minRating: 0,
       rankPreference: 'POPULARITY',
     },
