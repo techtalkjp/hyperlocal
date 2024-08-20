@@ -54,7 +54,7 @@ export default function AreaIndexPage() {
               <HStack className="items-start">
                 <MessageSquareIcon size="12" className="mt-0.5 flex-shrink-0" />
                 <div className="line-clamp-2 text-xs text-muted-foreground">
-                  "{raw.reviews?.[0].originalText.text}"
+                  "{raw.reviews?.[0]?.originalText?.text}"
                 </div>
               </HStack>
             </div>

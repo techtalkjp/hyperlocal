@@ -235,7 +235,7 @@ export default function Index() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="overflow-auto">
-                  {place.reviews.map((review) => {
+                  {place.reviews?.map((review) => {
                     return (
                       <div
                         key={review.originalText?.text}

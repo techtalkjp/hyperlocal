@@ -258,7 +258,7 @@ export interface Place {
   }
   primaryType: PlaceTypes
   shortFormattedAddress: string
-  reviews: {
+  reviews?: {
     rating: number
     originalText?: {
       text: string
