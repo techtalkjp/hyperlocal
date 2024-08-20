@@ -1,4 +1,4 @@
-import { Link, useMatches, type UIMatch } from '@remix-run/react'
+import { useMatches, type UIMatch } from '@remix-run/react'
 import React from 'react'
 import {
   Breadcrumb,
@@ -13,15 +13,12 @@ type BreadcrumbMatch = UIMatch<
   { breadcrumb: (data: unknown) => JSX.Element }
 >
 export const Breadcrumbs = ({
+  children,
   ...props
 }: React.HTMLAttributes<HTMLElement>) => {
   const matches = (useMatches() as unknown as BreadcrumbMatch[]).filter(
     ({ handle }) => handle?.breadcrumb,
   )
-
-  if (matches.length === 0) {
-    return <></>
-  }
 
   return (
     <Breadcrumb
@@ -32,9 +29,7 @@ export const Breadcrumbs = ({
     >
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink asChild>
-            <Link to="/">東京</Link>
-          </BreadcrumbLink>
+          <BreadcrumbLink asChild>{children}</BreadcrumbLink>
         </BreadcrumbItem>
         {matches.map(({ handle, data, id }) => (
           <React.Fragment key={id}>

@@ -5,7 +5,10 @@ type AreaMatch = UIMatch<
   Record<string, unknown>,
   { area: (data: unknown) => JSX.Element }
 >
-export const AreaTitle = ({ ...props }: React.HTMLAttributes<HTMLElement>) => {
+interface AreaTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
+  city: { id: string; name: string }
+}
+export const AreaTitle = ({ city, ...props }: AreaTitleProps) => {
   const matches = (useMatches() as unknown as AreaMatch[]).find(
     ({ handle }) => handle?.area,
   )
@@ -15,7 +18,7 @@ export const AreaTitle = ({ ...props }: React.HTMLAttributes<HTMLElement>) => {
   return (
     <h1 className="text-xl font-bold">
       <Link to="/">
-        Hyperlocal Tokyo <small>{area}</small>
+        Hyperlocal {city.name} <small>{area}</small>
       </Link>
     </h1>
   )

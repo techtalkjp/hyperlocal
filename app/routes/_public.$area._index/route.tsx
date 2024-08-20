@@ -4,7 +4,7 @@ import { Card, CardHeader, CardTitle, Stack } from '~/components/ui'
 
 export default function AreaIndexPage() {
   return (
-    <Stack className="p-2">
+    <Stack className="px-2">
       <Link to="./cafe" prefetch="intent">
         <Card>
           <CardHeader>
