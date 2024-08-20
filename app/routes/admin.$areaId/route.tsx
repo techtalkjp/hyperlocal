@@ -29,8 +29,9 @@ import {
   TabsList,
   TabsTrigger,
 } from '~/components/ui'
+import { PlaceCard } from '~/features/place/components'
 import { requireAdminUser } from '~/services/auth.server'
-import type { PlaceTypes } from '~/services/google-places'
+import type { Place, PlaceTypes } from '~/services/google-places'
 import { nearBySearch, textSearch } from '../../services/google-places'
 import { Rating, ReviewText } from './components'
 import { NearbyForm } from './forms/nearby-form'
@@ -77,7 +78,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
       includedPrimaryTypes: [submission.value.primaryType as PlaceTypes],
     })
     return {
-      places: res.places,
+      places: res.places.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0)),
       areaGooglePlaces,
       intent: submission.value.intent,
       area,
@@ -95,7 +96,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
       // includedType: 'cafe',
     })
     return {
-      places: res.places,
+      places: res.places.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0)),
       areaGooglePlaces,
       intent: submission.value.intent,
       area,
@@ -187,19 +188,11 @@ export default function Index() {
 
             {areaGooglePlaces?.map((place, idx) => {
               return (
-                <Card key={place.id}>
-                  <CardHeader>
-                    <CardTitle>
-                      {idx + 1}. {place.displayName}
-                    </CardTitle>
-                    <HStack>
-                      {place.rating && <Rating star={place.rating} withLabel />}
-                      {place.userRatingCount ?? 0} reviews
-                    </HStack>
-                    <CardDescription>{place.primaryType}</CardDescription>
-                  </CardHeader>
-                  <CardContent> </CardContent>
-                </Card>
+                <PlaceCard
+                  key={place.id}
+                  place={place.raw as unknown as Place}
+                  no={idx + 1}
+                />
               )
             })}
           </Stack>

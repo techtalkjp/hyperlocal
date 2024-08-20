@@ -26,6 +26,6 @@ export const listAreaGooglePlaces = async (
     .where('googlePlacesAreas.areaId', '==', areaId)
     .where('googlePlacesAreas.categoryId', '==', categoryId)
     .orderBy(['googlePlaces.rating desc', 'googlePlaces.userRatingCount desc'])
-    .limit(10)
+    .limit(100)
     .execute()
 }
