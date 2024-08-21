@@ -1,19 +1,21 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, type MetaFunction, Outlet } from '@remix-run/react'
+import categories from '~/assets/categories.json'
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
   {
-    title: `${data?.category.name} - Hyperlocal`,
+    title: `${data?.category.names.ja} - Hyperlocal`,
   },
 ]
 
 export const handle = {
   breadcrumb: (data: Awaited<ReturnType<typeof loader>>) => (
     <Link to={`/${data.areaId}/${data.category.id}`} prefetch="intent">
-      {data.category.name}
+      {data.category.names.ja}
     </Link>
   ),
-  category: (data: Awaited<ReturnType<typeof loader>>) => data.category.name,
+  category: (data: Awaited<ReturnType<typeof loader>>) =>
+    data.category.names.ja,
 }
 
 export const loader = ({ params }: LoaderFunctionArgs) => {
@@ -22,13 +24,9 @@ export const loader = ({ params }: LoaderFunctionArgs) => {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
   const categoryId = params.category
-  if (!categoryId) {
+  const category = categories.find((c) => c.id === categoryId)
+  if (!category) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
-  }
-
-  const category = {
-    id: categoryId,
-    name: 'カフェ',
   }
 
   return { areaId, category }

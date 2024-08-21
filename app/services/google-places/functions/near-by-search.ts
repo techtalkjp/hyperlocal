@@ -9,7 +9,7 @@ interface NearbySearchProps {
   latitude: number
   longitude: number
   radius: number
-  includedPrimaryTypes: [PlaceTypes]
+  includedPrimaryTypes: PlaceTypes[]
   rankPreference?: 'POPULARITY' | 'DISTANCE'
   languageCode?: string
 }

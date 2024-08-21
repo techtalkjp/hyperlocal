@@ -1,6 +1,7 @@
 [
   {
     "id": "cafe",
+    "googlePlaceTypes": ["cafe", "coffee_shop"],
     "names": {
       "ja": "カフェ",
       "en": "Cafe"
@@ -8,6 +9,7 @@
   },
   {
     "id": "restaurant",
+    "googlePlaceTypes": ["restaurant"],
     "names": {
       "ja": "レストラン",
       "en": "Restaurant"
@@ -15,6 +17,7 @@
   },
   {
     "id": "convenience_store",
+    "googlePlaceTypes": ["convenience_store"],
     "names": {
       "ja": "コンビニ",
       "en": "Convenience Store"
@@ -22,6 +25,7 @@
   },
   {
     "id": "drugstore",
+    "googlePlaceTypes": ["drugstore"],
     "names": {
       "ja": "ドラッグストア",
       "en": "Drugstore"
@@ -29,6 +33,7 @@
   },
   {
     "id": "tourist_attractions",
+    "googlePlaceTypes": ["tourist_attraction"],
     "names": {
       "ja": "観光スポット",
       "en": "Tourist Attractions"
@@ -36,6 +41,7 @@
   },
   {
     "id": "public_transportation",
+    "googlePlaceTypes": ["subway_station", "train_station", "taxi_stand"],
     "names": {
       "ja": "公共交通機関",
       "en": "Public Transportation"
@@ -43,6 +49,18 @@
   },
   {
     "id": "shopping",
+    "googlePlaceTypes": [
+      "shopping_mall",
+      "department_store",
+      "clothing_store",
+      "discount_store",
+      "electronics_store",
+      "gift_shop",
+      "jewelry_store",
+      "liquor_store",
+      "market",
+      "shoe_store"
+    ],
     "names": {
       "ja": "ショッピング",
       "en": "Shopping"
@@ -50,6 +68,7 @@
   },
   {
     "id": "nightlife",
+    "googlePlaceTypes": ["bar", "night_club"],
     "names": {
       "ja": "ナイトライフ",
       "en": "Nightlife"

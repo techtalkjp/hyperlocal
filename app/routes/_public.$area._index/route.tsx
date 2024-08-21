@@ -1,17 +1,19 @@
 import { Link } from '@remix-run/react'
-
-import { Card, CardHeader, CardTitle, Stack } from '~/components/ui'
+import categories from '~/assets/categories.json'
+import { Card, CardHeader, CardTitle } from '~/components/ui'
 
 export default function AreaIndexPage() {
   return (
-    <Stack className="px-2">
-      <Link to="./cafe" prefetch="intent">
-        <Card>
-          <CardHeader>
-            <CardTitle>カフェ</CardTitle>
-          </CardHeader>
-        </Card>
-      </Link>
-    </Stack>
+    <div className="grid grid-cols-2 gap-2 px-2">
+      {categories.map((category) => (
+        <Link to={`./${category.id}`} key={category.id} prefetch="intent">
+          <Card>
+            <CardHeader>
+              <CardTitle>{category.names.ja}</CardTitle>
+            </CardHeader>
+          </Card>
+        </Link>
+      ))}
+    </div>
   )
 }

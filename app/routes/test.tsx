@@ -1,5 +1,9 @@
 import type { ActionFunctionArgs } from '@remix-run/node'
 import { useFetcher } from '@remix-run/react'
+import { jsonWithSuccess } from 'remix-toast'
+import { z } from 'zod'
+import { zx } from 'zodix'
+import categories from '~/assets/categories.json'
 import {
   Button,
   Card,
@@ -10,17 +14,29 @@ import {
   Label,
   Stack,
 } from '~/components/ui'
-import { helloWorldTask } from '~/trigger/example'
-import { registerGooglePlacesTask } from '~/trigger/register-google-places'
+import { registerAreaGooglePlacesCategoryTask } from '~/trigger/register-area-google-places-category'
 
-export const action = async ({ request }: ActionFunctionArgs) => {
-  const name = ((await request.formData()).get('name') as string) ?? 'no name'
-  const handle = await helloWorldTask.trigger({ name })
-  await registerGooglePlacesTask.trigger({
-    areaId: 'higashi-ginza',
-    categoryId: 'cafe',
-  })
-  return { handle }
+export const action = async ({ request, params }: ActionFunctionArgs) => {
+  const { areaId } = zx.parseParams(params, { areaId: z.string() })
+  const radius = z.number().parse((await request.formData()).get('radius'))
+
+  const handle = await registerAreaGooglePlacesCategoryTask.batchTrigger(
+    categories.map((category) => ({
+      payload: {
+        areaId,
+        radius,
+        categoryId: category.id,
+      },
+    })),
+  )
+
+  return jsonWithSuccess(
+    { handle },
+    {
+      message: 'Task triggered',
+      description: `Triggered ${categories.length} tasks: ${areaId}, ${radius}m`,
+    },
+  )
 }
 
 export default function TestPage() {

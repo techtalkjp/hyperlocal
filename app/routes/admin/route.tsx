@@ -2,7 +2,17 @@ import { jaJP } from '@clerk/localizations'
 import { ClerkApp, UserButton } from '@clerk/remix'
 import { rootAuthLoader } from '@clerk/remix/ssr.server'
 import type { LoaderFunctionArgs } from '@remix-run/node'
-import { Link, type MetaFunction, Outlet } from '@remix-run/react'
+import {
+  json,
+  Link,
+  type MetaFunction,
+  Outlet,
+  useLoaderData,
+} from '@remix-run/react'
+import { useEffect } from 'react'
+import { getToast } from 'remix-toast'
+import { toast } from 'sonner'
+import { Toaster } from '~/components/ui'
 
 export const meta: MetaFunction = () => {
   return [
@@ -12,16 +22,35 @@ export const meta: MetaFunction = () => {
 }
 
 export const loader = (args: LoaderFunctionArgs) => {
-  return rootAuthLoader(args, () => {
+  return rootAuthLoader(args, async () => {
+    const { toast, headers } = await getToast(args.request)
     const env = {
       GA_TRACKING_ID: process.env.GA_TRACKING_ID,
       NODE_ENV: process.env.NODE_ENV,
     }
-    return { env }
+    return json({ env, toastData: toast }, { headers: headers })
   })
 }
 
 const AdminLayout = () => {
+  const { env, toastData } = useLoaderData<typeof loader>()
+
+  useEffect(() => {
+    if (!toastData) {
+      return
+    }
+    let toastFn = toast.info
+    if (toastData.type === 'error') {
+      toastFn = toast.error
+    } else if (toastData.type === 'success') {
+      toastFn = toast.success
+    }
+    toastFn(toastData.message, {
+      description: toastData.description,
+      position: 'top-right',
+    })
+  }, [toastData])
+
   return (
     <div>
       <header className="flex gap-4 p-4">
@@ -36,6 +65,8 @@ const AdminLayout = () => {
       <main className="px-4 pt-2">
         <Outlet />
       </main>
+
+      <Toaster />
     </div>
   )
 }
