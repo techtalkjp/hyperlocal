@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'trigger/**'
+      - 'app/trigger/**'
 
 jobs:
   deploy:
