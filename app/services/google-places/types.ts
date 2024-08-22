@@ -223,7 +223,7 @@ type PlaceType_Transportation =
 export interface Place {
   name: string
   id: string
-  types: Place[]
+  types: PlaceTypes[]
   formattedAddress: string
   location: {
     latitude: number

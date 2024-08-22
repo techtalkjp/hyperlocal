@@ -52,7 +52,9 @@ export const Rating = ({
         )}
       </div>
 
-      {withLabel ? <span className="text-xs font-medium">{star}</span> : null}
+      {withLabel && star ? (
+        <span className="text-xs font-medium">{star.toFixed(1)}</span>
+      ) : null}
     </div>
   )
 }
