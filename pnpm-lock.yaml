@@ -12,182 +12,182 @@ importers:
   .:
     dependencies:
       '@clerk/localizations':
-        specifier: ^2.6.0
+        specifier: 2.6.0
         version: 2.6.0
       '@clerk/remix':
-        specifier: ^4.2.15
+        specifier: 4.2.15
         version: 4.2.15(@remix-run/react@2.11.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.4))(@remix-run/server-runtime@2.11.2(typescript@5.5.4))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@conform-to/react':
-        specifier: ^1.1.5
+        specifier: 1.1.5
         version: 1.1.5(react@18.3.1)
       '@conform-to/zod':
-        specifier: ^1.1.5
+        specifier: 1.1.5
         version: 1.1.5(zod@3.23.8)
       '@libsql/client':
-        specifier: ^0.9.0
+        specifier: 0.9.0
         version: 0.9.0
       '@libsql/kysely-libsql':
-        specifier: ^0.4.1
+        specifier: 0.4.1
         version: 0.4.1(kysely@0.27.4)
       '@radix-ui/react-checkbox':
-        specifier: ^1.1.1
+        specifier: 1.1.1
         version: 1.1.1(@types/react-dom@18.3.0)(@types/react@18.3.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-collapsible':
-        specifier: ^1.1.0
+        specifier: 1.1.0
         version: 1.1.0(@types/react-dom@18.3.0)(@types/react@18.3.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-dialog':
-        specifier: ^1.1.1
+        specifier: 1.1.1
         version: 1.1.1(@types/react-dom@18.3.0)(@types/react@18.3.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-label':
-        specifier: ^2.1.0
+        specifier: 2.1.0
         version: 2.1.0(@types/react-dom@18.3.0)(@types/react@18.3.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-radio-group':
-        specifier: ^1.2.0
+        specifier: 1.2.0
         version: 1.2.0(@types/react-dom@18.3.0)(@types/react@18.3.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-select':
-        specifier: ^2.1.1
+        specifier: 2.1.1
         version: 2.1.1(@types/react-dom@18.3.0)(@types/react@18.3.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-slider':
-        specifier: ^1.2.0
+        specifier: 1.2.0
         version: 1.2.0(@types/react-dom@18.3.0)(@types/react@18.3.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-slot':
-        specifier: ^1.1.0
+        specifier: 1.1.0
         version: 1.1.0(@types/react@18.3.4)(react@18.3.1)
       '@radix-ui/react-tabs':
-        specifier: ^1.1.0
+        specifier: 1.1.0
         version: 1.1.0(@types/react-dom@18.3.0)(@types/react@18.3.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@remix-run/node':
-        specifier: ^2.11.2
+        specifier: 2.11.2
         version: 2.11.2(typescript@5.5.4)
       '@remix-run/react':
-        specifier: ^2.11.2
+        specifier: 2.11.2
         version: 2.11.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.4)
       '@remix-run/serve':
-        specifier: ^2.11.2
+        specifier: 2.11.2
         version: 2.11.2(typescript@5.5.4)
       '@trigger.dev/sdk':
         specifier: 3.0.0-beta.55
         version: 3.0.0-beta.55(typescript@5.5.4)
       '@vercel/remix':
-        specifier: ^2.11.2
+        specifier: 2.11.2
         version: 2.11.2(@remix-run/dev@2.11.2(@remix-run/react@2.11.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.4))(@remix-run/serve@2.11.2(typescript@5.5.4))(@types/node@22.5.0)(typescript@5.5.4)(vite@5.4.2(@types/node@22.5.0)))(@remix-run/node@2.11.2(typescript@5.5.4))(@remix-run/server-runtime@2.11.2(typescript@5.5.4))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       class-variance-authority:
-        specifier: ^0.7.0
+        specifier: 0.7.0
         version: 0.7.0
       clsx:
-        specifier: ^2.1.1
+        specifier: 2.1.1
         version: 2.1.1
       dayjs:
-        specifier: ^1.11.13
+        specifier: 1.11.13
         version: 1.11.13
       debug:
-        specifier: ^4.3.6
+        specifier: 4.3.6
         version: 4.3.6
       dotenv:
-        specifier: ^16.4.5
+        specifier: 16.4.5
         version: 16.4.5
       embla-carousel-react:
-        specifier: ^8.2.0
+        specifier: 8.2.0
         version: 8.2.0(react@18.3.1)
       isbot:
-        specifier: ^5.1.17
+        specifier: 5.1.17
         version: 5.1.17
       kysely:
-        specifier: ^0.27.4
+        specifier: 0.27.4
         version: 0.27.4
       lucide-react:
-        specifier: ^0.429.0
+        specifier: 0.429.0
         version: 0.429.0(react@18.3.1)
       next-themes:
-        specifier: ^0.3.0
+        specifier: 0.3.0
         version: 0.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
-        specifier: ^18.3.1
+        specifier: 18.3.1
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
       react-twc:
-        specifier: ^1.4.2
+        specifier: 1.4.2
         version: 1.4.2(@types/react@18.3.4)(react@18.3.1)
       remix-toast:
-        specifier: ^1.2.1
+        specifier: 1.2.1
         version: 1.2.1(@remix-run/server-runtime@2.11.2(typescript@5.5.4))
       sonner:
-        specifier: ^1.5.0
+        specifier: 1.5.0
         version: 1.5.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       tailwind-merge:
-        specifier: ^2.5.2
+        specifier: 2.5.2
         version: 2.5.2
       zod:
-        specifier: ^3.23.8
+        specifier: 3.23.8
         version: 3.23.8
       zodix:
-        specifier: ^0.4.4
+        specifier: 0.4.4
         version: 0.4.4(@remix-run/server-runtime@2.11.2(typescript@5.5.4))(zod@3.23.8)
     devDependencies:
       '@biomejs/biome':
-        specifier: ^1.8.3
+        specifier: 1.8.3
         version: 1.8.3
       '@remix-run/dev':
-        specifier: ^2.11.2
+        specifier: 2.11.2
         version: 2.11.2(@remix-run/react@2.11.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.4))(@remix-run/serve@2.11.2(typescript@5.5.4))(@types/node@22.5.0)(typescript@5.5.4)(vite@5.4.2(@types/node@22.5.0))
       '@types/debug':
-        specifier: ^4.1.12
+        specifier: 4.1.12
         version: 4.1.12
       '@types/node':
-        specifier: ^22.5.0
+        specifier: 22.5.0
         version: 22.5.0
       '@types/react':
-        specifier: ^18.3.4
+        specifier: 18.3.4
         version: 18.3.4
       '@types/react-dom':
-        specifier: ^18.3.0
+        specifier: 18.3.0
         version: 18.3.0
       autoprefixer:
-        specifier: ^10.4.20
+        specifier: 10.4.20
         version: 10.4.20(postcss@8.4.41)
       concurrently:
-        specifier: ^8.2.2
+        specifier: 8.2.2
         version: 8.2.2
       npm-run-all:
-        specifier: ^4.1.5
+        specifier: 4.1.5
         version: 4.1.5
       postcss:
-        specifier: ^8.4.41
+        specifier: 8.4.41
         version: 8.4.41
       prettier:
-        specifier: ^3.3.3
+        specifier: 3.3.3
         version: 3.3.3
       prettier-plugin-organize-imports:
-        specifier: ^4.0.0
+        specifier: 4.0.0
         version: 4.0.0(prettier@3.3.3)(typescript@5.5.4)
       prettier-plugin-tailwindcss:
-        specifier: ^0.6.6
+        specifier: 0.6.6
         version: 0.6.6(prettier-plugin-organize-imports@4.0.0(prettier@3.3.3)(typescript@5.5.4))(prettier@3.3.3)
       prisma:
-        specifier: ^5.18.0
+        specifier: 5.18.0
         version: 5.18.0
       prisma-kysely:
-        specifier: ^1.8.0
+        specifier: 1.8.0
         version: 1.8.0
       tailwindcss:
-        specifier: ^3.4.10
+        specifier: 3.4.10
         version: 3.4.10
       tailwindcss-animate:
-        specifier: ^1.0.7
+        specifier: 1.0.7
         version: 1.0.7(tailwindcss@3.4.10)
       tsx:
-        specifier: ^4.17.0
+        specifier: 4.17.0
         version: 4.17.0
       typescript:
-        specifier: ^5.5.4
+        specifier: 5.5.4
         version: 5.5.4
       vite:
-        specifier: ^5.4.2
+        specifier: 5.4.2
         version: 5.4.2(@types/node@22.5.0)
       vite-tsconfig-paths:
-        specifier: ^5.0.1
+        specifier: 5.0.1
         version: 5.0.1(typescript@5.5.4)(vite@5.4.2(@types/node@22.5.0))
 
   apps/admin:
@@ -8832,7 +8832,7 @@ snapshots:
   dot-case@3.0.4:
     dependencies:
       no-case: 3.0.4
-      tslib: 2.4.1
+      tslib: 2.6.3
 
   dotenv@16.0.3: {}
 
@@ -9937,7 +9937,7 @@ snapshots:
 
   lower-case@2.0.2:
     dependencies:
-      tslib: 2.4.1
+      tslib: 2.6.3
 
   lru-cache@10.4.3: {}
 
@@ -10442,7 +10442,7 @@ snapshots:
   no-case@3.0.4:
     dependencies:
       lower-case: 2.0.2
-      tslib: 2.4.1
+      tslib: 2.6.3
 
   node-domexception@1.0.0: {}
 
@@ -11321,7 +11321,7 @@ snapshots:
   snake-case@3.0.4:
     dependencies:
       dot-case: 3.0.4
-      tslib: 2.4.1
+      tslib: 2.6.3
 
   snakecase-keys@5.4.4:
     dependencies:
