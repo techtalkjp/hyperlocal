@@ -79,7 +79,7 @@ export const PlaceCard = ({ place, no }: PlaceCardProps) => {
         )}
       </div>
 
-      <div className="leading-relaxed">
+      <div className="flex-1 leading-relaxed">
         <div className="font-bold">
           <a href={place.googleMapsUri} target="_blank" rel="noreferrer">
             {no}. {place.displayName.text}
