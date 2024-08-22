@@ -16,6 +16,33 @@
     }
   },
   {
+    "id": "shopping",
+    "googlePlaceTypes": [
+      "shopping_mall",
+      "department_store",
+      "clothing_store",
+      "discount_store",
+      "electronics_store",
+      "gift_shop",
+      "jewelry_store",
+      "liquor_store",
+      "market",
+      "shoe_store"
+    ],
+    "names": {
+      "ja": "ショッピング",
+      "en": "Shopping"
+    }
+  },
+  {
+    "id": "nightlife",
+    "googlePlaceTypes": ["bar", "night_club"],
+    "names": {
+      "ja": "ナイトライフ",
+      "en": "Nightlife"
+    }
+  },
+  {
     "id": "convenience_store",
     "googlePlaceTypes": ["convenience_store"],
     "names": {
@@ -45,33 +72,6 @@
     "names": {
       "ja": "公共交通機関",
       "en": "Public Transportation"
-    }
-  },
-  {
-    "id": "shopping",
-    "googlePlaceTypes": [
-      "shopping_mall",
-      "department_store",
-      "clothing_store",
-      "discount_store",
-      "electronics_store",
-      "gift_shop",
-      "jewelry_store",
-      "liquor_store",
-      "market",
-      "shoe_store"
-    ],
-    "names": {
-      "ja": "ショッピング",
-      "en": "Shopping"
-    }
-  },
-  {
-    "id": "nightlife",
-    "googlePlaceTypes": ["bar", "night_club"],
-    "names": {
-      "ja": "ナイトライフ",
-      "en": "Nightlife"
     }
   }
 ]
