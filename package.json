@@ -8,7 +8,7 @@
     "dev": "concurrently --kill-others --raw npm:dev:*",
     "dev:remix": "remix vite:dev",
     "dev:trigger": "pnpm dlx trigger.dev@beta dev",
-    "deploy:trigger-prod": "npx trigger.dev@3.0.0-beta.35 deploy",
+    "deploy:trigger-prod": "npx trigger.dev@3.0.0-beta.55 deploy",
     "start": "remix-serve ./build/server/index.js",
     "format": "prettier --check .",
     "lint": "biome lint .",
