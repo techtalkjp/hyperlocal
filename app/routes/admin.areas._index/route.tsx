@@ -1,4 +1,5 @@
 import { useLoaderData } from '@remix-run/react'
+import areas from '~/assets/areas.json'
 import {
   Card,
   CardContent,
@@ -12,11 +13,8 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui'
-import dayjs from '~/libs/dayjs'
-import { listAllAreas } from './queries.server'
 
-export const loader = async () => {
-  const areas = await listAllAreas()
+export const loader = () => {
   return { areas }
 }
 
@@ -47,8 +45,6 @@ export default function AdminAreasIndexPage() {
                 <TableCell>{area.name}</TableCell>
                 <TableCell>{area.longitude}</TableCell>
                 <TableCell>{area.latitude}</TableCell>
-                <TableCell>{dayjs.utc(area.updatedAt).tz().format()}</TableCell>
-                <TableCell>{dayjs.utc(area.createdAt).tz().format()}</TableCell>
               </TableRow>
             ))}
           </TableBody>

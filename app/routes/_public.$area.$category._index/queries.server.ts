@@ -1,20 +1,5 @@
 import { db } from '~/services/db'
 
-export const getArea = async (cityId?: string, areaId?: string) => {
-  if (cityId === undefined) {
-    return null
-  }
-  if (areaId === undefined) {
-    return null
-  }
-  return await db
-    .selectFrom('areas')
-    .selectAll()
-    .where('cityId', '==', cityId)
-    .where('areaId', '==', areaId)
-    .executeTakeFirst()
-}
-
 export const listAreaGooglePlaces = async (
   areaId: string,
   categoryId: string,
