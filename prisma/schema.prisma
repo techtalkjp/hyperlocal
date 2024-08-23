@@ -15,26 +15,26 @@ model Area {
   name            String
   longitude       Float
   latitude        Float
-  created_at      String            @default(dbgenerated("CURRENT_TIMESTAMP"))
-  updated_at      String            @default(dbgenerated("CURRENT_TIMESTAMP"))
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime          @default(now()) @map("updated_at")
   googlePlaceArea GooglePlaceArea[]
 
   @@map("areas")
 }
 
 model GooglePlace {
-  id              String @id
+  id              String   @id
   name            String
   types           String
-  primaryType     String @map("primary_type")
+  primaryType     String   @map("primary_type")
   rating          Float
-  userRatingCount Float  @map("user_rating_count")
+  userRatingCount Float    @map("user_rating_count")
   latitude        Float
   longitude       Float
-  displayName     String @map("display_name")
+  displayName     String   @map("display_name")
   raw             String
-  created_at      String @default(dbgenerated("CURRENT_TIMESTAMP"))
-  updated_at      String @default(dbgenerated("CURRENT_TIMESTAMP"))
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @default(now()) @map("updated_at")
 
   googlePlacesArea GooglePlaceArea[]
 
@@ -45,10 +45,10 @@ model GooglePlaceArea {
   googlePlaceId String      @map("google_place_id")
   areaId        String      @map("area_id")
   categoryId    String      @map("category_id")
-  created_at    String      @default(dbgenerated("CURRENT_TIMESTAMP"))
-  updated_at    String      @default(dbgenerated("CURRENT_TIMESTAMP"))
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @default(now()) @map("updated_at")
   areas         Area        @relation(fields: [areaId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  google_places GooglePlace @relation(fields: [googlePlaceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  googlePlaces  GooglePlace @relation(fields: [googlePlaceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@unique([googlePlaceId, areaId, categoryId], map: "google_place_area_category_unique")
   @@map("google_places_areas")

@@ -2,7 +2,7 @@ import { logger, task } from '@trigger.dev/sdk/v3'
 import categories from '~/assets/categories.json'
 import { upsertGooglePlace } from '~/features/place/mutations'
 import { db } from '~/services/db'
-import { nearBySearch, type PlaceTypes } from '~/services/google-places'
+import { nearBySearch, type PlaceType } from '~/services/google-places'
 
 export const registerAreaGooglePlacesCategoryTask = task({
   id: 'register-area-google-places-category',
@@ -34,18 +34,29 @@ export const registerAreaGooglePlacesCategoryTask = task({
       latitude: area.latitude,
       longitude: area.longitude,
       radius: payload.radius,
-      includedPrimaryTypes: category.googlePlaceTypes as PlaceTypes[],
+      includedPrimaryTypes: category.googlePlaceTypes as PlaceType[],
     })
     logger.info('places', { places })
 
     for (const place of places) {
       logger.info(`place: ${place.displayName.text}`, { place })
-      const ret = await upsertGooglePlace(
-        payload.areaId,
-        payload.categoryId,
-        place,
-      )
-      logger.info('upsertGooglePlace', { ret })
+
+      if (place.rating === undefined || place.reviews === undefined) {
+        logger.info('place rating or reviews undefined', { place })
+        continue
+      }
+
+      try {
+        const ret = await upsertGooglePlace(
+          payload.areaId,
+          payload.categoryId,
+          place,
+        )
+        logger.info('upsertGooglePlace', { ret })
+      } catch (e) {
+        logger.error('upsertGooglePlace', { e })
+        throw e
+      }
     }
 
     return { places }

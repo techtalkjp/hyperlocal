@@ -4,8 +4,8 @@ CREATE TABLE "areas" (
     "name" TEXT NOT NULL,
     "longitude" REAL NOT NULL,
     "latitude" REAL NOT NULL,
-    "created_at" TEXT NOT NULL DEFAULT 'CURRENT_TIMESTAMP',
-    "updated_at" TEXT NOT NULL DEFAULT 'CURRENT_TIMESTAMP'
+    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- CreateTable
@@ -19,18 +19,21 @@ CREATE TABLE "google_places" (
     "latitude" REAL NOT NULL,
     "longitude" REAL NOT NULL,
     "display_name" TEXT NOT NULL,
-    "raw" TEXT NOT NULL
+    "raw" TEXT NOT NULL,
+    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- CreateTable
 CREATE TABLE "google_places_areas" (
     "google_place_id" TEXT NOT NULL,
     "area_id" TEXT NOT NULL,
-    "created_at" TEXT NOT NULL DEFAULT 'CURRENT_TIMESTAMP',
-    "updated_at" TEXT NOT NULL DEFAULT 'CURRENT_TIMESTAMP',
+    "category_id" TEXT NOT NULL,
+    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "google_places_areas_area_id_fkey" FOREIGN KEY ("area_id") REFERENCES "areas" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION,
     CONSTRAINT "google_places_areas_google_place_id_fkey" FOREIGN KEY ("google_place_id") REFERENCES "google_places" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "google_places_areas_google_place_id_area_id_unique" ON "google_places_areas"("google_place_id", "area_id");
+CREATE UNIQUE INDEX "google_place_area_category_unique" ON "google_places_areas"("google_place_id", "area_id", "category_id");

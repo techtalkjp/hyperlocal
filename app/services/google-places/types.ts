@@ -1,4 +1,4 @@
-export type PlaceTypes =
+export type PlaceType =
   | PlaceType_Automotive
   | PlaceType_Business
   | PlaceType_Culture
@@ -223,8 +223,8 @@ type PlaceType_Transportation =
 export interface Place {
   name: string
   id: string
-  types: PlaceTypes[]
-  formattedAddress: string
+  primaryType: PlaceType
+  types: PlaceType[]
   location: {
     latitude: number
     longitude: number
@@ -239,7 +239,7 @@ export interface Place {
     }[]
     weekdayDescriptions: string[]
   }
-  businessStatus: string
+  businessStatus: 'OPERATIONAL' | 'CLOSED_TEMPORARILY' | 'CLOSED_PERMANENTLY'
   priceLevel:
     | 'PRICE_LEVEL_UNSPECIFIED'
     | 'PRICE_LEVEL_FREE'
@@ -250,14 +250,6 @@ export interface Place {
   displayName: {
     text: string
   }
-  primaryTypeDisplayName: {
-    text: string
-  }
-  editorialSummary?: {
-    text: string
-  }
-  primaryType: PlaceTypes
-  shortFormattedAddress: string
   reviews?: {
     rating: number
     originalText?: {
@@ -267,5 +259,4 @@ export interface Place {
   photos: {
     name: string
   }[]
-  goodForChildren: boolean
 }

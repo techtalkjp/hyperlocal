@@ -1,5 +1,5 @@
 import { defaultLanguageCode, fieldMask } from '../constants'
-import type { Place, PlaceTypes } from '../types'
+import type { Place, PlaceType } from '../types'
 
 interface NearbySearchResponse {
   places: Place[]
@@ -9,7 +9,7 @@ interface NearbySearchProps {
   latitude: number
   longitude: number
   radius: number
-  includedPrimaryTypes: PlaceTypes[]
+  includedPrimaryTypes: PlaceType[]
   rankPreference?: 'POPULARITY' | 'DISTANCE'
   languageCode?: string
 }

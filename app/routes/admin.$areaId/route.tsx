@@ -10,10 +10,10 @@ import { jsonWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import categories from '~/assets/categories.json'
 import {
+  Badge,
   Button,
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
   Collapsible,
@@ -29,7 +29,7 @@ import {
 } from '~/components/ui'
 import { PlaceCard } from '~/features/place/components'
 import { requireAdminUser } from '~/services/auth.server'
-import type { Place, PlaceTypes } from '~/services/google-places'
+import type { Place, PlaceType } from '~/services/google-places'
 import { registerAreaGooglePlacesCategoryTask } from '~/trigger/register-area-google-places-category'
 import { nearBySearch } from '../../services/google-places'
 import { Rating, ReviewText } from './components'
@@ -76,7 +76,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
       latitude: area.latitude,
       longitude: area.longitude,
       radius: submission.value.radius,
-      includedPrimaryTypes: category?.googlePlaceTypes as PlaceTypes[],
+      includedPrimaryTypes: category?.googlePlaceTypes as PlaceType[],
     })
     return {
       places: res.places.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0)),
@@ -251,11 +251,11 @@ export default function Index() {
                     <Rating star={place.rating} withLabel />
                     {place.userRatingCount} reviews
                   </HStack>
-                  <CardDescription>
-                    {place.primaryTypeDisplayName?.text}
-                    <br />
-                    {place.editorialSummary?.text}
-                  </CardDescription>
+                  <HStack>
+                    {place.types.map((type) => (
+                      <Badge key={type}>{type}</Badge>
+                    ))}
+                  </HStack>
                 </CardHeader>
                 <CardContent className="overflow-auto">
                   {place.reviews?.map((review, idx) => {

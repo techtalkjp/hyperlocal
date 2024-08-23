@@ -86,5 +86,8 @@
     "overrides": {
       "@libsql/isomorphic-fetch": "0.2.3"
     }
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   }
 }
