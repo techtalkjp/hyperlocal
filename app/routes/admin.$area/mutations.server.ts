@@ -2,6 +2,7 @@ import dayjs from '~/libs/dayjs'
 import { db } from '~/services/db'
 
 export const addGooglePlace = async (
+  cityId: string,
   areaId: string,
   categoryId: string,
   placeStr: string,
@@ -43,6 +44,7 @@ export const addGooglePlace = async (
       .insertInto('googlePlacesAreas')
       .values({
         googlePlaceId: inserted.id,
+        cityId,
         areaId,
         categoryId,
         updatedAt: dayjs().utc().format('YYYY-MM-DD HH:mm:ss'),

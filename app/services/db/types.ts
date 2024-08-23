@@ -4,14 +4,6 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   : ColumnType<T, T | undefined, T>;
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
-export type Area = {
-    id: string;
-    name: string;
-    longitude: number;
-    latitude: number;
-    createdAt: Generated<string>;
-    updatedAt: Generated<string>;
-};
 export type GooglePlace = {
     id: string;
     name: string;
@@ -27,13 +19,43 @@ export type GooglePlace = {
 };
 export type GooglePlaceArea = {
     googlePlaceId: string;
+    cityId: string;
     areaId: string;
     categoryId: string;
     createdAt: Generated<string>;
     updatedAt: Generated<string>;
 };
+export type LocalizedArea = {
+    cityId: string;
+    areaId: string;
+    language: string;
+    name: string;
+    longitude: number;
+    latitude: number;
+    createdAt: Generated<string>;
+    updatedAt: Generated<string>;
+};
+export type LocalizedPlace = {
+    cityId: string;
+    language: string;
+    areaId: string;
+    categoryId: string;
+    placeId: string;
+    name: string;
+    description: string;
+    rating: number;
+    userRatingCount: number;
+    latitude: number;
+    longitude: number;
+    types: string;
+    reviews: string;
+    photos: string;
+    createdAt: Generated<string>;
+    updatedAt: Generated<string>;
+};
 export type DB = {
-    areas: Area;
     googlePlaces: GooglePlace;
     googlePlacesAreas: GooglePlaceArea;
+    localizedAreas: LocalizedArea;
+    localizedPlaces: LocalizedPlace;
 };

@@ -1,10 +1,9 @@
-import areas from '~/assets/areas.json'
-import { db } from '~/services/db'
+import { setTimeout } from 'node:timers/promises'
 
 const seed = async () => {
-  for (const area of areas) {
-    await db.insertInto('areas').values(area).execute()
-  }
+  console.log('seed')
+  await setTimeout(100)
+  // nop
 }
 
 await seed()

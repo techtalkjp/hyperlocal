@@ -1,4 +1,21 @@
 [
-  { "code": "ja", "name": "日本語" },
-  { "code": "en", "name": "English" }
+  { "id": "en", "code": "en", "name": "English", "default": true },
+  { "id": "ja", "code": "ja", "name": "日本語", "default": false },
+  { "id": "cn", "code": "zh-CN", "name": "中文簡体", "default": false },
+  { "id": "tw", "code": "zh-TW", "name": "中文繁体", "default": false },
+  { "id": "ko", "code": "ko", "name": "한국어", "default": false },
+  { "id": "th", "code": "th", "name": "ภาษาไทย", "default": false },
+  { "id": "vi", "code": "vi", "name": "Tiếng Việt", "default": false },
+  { "id": "id", "code": "id", "name": "Bahasa Indonesia", "default": false },
+  { "id": "ms", "code": "ms", "name": "Bahasa Melayu", "default": false },
+  { "id": "fr", "code": "fr", "name": "Français", "default": false },
+  { "id": "de", "code": "de", "name": "Deutsch", "default": false },
+  { "id": "it", "code": "it", "name": "Italiano", "default": false },
+  { "id": "es", "code": "es", "name": "Español", "default": false },
+  { "id": "hi", "code": "hi", "name": "हिन्दी", "default": false },
+  { "id": "ar", "code": "ar", "name": "العربية", "default": false },
+  { "id": "da", "code": "da", "name": "Dansk", "default": false },
+  { "id": "fi", "code": "fi", "name": "Suomi", "default": false },
+  { "id": "no", "code": "no", "name": "Norsk", "default": false },
+  { "id": "sv", "code": "sv", "name": "Svenska", "default": false }
 ]

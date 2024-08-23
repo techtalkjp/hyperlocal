@@ -1,11 +1,10 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
+import areas from '~/assets/areas.json'
 import { requireAdminUser } from '~/services/auth.server'
-import { listAreas } from './queries.server'
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   await requireAdminUser(request)
-  const areas = await listAreas()
   return { areas }
 }
 
@@ -19,8 +18,8 @@ export default function AdminIndex() {
 
       <ul>
         {areas.map((area) => (
-          <li key={area.id}>
-            <Link className="hover:underline" to={`/admin/${area.id}`}>
+          <li key={area.areaId}>
+            <Link className="hover:underline" to={`/admin/${area.areaId}`}>
               {area.name}
             </Link>
           </li>

@@ -1,6 +1,7 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, type MetaFunction, Outlet } from '@remix-run/react'
 import categories from '~/assets/categories.json'
+import { getCityArea } from '~/features/city-area/utils'
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
   {
@@ -10,7 +11,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => [
 
 export const handle = {
   breadcrumb: (data: Awaited<ReturnType<typeof loader>>) => (
-    <Link to={`/${data.areaId}/${data.category.id}`} prefetch="intent">
+    <Link to={`/${data.area.areaId}/${data.category.id}`} prefetch="intent">
       {data.category.names.ja}
     </Link>
   ),
@@ -18,9 +19,9 @@ export const handle = {
     data.category.names.ja,
 }
 
-export const loader = ({ params }: LoaderFunctionArgs) => {
-  const areaId = params.area
-  if (!areaId) {
+export const loader = ({ request, params }: LoaderFunctionArgs) => {
+  const { area } = getCityArea(request, params)
+  if (!area) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
   const categoryId = params.category
@@ -29,7 +30,7 @@ export const loader = ({ params }: LoaderFunctionArgs) => {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
 
-  return { areaId, category }
+  return { area, category }
 }
 
 export default function AreaCategoryLayout() {

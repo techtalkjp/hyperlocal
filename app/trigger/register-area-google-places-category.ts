@@ -1,24 +1,21 @@
 import { logger, task } from '@trigger.dev/sdk/v3'
+import areas from '~/assets/areas.json'
 import categories from '~/assets/categories.json'
 import { upsertGooglePlace } from '~/features/place/mutations'
-import { db } from '~/services/db'
 import { nearBySearch, type PlaceType } from '~/services/google-places'
 
 export const registerAreaGooglePlacesCategoryTask = task({
   id: 'register-area-google-places-category',
   run: async (
     payload: {
+      cityId: string
       areaId: string
       radius: number
       categoryId: string
     },
     { ctx },
   ) => {
-    const area = await db
-      .selectFrom('areas')
-      .selectAll()
-      .where('id', '==', payload.areaId)
-      .executeTakeFirst()
+    const area = areas.find((a) => a.areaId === payload.areaId)
     if (!area) {
       throw new Error(`Area not found: ${payload.areaId}`)
     }
@@ -48,6 +45,7 @@ export const registerAreaGooglePlacesCategoryTask = task({
 
       try {
         const ret = await upsertGooglePlace(
+          payload.cityId,
           payload.areaId,
           payload.categoryId,
           place,

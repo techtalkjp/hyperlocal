@@ -27,6 +27,7 @@ import {
   SheetTrigger,
   Stack,
 } from '~/components/ui'
+import { getCityArea } from '~/features/city-area/utils'
 import { PlaceCard } from '~/features/place/components'
 import { requireAdminUser } from '~/services/auth.server'
 import type { Place, PlaceType } from '~/services/google-places'
@@ -35,7 +36,7 @@ import { nearBySearch } from '../../services/google-places'
 import { Rating, ReviewText } from './components'
 import { NearbyForm } from './forms/nearby-form'
 import { addGooglePlace } from './mutations.server'
-import { getArea, listAreaGooglePlaces } from './queries.server'
+import { listAreaGooglePlaces } from './queries.server'
 import { schema } from './schema'
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
@@ -46,12 +47,12 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => [
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   await requireAdminUser(request)
-  const area = await getArea(params.areaId)
+  const { area } = await getCityArea(request, params)
   if (!area) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
 
-  const areaGooglePlaces = await listAreaGooglePlaces(area.id)
+  const areaGooglePlaces = await listAreaGooglePlaces(area.areaId)
 
   const searchParams = new URL(request.url).searchParams
   if (!searchParams.has('intent')) {
@@ -103,9 +104,9 @@ const addSchema = z.discriminatedUnion('intent', [
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {
   await requireAdminUser(request)
-  const areaId = params.areaId
-  if (!areaId) {
-    throw new Response('Not Found', { status: 404 })
+  const { area } = await getCityArea(request, params)
+  if (!area) {
+    throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
 
   const submission = parseWithZod(await request.formData(), {
@@ -120,7 +121,8 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
     const handle = await registerAreaGooglePlacesCategoryTask.batchTrigger(
       categories.map((category) => ({
         payload: {
-          areaId,
+          cityId: area.cityId,
+          areaId: area.areaId,
           radius,
           categoryId: category.id,
         },
@@ -131,14 +133,15 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
       { handle },
       {
         message: 'Task triggered',
-        description: `Triggered ${categories.length} tasks: ${areaId}, ${radius}m`,
+        description: `Triggered ${categories.length} tasks: ${area.areaId}, ${radius}m`,
       },
     )
   }
 
   if (submission.value.intent === 'add') {
     const place = await addGooglePlace(
-      areaId,
+      area.cityId,
+      area.areaId,
       submission.value.categoryId,
       submission.value.place,
     )

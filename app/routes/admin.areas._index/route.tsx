@@ -42,8 +42,8 @@ export default function AdminAreasIndexPage() {
           </TableHeader>
           <TableBody>
             {areas.map((area) => (
-              <TableRow key={area.id}>
-                <TableCell>{area.id}</TableCell>
+              <TableRow key={area.areaId}>
+                <TableCell>{area.areaId}</TableCell>
                 <TableCell>{area.name}</TableCell>
                 <TableCell>{area.longitude}</TableCell>
                 <TableCell>{area.latitude}</TableCell>

@@ -10,21 +10,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Area {
-  id              String            @id
-  name            String
-  longitude       Float
-  latitude        Float
-  createdAt       DateTime          @default(now()) @map("created_at")
-  updatedAt       DateTime          @default(now()) @map("updated_at")
-  googlePlaceArea GooglePlaceArea[]
-
-  @@map("areas")
-}
-
 model GooglePlace {
-  id              String   @id
-  name            String
+  id              String   @id // google place id: e.g. "ChIJN1t_tDeuEmsRUsoyG83frY4"
+  name            String // google place name: e.g. "place/ChIJN1t_tDeuEmsRUsoyG83frY4"
   types           String
   rating          Float
   userRatingCount Float    @map("user_rating_count")
@@ -42,13 +30,49 @@ model GooglePlace {
 
 model GooglePlaceArea {
   googlePlaceId String      @map("google_place_id")
+  cityId        String      @map("city_id")
   areaId        String      @map("area_id")
   categoryId    String      @map("category_id")
   createdAt     DateTime    @default(now()) @map("created_at")
   updatedAt     DateTime    @default(now()) @map("updated_at")
-  areas         Area        @relation(fields: [areaId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   googlePlaces  GooglePlace @relation(fields: [googlePlaceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@unique([googlePlaceId, areaId, categoryId], map: "google_place_area_category_unique")
   @@map("google_places_areas")
+}
+
+model LocalizedArea {
+  cityId    String   @map("city_id")
+  areaId    String   @map("area_id")
+  language  String
+  name      String
+  longitude Float
+  latitude  Float
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+
+  @@id([cityId, language, areaId])
+  @@map("localized_areas")
+}
+
+model LocalizedPlace {
+  cityId          String   @map("city_id")
+  language        String
+  areaId          String   @map("area_id")
+  categoryId      String   @map("category_id")
+  placeId         String   @map("place_id")
+  name            String
+  description     String
+  rating          Float
+  userRatingCount Int      @map("user_rating_count")
+  latitude        Float
+  longitude       Float
+  types           String
+  reviews         String // JSON array of review objects
+  photos          String // JSON array of photo objects
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @default(now()) @map("updated_at")
+
+  @@id([cityId, language, areaId, categoryId, placeId])
+  @@map("localized_places")
 }

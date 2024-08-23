@@ -6,7 +6,7 @@ type AreaMatch = UIMatch<
   { area: (data: unknown) => JSX.Element }
 >
 interface AreaTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
-  city: { id: string; name: string }
+  city: { cityId: string; name: string }
 }
 export const AreaTitle = ({ city, ...props }: AreaTitleProps) => {
   const matches = (useMatches() as unknown as AreaMatch[]).find(

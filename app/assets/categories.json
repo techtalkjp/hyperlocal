@@ -4,15 +4,49 @@
     "googlePlaceTypes": ["cafe", "coffee_shop"],
     "names": {
       "ja": "カフェ",
-      "en": "Cafe"
+      "en": "Cafe",
+      "cn": "咖啡馆",
+      "tw": "咖啡館",
+      "ko": "카페",
+      "th": "ร้านกาแฟ",
+      "vi": "Quán cà phê",
+      "id": "Kafe",
+      "ms": "Kafe",
+      "fr": "Café",
+      "de": "Café",
+      "it": "Caffè",
+      "es": "Café",
+      "hi": "कॉफ़ी का दुकान",
+      "ar": "مقهى",
+      "da": "Café",
+      "fi": "Kahvila",
+      "no": "Kafé",
+      "sv": "Café"
     }
   },
   {
     "id": "restaurant",
     "googlePlaceTypes": ["restaurant"],
     "names": {
+      "en": "Restaurant",
       "ja": "レストラン",
-      "en": "Restaurant"
+      "cn": "餐厅",
+      "tw": "餐廳",
+      "ko": "레스토랑",
+      "th": "ร้านอาหาร",
+      "vi": "Nhà hàng",
+      "id": "Restoran",
+      "ms": "Restoran",
+      "fr": "Restaurant",
+      "de": "Restaurant",
+      "it": "Ristorante",
+      "es": "Restaurante",
+      "hi": "रेस्तरां",
+      "ar": "مطعم",
+      "da": "Restaurant",
+      "fi": "Ravintola",
+      "no": "Restaurant",
+      "sv": "Restaurang"
     }
   },
   {
@@ -30,48 +64,150 @@
       "shoe_store"
     ],
     "names": {
+      "en": "Shopping",
       "ja": "ショッピング",
-      "en": "Shopping"
+      "cn": "购物",
+      "tw": "購物",
+      "ko": "쇼핑",
+      "th": "ช้อปปิ้ง",
+      "vi": "Mua sắm",
+      "id": "Belanja",
+      "ms": "Beli-belah",
+      "fr": "Shopping",
+      "de": "Einkaufen",
+      "it": "Shopping",
+      "es": "Compras",
+      "hi": "खरीदारी",
+      "ar": "تسوق",
+      "da": "Shopping",
+      "fi": "Ostokset",
+      "no": "Shopping",
+      "sv": "Shopping"
     }
   },
   {
     "id": "nightlife",
     "googlePlaceTypes": ["bar", "night_club"],
     "names": {
+      "en": "Nightlife",
       "ja": "ナイトライフ",
-      "en": "Nightlife"
+      "cn": "夜生活",
+      "tw": "夜生活",
+      "ko": "나이트 라이프",
+      "th": "ชีวิตชาววัยรุ่น",
+      "vi": "Cuộc sống về đêm",
+      "id": "Kehidupan malam",
+      "ms": "Kehidupan malam",
+      "fr": "Vie nocturne",
+      "de": "Nachtleben",
+      "it": "Vita notturna",
+      "es": "Vida nocturna",
+      "hi": "रात की जिंदगी",
+      "ar": "حياة ليلية",
+      "da": "Natteliv",
+      "fi": "Yöelämä",
+      "no": "Natteliv",
+      "sv": "Nattliv"
     }
   },
   {
     "id": "convenience_store",
     "googlePlaceTypes": ["convenience_store"],
     "names": {
+      "en": "Convenience Store",
       "ja": "コンビニ",
-      "en": "Convenience Store"
+      "cn": "便利店",
+      "tw": "便利商店",
+      "ko": "편의점",
+      "th": "ร้านสะดวกซื้อ",
+      "vi": "Cửa hàng tiện lợi",
+      "id": "Toko serba ada",
+      "ms": "Kedai serbaneka",
+      "fr": "Dépanneur",
+      "de": "Kiosk",
+      "it": "Negozio di convenienza",
+      "es": "Tienda de conveniencia",
+      "hi": "कन्वीनियेंस स्टोर",
+      "ar": "متجر البقالة",
+      "da": "Kiosk",
+      "fi": "Kioski",
+      "no": "Kiosk",
+      "sv": "Kiosk"
     }
   },
   {
     "id": "drugstore",
     "googlePlaceTypes": ["drugstore"],
     "names": {
+      "en": "Drugstore",
       "ja": "ドラッグストア",
-      "en": "Drugstore"
+      "cn": "药店",
+      "tw": "藥妝店",
+      "ko": "약국",
+      "th": "ร้านขายยา",
+      "vi": "Hiệu thuốc",
+      "id": "Apotek",
+      "ms": "Kedai ubat",
+      "fr": "Pharmacie",
+      "de": "Apotheke",
+      "it": "Farmacia",
+      "es": "Farmacia",
+      "hi": "दवा की दुकान",
+      "ar": "صيدلية",
+      "da": "Apotek",
+      "fi": "Apteekki",
+      "no": "Apotek",
+      "sv": "Apotek"
     }
   },
   {
     "id": "tourist_attractions",
     "googlePlaceTypes": ["tourist_attraction"],
     "names": {
+      "en": "Tourist Attractions",
       "ja": "観光スポット",
-      "en": "Tourist Attractions"
+      "cn": "旅游景点",
+      "tw": "觀光景點",
+      "ko": "관광 명소",
+      "th": "สถานที่ท่องเที่ยว",
+      "vi": "Địa điểm du lịch",
+      "id": "Tempat wisata",
+      "ms": "Tempat-tempat menarik",
+      "fr": "Attractions touristiques",
+      "de": "Touristenattraktionen",
+      "it": "Attrazioni turistiche",
+      "es": "Atracciones turísticas",
+      "hi": "पर्यटन स्थल",
+      "ar": "معالم سياحية",
+      "da": "Turistattraktioner",
+      "fi": "Turistinähtävyydet",
+      "no": "Turistattraksjoner",
+      "sv": "Turistattraktioner"
     }
   },
   {
     "id": "public_transportation",
     "googlePlaceTypes": ["subway_station", "train_station", "taxi_stand"],
     "names": {
+      "en": "Public Transportation",
       "ja": "公共交通機関",
-      "en": "Public Transportation"
+      "cn": "公共交通",
+      "tw": "公共交通",
+      "ko": "대중 교통",
+      "th": "การขนส่งสาธารณะ",
+      "vi": "Giao thông công cộng",
+      "id": "Transportasi umum",
+      "ms": "Pengangkutan awam",
+      "fr": "Transports en commun",
+      "de": "Öffentliche Verkehrsmittel",
+      "it": "Trasporto pubblico",
+      "es": "Transporte público",
+      "hi": "सार्वजनिक परिवहन",
+      "ar": "وسائل النقل العامة",
+      "da": "Offentlig transport",
+      "fi": "Julkinen liikenne",
+      "no": "Offentlig transport",
+      "sv": "Kollektivtrafik"
     }
   }
 ]

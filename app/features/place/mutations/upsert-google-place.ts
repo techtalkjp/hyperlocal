@@ -3,6 +3,7 @@ import { db } from '~/services/db'
 import type { Place } from '~/services/google-places'
 
 export const upsertGooglePlace = async (
+  cityId: string,
   areaId: string,
   categoryId: string,
   place: Place,
@@ -42,6 +43,7 @@ export const upsertGooglePlace = async (
       .insertInto('googlePlacesAreas')
       .values({
         googlePlaceId: inserted.id,
+        cityId,
         areaId,
         categoryId,
         updatedAt: dayjs().utc().format('YYYY-MM-DD HH:mm:ss'),
