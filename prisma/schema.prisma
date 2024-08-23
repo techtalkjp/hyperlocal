@@ -24,6 +24,7 @@ model GooglePlace {
   updatedAt       DateTime @default(now()) @map("updated_at")
 
   googlePlacesArea GooglePlaceArea[]
+  localizedPlaces  LocalizedPlace[]
 
   @@map("google_places")
 }
@@ -41,26 +42,12 @@ model GooglePlaceArea {
   @@map("google_places_areas")
 }
 
-model LocalizedArea {
-  cityId    String   @map("city_id")
-  areaId    String   @map("area_id")
-  language  String
-  name      String
-  longitude Float
-  latitude  Float
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @map("updated_at")
-
-  @@id([cityId, language, areaId])
-  @@map("localized_areas")
-}
-
 model LocalizedPlace {
   cityId          String   @map("city_id")
-  language        String
   areaId          String   @map("area_id")
   categoryId      String   @map("category_id")
   placeId         String   @map("place_id")
+  language        String
   name            String
   description     String
   rating          Float
@@ -72,6 +59,7 @@ model LocalizedPlace {
   photos          String // JSON array of photo objects
   createdAt       DateTime @default(now()) @map("created_at")
   updatedAt       DateTime @default(now()) @map("updated_at")
+  googlePlace     GooglePlace @relation(fields: [placeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([cityId, language, areaId, categoryId, placeId])
   @@map("localized_places")

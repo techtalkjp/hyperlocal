@@ -25,22 +25,12 @@ export type GooglePlaceArea = {
     createdAt: Generated<string>;
     updatedAt: Generated<string>;
 };
-export type LocalizedArea = {
-    cityId: string;
-    areaId: string;
-    language: string;
-    name: string;
-    longitude: number;
-    latitude: number;
-    createdAt: Generated<string>;
-    updatedAt: Generated<string>;
-};
 export type LocalizedPlace = {
     cityId: string;
-    language: string;
     areaId: string;
     categoryId: string;
     placeId: string;
+    language: string;
     name: string;
     description: string;
     rating: number;
@@ -56,6 +46,5 @@ export type LocalizedPlace = {
 export type DB = {
     googlePlaces: GooglePlace;
     googlePlacesAreas: GooglePlaceArea;
-    localizedAreas: LocalizedArea;
     localizedPlaces: LocalizedPlace;
 };

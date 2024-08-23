@@ -3,6 +3,8 @@
     "cityId": "tokyo",
     "areaId": "higashi-ginza",
     "name": "東銀座",
+    "languageCode": "ja",
+    "radius": 400,
     "latitude": 35.6694464,
     "longitude": 139.7670348
   }

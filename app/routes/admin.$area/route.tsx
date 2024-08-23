@@ -117,7 +117,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
   }
 
   if (submission.value.intent === 'register') {
-    const radius = 400
+    const radius = area.radius
     const handle = await registerAreaGooglePlacesCategoryTask.batchTrigger(
       categories.map((category) => ({
         payload: {
@@ -175,7 +175,7 @@ export default function Index() {
           </HStack>
         </CardHeader>
         <CardContent>
-          <NearbyForm />
+          <NearbyForm radius={area.radius} />
         </CardContent>
       </Card>
 

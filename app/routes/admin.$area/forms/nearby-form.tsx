@@ -13,10 +13,13 @@ import {
 import { PlaceTypeSelect } from '../components/place-type-select'
 import { nearBySchema } from '../schema'
 
-export const NearbyForm = () => {
+interface NearbyFormProps {
+  radius?: number
+}
+export const NearbyForm = ({ radius = 400 }: NearbyFormProps) => {
   const [form, fields] = useForm({
     defaultValue: {
-      radius: 400,
+      radius,
       categoryId: '',
       rankPreference: 'POPULARITY',
     },
@@ -34,7 +37,7 @@ export const NearbyForm = () => {
           <HStack>
             <Slider
               min={80}
-              max={800}
+              max={1200}
               step={40}
               onValueChange={(value) => {
                 form.update({

@@ -25,26 +25,12 @@ CREATE TABLE "google_places_areas" (
 );
 
 -- CreateTable
-CREATE TABLE "localized_areas" (
-    "city_id" TEXT NOT NULL,
-    "area_id" TEXT NOT NULL,
-    "language" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "longitude" REAL NOT NULL,
-    "latitude" REAL NOT NULL,
-    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    PRIMARY KEY ("city_id", "language", "area_id")
-);
-
--- CreateTable
 CREATE TABLE "localized_places" (
     "city_id" TEXT NOT NULL,
-    "language" TEXT NOT NULL,
     "area_id" TEXT NOT NULL,
     "category_id" TEXT NOT NULL,
     "place_id" TEXT NOT NULL,
+    "language" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "rating" REAL NOT NULL,
@@ -57,7 +43,8 @@ CREATE TABLE "localized_places" (
     "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    PRIMARY KEY ("city_id", "language", "area_id", "category_id", "place_id")
+    PRIMARY KEY ("city_id", "language", "area_id", "category_id", "place_id"),
+    CONSTRAINT "localized_places_place_id_fkey" FOREIGN KEY ("place_id") REFERENCES "google_places" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateIndex

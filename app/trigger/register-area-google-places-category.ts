@@ -32,6 +32,7 @@ export const registerAreaGooglePlacesCategoryTask = task({
       longitude: area.longitude,
       radius: payload.radius,
       includedPrimaryTypes: category.googlePlaceTypes as PlaceType[],
+      languageCode: area.languageCode,
     })
     logger.info('places', { places })
 
