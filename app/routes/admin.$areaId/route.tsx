@@ -60,6 +60,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
       areaGooglePlaces,
       intent: null,
       area,
+      category: null,
       lastResult: null,
     }
   }
@@ -70,7 +71,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   }
   if (submission.value.intent === 'nearby') {
     const category = categories.find(
-      (category) => category.id === submission.value.category,
+      (category) => category.id === submission.value.categoryId,
     )
     const res = await nearBySearch({
       latitude: area.latitude,
@@ -83,6 +84,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
       areaGooglePlaces,
       intent: submission.value.intent,
       area,
+      category,
       lastResult: submission.reply(),
     }
   }
@@ -91,6 +93,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 const addSchema = z.discriminatedUnion('intent', [
   z.object({
     intent: z.literal('add'),
+    categoryId: z.string(),
     place: z.string(),
   }),
   z.object({
@@ -134,13 +137,17 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
   }
 
   if (submission.value.intent === 'add') {
-    const place = await addGooglePlace(areaId, 'cafe', submission.value.place)
+    const place = await addGooglePlace(
+      areaId,
+      submission.value.categoryId,
+      submission.value.place,
+    )
     return { lastResult: submission.reply(), place }
   }
 }
 
 export default function Index() {
-  const { areaGooglePlaces, places, intent, area } =
+  const { areaGooglePlaces, places, category, area } =
     useLoaderData<typeof loader>()
   const addFetcher = useFetcher<typeof action>()
   const registerFetcher = useFetcher<typeof action>()
@@ -236,6 +243,11 @@ export default function Index() {
                         type="hidden"
                         name="place"
                         value={JSON.stringify(place)}
+                      />
+                      <input
+                        type="hidden"
+                        name="categoryId"
+                        value={category?.id}
                       />
                       <Button
                         type="submit"

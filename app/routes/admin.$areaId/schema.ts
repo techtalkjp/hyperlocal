@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const nearBySchema = z.object({
   intent: z.literal('nearby'),
-  category: z.string().optional(),
+  categoryId: z.string().optional(),
   radius: z.number().optional().default(400),
   rankPreference: z
     .enum(['POPULARITY', 'DISTANCE'])

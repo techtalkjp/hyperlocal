@@ -26,7 +26,6 @@ model GooglePlace {
   id              String   @id
   name            String
   types           String
-  primaryType     String   @map("primary_type")
   rating          Float
   userRatingCount Float    @map("user_rating_count")
   latitude        Float

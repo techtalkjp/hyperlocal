@@ -17,7 +17,7 @@ export const NearbyForm = () => {
   const [form, fields] = useForm({
     defaultValue: {
       radius: 400,
-      category: '',
+      categoryId: '',
       rankPreference: 'POPULARITY',
     },
     constraint: getZodConstraint(nearBySchema),
@@ -59,15 +59,15 @@ export const NearbyForm = () => {
         </div>
 
         <div>
-          <Label htmlFor={fields.category.id}>Primary Type</Label>
+          <Label htmlFor={fields.categoryId.id}>Primary Type</Label>
           <PlaceTypeSelect
-            id={fields.category.id}
-            name={fields.category.name}
-            defaultValue={fields.category.initialValue}
-            key={fields.category.key}
+            id={fields.categoryId.id}
+            name={fields.categoryId.name}
+            defaultValue={fields.categoryId.initialValue}
+            key={fields.categoryId.key}
           />
           <div className="text-sm text-destructive">
-            {fields.category.errors}
+            {fields.categoryId.errors}
           </div>
         </div>
 

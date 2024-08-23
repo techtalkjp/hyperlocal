@@ -14,7 +14,6 @@ export const upsertGooglePlace = async (
         id: place.id,
         name: place.name,
         types: JSON.stringify(place.types),
-        primaryType: place.primaryType,
         rating: place.rating ?? 0,
         userRatingCount: place.userRatingCount ?? 0,
         latitude: place.location.latitude,
@@ -27,7 +26,6 @@ export const upsertGooglePlace = async (
         oc.column('id').doUpdateSet({
           name: place.name,
           types: JSON.stringify(place.types),
-          primaryType: place.primaryType,
           rating: place.rating ?? 0,
           userRatingCount: place.userRatingCount ?? 0,
           latitude: place.location.latitude,

@@ -16,7 +16,6 @@ export type GooglePlace = {
     id: string;
     name: string;
     types: string;
-    primaryType: string;
     rating: number;
     userRatingCount: number;
     latitude: number;
