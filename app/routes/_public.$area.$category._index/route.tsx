@@ -3,7 +3,6 @@ import { useLoaderData } from '@remix-run/react'
 import { Stack } from '~/components/ui'
 import { getCityArea } from '~/features/city-area/utils'
 import { PlaceCard } from '~/features/place/components/place-card'
-import type { Place } from '~/services/google-places'
 import { listAreaGooglePlaces } from './queries.server'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
@@ -27,13 +26,7 @@ export default function AreaIndexPage() {
         <div className="text-sm text-muted-foreground">No Places</div>
       )}
       {places.map((place, idx) => {
-        return (
-          <PlaceCard
-            key={place.id}
-            place={place.raw as unknown as Place}
-            no={idx + 1}
-          />
-        )
+        return <PlaceCard key={place.id} place={place} no={idx + 1} />
       })}
     </Stack>
   )

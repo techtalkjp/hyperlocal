@@ -24,13 +24,14 @@ import {
   SheetContent,
   SheetDescription,
   SheetHeader,
+  SheetTitle,
   SheetTrigger,
   Stack,
 } from '~/components/ui'
 import { getCityArea } from '~/features/city-area/utils'
 import { PlaceCard } from '~/features/place/components'
 import { requireAdminUser } from '~/services/auth.server'
-import type { Place, PlaceType } from '~/services/google-places'
+import type { PlaceType } from '~/services/google-places'
 import { registerAreaGooglePlacesCategoryTask } from '~/trigger/register-area-google-places-category'
 import { nearBySearch } from '../../services/google-places'
 import { Rating, ReviewText } from './components'
@@ -187,21 +188,19 @@ export default function Index() {
             </Button>
           </SheetTrigger>
           <SheetContent className="overflow-auto">
-            <SheetHeader>Registered Places</SheetHeader>
-            <SheetDescription>
-              Places that are already registered in the system.
-            </SheetDescription>
+            <SheetHeader>
+              <SheetTitle>Registered Places</SheetTitle>
+              <SheetDescription>
+                {areaGooglePlaces.length} places.
+              </SheetDescription>
+            </SheetHeader>
 
             <Stack>
-              {areaGooglePlaces && (
-                <div>found {areaGooglePlaces.length} places.</div>
-              )}
-
               {areaGooglePlaces?.map((place, idx) => {
                 return (
                   <PlaceCard
-                    key={place.id}
-                    place={place.raw as unknown as Place}
+                    key={`${place.categoryId}-${place.id}`}
+                    place={place}
                     no={idx + 1}
                   />
                 )
@@ -211,7 +210,12 @@ export default function Index() {
         </Sheet>
 
         <registerFetcher.Form method="POST">
-          <Button type="submit" name="intent" value="register">
+          <Button
+            type="submit"
+            name="intent"
+            isLoading={registerFetcher.state === 'submitting'}
+            value="register"
+          >
             Register
           </Button>
         </registerFetcher.Form>

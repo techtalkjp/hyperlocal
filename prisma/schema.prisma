@@ -1,7 +1,7 @@
 generator kysely {
   provider  = "prisma-kysely"
   output    = "../app/services/db"
-  fileName  = "types.ts"
+  fileName  = "schema.ts"
   camelCase = "true"
 }
 
@@ -11,17 +11,22 @@ datasource db {
 }
 
 model GooglePlace {
-  id              String   @id // google place id: e.g. "ChIJN1t_tDeuEmsRUsoyG83frY4"
-  name            String // google place name: e.g. "place/ChIJN1t_tDeuEmsRUsoyG83frY4"
-  types           String
-  rating          Float
-  userRatingCount Float    @map("user_rating_count")
-  latitude        Float
-  longitude       Float
-  displayName     String   @map("display_name")
-  raw             String
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @default(now()) @map("updated_at")
+  id                  String   @id // google place id: e.g. "ChIJN1t_tDeuEmsRUsoyG83frY4"
+  name                String // google place name: e.g. "place/ChIJN1t_tDeuEmsRUsoyG83frY4"
+  types               String // JSON array of types
+  displayName         String   @map("display_name")
+  rating              Float
+  userRatingCount     Float    @map("user_rating_count")
+  latitude            Float
+  longitude           Float
+  googleMapsUri       String   @map("google_maps_uri")
+  priceLevel          String?  @map("price_level")
+  regularOpeningHours String?  @map("regular_opening_hours") // JSON array of opening hours objects
+  reviews             String // JSON array of review objects
+  photos              String // JSON array of photo objects
+  raw                 String
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @default(now()) @map("updated_at")
 
   googlePlacesArea GooglePlaceArea[]
   localizedPlaces  LocalizedPlace[]
@@ -43,23 +48,26 @@ model GooglePlaceArea {
 }
 
 model LocalizedPlace {
-  cityId          String   @map("city_id")
-  areaId          String   @map("area_id")
-  categoryId      String   @map("category_id")
-  placeId         String   @map("place_id")
-  language        String
-  name            String
-  description     String
-  rating          Float
-  userRatingCount Int      @map("user_rating_count")
-  latitude        Float
-  longitude       Float
-  types           String
-  reviews         String // JSON array of review objects
-  photos          String // JSON array of photo objects
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @default(now()) @map("updated_at")
-  googlePlace     GooglePlace @relation(fields: [placeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  cityId              String      @map("city_id")
+  areaId              String      @map("area_id")
+  categoryId          String      @map("category_id")
+  placeId             String      @map("place_id")
+  language            String
+  types               String
+  displayName         String      @map("display_name")
+  description         String
+  rating              Float
+  userRatingCount     Int         @map("user_rating_count")
+  latitude            Float
+  longitude           Float
+  googleMapsUri       String      @map("google_maps_uri")
+  priceLevel          String      @map("price_level")
+  regularOpeningHours String      @map("regular_opening_hours") // JSON array of opening hours objects
+  reviews             String // JSON array of review objects
+  photos              String // JSON array of photo objects
+  createdAt           DateTime    @default(now()) @map("created_at")
+  updatedAt           DateTime    @default(now()) @map("updated_at")
+  googlePlace         GooglePlace @relation(fields: [placeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([cityId, language, areaId, categoryId, placeId])
   @@map("localized_places")

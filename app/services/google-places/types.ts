@@ -1,3 +1,5 @@
+import type { GooglePlace } from '../db/schema'
+
 export type PlaceType =
   | PlaceType_Automotive
   | PlaceType_Business
@@ -224,38 +226,50 @@ export interface Place {
   name: string
   id: string
   types: PlaceType[]
+  displayName: {
+    text: string
+  }
+  rating?: number
+  userRatingCount: number
   location: {
     latitude: number
     longitude: number
   }
-  rating?: number
   googleMapsUri: string
-  regularOpeningHours: {
-    openNow: boolean
-    periods: {
-      open: { day: number; hour: number; minute: number }
-      close: { day: number; hour: number; minute: number }
-    }[]
-    weekdayDescriptions: string[]
-  }
-  businessStatus: 'OPERATIONAL' | 'CLOSED_TEMPORARILY' | 'CLOSED_PERMANENTLY'
-  priceLevel:
-    | 'PRICE_LEVEL_UNSPECIFIED'
-    | 'PRICE_LEVEL_FREE'
-    | 'PRICE_LEVEL_INEXPENSIVE'
-    | 'PRICE_LEVEL_MODERATE'
-    | 'PRICE_LEVEL_EXPENSIVE'
-  userRatingCount: number
-  displayName: {
+  regularOpeningHours: GooglePlaceOpeningHours | undefined
+  businessStatus: GooglePlace
+  priceLevel: GooglePlacePriceLevel | undefined
+  reviews?: GooglePlaceReview[]
+  photos?: GooglePlacePhoto[]
+}
+
+export interface GooglePlaceOpeningHours {
+  openNow: boolean
+  periods: {
+    open: { day: number; hour: number; minute: number }
+    close: { day: number; hour: number; minute: number }
+  }[]
+  weekdayDescriptions: string[]
+}
+
+export type GooglePlaceBusinessStatus =
+  | 'OPERATIONAL'
+  | 'CLOSED_TEMPORARILY'
+  | 'CLOSED_PERMANENTLY'
+export type GooglePlacePriceLevel =
+  | 'PRICE_LEVEL_UNSPECIFIED'
+  | 'PRICE_LEVEL_FREE'
+  | 'PRICE_LEVEL_INEXPENSIVE'
+  | 'PRICE_LEVEL_MODERATE'
+  | 'PRICE_LEVEL_EXPENSIVE'
+
+export interface GooglePlaceReview {
+  rating: number
+  originalText?: {
     text: string
   }
-  reviews?: {
-    rating: number
-    originalText?: {
-      text: string
-    }
-  }[]
-  photos: {
-    name: string
-  }[]
+}
+
+export interface GooglePlacePhoto {
+  name: string
 }

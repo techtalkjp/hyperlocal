@@ -9,33 +9,27 @@ export const upsertGooglePlace = async (
   place: Place,
 ) => {
   return await db.transaction().execute(async (tsx) => {
+    const googlePlaceRecord = {
+      id: place.id,
+      name: place.name,
+      types: JSON.stringify(place.types),
+      displayName: place.displayName.text,
+      rating: place.rating ?? 0,
+      userRatingCount: place.userRatingCount ?? 0,
+      latitude: place.location.latitude,
+      longitude: place.location.longitude,
+      googleMapsUri: place.googleMapsUri,
+      priceLevel: place.priceLevel,
+      regularOpeningHours: JSON.stringify(place.regularOpeningHours),
+      reviews: JSON.stringify(place.reviews ?? []),
+      photos: JSON.stringify(place.photos ?? []),
+      raw: JSON.stringify(place),
+      updatedAt: dayjs().utc().format('YYYY-MM-DD HH:mm:ss'),
+    }
     const inserted = await tsx
       .insertInto('googlePlaces')
-      .values({
-        id: place.id,
-        name: place.name,
-        types: JSON.stringify(place.types),
-        rating: place.rating ?? 0,
-        userRatingCount: place.userRatingCount ?? 0,
-        latitude: place.location.latitude,
-        longitude: place.location.longitude,
-        displayName: place.displayName.text,
-        raw: JSON.stringify(place),
-        updatedAt: dayjs().utc().format('YYYY-MM-DD HH:mm:ss'),
-      })
-      .onConflict((oc) =>
-        oc.column('id').doUpdateSet({
-          name: place.name,
-          types: JSON.stringify(place.types),
-          rating: place.rating ?? 0,
-          userRatingCount: place.userRatingCount ?? 0,
-          latitude: place.location.latitude,
-          longitude: place.location.longitude,
-          displayName: place.displayName.text,
-          raw: JSON.stringify(place),
-          updatedAt: dayjs().utc().format('YYYY-MM-DD HH:mm:ss'),
-        }),
-      )
+      .values(googlePlaceRecord)
+      .onConflict((oc) => oc.column('id').doUpdateSet(googlePlaceRecord))
       .returningAll()
       .executeTakeFirstOrThrow()
 

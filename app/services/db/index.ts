@@ -6,7 +6,8 @@ import {
   Kysely,
   ParseJSONResultsPlugin,
 } from 'kysely'
-import type { DB } from './types'
+import type { DB } from './schema'
+export type * from './types'
 
 const debug = createDebug('app:db')
 
