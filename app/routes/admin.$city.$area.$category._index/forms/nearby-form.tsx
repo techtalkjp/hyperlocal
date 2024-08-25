@@ -3,24 +3,21 @@ import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { Form, useNavigation } from '@remix-run/react'
 import {
   Button,
-  HStack,
   Label,
   RadioGroup,
   RadioGroupItem,
-  Slider,
   Stack,
 } from '~/components/ui'
-import { PlaceTypeSelect } from '../components/place-type-select'
 import { nearBySchema } from '../schema'
 
 interface NearbyFormProps {
+  categoryId: string
   radius?: number
 }
 export const NearbyForm = ({ radius = 400 }: NearbyFormProps) => {
   const [form, fields] = useForm({
     defaultValue: {
       radius,
-      categoryId: '',
       rankPreference: 'POPULARITY',
     },
     constraint: getZodConstraint(nearBySchema),
@@ -32,48 +29,6 @@ export const NearbyForm = ({ radius = 400 }: NearbyFormProps) => {
   return (
     <Form method="GET" {...getFormProps(form)}>
       <Stack>
-        <div>
-          <Label htmlFor={fields.radius.id}>半径</Label>
-          <HStack>
-            <Slider
-              min={80}
-              max={1200}
-              step={40}
-              onValueChange={(value) => {
-                form.update({
-                  name: fields.radius.name,
-                  value: value[0].toString(),
-                })
-              }}
-              id={fields.radius.id}
-              name={fields.radius.name}
-              key={fields.radius.key}
-              defaultValue={
-                fields.radius.value
-                  ? [Number.parseInt(fields.radius.value)]
-                  : undefined
-              }
-            >
-              Radius
-            </Slider>
-            <div>{fields.radius.value}m</div>
-          </HStack>
-          <div className="text-sm text-destructive">{fields.radius.errors}</div>
-        </div>
-
-        <div>
-          <Label htmlFor={fields.categoryId.id}>Primary Type</Label>
-          <PlaceTypeSelect
-            id={fields.categoryId.id}
-            name={fields.categoryId.name}
-            defaultValue={fields.categoryId.initialValue}
-            key={fields.categoryId.key}
-          />
-          <div className="text-sm text-destructive">
-            {fields.categoryId.errors}
-          </div>
-        </div>
-
         <div>
           <Label>Rank Preference</Label>
           <RadioGroup
