@@ -7,5 +7,23 @@
     "radius": 400,
     "latitude": 35.6694464,
     "longitude": 139.7670348
+  },
+  {
+    "cityId": "tokyo",
+    "areaId": "ningyocho",
+    "name": "人形町",
+    "languageCode": "ja",
+    "radius": 400,
+    "latitude": 35.6850407,
+    "longitude": 139.7834224
+  },
+  {
+    "cityId": "seoul",
+    "areaId": "seonleung",
+    "name": "ソンルン",
+    "languageCode": "kr",
+    "radius": 400,
+    "latitude": 37.504487,
+    "longitude": 127.048957
   }
 ]

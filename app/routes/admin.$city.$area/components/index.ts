@@ -1,3 +1,3 @@
-export * from '~/features/place/components/rating'
+export * from './llm-test'
 export * from './place-type-select'
 export * from './review'

@@ -1,15 +1,16 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import areas from '~/assets/areas.json'
+import cities from '~/assets/cities.json'
 import { requireAdminUser } from '~/services/auth.server'
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   await requireAdminUser(request)
-  return { areas }
+  return { cities, areas }
 }
 
 export default function AdminIndex() {
-  const { areas } = useLoaderData<typeof loader>()
+  const { cities, areas } = useLoaderData<typeof loader>()
   return (
     <div>
       <Link to="/admin/areas" className="hover:underline">
@@ -17,13 +18,19 @@ export default function AdminIndex() {
       </Link>
 
       <ul>
-        {areas.map((area) => (
-          <li key={area.areaId}>
-            <Link className="hover:underline" to={`/admin/${area.areaId}`}>
-              {area.name}
-            </Link>
-          </li>
-        ))}
+        {areas.map((area) => {
+          const city = cities.find((city) => city.cityId === area.cityId)
+          return (
+            <li key={area.areaId}>
+              <Link
+                className="hover:underline"
+                to={`/admin/${area.cityId}/${area.areaId}`}
+              >
+                {city?.name ?? `unknown - ${area.cityId}`} - {area.name}
+              </Link>
+            </li>
+          )
+        })}
       </ul>
     </div>
   )

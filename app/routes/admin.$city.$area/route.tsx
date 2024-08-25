@@ -5,8 +5,14 @@ import type {
   MetaFunction,
 } from '@remix-run/node'
 import { useFetcher, useLoaderData } from '@remix-run/react'
+import {
+  APIProvider,
+  Map as GoogleMap,
+  Marker,
+} from '@vis.gl/react-google-maps'
 import { MapIcon } from 'lucide-react'
 import { jsonWithSuccess } from 'remix-toast'
+import { ClientOnly } from 'remix-utils/client-only'
 import { z } from 'zod'
 import categories from '~/assets/categories.json'
 import {
@@ -28,16 +34,16 @@ import {
   SheetTrigger,
   Stack,
 } from '~/components/ui'
-import { getCityArea } from '~/features/city-area/utils'
-import { PlaceCard } from '~/features/place/components'
+import { getCityAreaCategory } from '~/features/admin/city-area-category/get-city-area-category'
+import { PlaceCard, Rating } from '~/features/place/components'
 import { requireAdminUser } from '~/services/auth.server'
 import type { PlaceType } from '~/services/google-places'
 import { registerAreaGooglePlacesCategoryTask } from '~/trigger/register-area-google-places-category'
 import { nearBySearch } from '../../services/google-places'
-import { Rating, ReviewText } from './components'
+import { LLMTest, ReviewText } from './components'
 import { NearbyForm } from './forms/nearby-form'
-import { addGooglePlace } from './mutations.server'
-import { listAreaGooglePlaces } from './queries.server'
+import { addGooglePlace } from './functions/mutations.server'
+import { listAreaGooglePlaces } from './functions/queries.server'
 import { schema } from './schema'
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
@@ -48,7 +54,8 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => [
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   await requireAdminUser(request)
-  const { area } = await getCityArea(request, params)
+  const googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY
+  const { city, area } = getCityAreaCategory(params)
   if (!area) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
@@ -58,11 +65,13 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const searchParams = new URL(request.url).searchParams
   if (!searchParams.has('intent')) {
     return {
+      googleMapsApiKey,
+      city,
+      area,
+      category: null,
       places: null,
       areaGooglePlaces,
       intent: null,
-      area,
-      category: null,
       lastResult: null,
     }
   }
@@ -82,11 +91,13 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
       includedPrimaryTypes: category?.googlePlaceTypes as PlaceType[],
     })
     return {
+      googleMapsApiKey,
+      city,
+      area,
+      category,
       places: res.places.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0)),
       areaGooglePlaces,
       intent: submission.value.intent,
-      area,
-      category,
       lastResult: submission.reply(),
     }
   }
@@ -105,7 +116,7 @@ const addSchema = z.discriminatedUnion('intent', [
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {
   await requireAdminUser(request)
-  const { area } = await getCityArea(request, params)
+  const { area } = getCityAreaCategory(params)
   if (!area) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
@@ -151,7 +162,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 }
 
 export default function Index() {
-  const { areaGooglePlaces, places, category, area } =
+  const { googleMapsApiKey, city, area, category, areaGooglePlaces, places } =
     useLoaderData<typeof loader>()
   const addFetcher = useFetcher<typeof action>()
   const registerFetcher = useFetcher<typeof action>()
@@ -176,6 +187,29 @@ export default function Index() {
           </HStack>
         </CardHeader>
         <CardContent>
+          <ClientOnly
+            fallback={
+              <div className="grid h-80 w-80 place-items-center bg-muted text-muted-foreground">
+                Loading map...
+              </div>
+            }
+          >
+            {() => (
+              <APIProvider apiKey={googleMapsApiKey}>
+                <GoogleMap
+                  style={{ width: '20rem', height: '20rem' }}
+                  defaultCenter={{ lat: area.latitude, lng: area.longitude }}
+                  defaultZoom={17}
+                  gestureHandling={'greedy'}
+                  disableDefaultUI={true}
+                >
+                  <Marker
+                    position={{ lat: area.latitude, lng: area.longitude }}
+                  />
+                </GoogleMap>
+              </APIProvider>
+            )}
+          </ClientOnly>
           <NearbyForm radius={area.radius} />
         </CardContent>
       </Card>
@@ -198,11 +232,10 @@ export default function Index() {
             <Stack>
               {areaGooglePlaces?.map((place, idx) => {
                 return (
-                  <PlaceCard
-                    key={`${place.categoryId}-${place.id}`}
-                    place={place}
-                    no={idx + 1}
-                  />
+                  <HStack key={`${place.categoryId}-${place.id}`}>
+                    <LLMTest place={place} />
+                    <PlaceCard place={place} no={idx + 1} />
+                  </HStack>
                 )
               })}
             </Stack>

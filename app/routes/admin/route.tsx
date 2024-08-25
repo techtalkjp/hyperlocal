@@ -24,16 +24,12 @@ export const meta: MetaFunction = () => {
 export const loader = (args: LoaderFunctionArgs) => {
   return rootAuthLoader(args, async () => {
     const { toast, headers } = await getToast(args.request)
-    const env = {
-      GA_TRACKING_ID: process.env.GA_TRACKING_ID,
-      NODE_ENV: process.env.NODE_ENV,
-    }
-    return json({ env, toastData: toast }, { headers: headers })
+    return json({ toastData: toast }, { headers: headers })
   })
 }
 
 const AdminLayout = () => {
-  const { env, toastData } = useLoaderData<typeof loader>()
+  const { toastData } = useLoaderData<typeof loader>()
 
   useEffect(() => {
     if (!toastData) {
