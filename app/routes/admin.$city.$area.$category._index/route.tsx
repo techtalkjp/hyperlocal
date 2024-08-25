@@ -1,10 +1,7 @@
 import { parseWithZod } from '@conform-to/zod'
-import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
-import { useFetcher, useLoaderData } from '@remix-run/react'
+import type { LoaderFunctionArgs } from '@remix-run/node'
+import { useLoaderData } from '@remix-run/react'
 import { MapIcon } from 'lucide-react'
-import { jsonWithSuccess } from 'remix-toast'
-import { z } from 'zod'
-import categories from '~/assets/categories.json'
 import {
   Badge,
   Button,
@@ -28,11 +25,9 @@ import { getCityAreaCategory } from '~/features/admin/city-area-category/get-cit
 import { PlaceCard, Rating } from '~/features/place/components'
 import { requireAdminUser } from '~/services/auth.server'
 import type { PlaceType } from '~/services/google-places'
-import { registerAreaGooglePlacesCategoryTask } from '~/trigger/register-area-google-places-category'
 import { nearBySearch } from '../../services/google-places'
 import { LLMTest, ReviewText } from './components'
 import { NearbyForm } from './forms/nearby-form'
-import { addGooglePlace } from './functions/mutations.server'
 import { listAreaGooglePlaces } from './functions/queries.server'
 import { schema } from './schema'
 
@@ -78,75 +73,14 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
       category,
       places: res.places.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0)),
       areaGooglePlaces,
-      intent: submission.value.intent,
       lastResult: submission.reply(),
     }
   }
 }
 
-const addSchema = z.discriminatedUnion('intent', [
-  z.object({
-    intent: z.literal('add'),
-    place: z.string(),
-  }),
-  z.object({
-    intent: z.literal('register'),
-  }),
-])
-
-export const action = async ({ request, params }: ActionFunctionArgs) => {
-  await requireAdminUser(request)
-  const { city, area, category } = getCityAreaCategory(params)
-  if (!city) {
-    throw new Response(null, { status: 404, statusText: 'Not Found' })
-  }
-  if (!area) {
-    throw new Response(null, { status: 404, statusText: 'Not Found' })
-  }
-  if (!category) {
-    throw new Response(null, { status: 404, statusText: 'Not Found' })
-  }
-
-  const submission = parseWithZod(await request.formData(), {
-    schema: addSchema,
-  })
-  if (submission.status !== 'success') {
-    return { lastResult: submission.reply(), place: null }
-  }
-
-  if (submission.value.intent === 'register') {
-    const handle = await registerAreaGooglePlacesCategoryTask.trigger({
-      cityId: area.cityId,
-      areaId: area.areaId,
-      radius: area.radius,
-      categoryId: category.id,
-    })
-
-    return jsonWithSuccess(
-      { handle },
-      {
-        message: 'Task triggered',
-        description: `Triggered ${categories.length} tasks: ${city.name} ${area.areaId}, ${category.names.en}, ${area.radius}m`,
-      },
-    )
-  }
-
-  if (submission.value.intent === 'add') {
-    const place = await addGooglePlace(
-      area.cityId,
-      area.areaId,
-      category.id,
-      submission.value.place,
-    )
-    return { lastResult: submission.reply(), place }
-  }
-}
-
 export default function Index() {
-  const { city, area, category, areaGooglePlaces, places } =
+  const { area, category, areaGooglePlaces, places } =
     useLoaderData<typeof loader>()
-  const addFetcher = useFetcher<typeof action>()
-  const registerFetcher = useFetcher<typeof action>()
 
   return (
     <Stack>
@@ -179,17 +113,6 @@ export default function Index() {
             </Stack>
           </SheetContent>
         </Sheet>
-
-        <registerFetcher.Form method="POST">
-          <Button
-            type="submit"
-            name="intent"
-            isLoading={registerFetcher.state === 'submitting'}
-            value="register"
-          >
-            Register
-          </Button>
-        </registerFetcher.Form>
       </HStack>
 
       {places && (
@@ -215,27 +138,6 @@ export default function Index() {
                       </a>
                     </div>
                     <div className="flex-1" />
-
-                    <addFetcher.Form method="POST">
-                      <input
-                        type="hidden"
-                        name="place"
-                        value={JSON.stringify(place)}
-                      />
-                      <input
-                        type="hidden"
-                        name="categoryId"
-                        value={category?.id}
-                      />
-                      <Button
-                        type="submit"
-                        name="intent"
-                        value="add"
-                        variant="outline"
-                      >
-                        Add
-                      </Button>
-                    </addFetcher.Form>
                   </HStack>
                   <HStack>
                     <Rating star={place.rating} withLabel />
