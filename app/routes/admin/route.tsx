@@ -49,7 +49,7 @@ const AdminLayout = () => {
 
   return (
     <div>
-      <header className="flex gap-4 p-4">
+      <header className="flex gap-4 px-4 py-2">
         <div className="flex-1 text-2xl font-bold">
           <Link to="/admin">Hyperlocal Admin</Link>
         </div>
@@ -58,7 +58,7 @@ const AdminLayout = () => {
         </div>
       </header>
 
-      <main className="px-4 pt-2">
+      <main className="px-2">
         <Outlet />
       </main>
 
