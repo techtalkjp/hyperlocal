@@ -9,6 +9,14 @@
   },
   {
     "cityId": "tokyo",
+    "areaId": "nihonbashi",
+    "name": "日本橋",
+    "radius": 400,
+    "latitude": 35.6823317,
+    "longitude": 139.773856
+  },
+  {
+    "cityId": "tokyo",
     "areaId": "ningyocho",
     "name": "人形町",
     "radius": 400,
