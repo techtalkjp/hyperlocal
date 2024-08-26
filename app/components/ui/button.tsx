@@ -1,5 +1,6 @@
 import { Slot, Slottable } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
+import { Loader2 } from 'lucide-react'
 import * as React from 'react'
 
 import { cn } from '~/libs/utils'
@@ -67,14 +68,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={isLoading || disabled}
       >
         {isLoading && (
-          <span
-            className={cn(
-              'mr-2 h-4 w-4 animate-spin rounded-full border-2',
-              variant === 'default'
-                ? 'border-background border-t-transparent'
-                : 'border-white border-t-transparent',
-            )}
-          />
+          <Loader2 className="mr-2 h-5 w-5 animate-spin text-foreground" />
         )}
         <Slottable>{children}</Slottable>
       </Comp>

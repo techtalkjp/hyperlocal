@@ -1,6 +1,7 @@
 import { logger, task } from '@trigger.dev/sdk/v3'
 import areas from '~/assets/areas.json'
 import categories from '~/assets/categories.json'
+import cities from '~/assets/cities.json'
 import { upsertGooglePlace } from '~/features/place/mutations'
 import { nearBySearch, type PlaceType } from '~/services/google-places'
 
@@ -15,6 +16,11 @@ export const registerAreaGooglePlacesCategoryTask = task({
     },
     { ctx },
   ) => {
+    const city = cities.find((c) => c.cityId === payload.cityId)
+    if (!city) {
+      throw new Error(`City not found: ${payload.cityId}`)
+    }
+
     const area = areas.find((a) => a.areaId === payload.areaId)
     if (!area) {
       throw new Error(`Area not found: ${payload.areaId}`)
@@ -32,7 +38,7 @@ export const registerAreaGooglePlacesCategoryTask = task({
       longitude: area.longitude,
       radius: payload.radius,
       includedPrimaryTypes: category.googlePlaceTypes as PlaceType[],
-      languageCode: area.languageCode,
+      languageCode: city.language,
     })
     logger.info('places', { places })
 

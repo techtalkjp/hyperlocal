@@ -16,6 +16,7 @@
     "validate": "run-p format lint typecheck"
   },
   "dependencies": {
+    "@ai-sdk/google": "0.0.45",
     "@clerk/localizations": "2.6.0",
     "@clerk/remix": "4.2.15",
     "@conform-to/react": "1.1.5",
@@ -38,6 +39,7 @@
     "@trigger.dev/sdk": "3.0.0-beta.55",
     "@vercel/remix": "2.11.2",
     "@vis.gl/react-google-maps": "1.1.0",
+    "ai": "3.3.17",
     "class-variance-authority": "0.7.0",
     "clsx": "2.1.1",
     "dayjs": "1.11.13",

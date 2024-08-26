@@ -6,12 +6,14 @@ import cities from '~/assets/cities.json'
 export const getCityAreaCategory = (params: Params) => {
   const { city: cityId, area: areaId, category: categoryId } = params
 
+  const area = areas.find((area) => area.areaId === areaId)
+
   const defaultCity = cities[0]
-  const city = cities.find((city) => city.cityId === cityId) || defaultCity
+  const city =
+    cities.find((city) => city.cityId === area?.cityId) || defaultCity
   if (!city) {
     throw new Response('Not Found', { status: 404 })
   }
-  const area = areas.find((area) => area.areaId === areaId)
   const category = categories.find((category) => category.id === categoryId)
   return { city, area, category }
 }

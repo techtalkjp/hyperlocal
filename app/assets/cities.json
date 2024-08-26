@@ -2,12 +2,14 @@
   {
     "cityId": "tokyo",
     "name": "Tokyo",
+    "language": "ja",
     "latitude": 35.6894,
     "longitude": 139.6917
   },
   {
     "cityId": "seoul",
     "name": "Seoul",
+    "language": "kr",
     "latitude": 37.5665851,
     "longitude": 126.9756289
   }
