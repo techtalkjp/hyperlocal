@@ -12,7 +12,7 @@ import { mapPlaceTypes, priceLevelLabel } from '../utils'
 
 interface PlaceCardProps extends React.ComponentProps<typeof HStack> {
   place: GooglePlace
-  no: number
+  no?: number
 }
 export const PlaceCard = ({ place, no }: PlaceCardProps) => {
   const types = place.types as unknown as PlaceType[]
@@ -38,7 +38,7 @@ export const PlaceCard = ({ place, no }: PlaceCardProps) => {
       <div className="flex-1 leading-relaxed">
         <div className="font-bold">
           <a href={place.googleMapsUri} target="_blank" rel="noreferrer">
-            {no}. {place.displayName}
+            {no && `${no}.`} {place.displayName}
           </a>
         </div>
         <div className="text-xs text-foreground/70">{place.displayName}</div>

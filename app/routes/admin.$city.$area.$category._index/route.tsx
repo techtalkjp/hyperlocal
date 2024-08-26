@@ -1,7 +1,8 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { Link, useLoaderData } from '@remix-run/react'
+import React from 'react'
 import {
-  HStack,
+  Button,
   Stack,
   Tabs,
   TabsContent,
@@ -25,22 +26,18 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
 
-  const areaGooglePlaces = await listAreaGooglePlaces(area.areaId, category.id)
+  const places = await listAreaGooglePlaces(area.areaId, category.id)
 
   return {
     city,
     area,
     category,
-    places: null,
-    areaGooglePlaces,
-    intent: null,
-    lastResult: null,
+    places,
   }
 }
 
 export default function Index() {
-  const { city, area, category, areaGooglePlaces } =
-    useLoaderData<typeof loader>()
+  const { city, area, category, places } = useLoaderData<typeof loader>()
 
   return (
     <Tabs defaultValue="registered">
@@ -51,21 +48,35 @@ export default function Index() {
       <TabsContent value="registered">
         <Stack>
           <h2 className="text-xl font-semibold">Registered Places</h2>
-          {areaGooglePlaces.length > 0 ? (
-            <div>{areaGooglePlaces.length} places found.</div>
+          {places.length > 0 ? (
+            <div>{places.length} places found.</div>
           ) : (
             <p className="grid h-32 place-content-center text-muted-foreground">
               No places found
             </p>
           )}
-          {areaGooglePlaces?.map((place, idx) => {
-            return (
-              <HStack key={`${place.categoryId}-${place.id}`}>
-                <LLMTest place={place} />
-                <PlaceCard place={place} no={idx + 1} />
-              </HStack>
-            )
-          })}
+
+          {places.length > 0 && (
+            <div className="grid grid-cols-[auto_1fr] gap-2">
+              {places.map((place, idx) => {
+                return (
+                  <React.Fragment key={`${place.categoryId}-${place.id}`}>
+                    <Stack>
+                      <LLMTest place={place} />
+                      <Button asChild>
+                        <Link
+                          to={`/admin/${city.cityId}/${area.areaId}/${category.id}/${place.id}`}
+                        >
+                          Details
+                        </Link>
+                      </Button>
+                    </Stack>
+                    <PlaceCard place={place} no={idx + 1} />
+                  </React.Fragment>
+                )
+              })}
+            </div>
+          )}
         </Stack>
       </TabsContent>
       <TabsContent value="nearby">
