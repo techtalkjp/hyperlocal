@@ -5,18 +5,17 @@ import { getCityArea } from '~/features/city-area/utils'
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
   {
-    title: `${data?.category.names.ja} - Hyperlocal`,
+    title: `${data?.category.i18n.en} - Hyperlocal`,
   },
 ]
 
 export const handle = {
   breadcrumb: (data: Awaited<ReturnType<typeof loader>>) => (
     <Link to={`/${data.area.areaId}/${data.category.id}`} prefetch="intent">
-      {data.category.names.ja}
+      {data.category.i18n.en}
     </Link>
   ),
-  category: (data: Awaited<ReturnType<typeof loader>>) =>
-    data.category.names.ja,
+  category: (data: Awaited<ReturnType<typeof loader>>) => data.category.i18n.en,
 }
 
 export const loader = ({ request, params }: LoaderFunctionArgs) => {

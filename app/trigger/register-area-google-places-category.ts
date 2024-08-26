@@ -31,7 +31,7 @@ export const registerAreaGooglePlacesCategoryTask = task({
     if (!category) {
       throw new Error(`Category not found: ${payload.categoryId}`)
     }
-    logger.info(`category: ${category.names.en}`, { category })
+    logger.info(`category: ${category.i18n.en}`, { category })
 
     const { places } = await nearBySearch({
       latitude: area.latitude,

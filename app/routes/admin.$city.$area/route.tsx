@@ -55,7 +55,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
     { handle },
     {
       message: 'Task triggered',
-      description: `Triggered ${categories.length} tasks: ${city.name} - ${area.areaId}, ${categories.length} categories, ${area.radius}m`,
+      description: `Triggered ${categories.length} tasks: ${city.i18n.en} - ${area.areaId}, ${categories.length} categories, ${area.radius}m`,
     },
   )
 }
@@ -73,7 +73,9 @@ export default function AdminCityAreaLayout() {
               <h2 className="text-xl font-semibold">
                 <Link to={`/admin/${city.cityId}/${area.areaId}`}>
                   {area.name}{' '}
-                  <small className="text-muted-foreground">{city.name}</small>
+                  <small className="text-muted-foreground">
+                    {city.i18n.en}
+                  </small>
                 </Link>
               </h2>
               <HStack className="text-xs text-muted-foreground">
@@ -102,7 +104,7 @@ export default function AdminCityAreaLayout() {
           <CategoryNav>
             {categories.map((category) => (
               <CategoryNavItem to={category.id} key={category.id}>
-                {category.names.en}
+                {category.i18n.en}
               </CategoryNavItem>
             ))}
           </CategoryNav>

@@ -1,17 +1,15 @@
 [
-  { "id": "en", "code": "en", "displayName": "English", "name": "English" },
-  { "id": "ja", "code": "ja", "displayName": "日本語", "name": "Japanese" },
+  { "id": "en", "displayName": "English", "name": "English" },
+  { "id": "ja", "displayName": "日本語", "name": "Japanese" },
   {
     "id": "zh-CN",
-    "code": "zh-CN",
     "displayName": "中文簡体",
     "name": "Simplified Chinese"
   },
   {
     "id": "zh-TW",
-    "code": "zh-TW",
     "displayName": "中文繁体",
     "name": "Traditional Chinese"
   },
-  { "id": "kr", "code": "kr", "displayName": "한국어", "name": "Korean" }
+  { "id": "kr", "displayName": "한국어", "name": "Korean" }
 ]

@@ -2,51 +2,23 @@
   {
     "id": "cafe",
     "googlePlaceTypes": ["cafe", "coffee_shop"],
-    "names": {
+    "i18n": {
       "en": "Cafes",
       "ja": "カフェ",
-      "cn": "咖啡店",
-      "tw": "咖啡廳",
-      "ko": "카페",
-      "th": "คาเฟ่",
-      "vi": "Quán cafe",
-      "id": "Kafe",
-      "ms": "Kedai kopi",
-      "fr": "Cafés",
-      "de": "Cafés",
-      "it": "Caffetterie",
-      "es": "Cafeterías",
-      "hi": "कैफे",
-      "ar": "المقاهي",
-      "da": "Caféer",
-      "fi": "Kahvilat",
-      "no": "Kafeer",
-      "sv": "Caféer"
+      "zh-CN": "咖啡店",
+      "zh-TW": "咖啡廳",
+      "kr": "카페"
     }
   },
   {
     "id": "restaurant",
     "googlePlaceTypes": ["restaurant"],
-    "names": {
+    "i18n": {
       "en": "Restaurants",
       "ja": "飲食店",
-      "cn": "餐厅",
-      "tw": "餐廳",
-      "ko": "식당",
-      "th": "ร้านอาหาร",
-      "vi": "Nhà hàng",
-      "id": "Restoran",
-      "ms": "Restoran",
-      "fr": "Restos",
-      "de": "Restaurants",
-      "it": "Ristoranti",
-      "es": "Restaurantes",
-      "hi": "रेस्तरां",
-      "ar": "مطاعم",
-      "da": "Restauranter",
-      "fi": "Ravintolat",
-      "no": "Restauranter",
-      "sv": "Restauranger"
+      "zh-CN": "餐厅",
+      "zh-TW": "餐廳",
+      "kr": "식당"
     }
   },
   {
@@ -63,152 +35,67 @@
       "market",
       "shoe_store"
     ],
-    "names": {
+    "i18n": {
       "en": "Shop & Style",
       "ja": "ショッピング",
-      "cn": "购物天堂",
-      "tw": "購物天地",
-      "ko": "쇼핑 플레이스",
-      "th": "แหล่งช้อปปิ้ง",
-      "vi": "Thiên đường mua sắm",
-      "id": "Surga Belanja",
-      "ms": "Syurga Beli-belah",
-      "fr": "Bonnes affaires",
-      "de": "Shoppingparadies",
-      "it": "Paradiso dello shopping",
-      "es": "Paraíso de compras",
-      "hi": "शॉपिंग स्वर्ग",
-      "ar": "جنة التسوق",
-      "da": "Shoppingparadis",
-      "fi": "Ostoparatiisi",
-      "no": "Handleparadis",
-      "sv": "Shoppingparadis"
+      "zh-CN": "购物天堂",
+      "zh-TW": "購物天地",
+      "kr": "쇼핑 플레이스"
     }
   },
   {
     "id": "nightlife",
     "googlePlaceTypes": ["bar", "night_club"],
-
-    "names": {
+    "i18n": {
       "en": "Bars & Clubs",
       "ja": "バー・クラブ",
-      "cn": "酒吧夜店",
-      "tw": "酒吧夜店",
-      "ko": "바 & 클럽",
-      "th": "บาร์และผับ",
-      "vi": "Bar & Club",
-      "id": "Bar & Klub",
-      "ms": "Bar & Kelab",
-      "fr": "Bars et Boîtes",
-      "de": "Bars & Clubs",
-      "it": "Bar e Locali",
-      "es": "Bares y Discotecas",
-      "hi": "बार और क्लब",
-      "ar": "الحانات والنوادي",
-      "da": "Barer & Klubber",
-      "fi": "Baarit & Klubit",
-      "no": "Barer & Klubber",
-      "sv": "Barer & Klubbar"
+      "zh-CN": "酒吧夜店",
+      "zh-TW": "酒吧夜店",
+      "kr": "바 & 클럽"
     }
   },
   {
     "id": "convenience_store",
     "googlePlaceTypes": ["convenience_store"],
-    "names": {
+    "i18n": {
       "en": "C-Store",
       "ja": "コンビニ",
-      "cn": "便利店",
-      "tw": "便利店",
-      "ko": "편의점",
-      "th": "ร้านสะดวก",
-      "vi": "Cửa tiện",
-      "id": "Mini Mart",
-      "ms": "Kedai Runcit",
-      "fr": "Épicerie",
-      "de": "Späti",
-      "it": "Mini Market",
-      "es": "Tienda 24h",
-      "hi": "किराना",
-      "ar": "بقالة",
-      "da": "Døgnkiosk",
-      "fi": "Lähikauppa",
-      "no": "Nærbutikk",
-      "sv": "Närbutik"
+      "zh-CN": "便利店",
+      "zh-TW": "便利店",
+      "kr": "편의점"
     }
   },
   {
     "id": "drugstore",
     "googlePlaceTypes": ["drugstore"],
-    "names": {
+    "i18n": {
       "en": "Drugstore",
       "ja": "ドラッグストア",
-      "cn": "药店",
-      "tw": "藥妝",
-      "ko": "약국",
-      "th": "ร้านยา",
-      "vi": "Nhà thuốc",
-      "id": "Apotek",
-      "ms": "Farmasi",
-      "fr": "Pharmacie",
-      "de": "Drogerie",
-      "it": "Farmacia",
-      "es": "Farmacia",
-      "hi": "औषधालय",
-      "ar": "صيدلية",
-      "da": "Apotek",
-      "fi": "Apteekki",
-      "no": "Apotek",
-      "sv": "Apotek"
+      "zh-CN": "药店",
+      "zh-TW": "藥妝",
+      "kr": "약국"
     }
   },
   {
     "id": "tourist_attractions",
     "googlePlaceTypes": ["tourist_attraction"],
-    "names": {
+    "i18n": {
       "en": "Sights",
       "ja": "観光",
-      "cn": "景点",
-      "tw": "景點",
-      "ko": "관광",
-      "th": "แหล่งเที่ยว",
-      "vi": "Điểm đến",
-      "id": "Wisata",
-      "ms": "Tarikan",
-      "fr": "À voir",
-      "de": "Highlights",
-      "it": "Attrazioni",
-      "es": "Atracciones",
-      "hi": "दर्शनीय",
-      "ar": "معالم",
-      "da": "Seværdigheder",
-      "fi": "Nähtävyydet",
-      "no": "Attraksjoner",
-      "sv": "Sevärdheter"
+      "zh-CN": "景点",
+      "zh-TW": "景點",
+      "kr": "관광"
     }
   },
   {
     "id": "transit",
     "googlePlaceTypes": ["subway_station", "train_station", "taxi_stand"],
-    "names": {
+    "i18n": {
       "en": "Transit",
       "ja": "交通",
-      "cn": "交通",
-      "tw": "交通",
-      "ko": "교통",
-      "th": "การเดินทาง",
-      "vi": "Giao thông",
-      "id": "Transportasi",
-      "ms": "Pengangkutan",
-      "fr": "Transports",
-      "de": "Verkehrsmittel",
-      "it": "Trasporti",
-      "es": "Tránsito",
-      "hi": "परिवहन",
-      "ar": "النقل",
-      "da": "Transport",
-      "fi": "Liikenne",
-      "no": "Transport",
-      "sv": "Transport"
+      "zh-CN": "交通",
+      "zh-TW": "交通",
+      "kr": "교통"
     }
   }
 ]

@@ -39,12 +39,12 @@ export const translatePlace = async (
     rating: number
     originalText?: { text: string }
   }[]
-  const sourceLanguage = languages.find((l) => l.code === source)
+  const sourceLanguage = languages.find((l) => l.id === source)
   if (!sourceLanguage) {
     throw new Error('Source language not found')
   }
 
-  const targetLanguage = languages.find((l) => l.code === target)
+  const targetLanguage = languages.find((l) => l.id === target)
   if (!targetLanguage) {
     throw new Error('Target language not found')
   }

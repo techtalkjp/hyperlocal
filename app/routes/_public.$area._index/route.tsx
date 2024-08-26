@@ -9,7 +9,7 @@ export default function AreaIndexPage() {
         <Link to={`./${category.id}`} key={category.id} prefetch="intent">
           <Card>
             <CardHeader>
-              <CardTitle>{category.names.ja}</CardTitle>
+              <CardTitle>{category.i18n.en}</CardTitle>
             </CardHeader>
           </Card>
         </Link>

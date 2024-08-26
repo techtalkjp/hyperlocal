@@ -18,7 +18,7 @@ export default function PublicLayout() {
         <AreaTitle city={city} />
         <nav>
           <Breadcrumbs>
-            <Link to="/">{city.name}</Link>
+            <Link to="/">{city.i18n.en}</Link>
           </Breadcrumbs>
         </nav>
       </header>
