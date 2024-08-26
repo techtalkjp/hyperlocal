@@ -38,7 +38,8 @@ export default function AdminCityAreaLayout() {
       <CardHeader>
         <CardTitle>
           <Link to={`/admin/${city.cityId}/${area.areaId}`}>
-            {city.name} - {area.name}
+            {area.name}{' '}
+            <small className="text-muted-foreground">{city.name}</small>
           </Link>
         </CardTitle>
         <HStack className="text-sm text-muted-foreground">

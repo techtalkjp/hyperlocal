@@ -1,6 +1,6 @@
 import { getFormProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import { Form, useNavigation } from '@remix-run/react'
+import type { useFetcher } from '@remix-run/react'
 import {
   Button,
   Label,
@@ -8,27 +8,42 @@ import {
   RadioGroupItem,
   Stack,
 } from '~/components/ui'
-import { nearBySchema } from '../schema'
+import { schema } from '../schema'
 
 interface NearbyFormProps {
+  cityId: string
+  areaId: string
   categoryId: string
   radius?: number
+  fetcher: ReturnType<typeof useFetcher>
 }
-export const NearbyForm = ({ radius = 400 }: NearbyFormProps) => {
+export const NearbyForm = ({
+  cityId,
+  areaId,
+  categoryId,
+  radius = 400,
+  fetcher,
+}: NearbyFormProps) => {
   const [form, fields] = useForm({
     defaultValue: {
       radius,
       rankPreference: 'POPULARITY',
     },
-    constraint: getZodConstraint(nearBySchema),
-    onValidate: ({ formData }) =>
-      parseWithZod(formData, { schema: nearBySchema }),
+    constraint: getZodConstraint(schema),
+    onValidate: ({ formData }) => parseWithZod(formData, { schema: schema }),
   })
-  const navigation = useNavigation()
 
   return (
-    <Form method="GET" {...getFormProps(form)}>
+    <fetcher.Form
+      method="GET"
+      action="/admin/resources/google-places-nearby"
+      {...getFormProps(form)}
+    >
       <Stack>
+        <input type="hidden" name="cityId" value={cityId} />
+        <input type="hidden" name="areaId" value={areaId} />
+        <input type="hidden" name="categoryId" value={categoryId} />
+
         <div>
           <Label>Rank Preference</Label>
           <RadioGroup
@@ -63,7 +78,7 @@ export const NearbyForm = ({ radius = 400 }: NearbyFormProps) => {
         </div>
 
         <Button
-          isLoading={navigation.state === 'loading'}
+          isLoading={fetcher.state === 'loading'}
           type="submit"
           name="intent"
           value="nearby"
@@ -71,6 +86,6 @@ export const NearbyForm = ({ radius = 400 }: NearbyFormProps) => {
           Nearby Search
         </Button>
       </Stack>
-    </Form>
+    </fetcher.Form>
   )
 }
