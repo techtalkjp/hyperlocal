@@ -43,11 +43,10 @@ export default function Index() {
     <Tabs defaultValue="registered">
       <TabsList className="grid grid-cols-2">
         <TabsTrigger value="registered">Registered</TabsTrigger>
-        <TabsTrigger value="nearby">Google Place API Nearby</TabsTrigger>
+        <TabsTrigger value="nearby">Place API Nearby</TabsTrigger>
       </TabsList>
       <TabsContent value="registered">
         <Stack>
-          <h2 className="text-xl font-semibold">Registered Places</h2>
           {places.length > 0 ? (
             <div>{places.length} places found.</div>
           ) : (
@@ -81,8 +80,6 @@ export default function Index() {
       </TabsContent>
       <TabsContent value="nearby">
         <Stack>
-          <h2 className="text-xl font-semibold">Google Places API Nearby</h2>
-
           <NearbyPlaceList
             cityId={city.cityId}
             areaId={area.areaId}

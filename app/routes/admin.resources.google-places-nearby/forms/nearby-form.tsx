@@ -1,6 +1,6 @@
 import { getFormProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import type { useFetcher } from '@remix-run/react'
+import { useFetcher } from '@remix-run/react'
 import {
   Button,
   Label,
@@ -8,6 +8,7 @@ import {
   RadioGroupItem,
   Stack,
 } from '~/components/ui'
+import type { loader } from '../route'
 import { schema } from '../schema'
 
 interface NearbyFormProps {
@@ -15,15 +16,16 @@ interface NearbyFormProps {
   areaId: string
   categoryId: string
   radius?: number
-  fetcher: ReturnType<typeof useFetcher>
 }
 export const NearbyForm = ({
   cityId,
   areaId,
   categoryId,
   radius = 400,
-  fetcher,
 }: NearbyFormProps) => {
+  const fetcher = useFetcher<typeof loader>({
+    key: `google-place-nearby-${cityId}-${areaId}-${categoryId}`,
+  })
   const [form, fields] = useForm({
     defaultValue: {
       radius,

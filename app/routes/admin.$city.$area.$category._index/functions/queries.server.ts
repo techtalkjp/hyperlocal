@@ -15,6 +15,8 @@ export const listAreaGooglePlaces = async (
     .select('googlePlacesAreas.categoryId as categoryId')
     .where('googlePlacesAreas.areaId', '==', areaId)
     .where('googlePlacesAreas.categoryId', '==', categoryId)
-    .orderBy('googlePlaces.rating', 'desc')
+    .orderBy('googlePlaces.rating desc')
+    .orderBy('googlePlaces.userRatingCount desc')
+
     .execute()
 }

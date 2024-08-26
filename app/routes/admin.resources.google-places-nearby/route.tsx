@@ -73,17 +73,14 @@ export const NearbyPlaceList = ({
   areaId: string
   categoryId: string
 }) => {
-  const fetcher = useFetcher<typeof loader>()
+  const fetcher = useFetcher<typeof loader>({
+    key: `google-place-nearby-${cityId}-${areaId}-${categoryId}`,
+  })
   const places = fetcher.data?.places ?? []
 
   return (
     <Stack>
-      <NearbyForm
-        fetcher={fetcher}
-        cityId={cityId}
-        areaId={areaId}
-        categoryId={categoryId}
-      />
+      <NearbyForm cityId={cityId} areaId={areaId} categoryId={categoryId} />
       <div>found {places.length} places.</div>
       {places.map((place, idx) => {
         return (
