@@ -1,1 +1,1 @@
-export * from './get-city-area'
+export * from './get-lang-city-area-category'

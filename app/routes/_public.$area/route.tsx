@@ -1,6 +1,6 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, type MetaFunction, Outlet } from '@remix-run/react'
-import { getCityArea } from '~/features/city-area/utils'
+import { getLangCityAreaCategory } from '~/features/city-area/utils'
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
   {
@@ -16,7 +16,7 @@ export const handle = {
 }
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
-  const { area } = await getCityArea(request, params)
+  const { area } = await getLangCityAreaCategory(request, params)
   if (!area) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }

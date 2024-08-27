@@ -1,7 +1,6 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, type MetaFunction, Outlet } from '@remix-run/react'
-import categories from '~/assets/categories.json'
-import { getCityArea } from '~/features/city-area/utils'
+import { getLangCityAreaCategory } from '~/features/city-area/utils'
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
   {
@@ -19,17 +18,15 @@ export const handle = {
 }
 
 export const loader = ({ request, params }: LoaderFunctionArgs) => {
-  const { area } = getCityArea(request, params)
+  const { area, category, lang } = getLangCityAreaCategory(request, params)
   if (!area) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
-  const categoryId = params.category
-  const category = categories.find((c) => c.id === categoryId)
   if (!category) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
 
-  return { area, category }
+  return { area, category, lang }
 }
 
 export default function AreaCategoryLayout() {
