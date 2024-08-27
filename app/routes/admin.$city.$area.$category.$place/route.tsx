@@ -59,7 +59,7 @@ export default function PlacePage() {
 
         <Stack>
           {reviews.map((review, idx) => (
-            <div key={review.originalText?.text}>
+            <div key={`${idx}-${review.originalText?.text}`}>
               <Rating
                 star={review.rating}
                 size={14}
