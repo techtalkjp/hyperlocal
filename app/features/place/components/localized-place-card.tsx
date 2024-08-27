@@ -58,7 +58,7 @@ export const LocalizedPlaceCard = ({ place, no }: GooglePlaceCardProps) => {
           )}
         </HStack>
 
-        {place.reviews.length > 0 && (
+        {place.reviews[0]?.text && (
           <HStack className="items-start">
             <MessageSquareIcon size="12" className="mt-0.5 flex-shrink-0" />
             <div className="line-clamp-2 text-xs text-muted-foreground">
