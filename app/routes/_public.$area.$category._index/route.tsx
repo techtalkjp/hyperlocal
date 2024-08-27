@@ -7,7 +7,6 @@ import { listLocalizedPlaces } from './queries.server'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const { city, area, lang, category } = getCityAreaCategory(params)
-  console.log({ city, area, lang, category })
   if (!area) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
