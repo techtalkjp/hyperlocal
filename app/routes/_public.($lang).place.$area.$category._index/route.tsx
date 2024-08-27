@@ -1,28 +1,32 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { Stack } from '~/components/ui'
-import { getCityAreaCategory } from '~/features/admin/city-area-category/get-city-area-category'
+import { getLangCityAreaCategory } from '~/features/city-area/utils'
 import { LocalizedPlaceCard } from '~/features/place/components/localized-place-card'
 import { listLocalizedPlaces } from './queries.server'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
-  const { city, area, lang, category } = getCityAreaCategory(params)
+  const { city, area, lang, category } = getLangCityAreaCategory(
+    request,
+    params,
+  )
   if (!area) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
   if (!category) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
-  // if (!lang) {
-  //   throw new Response(null, { status: 404, statusText: 'Not Found' })
-  // }
+  if (!lang) {
+    throw new Response(null, { status: 404, statusText: 'Not Found' })
+  }
 
   const places = await listLocalizedPlaces(
     city.cityId,
     area.areaId,
     category.id,
-    'en', // lang.id,
+    lang.id,
   )
+
   return { places }
 }
 

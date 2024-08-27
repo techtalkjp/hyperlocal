@@ -5,7 +5,6 @@ import areas from '~/consts/areas'
 import { getLangCityAreaCategory } from '~/features/city-area/utils'
 
 export const loader = ({ request, params }: LoaderFunctionArgs) => {
-  console.log('loader: _public.($lang)._index', params)
   const { city, lang } = getLangCityAreaCategory(request, params)
   return { areas, city, lang }
 }
