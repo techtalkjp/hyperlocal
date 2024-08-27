@@ -16,7 +16,7 @@ export default function IndexPage() {
       {areas.map((area) => (
         <Link
           key={area.areaId}
-          to={`${lang.path}/place/${area.areaId}`}
+          to={`/${lang.id === 'en' ? '' : `${lang.path}/`}place/${area.areaId}`}
           prefetch="intent"
         >
           <Card>
