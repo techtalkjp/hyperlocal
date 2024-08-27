@@ -8,12 +8,11 @@ export const getCityAreaCategory = (params: Params) => {
 
   const area = areas.find((area) => area.areaId === areaId)
 
-  const defaultCity = cities[0]
-  const city =
-    cities.find((city) => city.cityId === area?.cityId) || defaultCity
+  const city = cities.find((city) => city.cityId === area?.cityId) || cities[0]
   if (!city) {
     throw new Response('Not Found', { status: 404 })
   }
   const category = categories.find((category) => category.id === categoryId)
+
   return { city, area, category }
 }

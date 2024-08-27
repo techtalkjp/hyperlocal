@@ -49,8 +49,16 @@ export const translatePlace = async (
     throw new Error('Target language not found')
   }
 
-  const system = `Translate place's display and reviews from ${sourceLanguage.name} to ${targetLanguage.name}.`
-  const prompt = `Place name and details:
+  const system = `
+Translate the following ${sourceLanguage.displayName} place names and review texts into ${targetLanguage.displayName}.
+Preserve the original meaning and tone of the reviews while ensuring they sound natural in ${targetLanguage.displayName}.
+
+Pay special attention to:
+1. Accurate translation of place names, considering their cultural context
+2. Maintaining the nuances and sentiment of the original reviews
+3. Using appropriate ${targetLanguage.displayName} characters and expressions`
+  const prompt = `
+Original ${sourceLanguage.displayName}:
  - displayName: ${place.displayName}
  - reviews:
    - ${reviews.map((review) => `rating: ${review.rating}, text: ${review.originalText?.text ?? ''}`).join('\n   - ')}
