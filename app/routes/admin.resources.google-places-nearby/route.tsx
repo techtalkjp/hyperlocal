@@ -2,9 +2,6 @@ import { parseWithZod } from '@conform-to/zod'
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { useFetcher } from '@remix-run/react'
 import { MapIcon } from 'lucide-react'
-import areas from '~/assets/areas.json'
-import categories from '~/assets/categories.json'
-import cities from '~/assets/cities.json'
 import {
   Badge,
   Button,
@@ -18,6 +15,9 @@ import {
   HStack,
   Stack,
 } from '~/components/ui'
+import areas from '~/consts/areas'
+import categories from '~/consts/categories'
+import cities from '~/consts/cities'
 import { Rating } from '~/features/place/components'
 import { requireAdminUser } from '~/services/auth.server'
 import { type GooglePlaceType, nearBySearch } from '~/services/google-places'

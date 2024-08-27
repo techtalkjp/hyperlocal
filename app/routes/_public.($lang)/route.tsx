@@ -5,20 +5,25 @@ import { AreaTitle } from './components/area-title'
 import { Breadcrumbs } from './components/breadcrumbs'
 
 export const loader = ({ request, params }: LoaderFunctionArgs) => {
-  const { city } = getLangCityAreaCategory(request, params)
-  return { city }
+  console.log('loader: _public.($lang)', params)
+  const { city, lang } = getLangCityAreaCategory(request, params)
+  return { city, lang }
 }
 
 export default function PublicLayout() {
-  const { city } = useLoaderData<typeof loader>()
+  const { city, lang } = useLoaderData<typeof loader>()
 
   return (
     <div>
       <header className="px-2 pt-2">
-        <AreaTitle city={city} />
+        <div className="flex">
+          <AreaTitle city={city} />
+          <div className="flex-1" />
+          <div className="flex-shrink-0">{lang.id}</div>
+        </div>
         <nav>
           <Breadcrumbs>
-            <Link to="/">{city.i18n.en}</Link>
+            <Link to={`/${lang.path}`}>{city.i18n[lang.id]}</Link>
           </Breadcrumbs>
         </nav>
       </header>

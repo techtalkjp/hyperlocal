@@ -1,17 +1,6 @@
-import { z } from 'zod'
-import languages from '~/assets/languages.json'
+import languages from '~/consts/languages'
 import type { GooglePlace } from '~/services/db'
 import { translateSentences } from './translate-sentences'
-
-const schema = z.object({
-  displayName: z.string(),
-  reviews: z.array(
-    z.object({
-      rating: z.number(),
-      text: z.string().optional(),
-    }),
-  ),
-})
 
 export const translateGooglePlace = async (
   place: GooglePlace,

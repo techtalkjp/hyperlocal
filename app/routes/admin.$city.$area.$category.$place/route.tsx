@@ -1,7 +1,7 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, Outlet, useLoaderData } from '@remix-run/react'
-import languages from '~/assets/languages.json'
 import { HStack, Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
+import languages from '~/consts/languages'
 import { getCityAreaCategory } from '~/features/admin/city-area-category/get-city-area-category'
 import { GooglePlaceCard, Rating } from '~/features/place/components'
 import { requireAdminUser } from '~/services/auth.server'

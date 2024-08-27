@@ -1,5 +1,4 @@
 import { useLoaderData } from '@remix-run/react'
-import areas from '~/assets/areas.json'
 import {
   Card,
   CardContent,
@@ -13,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui'
+import areas from '~/consts/areas'
 
 export const loader = () => {
   return { areas }

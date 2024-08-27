@@ -1,7 +1,7 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
-import areas from '~/assets/areas.json'
-import cities from '~/assets/cities.json'
+import areas from '~/consts/areas'
+import cities from '~/consts/cities'
 import { requireAdminUser } from '~/services/auth.server'
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {

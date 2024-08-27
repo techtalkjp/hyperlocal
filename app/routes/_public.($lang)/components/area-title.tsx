@@ -1,6 +1,6 @@
 import { Link, useMatches, type UIMatch } from '@remix-run/react'
 import type React from 'react'
-import type cities from '~/assets/cities.json'
+import type cities from '~/consts/cities'
 
 type AreaMatch = UIMatch<
   Record<string, unknown>,

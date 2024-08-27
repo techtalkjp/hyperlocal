@@ -1,6 +1,6 @@
 import { logger, task } from '@trigger.dev/sdk/v3'
-import cities from '~/assets/cities.json'
-import languages from '~/assets/languages.json'
+import cities from '~/consts/cities'
+import languages from '~/consts/languages'
 import dayjs from '~/libs/dayjs'
 import { db, type GooglePlace } from '~/services/db'
 import { getPlacePhotoUri } from '~/services/google-places'

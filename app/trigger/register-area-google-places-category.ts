@@ -1,7 +1,7 @@
 import { logger, task } from '@trigger.dev/sdk/v3'
-import areas from '~/assets/areas.json'
-import categories from '~/assets/categories.json'
-import cities from '~/assets/cities.json'
+import areas from '~/consts/areas'
+import categories from '~/consts/categories'
+import cities from '~/consts/cities'
 import { upsertGooglePlace } from '~/features/place/mutations'
 import { nearBySearch, type GooglePlaceType } from '~/services/google-places'
 

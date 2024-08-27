@@ -1,6 +1,6 @@
 import { Link } from '@remix-run/react'
-import categories from '~/assets/categories.json'
 import { Card, CardHeader, CardTitle } from '~/components/ui'
+import categories from '~/consts/categories'
 
 export default function AreaIndexPage() {
   return (
