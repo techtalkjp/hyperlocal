@@ -29,7 +29,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 
 export default function AreaIndexPage() {
   const { places } = useLoaderData<typeof loader>()
-  console.log(places)
+
   return (
     <Stack className="p-2">
       {places.length === 0 && (

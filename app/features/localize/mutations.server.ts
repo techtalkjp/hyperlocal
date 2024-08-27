@@ -42,8 +42,6 @@ export const upsertLocalizedPlace = async ({
     updatedAt: dayjs().utc().format('YYYY-MM-DD HH:mm:ss'),
   }
 
-  console.log({ values })
-
   return await db
     .insertInto('localizedPlaces')
     .values(values)
