@@ -40,7 +40,7 @@ export const translatePlaceToLangTask = task({
         cityId: areaCategory.cityId,
         areaId: areaCategory.areaId,
         categoryId: areaCategory.categoryId,
-        languageId: payload.from,
+        languageId: payload.to,
         googlePlace: place,
         photos: payload.photos,
         translated,
