@@ -1,8 +1,7 @@
-import { google } from '@ai-sdk/google'
-import { generateObject } from 'ai'
 import { z } from 'zod'
 import languages from '~/assets/languages.json'
 import type { GooglePlace } from '~/services/db'
+import { translateSentences } from './translate-sentences'
 
 const schema = z.object({
   displayName: z.string(),
@@ -16,59 +15,57 @@ const schema = z.object({
 
 export const translateGooglePlace = async (
   place: GooglePlace,
-  source: string,
-  target: string,
+  from: string,
+  to: string,
 ) => {
-  const reviews = place.reviews as unknown as {
-    rating: number
-    originalText?: { text: string }
-  }[]
-  const sourceLanguage = languages.find((l) => l.id === source)
-  if (!sourceLanguage) {
-    throw new Error('Source language not found')
-  }
-
-  const targetLanguage = languages.find((l) => l.id === target)
-  if (!targetLanguage) {
-    throw new Error('Target language not found')
-  }
-
   // If source and target languages are the same, return the original object
-  if (source === target) {
+  if (from === to) {
     return {
       originalDisplayName: place.displayName,
       displayName: place.displayName,
-      reviews: reviews.map((review) => ({
+      reviews: place.reviews.map((review) => ({
         rating: review.rating,
         text: review.originalText?.text,
       })),
     }
   }
 
-  const system = `
-Translate the following ${sourceLanguage.displayName} place names and review texts into ${targetLanguage.displayName}.
-Preserve the original meaning and tone of the reviews while ensuring they sound natural in ${targetLanguage.displayName}.
+  const source = languages.find((l) => l.id === from)
+  if (!source) {
+    throw new Error('Source language not found')
+  }
 
-Pay special attention to:
-1. Accurate translation of place names, considering their cultural context
-2. Maintaining the nuances and sentiment of the original reviews
-3. Using appropriate ${targetLanguage.displayName} characters and expressions`
-  const prompt = `
-Original ${sourceLanguage.displayName}:
- - displayName: ${place.displayName}
- - reviews:
-   - ${reviews.map((review) => `rating: ${review.rating}, text: ${review.originalText?.text ?? ''}`).join('\n   - ')}
-`
+  const target = languages.find((l) => l.id === to)
+  if (!target) {
+    throw new Error('Target language not found')
+  }
 
-  const model = google('gemini-1.5-flash-latest')
-  const result = await generateObject({
-    model,
-    maxRetries: 10,
-    schema,
-    system,
-    prompt,
-    mode: 'json',
+  const displayName = await translateSentences({
+    sentence: place.displayName,
+    source: source.displayName,
+    target: target.displayName,
   })
 
-  return { originalDisplayName: place.displayName, ...result.object }
+  const reviews: { rating: number; text?: string }[] = []
+  for (const review of place.reviews) {
+    const text = review.originalText?.text
+    if (!text) {
+      reviews.push({ rating: review.rating })
+      continue
+    }
+
+    try {
+      const translatedText = await translateSentences({
+        sentence: text,
+        source: source.displayName,
+        target: target.displayName,
+      })
+
+      reviews.push({ rating: review.rating, text: translatedText })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  return { displayName, originalDisplayName: place.displayName, reviews }
 }
