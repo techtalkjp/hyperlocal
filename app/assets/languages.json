@@ -11,5 +11,5 @@
     "displayName": "中文繁体",
     "name": "Traditional Chinese"
   },
-  { "id": "kr", "displayName": "한국어", "name": "Korean" }
+  { "id": "ko", "displayName": "한국어", "name": "Korean" }
 ]
