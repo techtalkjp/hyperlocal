@@ -30,7 +30,9 @@ export const LocalizedPlaceCard = ({ place, no }: GooglePlaceCardProps) => {
             {no && `${no}.`} {place.displayName}
           </a>
         </div>
-        <div className="text-xs text-foreground/70">{place.displayName}</div>
+        <div className="text-xs text-foreground/70">
+          {place.originalDisplayName}
+        </div>
 
         <HStack className="my-0.5 flex-wrap gap-1">
           {mapPlaceTypes(place.types).map((type) => (
