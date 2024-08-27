@@ -46,5 +46,6 @@ export const upsertLocalizedPlace = async ({
     .insertInto('localizedPlaces')
     .values(values)
     .onConflict((oc) => oc.doUpdateSet(values))
+    .returningAll()
     .execute()
 }
