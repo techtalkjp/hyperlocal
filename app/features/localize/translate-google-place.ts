@@ -63,7 +63,7 @@ Original ${sourceLanguage.displayName}:
   const model = google('gemini-1.5-flash-latest')
   const result = await generateObject({
     model,
-    maxRetries: 3,
+    maxRetries: 10,
     schema,
     system,
     prompt,
