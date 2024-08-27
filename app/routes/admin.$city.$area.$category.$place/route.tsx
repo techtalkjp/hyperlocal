@@ -3,7 +3,7 @@ import { Link, Outlet, useLoaderData } from '@remix-run/react'
 import languages from '~/assets/languages.json'
 import { HStack, Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { getCityAreaCategory } from '~/features/admin/city-area-category/get-city-area-category'
-import { PlaceCard, Rating } from '~/features/place/components'
+import { GooglePlaceCard, Rating } from '~/features/place/components'
 import { requireAdminUser } from '~/services/auth.server'
 import type {
   GooglePlacePhoto,
@@ -43,7 +43,7 @@ export default function PlacePage() {
   return (
     <div className="grid grid-cols-2 gap-4">
       <Stack>
-        <PlaceCard place={place} />
+        <GooglePlaceCard place={place} />
 
         <HStack className="overflow-auto">
           {photos.slice(1).map((photo) => (

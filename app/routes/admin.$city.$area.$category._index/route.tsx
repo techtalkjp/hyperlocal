@@ -10,7 +10,7 @@ import {
   TabsTrigger,
 } from '~/components/ui'
 import { getCityAreaCategory } from '~/features/admin/city-area-category/get-city-area-category'
-import { PlaceCard } from '~/features/place/components'
+import { GooglePlaceCard } from '~/features/place/components'
 import { NearbyPlaceList } from '~/routes/admin.resources.google-places-nearby/route'
 import { requireAdminUser } from '~/services/auth.server'
 import { listAreaGooglePlaces } from './functions/queries.server'
@@ -68,7 +68,7 @@ export default function Index() {
                         </Link>
                       </Button>
                     </Stack>
-                    <PlaceCard place={place} no={idx + 1} />
+                    <GooglePlaceCard place={place} no={idx + 1} />
                   </React.Fragment>
                 )
               })}

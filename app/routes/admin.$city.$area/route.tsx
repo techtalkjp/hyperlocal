@@ -1,3 +1,4 @@
+import { parseWithZod } from '@conform-to/zod'
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,
@@ -5,11 +6,13 @@ import type {
 } from '@remix-run/node'
 import { Link, Outlet, useFetcher, useLoaderData } from '@remix-run/react'
 import { jsonWithSuccess } from 'remix-toast'
+import { z } from 'zod'
 import categories from '~/assets/categories.json'
 import { Button, Card, CardContent, HStack, Stack } from '~/components/ui'
 import { getCityAreaCategory } from '~/features/admin/city-area-category/get-city-area-category'
 import { requireAdminUser } from '~/services/auth.server'
 import { registerAreaGooglePlacesCategoryTask } from '~/trigger/register-area-google-places-category'
+import { translateAreaTask } from '~/trigger/translate-area'
 import { CategoryNav, CategoryNavItem } from './components/category-nav-item'
 import { GoogleMapPopover } from './components/google-map-popover'
 
@@ -40,24 +43,45 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
 
-  const handle = await registerAreaGooglePlacesCategoryTask.batchTrigger(
-    categories.map((category) => ({
-      payload: {
-        cityId: area.cityId,
-        areaId: area.areaId,
-        radius: area.radius,
-        categoryId: category.id,
-      },
-    })),
-  )
+  const submission = parseWithZod(await request.formData(), {
+    schema: z.object({ intent: z.string() }),
+  })
+  if (submission.status !== 'success') {
+    throw new Response(null, { status: 400, statusText: 'Bad Request' })
+  }
 
-  return jsonWithSuccess(
-    { handle },
-    {
-      message: 'Task triggered',
-      description: `Triggered ${categories.length} tasks: ${city.i18n.en} - ${area.areaId}, ${categories.length} categories, ${area.radius}m`,
-    },
-  )
+  if (submission.value.intent === 'translate') {
+    const handle = await translateAreaTask.trigger({ areaId: area.areaId })
+
+    return jsonWithSuccess(
+      { handle },
+      {
+        message: 'Translate task triggered',
+        description: `Triggered translate ${area.name}`,
+      },
+    )
+  }
+
+  if (submission.value.intent === 'register') {
+    const handle = await registerAreaGooglePlacesCategoryTask.batchTrigger(
+      categories.map((category) => ({
+        payload: {
+          cityId: area.cityId,
+          areaId: area.areaId,
+          radius: area.radius,
+          categoryId: category.id,
+        },
+      })),
+    )
+
+    return jsonWithSuccess(
+      { handle },
+      {
+        message: 'Task triggered',
+        description: `Triggered ${categories.length} tasks: ${city.i18n.en} - ${area.areaId}, ${categories.length} categories, ${area.radius}m`,
+      },
+    )
+  }
 }
 
 export default function AdminCityAreaLayout() {
@@ -91,13 +115,32 @@ export default function AdminCityAreaLayout() {
               </HStack>
             </div>
             <fetcher.Form method="POST">
-              <Button
-                type="submit"
-                isLoading={fetcher.state === 'submitting'}
-                variant="outline"
-              >
-                Register
-              </Button>
+              <HStack>
+                <Button
+                  name="intent"
+                  value="register"
+                  type="submit"
+                  isLoading={
+                    fetcher.state === 'submitting' &&
+                    fetcher.formData?.get('intent') === 'register'
+                  }
+                  variant="outline"
+                >
+                  Register
+                </Button>
+                <Button
+                  name="intent"
+                  value="translate"
+                  type="submit"
+                  isLoading={
+                    fetcher.state === 'submitting' &&
+                    fetcher.formData?.get('intent') === 'translate'
+                  }
+                  variant="outline"
+                >
+                  Translate
+                </Button>
+              </HStack>
             </fetcher.Form>
           </div>
 

@@ -4,11 +4,11 @@ import { Rating } from '~/features/place/components/rating'
 import type { GooglePlace } from '~/services/db'
 import { mapPlaceTypes, priceLevelLabel } from '../utils'
 
-interface PlaceCardProps extends React.ComponentProps<typeof HStack> {
+interface GooglePlaceCardProps extends React.ComponentProps<typeof HStack> {
   place: GooglePlace
   no?: number
 }
-export const PlaceCard = ({ place, no }: PlaceCardProps) => {
+export const GooglePlaceCard = ({ place, no }: GooglePlaceCardProps) => {
   return (
     <HStack className="items-start gap-4" key={place.id}>
       <div className="grid h-32 w-32 flex-shrink-0 place-content-center place-items-center bg-muted text-muted-foreground">

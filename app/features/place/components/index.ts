@@ -1,2 +1,2 @@
-export * from './place-card'
+export * from './google-place-card'
 export * from './rating'

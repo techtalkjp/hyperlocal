@@ -1,21 +1,23 @@
-import { db, type GooglePlace } from '~/services/db'
+import { db, type LocalizedPlace } from '~/services/db'
 
-export const listAreaGooglePlaces = async (
+export const listLocalizedPlaces = async (
+  cityId: string,
   areaId: string,
   categoryId: string,
+  lang: string,
 ) => {
   return (await db
-    .selectFrom('googlePlaces')
+    .selectFrom('localizedPlaces')
     .selectAll()
-    .innerJoin(
-      'googlePlacesAreas',
-      'googlePlaces.id',
-      'googlePlacesAreas.googlePlaceId',
-    )
-    .where('googlePlacesAreas.areaId', '==', areaId)
-    .where('googlePlacesAreas.categoryId', '==', categoryId)
-    .where('googlePlaces.rating', '>', 0)
-    .orderBy(['googlePlaces.rating desc', 'googlePlaces.userRatingCount desc'])
+    .where('cityId', '==', cityId)
+    .where('localizedPlaces.areaId', '==', areaId)
+    .where('localizedPlaces.categoryId', '==', categoryId)
+    .where('localizedPlaces.language', '==', lang)
+    .where('localizedPlaces.rating', '>', 0)
+    .orderBy([
+      'localizedPlaces.rating desc',
+      'localizedPlaces.userRatingCount desc',
+    ])
     .limit(100)
-    .execute()) as unknown as GooglePlace[]
+    .execute()) as unknown as LocalizedPlace[]
 }

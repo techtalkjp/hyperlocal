@@ -1,6 +1,6 @@
+import type { translateGooglePlace } from '~/features/localize/translate-google-place'
 import dayjs from '~/libs/dayjs'
 import { db, type GooglePlace } from '~/services/db'
-import type { translatePlace } from './translate-place'
 
 export const upsertLocalizedPlace = async ({
   cityId,
@@ -16,7 +16,7 @@ export const upsertLocalizedPlace = async ({
   categoryId: string
   languageId: string
   googlePlace: GooglePlace
-  translated: Awaited<ReturnType<typeof translatePlace>>
+  translated: Awaited<ReturnType<typeof translateGooglePlace>>
   photos: string[]
 }) => {
   const values = {

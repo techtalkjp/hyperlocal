@@ -2,15 +2,15 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
 import { useFetcher, useLoaderData } from '@remix-run/react'
 import { Button, HStack, Stack } from '~/components/ui'
 import { getCityAreaCategory } from '~/features/admin/city-area-category/get-city-area-category'
+import { translateGooglePlace } from '~/features/localize/translate-google-place'
 import { Rating } from '~/features/place/components'
 import { requireAdminUser } from '~/services/auth.server'
 import {
   getPlacePhotoUri,
   type GooglePlacePhoto,
 } from '~/services/google-places'
-import { getAreaGooglePlace } from '../admin.$city.$area.$category.$place/queries.server'
-import { upsertLocalizedPlace } from './mutations.server'
-import { translatePlace } from './translate-place'
+import { upsertLocalizedPlace } from '../../features/localize/mutations.server'
+import { getAreaGooglePlace } from './queries.server'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   await requireAdminUser(request)
@@ -52,7 +52,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
 
-  const translated = await translatePlace(place, city.language, lang.id)
+  const translated = await translateGooglePlace(place, city.language, lang.id)
   const photos: string[] = []
   for (const photo of place.photos as unknown as GooglePlacePhoto[]) {
     photos.push(
