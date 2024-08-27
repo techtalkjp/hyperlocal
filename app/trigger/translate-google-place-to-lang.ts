@@ -32,6 +32,7 @@ export const translatePlaceToLangTask = task({
       .selectAll()
       .where('googlePlacesAreas.googlePlaceId', '==', payload.googlePlaceId)
       .execute()
+    logger.info('placeAreas', { placeAreas })
 
     // localized place 保存
     for (const areaCategory of placeAreas) {
@@ -44,8 +45,8 @@ export const translatePlaceToLangTask = task({
         photos: payload.photos,
         translated,
       }
-      await upsertLocalizedPlace(values)
-      logger.info('upsertLocalizedPlace', values)
+      const upserted = await upsertLocalizedPlace(values)
+      logger.info('upsertLocalizedPlace', { upserted })
     }
   },
 })
