@@ -1,11 +1,10 @@
 import { logger, task } from '@trigger.dev/sdk/v3'
 import cities from '~/assets/cities.json'
 import languages from '~/assets/languages.json'
-import { upsertLocalizedPlace } from '~/features/localize/mutations.server'
-import { translateGooglePlace } from '~/features/localize/translate-google-place'
 import dayjs from '~/libs/dayjs'
 import { db, type GooglePlace } from '~/services/db'
 import { getPlacePhotoUri } from '~/services/google-places'
+import { translatePlaceToLangTask } from './translate-google-place-to-lang'
 
 export const translatePlaceTask = task({
   id: 'translate-google-place',
@@ -19,15 +18,15 @@ export const translatePlaceTask = task({
 
     // TODO: 前回更新から日が浅い場合はスキップ
 
-    const placeAreas = await db
+    const placeArea = await db
       .selectFrom('googlePlacesAreas')
       .selectAll()
       .where('googlePlacesAreas.googlePlaceId', '==', payload.googlePlaceId)
-      .execute()
+      .executeTakeFirstOrThrow()
 
-    const city = cities.find((city) => city.cityId === placeAreas[0]?.cityId)
+    const city = cities.find((city) => city.cityId === placeArea.cityId)
     if (!city) {
-      throw new Error(`Unknown City Id: ${placeAreas[0]?.cityId}`)
+      throw new Error(`Unknown City Id: ${placeArea.cityId}`)
     }
 
     // transform photos
@@ -43,30 +42,16 @@ export const translatePlaceTask = task({
     logger.info('photos', { photos })
 
     // 翻訳
-    for (const lang of languages) {
-      logger.info(`translate ${place.id} from ${city.language} to ${lang.id}`)
-      const translated = await translateGooglePlace(
-        place,
-        city.language,
-        lang.id,
-      )
-      logger.info('translated', translated)
-
-      // localized place 保存
-      for (const areaCategory of placeAreas) {
-        const values = {
-          cityId: city.cityId,
-          areaId: areaCategory.areaId,
-          categoryId: areaCategory.categoryId,
-          languageId: lang.id,
-          googlePlace: place,
+    await translatePlaceToLangTask.batchTriggerAndWait(
+      languages.map((lang) => ({
+        payload: {
+          googlePlaceId: payload.googlePlaceId,
+          from: city.language,
+          to: lang.id,
           photos,
-          translated,
-        }
-        await upsertLocalizedPlace(values)
-        logger.info('upsertLocalizedPlace', values)
-      }
-    }
+        },
+      })),
+    )
 
     // 更新を記録
     await db

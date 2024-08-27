@@ -40,11 +40,16 @@ export const translateGooglePlace = async (
     throw new Error('Target language not found')
   }
 
-  const displayName = await translateSentences({
-    sentence: place.displayName,
-    source: source.displayName,
-    target: target.displayName,
-  })
+  let displayName = place.displayName
+  try {
+    displayName = await translateSentences({
+      sentence: place.displayName,
+      source: source.displayName,
+      target: target.displayName,
+    })
+  } catch (error) {
+    console.log(displayName, error)
+  }
 
   const reviews: { rating: number; text?: string }[] = []
   for (const review of place.reviews) {
@@ -63,7 +68,7 @@ export const translateGooglePlace = async (
 
       reviews.push({ rating: review.rating, text: translatedText })
     } catch (error) {
-      console.log(error)
+      console.log(text, error)
     }
   }
 
