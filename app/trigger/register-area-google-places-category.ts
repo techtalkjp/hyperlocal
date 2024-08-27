@@ -3,7 +3,7 @@ import areas from '~/assets/areas.json'
 import categories from '~/assets/categories.json'
 import cities from '~/assets/cities.json'
 import { upsertGooglePlace } from '~/features/place/mutations'
-import { nearBySearch, type PlaceType } from '~/services/google-places'
+import { nearBySearch, type GooglePlaceType } from '~/services/google-places'
 
 export const registerAreaGooglePlacesCategoryTask = task({
   id: 'register-area-google-places-category',
@@ -37,7 +37,7 @@ export const registerAreaGooglePlacesCategoryTask = task({
       latitude: area.latitude,
       longitude: area.longitude,
       radius: payload.radius,
-      includedPrimaryTypes: category.googlePlaceTypes as PlaceType[],
+      includedPrimaryTypes: category.googlePlaceTypes as GooglePlaceType[],
       languageCode: city.language,
     })
     logger.info('places', { places })

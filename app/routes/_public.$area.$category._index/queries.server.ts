@@ -1,10 +1,10 @@
-import { db } from '~/services/db'
+import { db, type GooglePlace } from '~/services/db'
 
 export const listAreaGooglePlaces = async (
   areaId: string,
   categoryId: string,
 ) => {
-  return await db
+  return (await db
     .selectFrom('googlePlaces')
     .selectAll()
     .innerJoin(
@@ -17,5 +17,5 @@ export const listAreaGooglePlaces = async (
     .where('googlePlaces.rating', '>', 0)
     .orderBy(['googlePlaces.rating desc', 'googlePlaces.userRatingCount desc'])
     .limit(100)
-    .execute()
+    .execute()) as unknown as GooglePlace[]
 }

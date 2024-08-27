@@ -1,10 +1,10 @@
-import { db } from '~/services/db'
+import { db, type GooglePlace } from '~/services/db'
 
 export const listAreaGooglePlaces = async (
   areaId: string,
   categoryId: string,
 ) => {
-  return await db
+  return (await db
     .selectFrom('googlePlaces')
     .innerJoin(
       'googlePlacesAreas',
@@ -12,11 +12,9 @@ export const listAreaGooglePlaces = async (
       'googlePlacesAreas.googlePlaceId',
     )
     .selectAll('googlePlaces')
-    .select('googlePlacesAreas.categoryId as categoryId')
     .where('googlePlacesAreas.areaId', '==', areaId)
     .where('googlePlacesAreas.categoryId', '==', categoryId)
     .orderBy('googlePlaces.rating desc')
     .orderBy('googlePlaces.userRatingCount desc')
-
-    .execute()
+    .execute()) as unknown as Array<GooglePlace>
 }

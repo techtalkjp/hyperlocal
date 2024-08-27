@@ -1,10 +1,15 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
 import { useFetcher, useLoaderData } from '@remix-run/react'
-import { Button, Stack } from '~/components/ui'
+import { Button, HStack, Stack } from '~/components/ui'
 import { getCityAreaCategory } from '~/features/admin/city-area-category/get-city-area-category'
 import { Rating } from '~/features/place/components'
 import { requireAdminUser } from '~/services/auth.server'
+import {
+  getPlacePhotoUri,
+  type GooglePlacePhoto,
+} from '~/services/google-places'
 import { getAreaGooglePlace } from '../admin.$city.$area.$category.$place/queries.server'
+import { upsertLocalizedPlace } from './mutations.server'
 import { translatePlace } from './translate-place'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
@@ -26,7 +31,17 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {
   await requireAdminUser(request)
-  const { city, area } = getCityAreaCategory(params)
+  const { lang, city, area, category } = getCityAreaCategory(params)
+
+  if (!lang) {
+    throw new Response(null, { status: 404, statusText: 'Not Found' })
+  }
+  if (!area) {
+    throw new Response(null, { status: 404, statusText: 'Not Found' })
+  }
+  if (!category) {
+    throw new Response(null, { status: 404, statusText: 'Not Found' })
+  }
 
   const placeId = params.place
   if (!placeId) {
@@ -36,13 +51,28 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
   if (!place) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
-  const lang = params.lang
-  if (!lang) {
-    throw new Response(null, { status: 404, statusText: 'Not Found' })
-  }
-  const translated = await translatePlace(place, city.language, lang)
 
-  return { translated }
+  const translated = await translatePlace(place, city.language, lang.id)
+  const photos: string[] = []
+  for (const photo of place.photos as unknown as GooglePlacePhoto[]) {
+    photos.push(
+      await getPlacePhotoUri({
+        name: photo.name,
+      }),
+    )
+  }
+
+  await upsertLocalizedPlace({
+    cityId: city.cityId,
+    areaId: area.areaId,
+    categoryId: category.id,
+    languageId: lang.id,
+    googlePlace: place,
+    translated,
+    photos,
+  })
+
+  return { translated, photos }
 }
 
 export default function PlacePage() {
@@ -68,6 +98,21 @@ export default function PlacePage() {
           <div className="text-sm text-muted-foreground">
             {fetcher.data.translated.originalDisplayName}
           </div>
+
+          {fetcher.data?.photos && (
+            <HStack className="overflow-auto">
+              {fetcher.data.photos.map((photo) => (
+                <img
+                  key={photo}
+                  className="h-32 w-32 rounded object-cover"
+                  src={photo}
+                  loading="lazy"
+                  alt="photo1"
+                />
+              ))}
+            </HStack>
+          )}
+
           <Stack>
             {fetcher.data.translated.reviews.map((review) => (
               <div key={review.text}>

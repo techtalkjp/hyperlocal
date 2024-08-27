@@ -2,12 +2,6 @@ import { MessageSquareIcon } from 'lucide-react'
 import { Badge, HStack } from '~/components/ui'
 import { Rating } from '~/features/place/components/rating'
 import type { GooglePlace } from '~/services/db'
-import type {
-  GooglePlacePhoto,
-  GooglePlacePriceLevel,
-  GooglePlaceReview,
-  PlaceType,
-} from '~/services/google-places'
 import { mapPlaceTypes, priceLevelLabel } from '../utils'
 
 interface PlaceCardProps extends React.ComponentProps<typeof HStack> {
@@ -15,18 +9,13 @@ interface PlaceCardProps extends React.ComponentProps<typeof HStack> {
   no?: number
 }
 export const PlaceCard = ({ place, no }: PlaceCardProps) => {
-  const types = place.types as unknown as PlaceType[]
-  const priceLevel = place.priceLevel as GooglePlacePriceLevel
-  const photos = place.photos as unknown as GooglePlacePhoto[]
-  const reviews = place.reviews as unknown as GooglePlaceReview[]
-
   return (
     <HStack className="items-start gap-4" key={place.id}>
       <div className="grid h-32 w-32 flex-shrink-0 place-content-center place-items-center bg-muted text-muted-foreground">
-        {photos.length > 0 && photos[0].name ? (
+        {place.photos.length > 0 && place.photos[0].name ? (
           <img
             className="h-32 w-32 rounded object-cover transition-transform hover:scale-125"
-            src={`/resources/photos/${photos[0].name}.jpg`}
+            src={`/resources/photos/${place.photos[0].name}.jpg`}
             loading="lazy"
             alt="photo1"
           />
@@ -44,7 +33,7 @@ export const PlaceCard = ({ place, no }: PlaceCardProps) => {
         <div className="text-xs text-foreground/70">{place.displayName}</div>
 
         <HStack className="my-0.5 flex-wrap gap-1">
-          {mapPlaceTypes(types).map((type) => (
+          {mapPlaceTypes(place.types).map((type) => (
             <Badge
               key={type}
               variant="outline"
@@ -64,18 +53,18 @@ export const PlaceCard = ({ place, no }: PlaceCardProps) => {
           </HStack>
           {place.priceLevel && (
             <div className="flex-shrink-0 text-xs font-bold text-foreground/70">
-              {priceLevelLabel(priceLevel)}
+              {priceLevelLabel(place.priceLevel)}
             </div>
           )}
         </HStack>
 
-        {reviews.length > 0 &&
-          reviews[0].originalText?.text &&
-          reviews[0].originalText.text !== '' && (
+        {place.reviews.length > 0 &&
+          place.reviews[0].originalText?.text &&
+          place.reviews[0].originalText.text !== '' && (
             <HStack className="items-start">
               <MessageSquareIcon size="12" className="mt-0.5 flex-shrink-0" />
               <div className="line-clamp-2 text-xs text-muted-foreground">
-                "{reviews[0].originalText.text}"
+                "{place.reviews[0].originalText.text}"
               </div>
             </HStack>
           )}

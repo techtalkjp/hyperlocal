@@ -1,3 +1,4 @@
+import dayjs from '~/libs/dayjs'
 import { db, type GooglePlace } from '~/services/db'
 import type { translatePlace } from './translate-place'
 
@@ -18,7 +19,7 @@ export const upsertLocalizedPlace = async ({
   translated: Awaited<ReturnType<typeof translatePlace>>
   photos: string[]
 }) => {
-  await db.insertInto('localizedPlaces').values({
+  const values = {
     placeId: googlePlace.id,
     cityId,
     areaId,
@@ -29,12 +30,23 @@ export const upsertLocalizedPlace = async ({
     googleMapsUri: googlePlace.googleMapsUri,
     latitude: googlePlace.latitude,
     longitude: googlePlace.longitude,
-    photos: JSON.stringify(photos),
-    reviews: JSON.stringify(translated.reviews),
+    photos: JSON.stringify(photos ?? []),
+    reviews: JSON.stringify(translated.reviews ?? []),
     priceLevel: googlePlace.priceLevel,
     rating: googlePlace.rating,
-    types: googlePlace.types,
+    types: JSON.stringify(googlePlace.types),
     userRatingCount: googlePlace.userRatingCount,
-    regularOpeningHours: googlePlace.regularOpeningHours,
-  })
+    regularOpeningHours: googlePlace.regularOpeningHours
+      ? JSON.stringify(googlePlace.regularOpeningHours)
+      : null,
+    updatedAt: dayjs().utc().format('YYYY-MM-DD HH:mm:ss'),
+  }
+
+  console.log({ values })
+
+  return await db
+    .insertInto('localizedPlaces')
+    .values(values)
+    .onConflict((oc) => oc.doUpdateSet(values))
+    .execute()
 }

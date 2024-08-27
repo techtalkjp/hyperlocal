@@ -13,7 +13,6 @@ import { getCityAreaCategory } from '~/features/admin/city-area-category/get-cit
 import { PlaceCard } from '~/features/place/components'
 import { NearbyPlaceList } from '~/routes/admin.resources.google-places-nearby/route'
 import { requireAdminUser } from '~/services/auth.server'
-import { LLMTest } from './components'
 import { listAreaGooglePlaces } from './functions/queries.server'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
@@ -59,9 +58,8 @@ export default function Index() {
             <div className="grid grid-cols-[auto_1fr] gap-2">
               {places.map((place, idx) => {
                 return (
-                  <React.Fragment key={`${place.categoryId}-${place.id}`}>
+                  <React.Fragment key={`${category.id}-${place.id}`}>
                     <Stack>
-                      <LLMTest place={place} />
                       <Button asChild>
                         <Link
                           to={`/admin/${city.cityId}/${area.areaId}/${category.id}/${place.id}`}

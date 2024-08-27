@@ -1,12 +1,12 @@
 import { defaultLanguageCode, fieldMask } from '../constants'
-import type { Place, PlaceType } from '../types'
+import type { GooglePlaceType, Place } from '../types'
 
 interface TextSearchResponse {
   places: Place[]
 }
 interface TextSearchProps {
   textQuery: string
-  includedType?: PlaceType
+  includedType?: GooglePlaceType
   latitude: number
   longitude: number
   radius: number

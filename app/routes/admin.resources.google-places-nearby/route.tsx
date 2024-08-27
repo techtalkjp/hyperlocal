@@ -20,7 +20,7 @@ import {
 } from '~/components/ui'
 import { Rating } from '~/features/place/components'
 import { requireAdminUser } from '~/services/auth.server'
-import { type PlaceType, nearBySearch } from '~/services/google-places'
+import { type GooglePlaceType, nearBySearch } from '~/services/google-places'
 import { ReviewText } from './components/review'
 import { NearbyForm } from './forms/nearby-form'
 import { schema } from './schema'
@@ -53,7 +53,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     latitude: area.latitude,
     longitude: area.longitude,
     radius: submission.value.radius,
-    includedPrimaryTypes: category.googlePlaceTypes as PlaceType[],
+    includedPrimaryTypes: category.googlePlaceTypes as GooglePlaceType[],
   })
   return {
     city,

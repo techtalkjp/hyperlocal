@@ -25,6 +25,9 @@ export const getPlacePhotoUri = async ({
   const ret = await fetch(
     `https://places.googleapis.com/v1/${name}/media?key=${process.env.GOOGLE_MAPS_API_KEY}&maxWidthPx=${maxWidthPx}&maxHeightPx=${maxHeightPx}&skipHttpRedirect=true`,
   )
-  const json = (await ret.json) as unknown as { name: string; photoUri: string }
-  return json.photoUri
+  const photos = (await ret.json()) as unknown as {
+    name: string
+    photoUri: string
+  }
+  return photos.photoUri
 }

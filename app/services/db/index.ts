@@ -16,7 +16,13 @@ export const db = new Kysely<DB>({
     url: process.env.DATABASE_URL,
     authToken: process.env.TURSO_AUTH_TOKEN,
   }),
-  log: (event) => debug(event),
+  log: (event) =>
+    debug([
+      event.level,
+      event.queryDurationMillis,
+      event.query.sql,
+      event.query.parameters,
+    ]),
   plugins: [
     new CamelCasePlugin(),
     new ParseJSONResultsPlugin(),

@@ -1,6 +1,6 @@
 import type { GooglePlace } from '../db/schema'
 
-export type PlaceType =
+export type GooglePlaceType =
   | PlaceType_Automotive
   | PlaceType_Business
   | PlaceType_Culture
@@ -225,7 +225,7 @@ type PlaceType_Transportation =
 export interface Place {
   name: string
   id: string
-  types: PlaceType[]
+  types: GooglePlaceType[]
   displayName: {
     text: string
   }
