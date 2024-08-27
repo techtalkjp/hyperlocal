@@ -38,14 +38,14 @@ export type LocalizedPlace = {
     language: string;
     types: string;
     displayName: string;
-    description: string;
+    originalDisplayName: string;
     rating: number;
     userRatingCount: number;
     latitude: number;
     longitude: number;
     googleMapsUri: string;
-    priceLevel: string;
-    regularOpeningHours: string;
+    priceLevel: string | null;
+    regularOpeningHours: string | null;
     reviews: string;
     photos: string;
     createdAt: Generated<string>;

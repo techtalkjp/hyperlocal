@@ -55,14 +55,14 @@ model LocalizedPlace {
   language            String
   types               String
   displayName         String      @map("display_name")
-  description         String
+  originalDisplayName String      @map("original_display_name")
   rating              Float
   userRatingCount     Int         @map("user_rating_count")
   latitude            Float
   longitude           Float
   googleMapsUri       String      @map("google_maps_uri")
-  priceLevel          String      @map("price_level")
-  regularOpeningHours String      @map("regular_opening_hours") // JSON array of opening hours objects
+  priceLevel          String?     @map("price_level")
+  regularOpeningHours String?     @map("regular_opening_hours") // JSON array of opening hours objects
   reviews             String // JSON array of review objects
   photos              String // JSON array of photo objects
   createdAt           DateTime    @default(now()) @map("created_at")

@@ -1,23 +1,26 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, Outlet, useLoaderData } from '@remix-run/react'
 import languages from '~/assets/languages.json'
-import { Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
+import { HStack, Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { getCityAreaCategory } from '~/features/admin/city-area-category/get-city-area-category'
 import { PlaceCard, Rating } from '~/features/place/components'
 import { requireAdminUser } from '~/services/auth.server'
+import type {
+  GooglePlacePhoto,
+  GooglePlaceReview,
+} from '~/services/google-places'
 import { getAreaGooglePlace } from '../admin.$city.$area.$category.$place/queries.server'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   await requireAdminUser(request)
-  const { city, area, category } = getCityAreaCategory(params)
+  const { lang, city, area, category } = getCityAreaCategory(params)
   if (!area) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
   if (!category) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
-
-  const { place: placeId, lang: langId } = params
+  const { place: placeId } = params
   if (!placeId) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
@@ -25,7 +28,6 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   if (!place) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
-  const lang = languages.find((l) => l.id === langId)
 
   return {
     place,
@@ -35,15 +37,25 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 
 export default function PlacePage() {
   const { place, lang } = useLoaderData<typeof loader>()
-  const reviews = place.reviews as unknown as {
-    rating: number
-    originalText?: { text: string }
-  }[]
+  const photos = place.photos as unknown as GooglePlacePhoto[]
+  const reviews = place.reviews as unknown as GooglePlaceReview[]
 
   return (
     <div className="grid grid-cols-2 gap-4">
       <Stack>
         <PlaceCard place={place} />
+
+        <HStack className="overflow-auto">
+          {photos.slice(1).map((photo) => (
+            <img
+              key={photo.name}
+              className="h-32 w-32 rounded object-cover"
+              src={`/resources/photos/${photo.name}.jpg`}
+              loading="lazy"
+              alt="photo1"
+            />
+          ))}
+        </HStack>
 
         <Stack>
           {reviews.map((review, idx) => (

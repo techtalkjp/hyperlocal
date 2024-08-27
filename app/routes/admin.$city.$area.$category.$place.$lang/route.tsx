@@ -65,6 +65,9 @@ export default function PlacePage() {
       {fetcher.data?.translated && (
         <div>
           <div className="font-bold">{fetcher.data.translated.displayName}</div>
+          <div className="text-sm text-muted-foreground">
+            {fetcher.data.translated.originalDisplayName}
+          </div>
           <Stack>
             {fetcher.data.translated.reviews.map((review) => (
               <div key={review.text}>

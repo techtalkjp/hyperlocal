@@ -49,6 +49,18 @@ export const translatePlace = async (
     throw new Error('Target language not found')
   }
 
+  // If source and target languages are the same, return the original object
+  if (source === target) {
+    return {
+      originalDisplayName: place.displayName,
+      displayName: place.displayName,
+      reviews: reviews.map((review) => ({
+        rating: review.rating,
+        text: review.originalText?.text,
+      })),
+    }
+  }
+
   const system = `
 Translate the following ${sourceLanguage.displayName} place names and review texts into ${targetLanguage.displayName}.
 Preserve the original meaning and tone of the reviews while ensuring they sound natural in ${targetLanguage.displayName}.
@@ -74,16 +86,5 @@ Original ${sourceLanguage.displayName}:
     mode: 'json',
   })
 
-  console.log({
-    system,
-    prompt,
-    original: JSON.stringify(
-      { displayName: place.displayName, reviews: place.reviews },
-      null,
-      2,
-    ),
-    translated: JSON.stringify(result.object, null, 2),
-  })
-
-  return result.object
+  return { originalDisplayName: place.displayName, ...result.object }
 }
