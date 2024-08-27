@@ -66,7 +66,10 @@ export const translateGooglePlace = async (
         target: target.displayName,
       })
 
-      reviews.push({ rating: review.rating, text: translatedText })
+      reviews.push({
+        rating: review.rating,
+        text: translatedText !== '' ? translatedText : undefined,
+      })
     } catch (error) {
       console.log(text, error)
     }
