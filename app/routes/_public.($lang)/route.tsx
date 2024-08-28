@@ -14,13 +14,15 @@ export default function PublicLayout() {
   return (
     <div>
       <header className="px-2 pt-2">
-        <div className="flex">
-          <AreaTitle city={city} />
+        <div className="flex items-center">
+          <AreaTitle city={city} languageId={lang.id} />
           <div className="flex-1" />
-          <div className="flex-shrink-0">
-            <LanguageSelect currentLanguageId={lang.id} />
-          </div>
+          <LanguageSelect
+            currentLanguageId={lang.id}
+            className="flex-shrink-0"
+          />
         </div>
+
         <nav>
           <Breadcrumbs>
             <Link to={`/${lang.path}`}>{city.i18n[lang.id]}</Link>

@@ -1,15 +1,17 @@
 import { Link, useMatches, type UIMatch } from '@remix-run/react'
 import type React from 'react'
-import type cities from '~/consts/cities'
+import type { City } from '~/consts/cities'
+import type { LanguageId } from '~/consts/languages'
 
 type AreaMatch = UIMatch<
   Record<string, unknown>,
   { area: (data: unknown) => JSX.Element }
 >
 interface AreaTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
-  city: (typeof cities)[number]
+  city: City
+  languageId: LanguageId
 }
-export const AreaTitle = ({ city, ...props }: AreaTitleProps) => {
+export const AreaTitle = ({ city, languageId, ...props }: AreaTitleProps) => {
   const matches = (useMatches() as unknown as AreaMatch[]).find(
     ({ handle }) => handle?.area,
   )
@@ -17,10 +19,11 @@ export const AreaTitle = ({ city, ...props }: AreaTitleProps) => {
   const area = matches?.handle.area(matches.data)
 
   return (
-    <h1 className="text-xl font-bold">
-      <Link to="/">
-        Hyperlocal {city.i18n.en} <small>{area}</small>
+    <h1 className="flex flex-wrap items-end gap-2 text-xl font-bold">
+      <Link to={`/${languageId === 'en' ? '' : languageId}`} prefetch="intent">
+        Hyperlocal {city.i18n[languageId]}{' '}
       </Link>
+      <div className="text-sm text-muted-foreground">{area}</div>
     </h1>
   )
 }

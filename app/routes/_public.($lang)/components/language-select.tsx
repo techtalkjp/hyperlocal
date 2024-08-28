@@ -1,5 +1,6 @@
-import { Link, useLocation, useNavigate } from '@remix-run/react'
+import { Link, useLocation } from '@remix-run/react'
 import { GlobeIcon } from 'lucide-react'
+import type React from 'react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,6 +10,7 @@ import {
   HStack,
 } from '~/components/ui'
 import languages, { type LanguageId } from '~/consts/languages'
+import { cn } from '~/libs/utils'
 
 function generateLanguageUrls(
   currentPathname: string,
@@ -38,13 +40,16 @@ function generateLanguageUrls(
   }))
 }
 
+interface LanguageSelectProps
+  extends React.ComponentProps<typeof DropdownMenuTrigger> {
+  currentLanguageId: LanguageId
+}
 export const LanguageSelect = ({
   currentLanguageId,
-}: {
-  currentLanguageId: LanguageId
-}) => {
+  className,
+  ...rest
+}: LanguageSelectProps) => {
   const currentLang = languages.find((lang) => lang.id === currentLanguageId)
-  const navigate = useNavigate()
   const location = useLocation()
   const languageUrls = generateLanguageUrls(
     location.pathname,
@@ -53,13 +58,19 @@ export const LanguageSelect = ({
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger
+        className={cn(
+          'rounded border px-2 text-sm text-muted-foreground',
+          className,
+        )}
+        {...rest}
+      >
         <HStack>
           <GlobeIcon size="16" className="inline" />
           {currentLang?.displayName}
         </HStack>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="text-foreground/70">
+      <DropdownMenuContent className="text-muted-foreground">
         <DropdownMenuLabel>Language</DropdownMenuLabel>
         {languageUrls.map((lang) => (
           <DropdownMenuItem key={lang.id} asChild>
