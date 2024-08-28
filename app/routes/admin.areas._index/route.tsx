@@ -33,6 +33,7 @@ export default function AdminAreasIndexPage() {
               <TableHead>Area ID</TableHead>
               <TableHead>City ID</TableHead>
               <TableHead>Name</TableHead>
+              <TableHead>i18n</TableHead>
               <TableHead>Longitude</TableHead>
               <TableHead>Latitude</TableHead>
               <TableHead>Radius</TableHead>
@@ -44,6 +45,7 @@ export default function AdminAreasIndexPage() {
                 <TableCell>{area.areaId}</TableCell>
                 <TableCell>{area.cityId}</TableCell>
                 <TableCell>{area.name}</TableCell>
+                <TableCell>{JSON.stringify(area.i18n)}</TableCell>
                 <TableCell>{area.longitude}</TableCell>
                 <TableCell>{area.latitude}</TableCell>
                 <TableCell>{area.radius}</TableCell>

@@ -26,7 +26,7 @@ export default function AdminIndex() {
                 className="hover:underline"
                 to={`/admin/${area.cityId}/${area.areaId}`}
               >
-                {city?.i18n.en ?? `unknown - ${area.cityId}`} - {area.name}
+                {city?.i18n.en ?? `unknown - ${area.cityId}`} - {area.i18n.en}
               </Link>
             </li>
           )

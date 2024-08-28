@@ -18,7 +18,7 @@ import { GoogleMapPopover } from './components/google-map-popover'
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
   {
-    title: `Admin - ${data?.area.name}`,
+    title: `${data?.area.i18n.en} - Hyperlocal Admin`,
   },
 ]
 
@@ -96,7 +96,7 @@ export default function AdminCityAreaLayout() {
             <div>
               <h2 className="text-xl font-semibold">
                 <Link to={`/admin/${city.cityId}/${area.areaId}`}>
-                  {area.name}{' '}
+                  {area.i18n.en}{' '}
                   <small className="text-muted-foreground">
                     {city.i18n.en}
                   </small>
