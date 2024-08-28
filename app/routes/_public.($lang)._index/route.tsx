@@ -3,6 +3,7 @@ import { Link, useLoaderData } from '@remix-run/react'
 import {
   Button,
   Card,
+  CardDescription,
   CardHeader,
   CardTitle,
   HStack,
@@ -42,6 +43,7 @@ export default function IndexPage() {
           <Card>
             <CardHeader>
               <CardTitle>{area.i18n[lang.id]}</CardTitle>
+              <CardDescription>{area.name}</CardDescription>
             </CardHeader>
           </Card>
         </Link>
