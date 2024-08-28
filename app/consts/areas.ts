@@ -16,7 +16,7 @@ export default [
     areaId: 'higashi-ginza',
     name: '東銀座',
     i18n: {
-      en: 'Higashi Ginza',
+      en: 'Higashi-ginza',
       ja: '東銀座',
       'zh-CN': '东银座',
       'zh-TW': '東銀座',
