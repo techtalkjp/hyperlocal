@@ -60,17 +60,17 @@ export const LanguageSelect = ({
     <DropdownMenu>
       <DropdownMenuTrigger
         className={cn(
-          'rounded border px-2 text-sm text-muted-foreground',
+          'rounded border px-2 py-0.5 text-sm text-muted-foreground',
           className,
         )}
         {...rest}
       >
         <HStack>
-          <GlobeIcon size="16" className="inline" />
+          <GlobeIcon size="12" className="inline" />
           {currentLang?.displayName}
         </HStack>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="text-muted-foreground">
+      <DropdownMenuContent>
         <DropdownMenuLabel>Language</DropdownMenuLabel>
         {languageUrls.map((lang) => (
           <DropdownMenuItem key={lang.id} asChild>
