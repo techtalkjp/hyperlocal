@@ -34,7 +34,7 @@ export default function AreaIndexPage() {
   const { places } = useLoaderData<typeof loader>()
 
   return (
-    <Stack className="p-2">
+    <Stack>
       {places.length === 0 && (
         <div className="text-sm text-muted-foreground">No Places</div>
       )}

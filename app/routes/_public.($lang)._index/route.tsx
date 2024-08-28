@@ -12,9 +12,9 @@ export const loader = ({ request, params }: LoaderFunctionArgs) => {
 export default function IndexPage() {
   const { areas, city, lang } = useLoaderData<typeof loader>()
   return (
-    <Stack className="px-2">
+    <Stack>
       {areas.map((area) => (
-        <Link key={area.areaId} to={`place/${area.areaId}`} prefetch="intent">
+        <Link key={area.areaId} to={`area/${area.areaId}`} prefetch="intent">
           <Card>
             <CardHeader>
               <CardTitle>{area.i18n[lang.id]}</CardTitle>

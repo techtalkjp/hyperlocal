@@ -11,7 +11,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => [
 export const handle = {
   breadcrumb: (data: Awaited<ReturnType<typeof loader>>) => (
     <Link
-      to={`/${data.lang.id === 'en' ? '' : `${data.lang.path}/`}place/${data.area.areaId}/${data.category.id}`}
+      to={`/${data.lang.id === 'en' ? '' : `${data.lang.path}/`}area/${data.area.areaId}/${data.category.id}`}
       prefetch="intent"
     >
       {data.category.i18n[data.lang.id]}

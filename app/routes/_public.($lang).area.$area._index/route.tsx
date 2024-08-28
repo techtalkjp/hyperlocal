@@ -12,7 +12,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 export default function AreaIndexPage() {
   const { lang } = useLoaderData<typeof loader>()
   return (
-    <div className="grid grid-cols-2 gap-2 px-2">
+    <div className="grid grid-cols-2 gap-2">
       {categories.map((category) => (
         <Link to={`${category.id}`} key={category.id} prefetch="intent">
           <Card>
