@@ -7,8 +7,13 @@ import { mapPlaceTypes, priceLevelLabel } from '../utils'
 interface GooglePlaceCardProps extends React.ComponentProps<typeof HStack> {
   place: LocalizedPlace
   no?: number
+  loading?: 'eager' | 'lazy'
 }
-export const LocalizedPlaceCard = ({ place, no }: GooglePlaceCardProps) => {
+export const LocalizedPlaceCard = ({
+  place,
+  no,
+  loading = 'eager',
+}: GooglePlaceCardProps) => {
   return (
     <HStack className="items-start gap-4">
       <div className="grid h-32 w-32 flex-shrink-0 place-content-center place-items-center rounded bg-muted text-muted-foreground">
@@ -16,7 +21,7 @@ export const LocalizedPlaceCard = ({ place, no }: GooglePlaceCardProps) => {
           <img
             className="h-32 w-32 rounded object-cover transition-transform hover:scale-125"
             src={place.photos[0]}
-            loading="lazy"
+            loading={loading}
             alt="photo1"
           />
         ) : (

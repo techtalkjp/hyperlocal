@@ -39,7 +39,12 @@ export default function AreaIndexPage() {
         <div className="text-sm text-muted-foreground">No Places</div>
       )}
       {places.map((place, idx) => (
-        <LocalizedPlaceCard key={place.placeId} place={place} no={idx + 1} />
+        <LocalizedPlaceCard
+          key={place.placeId}
+          place={place}
+          no={idx + 1}
+          loading={idx <= 5 ? 'eager' : 'lazy'}
+        />
       ))}
     </Stack>
   )
