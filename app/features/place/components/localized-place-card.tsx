@@ -19,7 +19,7 @@ export const LocalizedPlaceCard = ({
       <div className="grid h-32 w-32 flex-shrink-0 place-content-center place-items-center rounded bg-muted text-muted-foreground">
         {place.photos.length > 0 ? (
           <img
-            className="h-32 w-32 rounded object-cover transition-transform hover:scale-125"
+            className="h-32 w-32 rounded object-cover"
             src={place.photos[0]}
             loading={loading}
             alt="photo1"
