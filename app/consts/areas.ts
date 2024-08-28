@@ -157,7 +157,7 @@ export default [
       'zh-TW': '仁川國際機場',
       ko: '인천국제공항',
     },
-    radius: 600,
+    radius: 1200,
     latitude: 37.457868,
     longitude: 126.4355671,
   },
