@@ -14,11 +14,7 @@ export default function IndexPage() {
   return (
     <Stack className="px-2">
       {areas.map((area) => (
-        <Link
-          key={area.areaId}
-          to={`/${lang.id === 'en' ? '' : `${lang.path}/`}place/${area.areaId}`}
-          prefetch="intent"
-        >
+        <Link key={area.areaId} to={`place/${area.areaId}`} prefetch="intent">
           <Card>
             <CardHeader>
               <CardTitle>{area.i18n[lang.id]}</CardTitle>

@@ -4,21 +4,25 @@ import { getLangCityAreaCategory } from '~/features/city-area/utils'
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
   {
-    title: `${data?.category.i18n.en} - Hyperlocal`,
+    title: `${data?.category.i18n[data.lang.id]} - Hyperlocal`,
   },
 ]
 
 export const handle = {
   breadcrumb: (data: Awaited<ReturnType<typeof loader>>) => (
-    <Link to={`/${data.area.areaId}/${data.category.id}`} prefetch="intent">
-      {data.category.i18n.en}
+    <Link
+      to={`/${data.lang.id === 'en' ? '' : `${data.lang.path}/`}place/${data.area.areaId}/${data.category.id}`}
+      prefetch="intent"
+    >
+      {data.category.i18n[data.lang.id]}
     </Link>
   ),
-  category: (data: Awaited<ReturnType<typeof loader>>) => data.category.i18n.en,
+  category: (data: Awaited<ReturnType<typeof loader>>) =>
+    data.category.i18n[data.lang.id],
 }
 
 export const loader = ({ request, params }: LoaderFunctionArgs) => {
-  const { area, category, lang } = getLangCityAreaCategory(request, params)
+  const { lang, area, category } = getLangCityAreaCategory(request, params)
   if (!area) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
@@ -26,7 +30,7 @@ export const loader = ({ request, params }: LoaderFunctionArgs) => {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
 
-  return { area, category, lang }
+  return { lang, area, category }
 }
 
 export default function AreaCategoryLayout() {
