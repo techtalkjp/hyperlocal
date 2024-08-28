@@ -4,7 +4,7 @@ import { getLangCityAreaCategory } from '~/features/city-area/utils'
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
   {
-    title: `${data?.area.i18n[data.lang.id]} - Hyperlocal`,
+    title: `${data?.area.i18n[data.lang.id]} - Hyperlocal ${data?.city.i18n[data.lang.id]} `,
   },
 ]
 
@@ -21,11 +21,11 @@ export const handle = {
 }
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
-  const { lang, area } = await getLangCityAreaCategory(request, params)
+  const { lang, city, area } = await getLangCityAreaCategory(request, params)
   if (!area) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
-  return { lang, area }
+  return { lang, city, area }
 }
 
 export default function AreaLayout() {

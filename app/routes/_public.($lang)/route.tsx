@@ -1,7 +1,18 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
-import { Link, Outlet, useLoaderData } from '@remix-run/react'
+import {
+  Link,
+  type MetaFunction,
+  Outlet,
+  useLoaderData,
+} from '@remix-run/react'
 import { getLangCityAreaCategory } from '~/features/city-area/utils'
 import { AreaTitle, Breadcrumbs, LanguageSelect } from './components'
+
+export const meta: MetaFunction<typeof loader> = ({ data }) => [
+  {
+    title: `Hyperlocal ${data?.city.i18n[data.lang.id]}`,
+  },
+]
 
 export const loader = ({ request, params }: LoaderFunctionArgs) => {
   const { city, lang } = getLangCityAreaCategory(request, params)
