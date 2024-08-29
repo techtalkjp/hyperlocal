@@ -55,7 +55,8 @@ export const LocalizedPlaceCard = ({
           <HStack className="flex-1">
             <Rating star={place.rating} withLabel size={14} />
             <div className="text-xs text-muted-foreground">
-              {place.userRatingCount} reviews
+              <span className="font-semibold">{place.userRatingCount}</span>{' '}
+              reviews
             </div>
           </HStack>
           {place.priceLevel && (
