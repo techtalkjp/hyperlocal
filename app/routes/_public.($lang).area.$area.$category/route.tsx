@@ -5,7 +5,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '~/components/ui'
@@ -27,20 +26,26 @@ export const handle = {
         </DropdownMenuTrigger>
 
         <DropdownMenuContent align="start">
-          <DropdownMenuLabel>
-            {data.category.i18n[data.lang.id]}
-          </DropdownMenuLabel>
+          <DropdownMenuItem className="cursor-pointer font-semibold" asChild>
+            <Link
+              to={`/${data.lang.id === 'en' ? '' : `${data.lang.path}/`}area/${data.area.areaId}/${data.category.id}`}
+              prefetch="intent"
+            >
+              {data.category.i18n[data.lang.id]}
+            </Link>
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           {categories
             .filter((c) => c.id !== data.category.id)
             .map((category) => (
-              <DropdownMenuItem key={category.id} asChild>
+              <DropdownMenuItem
+                key={category.id}
+                className="cursor-pointer"
+                asChild
+              >
                 <Link
                   to={`/${data.lang.id === 'en' ? '' : `${data.lang.path}/`}area/${data.area.areaId}/${category.id}`}
                   prefetch="intent"
-                  className={
-                    category.id === data.category.id ? 'font-bold' : ''
-                  }
                 >
                   {category.i18n[data.lang.id]}
                 </Link>

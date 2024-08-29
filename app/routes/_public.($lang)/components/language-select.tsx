@@ -5,7 +5,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   HStack,
@@ -72,7 +71,9 @@ export const LanguageSelect = ({
         </HStack>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>{currentLang?.displayName}</DropdownMenuLabel>
+        <DropdownMenuItem className="font-semibold">
+          {currentLang?.displayName}
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         {languageUrls
           .filter((l) => l.id !== currentLang?.id)
