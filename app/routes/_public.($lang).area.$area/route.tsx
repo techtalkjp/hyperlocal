@@ -17,6 +17,8 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => [
   },
 ]
 
+export const shouldRevalidate = () => true
+
 export const handle = {
   breadcrumb: (data: Awaited<ReturnType<typeof loader>>) => (
     <BreadcrumbLink asChild>
