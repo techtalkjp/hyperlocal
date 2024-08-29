@@ -44,7 +44,7 @@ export const LocalizedPlaceCard = ({
             <Badge
               key={type}
               variant="outline"
-              className="bg-muted px-2 py-0.5 capitalize text-muted-foreground"
+              className="border-none bg-muted px-2 py-0.5 font-normal capitalize text-muted-foreground"
             >
               {type}
             </Badge>
@@ -53,7 +53,7 @@ export const LocalizedPlaceCard = ({
 
         <HStack>
           <HStack className="flex-1">
-            <Rating star={place.rating} withLabel={true} size={14} />
+            <Rating star={place.rating} withLabel size={14} />
             <div className="text-xs text-muted-foreground">
               {place.userRatingCount} reviews
             </div>
