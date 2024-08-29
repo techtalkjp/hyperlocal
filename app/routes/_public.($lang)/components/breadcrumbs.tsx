@@ -40,7 +40,7 @@ export const Breadcrumbs = ({
               itemScope
               itemType="https://schema.org/ListItem"
             >
-              <BreadcrumbLink asChild>{handle.breadcrumb(data)}</BreadcrumbLink>
+              {handle.breadcrumb(data)}
             </BreadcrumbItem>
           </React.Fragment>
         ))}

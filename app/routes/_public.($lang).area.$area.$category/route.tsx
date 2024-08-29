@@ -1,5 +1,13 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, type MetaFunction, Outlet } from '@remix-run/react'
+import {
+  BreadcrumbLink,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '~/components/ui'
+import categories from '~/consts/categories'
 import { getLangCityAreaCategory } from '~/features/city-area/utils'
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
@@ -10,12 +18,26 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => [
 
 export const handle = {
   breadcrumb: (data: Awaited<ReturnType<typeof loader>>) => (
-    <Link
-      to={`/${data.lang.id === 'en' ? '' : `${data.lang.path}/`}area/${data.area.areaId}/${data.category.id}`}
-      prefetch="intent"
-    >
-      {data.category.i18n[data.lang.id]}
-    </Link>
+    <BreadcrumbLink asChild>
+      <DropdownMenu>
+        <DropdownMenuTrigger className="flex items-center gap-1">
+          {data.category.i18n[data.lang.id]}
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start">
+          {categories.map((category) => (
+            <DropdownMenuItem key={category.id} asChild>
+              <Link
+                to={`/${data.lang.id === 'en' ? '' : `${data.lang.path}/`}area/${data.area.areaId}/${category.id}`}
+                prefetch="intent"
+                className={category.id === data.category.id ? 'font-bold' : ''}
+              >
+                {category.i18n[data.lang.id]}
+              </Link>
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </BreadcrumbLink>
   ),
   category: (data: Awaited<ReturnType<typeof loader>>) =>
     data.category.i18n[data.lang.id],
