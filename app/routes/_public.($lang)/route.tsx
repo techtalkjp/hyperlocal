@@ -14,13 +14,15 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => [
   },
 ]
 
+export const shouldRevalidate = () => true
+
 export const loader = ({ request, params }: LoaderFunctionArgs) => {
-  const { city, lang } = getLangCityAreaCategory(request, params)
-  return { city, lang }
+  const { city, area, lang } = getLangCityAreaCategory(request, params)
+  return { city, area, lang }
 }
 
 export default function PublicLayout() {
-  const { city, lang } = useLoaderData<typeof loader>()
+  const { city, area, lang } = useLoaderData<typeof loader>()
 
   return (
     <div>
@@ -34,11 +36,13 @@ export default function PublicLayout() {
           />
         </div>
 
-        <nav className="px-2 pt-2">
-          <Breadcrumbs>
-            <Link to={`/${lang.path}`}>{city.i18n[lang.id]}</Link>
-          </Breadcrumbs>
-        </nav>
+        {area && (
+          <nav className="px-2 pt-2">
+            <Breadcrumbs>
+              <Link to={`/${lang.path}`}>{city.i18n[lang.id]}</Link>
+            </Breadcrumbs>
+          </nav>
+        )}
       </header>
 
       <main className="p-2">

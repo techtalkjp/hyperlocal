@@ -26,7 +26,7 @@ export default function IndexPage() {
   const { areas, city, lang, url } = useLoaderData<typeof loader>()
   return (
     <Stack>
-      <HStack>
+      <HStack className="mx-auto my-8 gap-8">
         {cities.map((c) => (
           <Button
             key={c.cityId}
