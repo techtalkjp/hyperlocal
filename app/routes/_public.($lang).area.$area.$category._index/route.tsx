@@ -1,9 +1,14 @@
-import type { LoaderFunctionArgs } from '@remix-run/node'
+import type { HeadersFunction, LoaderFunctionArgs } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { Stack } from '~/components/ui'
 import { getLangCityAreaCategory } from '~/features/city-area/utils'
 import { LocalizedPlaceCard } from '~/features/place/components/localized-place-card'
 import { listLocalizedPlaces } from './queries.server'
+
+export const headers: HeadersFunction = () => ({
+  // cache for 30 days
+  'Cache-Control': 'public, s-maxage=2592000, stale-while-revalidate=2592000',
+})
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const { city, area, lang, category } = getLangCityAreaCategory(
