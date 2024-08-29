@@ -1,6 +1,7 @@
 import { MessageSquareIcon } from 'lucide-react'
 import { Badge, HStack } from '~/components/ui'
 import { Rating } from '~/features/place/components/rating'
+import { cn } from '~/libs/utils'
 import type { LocalizedPlace } from '~/services/db'
 import { mapPlaceTypes, priceLevelLabel } from '../utils'
 
@@ -13,9 +14,10 @@ export const LocalizedPlaceCard = ({
   place,
   no,
   loading = 'eager',
+  className,
 }: GooglePlaceCardProps) => {
   return (
-    <HStack className="items-start gap-4">
+    <HStack className={cn('items-start gap-4', className)}>
       <div className="grid h-32 w-32 flex-shrink-0 place-content-center place-items-center rounded bg-muted text-muted-foreground">
         {place.photos.length > 0 ? (
           <img

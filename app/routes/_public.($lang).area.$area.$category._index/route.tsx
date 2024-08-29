@@ -1,5 +1,5 @@
 import type { HeadersFunction, LoaderFunctionArgs } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { Link, useLoaderData } from '@remix-run/react'
 import { Stack } from '~/components/ui'
 import { getLangCityAreaCategory } from '~/features/city-area/utils'
 import { LocalizedPlaceCard } from '~/features/place/components/localized-place-card'
@@ -44,12 +44,20 @@ export default function CategoryIndexPage() {
         <div className="text-sm text-muted-foreground">No Places</div>
       )}
       {places.map((place, idx) => (
-        <LocalizedPlaceCard
+        <Link
+          to={place.googleMapsUri}
           key={place.placeId}
-          place={place}
-          no={idx + 1}
-          loading={idx <= 5 ? 'eager' : 'lazy'}
-        />
+          target="_blank"
+          rel="noreferrer"
+        >
+          <LocalizedPlaceCard
+            key={place.placeId}
+            place={place}
+            no={idx + 1}
+            loading={idx <= 5 ? 'eager' : 'lazy'}
+            className="hover:bg-secondary hover:shadow"
+          />
+        </Link>
       ))}
     </Stack>
   )

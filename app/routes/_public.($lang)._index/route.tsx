@@ -31,6 +31,7 @@ export default function IndexPage() {
           <Button
             key={c.cityId}
             variant={c.cityId === city.cityId ? 'default' : 'outline'}
+            className="min-w-20"
             asChild
           >
             <a href={getCityDomain(url, c.cityId).href}>{c.i18n[lang.id]}</a>
@@ -40,7 +41,7 @@ export default function IndexPage() {
 
       {areas.map((area) => (
         <Link key={area.areaId} to={`area/${area.areaId}`} prefetch="intent">
-          <Card>
+          <Card className="hover:bg-secondary">
             <CardHeader>
               <CardTitle>{area.i18n[lang.id]}</CardTitle>
               <CardDescription>{area.name}</CardDescription>
