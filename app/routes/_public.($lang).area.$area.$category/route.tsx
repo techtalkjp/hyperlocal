@@ -69,6 +69,6 @@ export const loader = ({ request, params }: LoaderFunctionArgs) => {
   return { lang, city, area, category }
 }
 
-export default function AreaCategoryLayout() {
+export default function CategoryLayout() {
   return <Outlet />
 }

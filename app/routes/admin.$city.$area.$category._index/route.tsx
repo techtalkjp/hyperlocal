@@ -35,7 +35,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   }
 }
 
-export default function Index() {
+export default function AdminCreategoryIndex() {
   const { city, area, category, places } = useLoaderData<typeof loader>()
 
   return (

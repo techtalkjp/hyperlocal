@@ -10,7 +10,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return {}
 }
 
-export default function IndexPage() {
+export default function AdminLogoutPage() {
   return (
     <div>
       <header>

@@ -80,7 +80,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
   return { translated, photos }
 }
 
-export default function PlacePage() {
+export default function AdminPlaceLangPage() {
   const { placeId } = useLoaderData<typeof loader>()
   const fetcher = useFetcher<typeof action>()
 

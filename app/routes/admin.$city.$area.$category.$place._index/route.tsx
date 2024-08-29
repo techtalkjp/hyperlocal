@@ -20,7 +20,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   return { placeId }
 }
 
-export default function PlacePage() {
+export default function AdminPlaceIndex() {
   const { placeId } = useLoaderData<typeof loader>()
 
   return <Outlet />

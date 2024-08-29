@@ -35,7 +35,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   }
 }
 
-export default function PlacePage() {
+export default function AdminPlaceLayout() {
   const { place, lang } = useLoaderData<typeof loader>()
   const photos = place.photos as unknown as GooglePlacePhoto[]
   const reviews = place.reviews as unknown as GooglePlaceReview[]

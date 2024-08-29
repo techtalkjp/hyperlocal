@@ -30,7 +30,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   return { places }
 }
 
-export default function AreaIndexPage() {
+export default function CategoryIndexPage() {
   const { places } = useLoaderData<typeof loader>()
 
   return (
