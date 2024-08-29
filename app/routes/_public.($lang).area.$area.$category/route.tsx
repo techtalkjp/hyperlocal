@@ -5,6 +5,8 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '~/components/ui'
 import categories from '~/consts/categories'
@@ -23,18 +25,27 @@ export const handle = {
         <DropdownMenuTrigger className="flex items-center gap-1">
           {data.category.i18n[data.lang.id]}
         </DropdownMenuTrigger>
+
         <DropdownMenuContent align="start">
-          {categories.map((category) => (
-            <DropdownMenuItem key={category.id} asChild>
-              <Link
-                to={`/${data.lang.id === 'en' ? '' : `${data.lang.path}/`}area/${data.area.areaId}/${category.id}`}
-                prefetch="intent"
-                className={category.id === data.category.id ? 'font-bold' : ''}
-              >
-                {category.i18n[data.lang.id]}
-              </Link>
-            </DropdownMenuItem>
-          ))}
+          <DropdownMenuLabel>
+            {data.category.i18n[data.lang.id]}
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          {categories
+            .filter((c) => c.id !== data.category.id)
+            .map((category) => (
+              <DropdownMenuItem key={category.id} asChild>
+                <Link
+                  to={`/${data.lang.id === 'en' ? '' : `${data.lang.path}/`}area/${data.area.areaId}/${category.id}`}
+                  prefetch="intent"
+                  className={
+                    category.id === data.category.id ? 'font-bold' : ''
+                  }
+                >
+                  {category.i18n[data.lang.id]}
+                </Link>
+              </DropdownMenuItem>
+            ))}
         </DropdownMenuContent>
       </DropdownMenu>
     </BreadcrumbLink>

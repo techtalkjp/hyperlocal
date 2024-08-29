@@ -5,6 +5,8 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '~/components/ui'
 import allAreas from '~/consts/areas'
@@ -24,17 +26,20 @@ export const handle = {
           {data.area.i18n[data.lang.id]}
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
-          {data.areas.map((area) => (
-            <DropdownMenuItem key={area.areaId} asChild>
-              <Link
-                to={`/${data.lang.id === 'en' ? '' : `${data.lang.path}/`}area/${area.areaId}`}
-                prefetch="intent"
-                className={area.areaId === data.area.areaId ? 'font-bold' : ''}
-              >
-                {area.i18n[data.lang.id]}
-              </Link>
-            </DropdownMenuItem>
-          ))}
+          <DropdownMenuLabel>{data.area.i18n[data.lang.id]}</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          {data.areas
+            .filter((a) => a.areaId !== data.area.areaId)
+            .map((area) => (
+              <DropdownMenuItem key={area.areaId} asChild>
+                <Link
+                  to={`/${data.lang.id === 'en' ? '' : `${data.lang.path}/`}area/${area.areaId}`}
+                  prefetch="intent"
+                >
+                  {area.i18n[data.lang.id]}
+                </Link>
+              </DropdownMenuItem>
+            ))}
         </DropdownMenuContent>
       </DropdownMenu>
     </BreadcrumbLink>
