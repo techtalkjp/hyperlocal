@@ -6,6 +6,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
   HStack,
 } from '~/components/ui'
@@ -71,14 +72,17 @@ export const LanguageSelect = ({
         </HStack>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>Language</DropdownMenuLabel>
-        {languageUrls.map((lang) => (
-          <DropdownMenuItem key={lang.id} asChild>
-            <Link to={lang.url} prefetch="intent">
-              {lang.displayName}
-            </Link>
-          </DropdownMenuItem>
-        ))}
+        <DropdownMenuLabel>{currentLang?.displayName}</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        {languageUrls
+          .filter((l) => l.id !== currentLang?.id)
+          .map((lang) => (
+            <DropdownMenuItem key={lang.id} asChild>
+              <Link to={lang.url} prefetch="intent">
+                {lang.displayName}
+              </Link>
+            </DropdownMenuItem>
+          ))}
       </DropdownMenuContent>
     </DropdownMenu>
   )
