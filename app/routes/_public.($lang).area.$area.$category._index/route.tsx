@@ -55,7 +55,6 @@ export default function CategoryIndexPage() {
             place={place}
             no={idx + 1}
             loading={idx <= 5 ? 'eager' : 'lazy'}
-            className="hover:shadow"
           />
         </Link>
       ))}

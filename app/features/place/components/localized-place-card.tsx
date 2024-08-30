@@ -1,9 +1,16 @@
 import { MessageSquareIcon } from 'lucide-react'
 import { Badge, HStack } from '~/components/ui'
 import { Rating } from '~/features/place/components/rating'
+import dayjs from '~/libs/dayjs'
 import { cn } from '~/libs/utils'
 import type { LocalizedPlace } from '~/services/db'
-import { mapPlaceTypes, priceLevelLabel } from '../utils'
+import { BusinessStatusBadge } from '.'
+import {
+  type BusinessHours,
+  getBusinessStatus,
+  mapPlaceTypes,
+  priceLevelLabel,
+} from '../utils'
 
 interface GooglePlaceCardProps extends React.ComponentProps<typeof HStack> {
   place: LocalizedPlace
@@ -16,6 +23,13 @@ export const LocalizedPlaceCard = ({
   loading = 'eager',
   className,
 }: GooglePlaceCardProps) => {
+  const date = dayjs().utc().toDate()
+  const businessStatus = getBusinessStatus(
+    place.regularOpeningHours as BusinessHours | null,
+    date,
+    'Asia/Tokyo',
+  )
+
   return (
     <HStack className={cn('items-start gap-4', className)}>
       <div className="grid h-32 w-32 flex-shrink-0 place-content-center place-items-center rounded bg-muted text-muted-foreground">
@@ -39,12 +53,19 @@ export const LocalizedPlaceCard = ({
           {place.originalDisplayName}
         </div>
 
+        <HStack className="flex-1">
+          <Rating star={place.rating} withLabel size={14} />
+          <div className="text-xs text-muted-foreground">
+            (<span>{place.userRatingCount}</span> reviews)
+          </div>
+        </HStack>
+
         <HStack className="my-0.5 flex-wrap gap-1">
           {mapPlaceTypes(place.types).map((type) => (
             <Badge
               key={type}
               variant="outline"
-              className="border-none bg-muted px-2 py-0.5 font-normal capitalize text-muted-foreground"
+              className="rounded border-none bg-muted px-1 py-0.5 font-semibold capitalize text-muted-foreground"
             >
               {type}
             </Badge>
@@ -52,13 +73,10 @@ export const LocalizedPlaceCard = ({
         </HStack>
 
         <HStack>
-          <HStack className="flex-1">
-            <Rating star={place.rating} withLabel size={14} />
-            <div className="text-xs text-muted-foreground">
-              <span className="font-semibold">{place.userRatingCount}</span>{' '}
-              reviews
-            </div>
-          </HStack>
+          <BusinessStatusBadge status={businessStatus} />
+
+          <div className="flex-1" />
+
           {place.priceLevel && (
             <div className="flex-shrink-0 text-xs font-bold text-foreground/70">
               {priceLevelLabel(place.priceLevel)}
