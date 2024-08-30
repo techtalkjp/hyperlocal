@@ -75,8 +75,8 @@ importers:
         specifier: 2.11.2
         version: 2.11.2(typescript@5.5.4)
       '@trigger.dev/sdk':
-        specifier: 3.0.0-beta.55
-        version: 3.0.0-beta.55(typescript@5.5.4)
+        specifier: 3.0.0-beta.56
+        version: 3.0.0-beta.56(typescript@5.5.4)
       '@vercel/remix':
         specifier: 2.11.2
         version: 2.11.2(@remix-run/dev@2.11.2(@remix-run/react@2.11.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.4))(@remix-run/serve@2.11.2(typescript@5.5.4))(@types/node@22.5.1)(typescript@5.5.4)(vite@5.4.2(@types/node@22.5.1)))(@remix-run/node@2.11.2(typescript@5.5.4))(@remix-run/server-runtime@2.11.2(typescript@5.5.4))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -691,9 +691,6 @@ packages:
 
   '@bundled-es-modules/statuses@1.0.1':
     resolution: {integrity: sha512-yn7BklA5acgcBr+7w064fGV+SGIFySjCKpqjcWgBAIfrAkY+4GQTJJHQMeT3V/sgz23VTEVV8TtOmkvJAhFVfg==}
-
-  '@bundled-es-modules/tough-cookie@0.1.6':
-    resolution: {integrity: sha512-dvMHbL464C0zI+Yqxbz6kZ5TOEp7GLW+pry/RWndAR8MJQAXZ2rPmIs8tziTZjeIyhSNZgZbCePtfSbdWqStJw==}
 
   '@chevrotain/cst-dts-gen@10.5.0':
     resolution: {integrity: sha512-lhmC/FyqQ2o7pGK4Om+hzuDrm9rhFYIJ/AXoQBeongmn870Xeb0L6oGEiuR8nohFNL5sMaQEJWCxr1oIVIVXrw==}
@@ -1387,8 +1384,12 @@ packages:
     resolution: {integrity: sha512-GTPkYf1meO2UXXIrz/SIDFWz+P4kXo2PTt36LYh/oNxV1PieYi7ZgenQk4IV0ut71Je3Z8ZoNZ8Tr7v2c1X1pg==}
     engines: {node: '>=16'}
 
-  '@mswjs/interceptors@0.29.1':
-    resolution: {integrity: sha512-3rDakgJZ77+RiQUuSK69t1F0m8BQKA8Vh5DCS5V0DWvNY67zob2JhhQrhCO0AKLGINTRSFd1tBaHcJTkhefoSw==}
+  '@mswjs/cookies@1.1.1':
+    resolution: {integrity: sha512-W68qOHEjx1iD+4VjQudlx26CPIoxmIAtK4ZCexU0/UJBG6jYhcuyzKJx+Iw8uhBIGd9eba64XgWVgo20it1qwA==}
+    engines: {node: '>=18'}
+
+  '@mswjs/interceptors@0.25.16':
+    resolution: {integrity: sha512-8QC8JyKztvoGAdPgyZy49c9vSHHAZjHagwl4RY9E8carULk8ym3iTaiawrT1YoLF/qb449h48f71XDPgkUSOUg==}
     engines: {node: '>=18'}
 
   '@neon-rs/load@0.0.4':
@@ -2402,16 +2403,16 @@ packages:
   '@socket.io/component-emitter@3.1.2':
     resolution: {integrity: sha512-9BCxFwvbGg/RsZK9tjXd8s4UcwR0MWeFQ1XEKIQVVvAGJyINdrqKMcTRyLoK8Rse1GjzLV9cwjWV1olXRWEXVA==}
 
-  '@trigger.dev/core-backend@3.0.0-beta.55':
-    resolution: {integrity: sha512-JLRaiawxVyG0fparYskiluPxWqzFXrqXKJFMKW6CgXklRCHMRjH5ezai62yUxAeKM8LX2BIOhOpeXB3z50Re1w==}
+  '@trigger.dev/core-backend@3.0.0-beta.56':
+    resolution: {integrity: sha512-8GmYTgUmljFIWGUzZy+Mh/uuaxgzs0GCHjZgwnigChG3znmz46InwQH7HW9Gxo+6A3aSss05NZUzVKrnFCY1bQ==}
     engines: {node: '>=18.0.0'}
 
-  '@trigger.dev/core@3.0.0-beta.55':
-    resolution: {integrity: sha512-MXfBnM3HvT+RyXwlIeQjUJ0lWKg5vFrPugwy5AbDaio/p8QLyRpEHIL8zcMU6rUxdjD7jVbZk3KTUnGRLRZ+tw==}
+  '@trigger.dev/core@3.0.0-beta.56':
+    resolution: {integrity: sha512-b4ZeH1k5sy4NISWgkZGmVxspe2r5vFpZ+KdNpYxiobQ/ameM/979OYXNRceeimWKuEdEEp1SMcMJNfZ0Pt5L1A==}
     engines: {node: '>=18.0.0'}
 
-  '@trigger.dev/sdk@3.0.0-beta.55':
-    resolution: {integrity: sha512-B4mS79S0esp5yRun/siDHIRfD8ZF8S6dadYayq0Irj2izFx50R3bUJ+BXh6gPx/4cF26NL7jcJMOwtW8P9PsFQ==}
+  '@trigger.dev/sdk@3.0.0-beta.56':
+    resolution: {integrity: sha512-RdIoO0u8SyNPiNiU8lYelKgpIUox37wVH5bLO99T5sFetnF/v9ncYPqS+6QPmkHVMEoS0HdXnZ5XKuS3oFs8nQ==}
     engines: {node: '>=18.0.0'}
 
   '@ts-morph/common@0.11.1':
@@ -2491,9 +2492,6 @@ packages:
 
   '@types/statuses@2.0.5':
     resolution: {integrity: sha512-jmIUGWrAiwu3dZpxntxieC+1n/5c3mjrImkmOSQ2NC5uP6cYO4aAZDdSmRcI5C1oiTmqlZGHC+/NmJrKogbP5A==}
-
-  '@types/tough-cookie@4.0.5':
-    resolution: {integrity: sha512-/Ad8+nIOV7Rl++6f1BdKxFSMgmoqEoYbHRpPcx3JEfv8VRsQe9Z4mCXeJBzxs7mbHY/XOZZuXlRNfhpVPbs6ZA==}
 
   '@types/unist@2.0.11':
     resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
@@ -3733,6 +3731,10 @@ packages:
   graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
 
+  graphql@16.9.0:
+    resolution: {integrity: sha512-GGTKBX4SD7Wdb8mqeDLni2oaRGYQWjWHGKPQ24ZMnUtKfcsVoiv4uX8+LJr1K6U5VW2Lu1BwJnj7uiori0YtRw==}
+    engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
+
   gunzip-maybe@1.4.2:
     resolution: {integrity: sha512-4haO1M4mLO91PW57BMsDFf75UmwoRX0GkdD+Faw+Lr+r/OZrOCS0pIBwOL1xCKQqnQzbNFGgK2V2CpBUPeFNTw==}
     hasBin: true
@@ -4558,16 +4560,13 @@ packages:
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
-  msw@2.4.0:
-    resolution: {integrity: sha512-NqAjbDvJ66J/VS9KqLmY8ZF6ceQpYRy+s2yJYLl+3vUdNa4C7zouXVDl1TLast/o9gLzPMTrfaTJkeR7qJ41ew==}
+  msw@2.2.1:
+    resolution: {integrity: sha512-DCsZAQwan+2onEcpD86fiEnCKW4IvYzqcwDq/2TIoeNrmBqNp/mJW4wHQyxcoYrRPwgujin7wDFflqiSO1iT/w==}
     engines: {node: '>=18'}
     hasBin: true
     peerDependencies:
-      graphql: '*'
-      typescript: '>= 4.7.x'
+      typescript: '>= 4.7.x <= 5.3.x'
     peerDependenciesMeta:
-      graphql:
-        optional: true
       typescript:
         optional: true
 
@@ -5136,9 +5135,6 @@ packages:
     resolution: {integrity: sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg==}
     engines: {node: '>= 0.10'}
 
-  psl@1.9.0:
-    resolution: {integrity: sha512-E/ZsdU4HLs/68gYzgGTkMicWTLPdAftJLfJFlLUAAKZGkStNU72sZjT66SnMDVOfOWY/YAoiD7Jxa9iHvngcag==}
-
   pump@2.0.1:
     resolution: {integrity: sha512-ruPMNRkN3MHP1cWJc9OWr+T/xDP0jhXYCLfJcBuX54hhfIBnaQmAUMfDcG4DM5UMWByBbJY69QSphm3jtDKIkA==}
 
@@ -5155,9 +5151,6 @@ packages:
   qs@6.11.0:
     resolution: {integrity: sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==}
     engines: {node: '>=0.6'}
-
-  querystringify@2.2.0:
-    resolution: {integrity: sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==}
 
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
@@ -5356,9 +5349,6 @@ packages:
 
   require-like@0.1.2:
     resolution: {integrity: sha512-oyrU88skkMtDdauHDuKVrgR+zuItqr6/c//FXzvmxRGMexSDc6hNvJInGW3LL46n+8b50RykrvwSUIIQH2LQ5A==}
-
-  requires-port@1.0.0:
-    resolution: {integrity: sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==}
 
   resolve-from@4.0.0:
     resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==}
@@ -5817,10 +5807,6 @@ packages:
   toml@3.0.0:
     resolution: {integrity: sha512-y/mWCZinnvxjTKYhJ+pYxwD0mRLVvOtdS2Awbgxln6iEnt4rk0yBxeSBHkGJcPucRiG0e55mwWp+g/05rsrd6w==}
 
-  tough-cookie@4.1.4:
-    resolution: {integrity: sha512-Loo5UUvLD9ScZ6jh8beX1T6sO1w2/MpCRpEP7V280GKMVUQ0Jzar2U3UJPsrdbziLEMMhu3Ujnq//rhiFuIeag==}
-    engines: {node: '>=6'}
-
   tr46@0.0.3:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
 
@@ -6018,10 +6004,6 @@ packages:
   unist-util-visit@4.1.2:
     resolution: {integrity: sha512-MSd8OUGISqHdVvfY9TPhyK2VdUrPgxkUtWSuMHF6XAAFuL4LokseigBnZtPnJMu+FbynTkFNnFlyjxpVKujMRg==}
 
-  universalify@0.2.0:
-    resolution: {integrity: sha512-CJ1QgKmNg3CwvAv/kOFmtnEN05f0D/cn9QntgNOQlQF9dgvVTHj3t+8JPdjqawCHk7V/KA+fbUqzZ9XWhcqPUg==}
-    engines: {node: '>= 4.0.0'}
-
   universalify@2.0.1:
     resolution: {integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==}
     engines: {node: '>= 10.0.0'}
@@ -6038,9 +6020,6 @@ packages:
 
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
-
-  url-parse@1.5.10:
-    resolution: {integrity: sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==}
 
   use-callback-ref@1.3.2:
     resolution: {integrity: sha512-elOQwe6Q8gqZgDA8mrh44qRTQqpIHDcZ3hXTLjBe1i4ph8XpNJnO+aQf3NaG+lriLopI4HMx9VjQLfPQ6vhnoA==}
@@ -6751,11 +6730,6 @@ snapshots:
     dependencies:
       statuses: 2.0.1
 
-  '@bundled-es-modules/tough-cookie@0.1.6':
-    dependencies:
-      '@types/tough-cookie': 4.0.5
-      tough-cookie: 4.1.4
-
   '@chevrotain/cst-dts-gen@10.5.0':
     dependencies:
       '@chevrotain/gast': 10.5.0
@@ -7295,7 +7269,9 @@ snapshots:
       chevrotain: 10.5.0
       lilconfig: 2.1.0
 
-  '@mswjs/interceptors@0.29.1':
+  '@mswjs/cookies@1.1.1': {}
+
+  '@mswjs/interceptors@0.25.16':
     dependencies:
       '@open-draft/deferred-promise': 2.2.0
       '@open-draft/logger': 0.3.0
@@ -8555,11 +8531,11 @@ snapshots:
 
   '@socket.io/component-emitter@3.1.2': {}
 
-  '@trigger.dev/core-backend@3.0.0-beta.55':
+  '@trigger.dev/core-backend@3.0.0-beta.56':
     dependencies:
       '@opentelemetry/api': 1.9.0
 
-  '@trigger.dev/core@3.0.0-beta.55':
+  '@trigger.dev/core@3.0.0-beta.56':
     dependencies:
       '@google-cloud/precise-date': 4.0.0
       '@opentelemetry/api': 1.9.0
@@ -8585,13 +8561,13 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@trigger.dev/sdk@3.0.0-beta.55(typescript@5.5.4)':
+  '@trigger.dev/sdk@3.0.0-beta.56(typescript@5.5.4)':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/api-logs': 0.48.0
       '@opentelemetry/semantic-conventions': 1.27.0
-      '@trigger.dev/core': 3.0.0-beta.55
-      '@trigger.dev/core-backend': 3.0.0-beta.55
+      '@trigger.dev/core': 3.0.0-beta.56
+      '@trigger.dev/core-backend': 3.0.0-beta.56
       chalk: 5.3.0
       cronstrue: 2.50.0
       debug: 4.3.6
@@ -8599,7 +8575,7 @@ snapshots:
       get-caller-file: 2.0.5
       git-remote-origin-url: 4.0.0
       git-repo-info: 2.1.1
-      msw: 2.4.0(typescript@5.5.4)
+      msw: 2.2.1(typescript@5.5.4)
       slug: 6.1.0
       terminal-link: 3.0.0
       ulid: 2.3.0
@@ -8608,7 +8584,6 @@ snapshots:
       zod: 3.22.3
     transitivePeerDependencies:
       - bufferutil
-      - graphql
       - supports-color
       - typescript
       - utf-8-validate
@@ -8697,8 +8672,6 @@ snapshots:
   '@types/shimmer@1.2.0': {}
 
   '@types/statuses@2.0.5': {}
-
-  '@types/tough-cookie@4.0.5': {}
 
   '@types/unist@2.0.11': {}
 
@@ -10305,6 +10278,8 @@ snapshots:
 
   graphemer@1.4.0: {}
 
+  graphql@16.9.0: {}
+
   gunzip-maybe@1.4.2:
     dependencies:
       browserify-zlib: 0.1.4
@@ -11247,17 +11222,18 @@ snapshots:
 
   ms@2.1.3: {}
 
-  msw@2.4.0(typescript@5.5.4):
+  msw@2.2.1(typescript@5.5.4):
     dependencies:
       '@bundled-es-modules/cookie': 2.0.0
       '@bundled-es-modules/statuses': 1.0.1
-      '@bundled-es-modules/tough-cookie': 0.1.6
       '@inquirer/confirm': 3.1.22
-      '@mswjs/interceptors': 0.29.1
+      '@mswjs/cookies': 1.1.1
+      '@mswjs/interceptors': 0.25.16
       '@open-draft/until': 2.1.0
       '@types/cookie': 0.6.0
       '@types/statuses': 2.0.5
       chalk: 4.1.2
+      graphql: 16.9.0
       headers-polyfill: 4.0.3
       is-node-process: 1.2.0
       outvariant: 1.4.3
@@ -11752,8 +11728,6 @@ snapshots:
       forwarded: 0.2.0
       ipaddr.js: 1.9.1
 
-  psl@1.9.0: {}
-
   pump@2.0.1:
     dependencies:
       end-of-stream: 1.4.4
@@ -11775,8 +11749,6 @@ snapshots:
   qs@6.11.0:
     dependencies:
       side-channel: 1.0.6
-
-  querystringify@2.2.0: {}
 
   queue-microtask@1.2.3: {}
 
@@ -11985,8 +11957,6 @@ snapshots:
       - supports-color
 
   require-like@0.1.2: {}
-
-  requires-port@1.0.0: {}
 
   resolve-from@4.0.0: {}
 
@@ -12568,13 +12538,6 @@ snapshots:
 
   toml@3.0.0: {}
 
-  tough-cookie@4.1.4:
-    dependencies:
-      psl: 1.9.0
-      punycode: 2.3.1
-      universalify: 0.2.0
-      url-parse: 1.5.10
-
   tr46@0.0.3: {}
 
   tree-kill@1.2.2: {}
@@ -12770,8 +12733,6 @@ snapshots:
       unist-util-is: 5.2.1
       unist-util-visit-parents: 5.1.3
 
-  universalify@0.2.0: {}
-
   universalify@2.0.1: {}
 
   unpipe@1.0.0: {}
@@ -12785,11 +12746,6 @@ snapshots:
   uri-js@4.4.1:
     dependencies:
       punycode: 2.3.1
-
-  url-parse@1.5.10:
-    dependencies:
-      querystringify: 2.2.0
-      requires-port: 1.0.0
 
   use-callback-ref@1.3.2(@types/react@18.3.4)(react@18.3.1):
     dependencies:
