@@ -7,10 +7,10 @@ export const BusinessStatusBadge = ({ status }: { status: BusinessStatus }) => {
       <span className="text-green-500">Open</span>
     ))
     .with(BusinessStatus.OPEN_CLOSING_SOON, () => (
-      <span className="text-red-500">Closing Soon</span>
+      <span className="text-orange-500">Closing Soon</span>
     ))
     .with(BusinessStatus.CLOSED, () => (
-      <span className="text-red-500">Closed</span>
+      <span className="text-orange-500">Closed</span>
     ))
     .with(BusinessStatus.CLOSED_OPENING_SOON, () => (
       <span className="text-green-500">Opening Soon</span>
