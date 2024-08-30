@@ -1,4 +1,5 @@
 import { MessageSquareIcon } from 'lucide-react'
+import { ClientOnly } from 'remix-utils/client-only'
 import { Badge, HStack } from '~/components/ui'
 import cities from '~/consts/cities'
 import { Rating } from '~/features/place/components/rating'
@@ -76,7 +77,15 @@ export const LocalizedPlaceCard = ({
         </HStack>
 
         <HStack>
-          <BusinessStatusBadge status={businessStatus} />
+          <ClientOnly
+            fallback={
+              <span className="px-1 py-0.5 text-xs text-transparent">
+                Status
+              </span>
+            }
+          >
+            {() => <BusinessStatusBadge status={businessStatus} />}
+          </ClientOnly>
 
           <div className="flex-1" />
 
