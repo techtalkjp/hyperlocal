@@ -6,6 +6,7 @@ export interface City {
   language: string
   latitude: number
   longitude: number
+  timezone: string
 }
 
 export default [
@@ -21,6 +22,7 @@ export default [
     language: 'ja',
     latitude: 35.6894,
     longitude: 139.6917,
+    timezone: 'Asia/Tokyo',
   },
   {
     cityId: 'seoul',
@@ -34,5 +36,6 @@ export default [
     language: 'ko',
     latitude: 37.5665851,
     longitude: 126.9756289,
+    timezone: 'Asia/Seoul',
   },
 ] as const satisfies City[]

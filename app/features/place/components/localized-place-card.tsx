@@ -1,5 +1,6 @@
 import { MessageSquareIcon } from 'lucide-react'
 import { Badge, HStack } from '~/components/ui'
+import cities from '~/consts/cities'
 import { Rating } from '~/features/place/components/rating'
 import dayjs from '~/libs/dayjs'
 import { cn } from '~/libs/utils'
@@ -23,11 +24,13 @@ export const LocalizedPlaceCard = ({
   loading = 'eager',
   className,
 }: GooglePlaceCardProps) => {
+  const city = cities.find((c) => c.cityId === place.cityId)
+
   const date = dayjs().utc().toDate()
   const businessStatus = getBusinessStatus(
     place.regularOpeningHours as BusinessHours | null,
     date,
-    'Asia/Tokyo',
+    city?.timezone ?? 'Asia/Tokyo',
   )
 
   return (
