@@ -10,10 +10,23 @@ import {
 } from '~/components/ui'
 import categories from '~/consts/categories'
 import { getLangCityAreaCategory } from '~/features/city-area/utils'
-
+import { generateAreaCategoryMetaDescription } from '~/features/seo/meta-area-category'
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
   {
-    title: `${data?.area.i18n[data.lang.id]} ${data?.category.i18n[data.lang.id]} - Hyperlocal ${data?.city.i18n[data.lang.id]}`,
+    title:
+      data &&
+      `${data.area.i18n[data.lang.id]} ${data.category.i18n[data.lang.id]} - Hyperlocal ${data?.city.i18n[data.lang.id]}`,
+  },
+  {
+    name: 'description',
+    content:
+      data &&
+      generateAreaCategoryMetaDescription(
+        data.city.cityId,
+        data.area.areaId,
+        data.category.id,
+        data.lang.id,
+      ),
   },
 ]
 
