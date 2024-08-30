@@ -111,4 +111,49 @@ describe('getBusinessStatus with timezone', () => {
       BusinessStatus.CLOSED,
     )
   })
+
+  it('24時間営業の場合', () => {
+    const always24HoursOpen: BusinessHours = {
+      periods: [{ open: { day: 0, hour: 0, minute: 0 } }],
+    }
+
+    const tokyoTz = 'Asia/Tokyo'
+    const dates = [
+      new Date('2024-08-26T00:00:00Z'), // 月曜日 00:00
+      new Date('2024-08-26T12:00:00Z'), // 月曜日 12:00
+      new Date('2024-08-27T23:59:59Z'), // 火曜日 23:59
+    ]
+
+    for (const date of dates) {
+      expect(getBusinessStatus(always24HoursOpen, date, tokyoTz)).toBe(
+        BusinessStatus.OPEN,
+      )
+    }
+  })
+
+  it('通常の営業時間と24時間営業を区別できる', () => {
+    const regularHours: BusinessHours = {
+      periods: [
+        {
+          open: { day: 1, hour: 9, minute: 0 },
+          close: { day: 1, hour: 17, minute: 0 },
+        },
+        // 他の曜日も同様...
+      ],
+    }
+
+    const always24HoursOpen: BusinessHours = {
+      periods: [{ open: { day: 0, hour: 0, minute: 0 } }],
+    }
+
+    const tokyoTz = 'Asia/Tokyo'
+    const date = new Date('2024-08-26T20:00:00Z') // 月曜日 20:00 UTC (火曜日 05:00 東京時間)
+
+    expect(getBusinessStatus(regularHours, date, tokyoTz)).toBe(
+      BusinessStatus.CLOSED,
+    )
+    expect(getBusinessStatus(always24HoursOpen, date, tokyoTz)).toBe(
+      BusinessStatus.OPEN,
+    )
+  })
 })

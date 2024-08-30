@@ -8,7 +8,7 @@ interface TimeInfo {
 
 interface Period {
   open: TimeInfo
-  close: TimeInfo
+  close?: TimeInfo // for 24-hour business
 }
 
 interface BusinessHours {
@@ -32,6 +32,18 @@ function getBusinessStatus(
     return BusinessStatus.UNKNOWN
   }
 
+  // 24時間営業かどうかをチェック
+  const is24HourService =
+    businessHours.periods.length === 1 &&
+    businessHours.periods[0].open.day === 0 &&
+    businessHours.periods[0].open.hour === 0 &&
+    businessHours.periods[0].open.minute === 0 &&
+    !businessHours.periods[0].close
+
+  if (is24HourService) {
+    return BusinessStatus.OPEN // 24時間営業の場合は常にOPEN
+  }
+
   // 指定されたタイムゾーンでの現地時間を取得
   const localDateTime = dayjs(currentDate).tz(timeZone)
 
@@ -39,30 +51,30 @@ function getBusinessStatus(
   const currentTimeInMinutes =
     localDateTime.hour() * 60 + localDateTime.minute()
 
-  // 当日の営業時間を取得
   const todayPeriods = businessHours.periods.filter(
     (period) => period.open.day === currentDay,
   )
 
-  // 営業中かどうかを判定
   const isOpenNow = todayPeriods.some((period) => {
     const openTime = period.open.hour * 60 + period.open.minute
-    const closeTime = period.close.hour * 60 + period.close.minute
+    const closeTime = period.close
+      ? period.close.hour * 60 + period.close.minute
+      : 1440 // closeがない場合は23:59とみなす
     return currentTimeInMinutes >= openTime && currentTimeInMinutes < closeTime
   })
 
   if (isOpenNow) {
-    // 営業中の場合、閉店時間までの残り時間を計算
     for (const period of todayPeriods) {
-      const closeTimeInMinutes = period.close.hour * 60 + period.close.minute
-      const remainingMinutes = closeTimeInMinutes - currentTimeInMinutes
-      if (remainingMinutes > 0 && remainingMinutes <= 60) {
-        return BusinessStatus.OPEN_CLOSING_SOON
+      if (period.close) {
+        const closeTimeInMinutes = period.close.hour * 60 + period.close.minute
+        const remainingMinutes = closeTimeInMinutes - currentTimeInMinutes
+        if (remainingMinutes > 0 && remainingMinutes <= 60) {
+          return BusinessStatus.OPEN_CLOSING_SOON
+        }
       }
     }
     return BusinessStatus.OPEN
   }
-  // 閉店中の場合、次の開店時間までの待ち時間を計算
   let nextOpenDay = currentDay
   let minWaitTime = Number.POSITIVE_INFINITY
 
