@@ -26,7 +26,7 @@ export const BusinessStatusBadge = ({
     ))
     .with(BusinessStatus.CLOSED, () => (
       <>
-        <span className="text-red-600">Closed</span>・
+        <span className="font-semibold text-red-600">Closed</span>・
         <span className="ml-1 text-muted-foreground">
           Open at {weekday[statusResult.details.nextOpenDay ?? 0]}{' '}
           {statusResult.details.nextOpenTime}
