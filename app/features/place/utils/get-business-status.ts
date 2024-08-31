@@ -1,4 +1,5 @@
 import dayjs from '~/libs/dayjs'
+import { normalizeBusinessHours } from './normalize-business-hours'
 
 interface TimeInfo {
   day: number
@@ -24,94 +25,77 @@ enum BusinessStatus {
 }
 
 function getBusinessStatus(
-  businessHours: BusinessHours | null,
+  originalBusinessHours: BusinessHours | null,
   currentDate: Date,
   timeZone: string,
 ): BusinessStatus {
-  if (!businessHours) {
+  if (!originalBusinessHours) {
     return BusinessStatus.UNKNOWN
   }
 
-  // 24時間営業かどうかをチェック
-  const is24HourService =
-    businessHours.periods.length === 1 &&
-    businessHours.periods[0].open.day === 0 &&
-    businessHours.periods[0].open.hour === 0 &&
-    businessHours.periods[0].open.minute === 0 &&
-    !businessHours.periods[0].close
+  const businessHours = normalizeBusinessHours(originalBusinessHours)
 
-  if (is24HourService) {
-    return BusinessStatus.OPEN // 24時間営業の場合は常にOPEN
+  if (businessHours.is24HoursOpen) {
+    return BusinessStatus.OPEN
   }
 
-  // 指定されたタイムゾーンでの現地時間を取得
   const localDateTime = dayjs(currentDate).tz(timeZone)
-
   const currentDay = localDateTime.day()
   const currentTimeInMinutes =
     localDateTime.hour() * 60 + localDateTime.minute()
 
-  const todayPeriods = businessHours.periods.filter(
-    (period) => period.open.day === currentDay,
+  // 現在の日の全ての営業時間枠を取得
+  const todaysPeriods = businessHours.weeklyHours.filter(
+    (period) => period.day === currentDay,
   )
 
-  const isOpenNow = todayPeriods.some((period) => {
-    const openTime = period.open.hour * 60 + period.open.minute
-    const closeTime = period.close
-      ? period.close.hour * 60 + period.close.minute
-      : 1440 // closeがない場合は23:59とみなす
-    return currentTimeInMinutes >= openTime && currentTimeInMinutes < closeTime
-  })
-
-  if (isOpenNow) {
-    for (const period of todayPeriods) {
-      if (period.close) {
-        const closeTimeInMinutes = period.close.hour * 60 + period.close.minute
-        const remainingMinutes = closeTimeInMinutes - currentTimeInMinutes
-        if (remainingMinutes > 0 && remainingMinutes <= 60) {
-          return BusinessStatus.OPEN_CLOSING_SOON
-        }
+  // 現在営業中かどうかをチェック
+  for (const period of todaysPeriods) {
+    if (
+      currentTimeInMinutes >= period.start &&
+      currentTimeInMinutes < period.end
+    ) {
+      const minutesUntilClosing = period.end - currentTimeInMinutes
+      if (minutesUntilClosing <= 60) {
+        return BusinessStatus.OPEN_CLOSING_SOON
       }
+      return BusinessStatus.OPEN
     }
-    return BusinessStatus.OPEN
   }
-  let nextOpenDay = currentDay
-  let minWaitTime = Number.POSITIVE_INFINITY
 
-  for (let i = 0; i < 7; i++) {
-    const checkDay = ((currentDay + i) % 7) as 0 | 1 | 2 | 3 | 4 | 5 | 6
-    const periodsForDay = businessHours.periods.filter(
-      (period) => period.open.day === checkDay,
+  // 閉店中の場合、次の営業開始時間を探す
+  let nextOpeningTime: { day: number; start: number } | null = null
+  const daysToCheck = 7 // 最大1週間分チェック
+
+  for (let i = 0; i < daysToCheck; i++) {
+    const checkDay = (currentDay + i) % 7
+    const periodsForDay = businessHours.weeklyHours.filter(
+      (period) => period.day === checkDay,
     )
 
     for (const period of periodsForDay) {
-      const openTimeInMinutes = period.open.hour * 60 + period.open.minute
-      let waitTime: number
-
-      if (checkDay === currentDay && openTimeInMinutes > currentTimeInMinutes) {
-        waitTime = openTimeInMinutes - currentTimeInMinutes
-      } else if (checkDay !== currentDay) {
-        waitTime =
-          ((checkDay - currentDay + 7) % 7) * 24 * 60 +
-          openTimeInMinutes -
-          currentTimeInMinutes
-      } else {
-        continue
-      }
-
-      if (waitTime < minWaitTime) {
-        minWaitTime = waitTime
-        nextOpenDay = checkDay
+      if ((i === 0 && period.start > currentTimeInMinutes) || i > 0) {
+        nextOpeningTime = { day: checkDay, start: period.start }
+        break
       }
     }
 
-    if (minWaitTime !== Number.POSITIVE_INFINITY) break
+    if (nextOpeningTime) break
   }
 
-  if (minWaitTime <= 60) {
+  if (!nextOpeningTime) {
+    return BusinessStatus.CLOSED
+  }
+
+  const minutesUntilOpening =
+    ((nextOpeningTime.day - currentDay + 7) % 7) * 1440 +
+    nextOpeningTime.start -
+    currentTimeInMinutes
+
+  if (minutesUntilOpening <= 60) {
     return BusinessStatus.CLOSED_OPENING_SOON
   }
+
   return BusinessStatus.CLOSED
 }
-
 export { BusinessStatus, getBusinessStatus, type BusinessHours }

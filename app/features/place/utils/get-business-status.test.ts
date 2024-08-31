@@ -8,7 +8,7 @@ import {
 describe('getBusinessStatus with timezone', () => {
   const businessHours: BusinessHours = {
     periods: [
-      // 月曜日
+      // 月曜日　（テスト対象)
       {
         open: { day: 1, hour: 11, minute: 0 },
         close: { day: 1, hour: 15, minute: 30 },
@@ -90,7 +90,7 @@ describe('getBusinessStatus with timezone', () => {
   })
 
   it('もうすぐ開店の場合（東京時間）', () => {
-    const date = new Date('2024-08-26T08:00:00Z') // UTC 08:00, 東京 17:00
+    const date = new Date('2024-08-26T01:00:00Z') // UTC 01:00, 東京 10:00
     expect(getBusinessStatus(businessHours, date, tokyoTz)).toBe(
       BusinessStatus.CLOSED_OPENING_SOON,
     )
