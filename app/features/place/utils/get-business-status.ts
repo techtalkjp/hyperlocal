@@ -24,19 +24,35 @@ enum BusinessStatus {
   UNKNOWN = 'UNKNOWN',
 }
 
+export interface BusinessStatusResult {
+  status: BusinessStatus
+  details: {
+    currentHours?: string
+    closingTime?: string
+    nextOpenDay?: number
+    nextOpenTime?: string
+  }
+}
+
+function formatTime(minutes: number): string {
+  const hours = Math.floor(minutes / 60)
+  const mins = minutes % 60
+  return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`
+}
+
 function getBusinessStatus(
   originalBusinessHours: BusinessHours | null,
   currentDate: Date,
   timeZone: string,
-): BusinessStatus {
+): BusinessStatusResult {
   if (!originalBusinessHours) {
-    return BusinessStatus.UNKNOWN
+    return { status: BusinessStatus.UNKNOWN, details: {} }
   }
 
   const businessHours = normalizeBusinessHours(originalBusinessHours)
 
   if (businessHours.is24HoursOpen) {
-    return BusinessStatus.OPEN
+    return { status: BusinessStatus.OPEN, details: {} }
   }
 
   const localDateTime = dayjs(currentDate).tz(timeZone)
@@ -44,28 +60,35 @@ function getBusinessStatus(
   const currentTimeInMinutes =
     localDateTime.hour() * 60 + localDateTime.minute()
 
-  // 現在の日の全ての営業時間枠を取得
   const todaysPeriods = businessHours.weeklyHours.filter(
     (period) => period.day === currentDay,
   )
 
-  // 現在営業中かどうかをチェック
   for (const period of todaysPeriods) {
     if (
       currentTimeInMinutes >= period.start &&
       currentTimeInMinutes < period.end
     ) {
+      const currentHours = `${formatTime(period.start)}-${formatTime(period.end)}`
       const minutesUntilClosing = period.end - currentTimeInMinutes
       if (minutesUntilClosing <= 60) {
-        return BusinessStatus.OPEN_CLOSING_SOON
+        return {
+          status: BusinessStatus.OPEN_CLOSING_SOON,
+          details: {
+            currentHours,
+            closingTime: formatTime(period.end),
+          },
+        }
       }
-      return BusinessStatus.OPEN
+      return {
+        status: BusinessStatus.OPEN,
+        details: { currentHours },
+      }
     }
   }
 
-  // 閉店中の場合、次の営業開始時間を探す
   let nextOpeningTime: { day: number; start: number } | null = null
-  const daysToCheck = 7 // 最大1週間分チェック
+  const daysToCheck = 7
 
   for (let i = 0; i < daysToCheck; i++) {
     const checkDay = (currentDay + i) % 7
@@ -84,7 +107,7 @@ function getBusinessStatus(
   }
 
   if (!nextOpeningTime) {
-    return BusinessStatus.CLOSED
+    return { status: BusinessStatus.CLOSED, details: {} }
   }
 
   const minutesUntilOpening =
@@ -92,10 +115,20 @@ function getBusinessStatus(
     nextOpeningTime.start -
     currentTimeInMinutes
 
+  const nextOpenDay = nextOpeningTime.day
+  const nextOpenTime = formatTime(nextOpeningTime.start)
+
   if (minutesUntilOpening <= 60) {
-    return BusinessStatus.CLOSED_OPENING_SOON
+    return {
+      status: BusinessStatus.CLOSED_OPENING_SOON,
+      details: { nextOpenTime },
+    }
   }
 
-  return BusinessStatus.CLOSED
+  return {
+    status: BusinessStatus.CLOSED,
+    details: { nextOpenDay, nextOpenTime },
+  }
 }
+
 export { BusinessStatus, getBusinessStatus, type BusinessHours }

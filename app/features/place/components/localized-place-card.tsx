@@ -30,7 +30,7 @@ export const LocalizedPlaceCard = ({
   const city = cities.find((c) => c.cityId === place.cityId)
 
   const date = dayjs().utc().toDate()
-  const businessStatus = getBusinessStatus(
+  const businessStatusResult = getBusinessStatus(
     place.regularOpeningHours as BusinessHours | null,
     date,
     city?.timezone ?? 'Asia/Tokyo',
@@ -94,7 +94,7 @@ export const LocalizedPlaceCard = ({
               </span>
             }
           >
-            {() => <BusinessStatusBadge status={businessStatus} />}
+            {() => <BusinessStatusBadge statusResult={businessStatusResult} />}
           </ClientOnly>
 
           <div className="flex-1" />

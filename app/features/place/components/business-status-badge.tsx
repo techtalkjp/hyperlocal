@@ -1,26 +1,48 @@
 import { match } from 'ts-pattern'
-import { BusinessStatus } from '../utils'
+import { BusinessStatus, type BusinessStatusResult } from '../utils'
 
-export const BusinessStatusBadge = ({ status }: { status: BusinessStatus }) => {
-  const statusLabel = match(status)
+const weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+export const BusinessStatusBadge = ({
+  statusResult,
+}: {
+  statusResult: BusinessStatusResult
+}) => {
+  const statusLabel = match(statusResult.status)
     .with(BusinessStatus.OPEN, () => (
-      <span className="text-green-500">Open</span>
+      <>
+        <span className="font-semibold text-green-600">Open</span>・
+        <span className="ml-1 text-muted-foreground">
+          {statusResult.details.currentHours}
+        </span>
+      </>
     ))
     .with(BusinessStatus.OPEN_CLOSING_SOON, () => (
-      <span className="text-orange-500">Closing Soon</span>
+      <>
+        <span className="font-semibold text-orange-600">Closing Soon</span>・
+        <span className="ml-1 text-muted-foreground">
+          Close at {statusResult.details.closingTime}
+        </span>
+      </>
     ))
     .with(BusinessStatus.CLOSED, () => (
-      <span className="text-red-500">Closed</span>
+      <>
+        <span className="text-red-600">Closed</span>・
+        <span className="ml-1 text-muted-foreground">
+          Open at {weekday[statusResult.details.nextOpenDay ?? 0]}{' '}
+          {statusResult.details.nextOpenTime}
+        </span>
+      </>
     ))
     .with(BusinessStatus.CLOSED_OPENING_SOON, () => (
-      <span className="text-orange-500">Opening Soon</span>
+      <>
+        <span className="font-semibold text-orange-500">Opening Soon</span>・
+        <span className="ml-1 text-muted-foreground">
+          Open at {statusResult.details.nextOpenTime}
+        </span>
+      </>
     ))
     .with(BusinessStatus.UNKNOWN, () => <span />)
     .exhaustive()
 
-  return (
-    <div className="my-1 flex-shrink-0 text-xs font-semibold">
-      {statusLabel}
-    </div>
-  )
+  return <div className="my-1 flex-shrink-0 text-xs">{statusLabel}</div>
 }

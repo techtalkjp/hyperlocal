@@ -70,46 +70,67 @@ describe('getBusinessStatus with timezone', () => {
 
   it('営業中の場合（東京時間）', () => {
     const date = new Date('2024-08-26T10:00:00Z') // UTC 10:00, 東京 19:00
-    expect(getBusinessStatus(businessHours, date, tokyoTz)).toBe(
-      BusinessStatus.OPEN,
-    )
+    expect(getBusinessStatus(businessHours, date, tokyoTz)).toStrictEqual({
+      details: {
+        currentHours: '17:30-21:30',
+      },
+      status: BusinessStatus.OPEN,
+    })
   })
 
   it('もうすぐ閉店の場合（東京時間）', () => {
     const date = new Date('2024-08-26T12:00:00Z') // UTC 12:00, 東京 21:00
-    expect(getBusinessStatus(businessHours, date, tokyoTz)).toBe(
-      BusinessStatus.OPEN_CLOSING_SOON,
-    )
+    expect(getBusinessStatus(businessHours, date, tokyoTz)).toStrictEqual({
+      details: {
+        closingTime: '21:30',
+        currentHours: '17:30-21:30',
+      },
+      status: BusinessStatus.OPEN_CLOSING_SOON,
+    })
   })
 
   it('閉店中の場合（東京時間）', () => {
     const date = new Date('2024-08-26T07:00:00Z') // UTC 07:00, 東京 16:00
-    expect(getBusinessStatus(businessHours, date, tokyoTz)).toBe(
-      BusinessStatus.CLOSED,
-    )
+    expect(getBusinessStatus(businessHours, date, tokyoTz)).toStrictEqual({
+      details: {
+        nextOpenDay: 1,
+        nextOpenTime: '17:30',
+      },
+      status: BusinessStatus.CLOSED,
+    })
   })
 
   it('もうすぐ開店の場合（東京時間）', () => {
     const date = new Date('2024-08-26T01:00:00Z') // UTC 01:00, 東京 10:00
-    expect(getBusinessStatus(businessHours, date, tokyoTz)).toBe(
-      BusinessStatus.CLOSED_OPENING_SOON,
-    )
+    expect(getBusinessStatus(businessHours, date, tokyoTz)).toStrictEqual({
+      details: {
+        nextOpenTime: '11:00',
+      },
+      status: BusinessStatus.CLOSED_OPENING_SOON,
+    })
   })
 
   it('異なるタイムゾーンでのテスト（ニューヨーク時間）', () => {
     const nyTz = 'America/New_York'
     const date = new Date('2024-08-26T15:00:00Z') // UTC 15:00, NY 11:00
-    expect(getBusinessStatus(businessHours, date, nyTz)).toBe(
-      BusinessStatus.OPEN,
-    )
+    expect(getBusinessStatus(businessHours, date, nyTz)).toStrictEqual({
+      details: {
+        currentHours: '11:00-15:30',
+      },
+      status: BusinessStatus.OPEN,
+    })
   })
 
   it('日付変更線をまたぐ場合（フィジー時間）', () => {
     const fijiTz = 'Pacific/Fiji'
     const date = new Date('2024-08-26T11:00:00Z') // UTC 11:00, フィジー 23:00 (月曜日)
-    expect(getBusinessStatus(businessHours, date, fijiTz)).toBe(
-      BusinessStatus.CLOSED,
-    )
+    expect(getBusinessStatus(businessHours, date, fijiTz)).toStrictEqual({
+      details: {
+        nextOpenDay: 2,
+        nextOpenTime: '11:00',
+      },
+      status: BusinessStatus.CLOSED,
+    })
   })
 
   it('24時間営業の場合', () => {
@@ -125,8 +146,11 @@ describe('getBusinessStatus with timezone', () => {
     ]
 
     for (const date of dates) {
-      expect(getBusinessStatus(always24HoursOpen, date, tokyoTz)).toBe(
-        BusinessStatus.OPEN,
+      expect(getBusinessStatus(always24HoursOpen, date, tokyoTz)).toStrictEqual(
+        {
+          details: {},
+          status: BusinessStatus.OPEN,
+        },
       )
     }
   })
@@ -149,11 +173,16 @@ describe('getBusinessStatus with timezone', () => {
     const tokyoTz = 'Asia/Tokyo'
     const date = new Date('2024-08-26T20:00:00Z') // 月曜日 20:00 UTC (火曜日 05:00 東京時間)
 
-    expect(getBusinessStatus(regularHours, date, tokyoTz)).toBe(
-      BusinessStatus.CLOSED,
-    )
-    expect(getBusinessStatus(always24HoursOpen, date, tokyoTz)).toBe(
-      BusinessStatus.OPEN,
-    )
+    expect(getBusinessStatus(regularHours, date, tokyoTz)).toStrictEqual({
+      details: {
+        nextOpenDay: 1,
+        nextOpenTime: '09:00',
+      },
+      status: BusinessStatus.CLOSED,
+    })
+    expect(getBusinessStatus(always24HoursOpen, date, tokyoTz)).toStrictEqual({
+      details: {},
+      status: BusinessStatus.OPEN,
+    })
   })
 })
