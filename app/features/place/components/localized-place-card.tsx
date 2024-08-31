@@ -37,7 +37,12 @@ export const LocalizedPlaceCard = ({
   )
 
   return (
-    <div className={cn('grid grid-cols-[auto_1fr] gap-2', className)}>
+    <div
+      className={cn(
+        'grid grid-cols-[auto_1fr] gap-2 text-card-foreground',
+        className,
+      )}
+    >
       <div className="grid h-32 w-32 flex-shrink-0 place-content-center place-items-center rounded bg-muted text-muted-foreground">
         {place.photos.length > 0 ? (
           <img
@@ -52,12 +57,12 @@ export const LocalizedPlaceCard = ({
       </div>
 
       <div className="ml-2">
-        <div className="font-bold">
+        <div className="font-semibold">
           {no && `${no}.`} {place.displayName}
         </div>
 
         {withOriginalName && (
-          <div className="text-xs leading-none text-foreground/70">
+          <div className="text-xs leading-none text-muted-foreground">
             {place.originalDisplayName}
           </div>
         )}
@@ -106,7 +111,7 @@ export const LocalizedPlaceCard = ({
         {place.reviews[0]?.text && (
           <HStack className="items-start text-muted-foreground">
             <MessageSquareIcon size="12" className="mt-0.5 flex-shrink-0" />
-            <div className="line-clamp-2 text-xs">
+            <div className="line-clamp-3 text-xs">
               "{place.reviews[0].text}"
             </div>
           </HStack>
