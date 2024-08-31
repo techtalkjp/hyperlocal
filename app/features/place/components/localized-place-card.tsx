@@ -111,7 +111,7 @@ export const LocalizedPlaceCard = ({
         {place.reviews[0]?.text && (
           <HStack className="items-start text-muted-foreground">
             <MessageSquareIcon size="12" className="mt-0.5 flex-shrink-0" />
-            <div className="line-clamp-3 text-sm">
+            <div className="line-clamp-3 text-xs">
               "{place.reviews[0].text}"
             </div>
           </HStack>
