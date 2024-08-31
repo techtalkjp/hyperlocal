@@ -18,11 +18,13 @@ interface GooglePlaceCardProps extends React.ComponentProps<typeof HStack> {
   place: LocalizedPlace
   no?: number
   loading?: 'eager' | 'lazy'
+  withOriginalName?: boolean
 }
 export const LocalizedPlaceCard = ({
   place,
   no,
   loading = 'eager',
+  withOriginalName = false,
   className,
 }: GooglePlaceCardProps) => {
   const city = cities.find((c) => c.cityId === place.cityId)
@@ -53,9 +55,11 @@ export const LocalizedPlaceCard = ({
         <div className="font-bold">
           {no && `${no}.`} {place.displayName}
         </div>
-        <div className="text-xs text-foreground/70">
-          {place.originalDisplayName}
-        </div>
+        {withOriginalName && (
+          <div className="text-xs text-foreground/70">
+            {place.originalDisplayName}
+          </div>
+        )}
 
         <HStack className="flex-1">
           <Rating star={place.rating} withLabel size={14} />

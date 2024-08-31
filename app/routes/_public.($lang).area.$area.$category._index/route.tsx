@@ -32,11 +32,11 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     lang.id,
   )
 
-  return { places }
+  return { places, city, lang }
 }
 
 export default function CategoryIndexPage() {
-  const { places } = useLoaderData<typeof loader>()
+  const { places, city, lang } = useLoaderData<typeof loader>()
 
   return (
     <Stack>
@@ -55,6 +55,7 @@ export default function CategoryIndexPage() {
             place={place}
             no={idx + 1}
             loading={idx <= 5 ? 'eager' : 'lazy'}
+            withOriginalName={city.language !== lang.id}
           />
         </Link>
       ))}
