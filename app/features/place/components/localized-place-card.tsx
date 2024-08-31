@@ -37,7 +37,7 @@ export const LocalizedPlaceCard = ({
   )
 
   return (
-    <HStack className={cn('items-start gap-4', className)}>
+    <div className={cn('grid grid-cols-[auto_1fr] gap-2', className)}>
       <div className="grid h-32 w-32 flex-shrink-0 place-content-center place-items-center rounded bg-muted text-muted-foreground">
         {place.photos.length > 0 ? (
           <img
@@ -51,24 +51,25 @@ export const LocalizedPlaceCard = ({
         )}
       </div>
 
-      <div className="flex-1 leading-relaxed">
+      <div className="ml-2">
         <div className="font-bold">
           {no && `${no}.`} {place.displayName}
         </div>
+
         {withOriginalName && (
-          <div className="text-xs text-foreground/70">
+          <div className="text-xs leading-none text-foreground/70">
             {place.originalDisplayName}
           </div>
         )}
 
-        <HStack className="flex-1">
+        <HStack>
           <Rating star={place.rating} withLabel size={14} />
           <div className="text-xs text-muted-foreground">
             (<span>{place.userRatingCount}</span> reviews)
           </div>
         </HStack>
 
-        <HStack className="my-0.5 flex-wrap gap-1">
+        <HStack className="flex-wrap gap-1">
           {mapPlaceTypes(place.types).map((type) => (
             <Badge
               key={type}
@@ -94,21 +95,23 @@ export const LocalizedPlaceCard = ({
           <div className="flex-1" />
 
           {place.priceLevel && (
-            <div className="flex-shrink-0 text-xs font-bold text-foreground/70">
+            <div className="flex-shrink-0 text-xs text-muted-foreground">
               {priceLevelLabel(place.priceLevel)}
             </div>
           )}
         </HStack>
+      </div>
 
+      <div className="col-span-2">
         {place.reviews[0]?.text && (
-          <HStack className="items-start">
+          <HStack className="items-start text-muted-foreground">
             <MessageSquareIcon size="12" className="mt-0.5 flex-shrink-0" />
-            <div className="line-clamp-2 text-xs text-muted-foreground">
+            <div className="line-clamp-2 text-xs">
               "{place.reviews[0].text}"
             </div>
           </HStack>
         )}
       </div>
-    </HStack>
+    </div>
   )
 }

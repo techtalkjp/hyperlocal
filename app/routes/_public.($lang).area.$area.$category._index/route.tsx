@@ -39,7 +39,7 @@ export default function CategoryIndexPage() {
   const { places, city, lang } = useLoaderData<typeof loader>()
 
   return (
-    <Stack>
+    <Stack className="gap-4">
       {places.length === 0 && (
         <div className="text-sm text-muted-foreground">No Places</div>
       )}

@@ -19,7 +19,7 @@ export const BusinessStatusBadge = ({ status }: { status: BusinessStatus }) => {
     .exhaustive()
 
   return (
-    <div className="flex-shrink-0 px-1 py-0.5 text-xs font-semibold">
+    <div className="my-1 flex-shrink-0 text-xs font-semibold">
       {statusLabel}
     </div>
   )
