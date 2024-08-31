@@ -72,7 +72,8 @@ describe('getBusinessStatus with timezone', () => {
     const date = new Date('2024-08-26T10:00:00Z') // UTC 10:00, 東京 19:00
     expect(getBusinessStatus(businessHours, date, tokyoTz)).toStrictEqual({
       details: {
-        currentHours: '17:30-21:30',
+        closingDay: 1,
+        closingTime: '21:30',
       },
       status: BusinessStatus.OPEN,
     })
@@ -82,8 +83,8 @@ describe('getBusinessStatus with timezone', () => {
     const date = new Date('2024-08-26T12:00:00Z') // UTC 12:00, 東京 21:00
     expect(getBusinessStatus(businessHours, date, tokyoTz)).toStrictEqual({
       details: {
+        closingDay: 1,
         closingTime: '21:30',
-        currentHours: '17:30-21:30',
       },
       status: BusinessStatus.OPEN_CLOSING_SOON,
     })
@@ -115,7 +116,8 @@ describe('getBusinessStatus with timezone', () => {
     const date = new Date('2024-08-26T15:00:00Z') // UTC 15:00, NY 11:00
     expect(getBusinessStatus(businessHours, date, nyTz)).toStrictEqual({
       details: {
-        currentHours: '11:00-15:30',
+        closingDay: 1,
+        closingTime: '15:30',
       },
       status: BusinessStatus.OPEN,
     })

@@ -13,7 +13,8 @@ export const BusinessStatusBadge = ({
         <span className="font-semibold text-green-600">Open</span>
         <span className="mx-0.5">⋅</span>
         <span className="text-muted-foreground">
-          {statusResult.details.currentHours}
+          Close at {weekday[statusResult.details.closingDay ?? 0]}{' '}
+          {statusResult.details.closingTime}
         </span>
       </>
     ))
@@ -22,7 +23,8 @@ export const BusinessStatusBadge = ({
         <span className="font-semibold text-orange-600">Closing Soon</span>
         <span className="mx-0.5">⋅</span>
         <span className="text-muted-foreground">
-          Close at {statusResult.details.closingTime}
+          Close at {weekday[statusResult.details.closingDay ?? 0]}{' '}
+          {statusResult.details.closingTime}
         </span>
       </>
     ))

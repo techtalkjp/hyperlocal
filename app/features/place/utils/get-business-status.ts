@@ -27,7 +27,7 @@ enum BusinessStatus {
 export interface BusinessStatusResult {
   status: BusinessStatus
   details: {
-    currentHours?: string
+    closingDay?: number
     closingTime?: string
     nextOpenDay?: number
     nextOpenTime?: string
@@ -75,14 +75,17 @@ function getBusinessStatus(
         return {
           status: BusinessStatus.OPEN_CLOSING_SOON,
           details: {
-            currentHours,
+            closingDay: period.day,
             closingTime: formatTime(period.end),
           },
         }
       }
       return {
         status: BusinessStatus.OPEN,
-        details: { currentHours },
+        details: {
+          closingDay: period.day,
+          closingTime: formatTime(period.end),
+        },
       }
     }
   }
