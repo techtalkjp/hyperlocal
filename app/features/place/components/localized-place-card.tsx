@@ -68,9 +68,9 @@ export const LocalizedPlaceCard = ({
         )}
 
         <HStack>
-          <Rating star={place.rating} withLabel size={14} />
-          <div className="text-xs text-muted-foreground">
-            (<span>{place.userRatingCount}</span> reviews)
+          <Rating star={place.rating} withLabel size={16} />
+          <div className="text-sm text-muted-foreground">
+            ({place.userRatingCount} reviews)
           </div>
         </HStack>
 
@@ -111,7 +111,7 @@ export const LocalizedPlaceCard = ({
         {place.reviews[0]?.text && (
           <HStack className="items-start text-muted-foreground">
             <MessageSquareIcon size="12" className="mt-0.5 flex-shrink-0" />
-            <div className="line-clamp-3 text-xs">
+            <div className="line-clamp-3 text-sm">
               "{place.reviews[0].text}"
             </div>
           </HStack>
