@@ -1,9 +1,4 @@
-import type { HeadersFunction, LoaderFunctionArgs } from '@remix-run/node'
-
-export const headers: HeadersFunction = () => ({
-  'Content-Type': 'application/xml;charset=utf-8',
-  'Cache-Control': 'public, s-maxage=2592000, stale-while-revalidate=2592000',
-})
+import type { LoaderFunctionArgs } from '@remix-run/node'
 
 export const loader = ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url)
@@ -19,5 +14,12 @@ Host: ${origin}
 # Sitemaps
 Sitemap: ${origin}/sitemap.xml`
 
-  return new Response(content)
+  return new Response(content, {
+    status: 200,
+    headers: {
+      'Content-Type': 'text/plain',
+      'Cache-Control':
+        'public, s-maxage=2592000, stale-while-revalidate=2592000',
+    },
+  })
 }

@@ -1,14 +1,9 @@
-import type { HeadersFunction, LoaderFunctionArgs } from '@remix-run/node'
+import type { LoaderFunctionArgs } from '@remix-run/node'
 import areas from '~/consts/areas'
 import categories from '~/consts/categories'
 import languages from '~/consts/languages'
 import { getLangCityAreaCategory } from '~/features/city-area/utils'
 import { db } from '~/services/db'
-
-export const headers: HeadersFunction = () => ({
-  'Content-Type': 'application/xml;charset=utf-8',
-  'Cache-Control': 'public, s-maxage=2592000, stale-while-revalidate=2592000',
-})
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const url = new URL(request.url)
@@ -50,7 +45,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     }
   }
 
-  return new Response(`<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  const sitemap = `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls
   .map(
     (url) => `  <url>
@@ -59,5 +54,16 @@ ${urls
   </url>
 `,
   )
-  .join('')}</urlset>`)
+  .join('')}</urlset>`
+
+  return new Response(sitemap, {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/xml',
+      'xml-version': '1.0',
+      encoding: 'UTF-8',
+      'Cache-Control':
+        'public, s-maxage=2592000, stale-while-revalidate=2592000',
+    },
+  })
 }
