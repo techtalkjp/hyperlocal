@@ -30,7 +30,7 @@ export const BusinessStatusBadge = ({
         <span className="font-semibold text-orange-600">Closing Soon</span>
         <span className="mx-0.5 text-muted-foreground">⋅</span>
         <span className="text-muted-foreground">
-          closing at {weekday[statusResult.details.closingDay ?? 0]}{' '}
+          at {weekday[statusResult.details.closingDay ?? 0]}{' '}
           {statusResult.details.closingTime}
         </span>
       </div>
@@ -50,7 +50,7 @@ export const BusinessStatusBadge = ({
         <span className="font-semibold text-orange-500">Opening Soon</span>
         <span className="mx-0.5 text-muted-foreground">⋅</span>
         <span className="text-muted-foreground">
-          Open from {statusResult.details.nextOpenTime}
+          from {statusResult.details.nextOpenTime}
         </span>
       </div>
     ))
