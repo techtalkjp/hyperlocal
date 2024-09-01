@@ -151,7 +151,7 @@ describe('getBusinessStatus with timezone', () => {
       expect(getBusinessStatus(always24HoursOpen, date, tokyoTz)).toStrictEqual(
         {
           details: {},
-          status: BusinessStatus.OPEN,
+          status: BusinessStatus.OPEN_24_HOURS,
         },
       )
     }
@@ -184,6 +184,28 @@ describe('getBusinessStatus with timezone', () => {
     })
     expect(getBusinessStatus(always24HoursOpen, date, tokyoTz)).toStrictEqual({
       details: {},
+      status: BusinessStatus.OPEN_24_HOURS,
+    })
+  })
+
+  it('24時を超えた時間でのテスト', () => {
+    const businessHours: BusinessHours = {
+      periods: [
+        {
+          open: { day: 1, hour: 23, minute: 0 },
+          close: { day: 2, hour: 3, minute: 0 },
+        },
+      ],
+    }
+
+    const tokyoTz = 'Asia/Tokyo'
+    const date = new Date('2024-08-26T20:00:00Z') // 月曜日 20:00 UTC (火曜日 05:00 東京時間)
+
+    expect(getBusinessStatus(businessHours, date, tokyoTz)).toStrictEqual({
+      details: {
+        closingDay: 2,
+        closingTime: '03:00',
+      },
       status: BusinessStatus.OPEN,
     })
   })

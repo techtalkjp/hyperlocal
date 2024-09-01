@@ -19,6 +19,7 @@ interface BusinessHours {
 enum BusinessStatus {
   OPEN = 'OPEN',
   OPEN_CLOSING_SOON = 'OPEN_CLOSING_SOON',
+  OPEN_24_HOURS = 'OPEN_24_HOURS',
   CLOSED = 'CLOSED',
   CLOSED_OPENING_SOON = 'CLOSED_OPENING_SOON',
   UNKNOWN = 'UNKNOWN',
@@ -52,7 +53,7 @@ function getBusinessStatus(
   const businessHours = normalizeBusinessHours(originalBusinessHours)
 
   if (businessHours.is24HoursOpen) {
-    return { status: BusinessStatus.OPEN, details: {} }
+    return { status: BusinessStatus.OPEN_24_HOURS, details: {} }
   }
 
   const localDateTime = dayjs(currentDate).tz(timeZone)
@@ -69,7 +70,6 @@ function getBusinessStatus(
       currentTimeInMinutes >= period.start &&
       currentTimeInMinutes < period.end
     ) {
-      const currentHours = `${formatTime(period.start)}-${formatTime(period.end)}`
       const minutesUntilClosing = period.end - currentTimeInMinutes
       if (minutesUntilClosing <= 60) {
         return {
