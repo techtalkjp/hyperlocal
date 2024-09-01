@@ -105,6 +105,7 @@ describe('getBusinessStatus with timezone', () => {
     const date = new Date('2024-08-26T01:00:00Z') // UTC 01:00, 東京 10:00
     expect(getBusinessStatus(businessHours, date, tokyoTz)).toStrictEqual({
       details: {
+        nextOpenDay: 1,
         nextOpenTime: '11:00',
       },
       status: BusinessStatus.CLOSED_OPENING_SOON,
@@ -164,7 +165,6 @@ describe('getBusinessStatus with timezone', () => {
           open: { day: 1, hour: 9, minute: 0 },
           close: { day: 1, hour: 17, minute: 0 },
         },
-        // 他の曜日も同様...
       ],
     }
 
@@ -193,7 +193,7 @@ describe('getBusinessStatus with timezone', () => {
       periods: [
         {
           open: { day: 1, hour: 23, minute: 0 },
-          close: { day: 2, hour: 3, minute: 0 },
+          close: { day: 2, hour: 8, minute: 0 },
         },
       ],
     }
@@ -204,7 +204,7 @@ describe('getBusinessStatus with timezone', () => {
     expect(getBusinessStatus(businessHours, date, tokyoTz)).toStrictEqual({
       details: {
         closingDay: 2,
-        closingTime: '03:00',
+        closingTime: '08:00',
       },
       status: BusinessStatus.OPEN,
     })

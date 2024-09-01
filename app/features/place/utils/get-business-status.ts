@@ -1,19 +1,25 @@
 import dayjs from '~/libs/dayjs'
-import { normalizeBusinessHours } from './normalize-business-hours'
 
-interface TimeInfo {
-  day: number
-  hour: number
-  minute: number
+interface BusinessHoursPeriod {
+  open: {
+    day: number // 週の開始からの日数 (0-6)
+    hour: number // 時間 (0-23)
+    minute: number // 分 (0-59)
+  }
+  close?: {
+    day: number // 週の開始からの日数 (0-6)
+    hour: number // 時間 (0-23)
+    minute: number // 分 (0-59)
+  }
 }
 
-interface Period {
-  open: TimeInfo
-  close?: TimeInfo // for 24-hour business
+interface NormalizeBusinessHoursPeriod {
+  start: number // 週の開始からの分数 (0-10079)
+  end: number // 週の開始からの分数 (0-10079)
 }
 
 interface BusinessHours {
-  periods: Period[]
+  periods: BusinessHoursPeriod[]
 }
 
 enum BusinessStatus {
@@ -25,7 +31,7 @@ enum BusinessStatus {
   UNKNOWN = 'UNKNOWN',
 }
 
-export interface BusinessStatusResult {
+interface BusinessStatusResult {
   status: BusinessStatus
   details: {
     closingDay?: number
@@ -35,103 +41,141 @@ export interface BusinessStatusResult {
   }
 }
 
-function formatTime(minutes: number): string {
-  const hours = Math.floor(minutes / 60)
-  const mins = minutes % 60
-  return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`
+const WEEK_MINUTES = 7 * 24 * 60 // 10080 minutes in a week
+
+function normalizeBusinessHours(
+  originalHours: BusinessHours,
+): NormalizeBusinessHoursPeriod[] {
+  return originalHours.periods
+    .map((period) => ({
+      start:
+        period.open.day * 24 * 60 + period.open.hour * 60 + period.open.minute,
+      end: period.close
+        ? (period.close.day * 24 * 60 +
+            period.close.hour * 60 +
+            period.close.minute +
+            (period.close.day < period.open.day ? WEEK_MINUTES : 0)) %
+          WEEK_MINUTES
+        : WEEK_MINUTES,
+    }))
+    .sort((a, b) => a.start - b.start)
+}
+
+function formatMinutes(minutes: number) {
+  const day = Math.floor(minutes / (24 * 60))
+  const hour = Math.floor((minutes % (24 * 60)) / 60)
+  const minute = minutes % 60
+  return {
+    day,
+    time: `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`,
+  }
 }
 
 function getBusinessStatus(
-  originalBusinessHours: BusinessHours | null,
+  businessHours: BusinessHours,
   currentDate: Date,
   timeZone: string,
 ): BusinessStatusResult {
-  if (!originalBusinessHours) {
+  if (businessHours.periods.length === 0) {
     return { status: BusinessStatus.UNKNOWN, details: {} }
   }
 
-  const businessHours = normalizeBusinessHours(originalBusinessHours)
-
-  if (businessHours.is24HoursOpen) {
+  if (businessHours.periods[0].close === undefined) {
     return { status: BusinessStatus.OPEN_24_HOURS, details: {} }
   }
 
+  const normalizedHours = normalizeBusinessHours(businessHours)
   const localDateTime = dayjs(currentDate).tz(timeZone)
-  const currentDay = localDateTime.day()
-  const currentTimeInMinutes =
-    localDateTime.hour() * 60 + localDateTime.minute()
+  let currentMinutes =
+    localDateTime.day() * 24 * 60 +
+    localDateTime.hour() * 60 +
+    localDateTime.minute()
 
-  const todaysPeriods = businessHours.weeklyHours.filter(
-    (period) => period.day === currentDay,
-  )
+  // Adjust for week wrapping
+  if (currentMinutes >= WEEK_MINUTES) {
+    currentMinutes %= WEEK_MINUTES
+  }
 
-  for (const period of todaysPeriods) {
+  for (let i = 0; i < normalizedHours.length; i++) {
+    const period = normalizedHours[i]
+    const nextPeriod = normalizedHours[(i + 1) % normalizedHours.length]
+
     if (
-      currentTimeInMinutes >= period.start &&
-      currentTimeInMinutes < period.end
+      (period.start <= currentMinutes && currentMinutes < period.end) ||
+      (period.start > period.end &&
+        (currentMinutes >= period.start || currentMinutes < period.end))
     ) {
-      const minutesUntilClosing = period.end - currentTimeInMinutes
+      // 営業中
+      const minutesUntilClosing =
+        (period.end - currentMinutes + WEEK_MINUTES) % WEEK_MINUTES
       if (minutesUntilClosing <= 60) {
+        const { day: closingDay, time: closingTime } = formatMinutes(period.end)
         return {
           status: BusinessStatus.OPEN_CLOSING_SOON,
           details: {
-            closingDay: period.day,
-            closingTime: formatTime(period.end),
+            closingDay,
+            closingTime,
           },
         }
       }
+      const { day: closingDay, time: closingTime } = formatMinutes(period.end)
       return {
         status: BusinessStatus.OPEN,
         details: {
-          closingDay: period.day,
-          closingTime: formatTime(period.end),
+          closingDay,
+          closingTime,
+        },
+      }
+    }
+
+    const minutesUntilOpening =
+      (period.start - currentMinutes + WEEK_MINUTES) % WEEK_MINUTES
+    if (minutesUntilOpening <= 60) {
+      const { day: nextOpenDay, time: nextOpenTime } = formatMinutes(
+        period.start,
+      )
+      // もうすぐ開店
+      return {
+        status: BusinessStatus.CLOSED_OPENING_SOON,
+        details: {
+          nextOpenDay,
+          nextOpenTime,
         },
       }
     }
   }
 
-  let nextOpeningTime: { day: number; start: number } | null = null
-  const daysToCheck = 7
+  // 閉店中 - 次の営業開始時間を探す
+  const nextPeriod = normalizedHours.find(
+    (period) =>
+      (period.start - currentMinutes + WEEK_MINUTES) % WEEK_MINUTES ===
+      Math.min(
+        ...normalizedHours.map(
+          (p) => (p.start - currentMinutes + WEEK_MINUTES) % WEEK_MINUTES,
+        ),
+      ),
+  )
 
-  for (let i = 0; i < daysToCheck; i++) {
-    const checkDay = (currentDay + i) % 7
-    const periodsForDay = businessHours.weeklyHours.filter(
-      (period) => period.day === checkDay,
+  if (nextPeriod) {
+    const { day: nextOpenDay, time: nextOpenTime } = formatMinutes(
+      nextPeriod.start,
     )
-
-    for (const period of periodsForDay) {
-      if ((i === 0 && period.start > currentTimeInMinutes) || i > 0) {
-        nextOpeningTime = { day: checkDay, start: period.start }
-        break
-      }
-    }
-
-    if (nextOpeningTime) break
-  }
-
-  if (!nextOpeningTime) {
-    return { status: BusinessStatus.CLOSED, details: {} }
-  }
-
-  const minutesUntilOpening =
-    ((nextOpeningTime.day - currentDay + 7) % 7) * 1440 +
-    nextOpeningTime.start -
-    currentTimeInMinutes
-
-  const nextOpenDay = nextOpeningTime.day
-  const nextOpenTime = formatTime(nextOpeningTime.start)
-
-  if (minutesUntilOpening <= 60) {
     return {
-      status: BusinessStatus.CLOSED_OPENING_SOON,
-      details: { nextOpenTime },
+      status: BusinessStatus.CLOSED,
+      details: {
+        nextOpenDay,
+        nextOpenTime,
+      },
     }
   }
 
-  return {
-    status: BusinessStatus.CLOSED,
-    details: { nextOpenDay, nextOpenTime },
-  }
+  // ここに到達することはないはずですが、安全のため
+  return { status: BusinessStatus.UNKNOWN, details: {} }
 }
 
-export { BusinessStatus, getBusinessStatus, type BusinessHours }
+export {
+  BusinessStatus,
+  getBusinessStatus,
+  type BusinessHours,
+  type BusinessStatusResult,
+}
