@@ -7,6 +7,7 @@ import {
   ParseJSONResultsPlugin,
 } from 'kysely'
 import type { DB } from './schema'
+export { sql } from 'kysely'
 export type * from './types'
 
 const debug = createDebug('app:db')

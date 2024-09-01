@@ -3,7 +3,7 @@ import areas from '~/consts/areas'
 import categories from '~/consts/categories'
 import languages from '~/consts/languages'
 import { getLangCityAreaCategory } from '~/features/city-area/utils'
-import { db } from '~/services/db'
+import { db, sql } from '~/services/db'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const url = new URL(request.url)
@@ -18,7 +18,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   for (const area of areas.filter((a) => a.cityId === city.cityId)) {
     const { lastmod } = await db
       .selectFrom('localizedPlaces')
-      .select((eb) => eb.fn('max', ['updatedAt']).as('lastmod'))
+      .select(sql<string>`strftime('%Y-%m-%d', max(updated_at))`.as('lastmod'))
       .where('cityId', '==', city.cityId)
       .where('language', '==', lang.id)
       .where('areaId', '==', area.areaId)
@@ -31,7 +31,9 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     for (const category of categories) {
       const { lastmod } = await db
         .selectFrom('localizedPlaces')
-        .select((eb) => eb.fn('max', ['updatedAt']).as('lastmod'))
+        .select(
+          sql<string>`strftime('%Y-%m-%d', max(updated_at))`.as('lastmod'),
+        )
         .where('cityId', '==', city.cityId)
         .where('language', '==', lang.id)
         .where('areaId', '==', area.areaId)
