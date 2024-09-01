@@ -20,7 +20,7 @@ export const BusinessStatusBadge = ({
         <span className="font-semibold text-green-600">Open</span>
         <span className="mx-0.5 text-muted-foreground">⋅</span>
         <span className="text-muted-foreground">
-          Close at {weekday[statusResult.details.closingDay ?? 0]}{' '}
+          until {weekday[statusResult.details.closingDay ?? 0]}{' '}
           {statusResult.details.closingTime}
         </span>
       </div>
@@ -30,7 +30,7 @@ export const BusinessStatusBadge = ({
         <span className="font-semibold text-orange-600">Closing Soon</span>
         <span className="mx-0.5 text-muted-foreground">⋅</span>
         <span className="text-muted-foreground">
-          Close at {weekday[statusResult.details.closingDay ?? 0]}{' '}
+          closing at {weekday[statusResult.details.closingDay ?? 0]}{' '}
           {statusResult.details.closingTime}
         </span>
       </div>
@@ -40,7 +40,7 @@ export const BusinessStatusBadge = ({
         <span className="font-semibold text-red-600">Closed</span>
         <span className="mx-0.5 text-muted-foreground">⋅</span>
         <span className="text-muted-foreground">
-          Open at {weekday[statusResult.details.nextOpenDay ?? 0]}{' '}
+          Open from {weekday[statusResult.details.nextOpenDay ?? 0]}{' '}
           {statusResult.details.nextOpenTime}
         </span>
       </div>
@@ -50,7 +50,7 @@ export const BusinessStatusBadge = ({
         <span className="font-semibold text-orange-500">Opening Soon</span>
         <span className="mx-0.5 text-muted-foreground">⋅</span>
         <span className="text-muted-foreground">
-          Open at {statusResult.details.nextOpenTime}
+          Open from {statusResult.details.nextOpenTime}
         </span>
       </div>
     ))
