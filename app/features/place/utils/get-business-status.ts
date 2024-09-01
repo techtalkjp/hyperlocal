@@ -72,10 +72,14 @@ function formatMinutes(minutes: number) {
 }
 
 function getBusinessStatus(
-  businessHours: BusinessHours,
+  businessHours: BusinessHours | null,
   currentDate: Date,
   timeZone: string,
 ): BusinessStatusResult {
+  if (!businessHours) {
+    return { status: BusinessStatus.UNKNOWN, details: {} }
+  }
+
   if (businessHours.periods.length === 0) {
     return { status: BusinessStatus.UNKNOWN, details: {} }
   }
