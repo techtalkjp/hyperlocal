@@ -1,10 +1,12 @@
-import { useLoaderData } from '@remix-run/react'
+import { Link, useLoaderData } from '@remix-run/react'
 import {
+  Button,
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
+  HStack,
   Table,
   TableBody,
   TableCell,
@@ -23,8 +25,15 @@ export default function AdminAreasIndexPage() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Areas</CardTitle>
-        <CardDescription>Area master data</CardDescription>
+        <HStack className="items-start">
+          <div className="flex-1">
+            <CardTitle>Areas</CardTitle>
+            <CardDescription>Area master data</CardDescription>
+          </div>
+          <Button variant="outline" asChild>
+            <Link to="add">Add New</Link>
+          </Button>
+        </HStack>
       </CardHeader>
       <CardContent>
         <Table>

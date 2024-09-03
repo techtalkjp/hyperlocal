@@ -1,5 +1,6 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
+import { Button, HStack } from '~/components/ui'
 import areas from '~/consts/areas'
 import cities from '~/consts/cities'
 import { requireAdminUser } from '~/services/auth.server'
@@ -13,9 +14,12 @@ export default function AdminIndex() {
   const { cities, areas } = useLoaderData<typeof loader>()
   return (
     <div>
-      <Link to="/admin/areas" className="hover:underline">
+      <HStack>
         <h1 className="text-xl font-bold">Areas</h1>
-      </Link>
+        <Button variant="outline" size="xs" asChild>
+          <Link to="/admin/areas">area master</Link>
+        </Button>
+      </HStack>
 
       <ul>
         {areas.map((area) => {
