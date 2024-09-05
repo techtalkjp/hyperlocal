@@ -41,7 +41,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
         .executeTakeFirstOrThrow()
 
       urls.push({
-        loc: `${origin}/${lang.id}/${city.cityId}/${area.areaId}/${category.id}`,
+        loc: `${origin}/${lang.id}/${area.areaId}/${category.id}`,
         lastmod,
       })
     }
