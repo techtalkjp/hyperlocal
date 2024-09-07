@@ -82,6 +82,7 @@ export default function AdminCreategoryIndex() {
             cityId={city.cityId}
             areaId={area.areaId}
             categoryId={category.id}
+            radius={area.radius}
           />
         </Stack>
       </TabsContent>

@@ -21,7 +21,7 @@ export const NearbyForm = ({
   cityId,
   areaId,
   categoryId,
-  radius = 400,
+  radius,
 }: NearbyFormProps) => {
   const fetcher = useFetcher<typeof loader>({
     key: `google-place-nearby-${cityId}-${areaId}-${categoryId}`,

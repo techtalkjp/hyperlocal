@@ -68,10 +68,12 @@ export const NearbyPlaceList = ({
   cityId,
   areaId,
   categoryId,
+  radius,
 }: {
   cityId: string
   areaId: string
   categoryId: string
+  radius: number
 }) => {
   const fetcher = useFetcher<typeof loader>({
     key: `google-place-nearby-${cityId}-${areaId}-${categoryId}`,
@@ -80,7 +82,12 @@ export const NearbyPlaceList = ({
 
   return (
     <Stack>
-      <NearbyForm cityId={cityId} areaId={areaId} categoryId={categoryId} />
+      <NearbyForm
+        cityId={cityId}
+        areaId={areaId}
+        categoryId={categoryId}
+        radius={radius}
+      />
       <div>found {places.length} places.</div>
       {places.map((place, idx) => {
         return (
