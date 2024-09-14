@@ -52,7 +52,7 @@ ${urls
   .map(
     (url) => `  <url>
     <loc>${url.loc}</loc>
-    <lastmod>${url.lastmod}</lastmod>
+    ${url.lastmod ? `<lastmod>${url.lastmod}</lastmod>` : ''}
   </url>
 `,
   )
