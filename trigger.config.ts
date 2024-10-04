@@ -13,5 +13,5 @@ export const config: TriggerConfig = {
       randomize: true,
     },
   },
-  triggerDirectories: ['app/trigger'],
+  dirs: ['app/trigger'],
 }
