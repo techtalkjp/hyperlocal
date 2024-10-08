@@ -5,8 +5,8 @@ on:
     branches:
       - main
     paths:
-      - 'app/trigger/**'
-      - 'app/consts/**'
+      - 'apps/web/app/trigger/**'
+      - 'apps/web/app/consts/**'
 
 jobs:
   deploy:
