@@ -1,0 +1,13 @@
+{
+  "extends": "@apify/tsconfig",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "target": "ESNext",
+    "moduleResolution": "NodeNext",
+    "outDir": "dist",
+    "noUnusedLocals": false,
+    "lib": ["ESNext"],
+    "skipLibCheck": true
+  },
+  "include": ["./src/**/*"]
+}
