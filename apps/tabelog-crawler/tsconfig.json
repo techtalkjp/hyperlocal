@@ -1,5 +1,4 @@
 {
-  "extends": "@apify/tsconfig",
   "compilerOptions": {
     "module": "NodeNext",
     "target": "ESNext",
