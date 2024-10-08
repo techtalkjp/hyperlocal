@@ -11,7 +11,7 @@ import {
 } from '~/components/ui'
 import { getCityAreaCategory } from '~/features/admin/city-area-category/get-city-area-category'
 import { GooglePlaceCard } from '~/features/place/components'
-import { NearbyPlaceList } from '~/routes/admin.resources.google-places-nearby/route'
+import { NearbyPlaceList } from '~/routes/admin+/resources.google-places-nearby/route'
 import { requireAdminUser } from '~/services/auth.server'
 import { listAreaGooglePlaces } from './functions/queries.server'
 

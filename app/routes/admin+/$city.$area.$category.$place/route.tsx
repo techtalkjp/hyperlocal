@@ -9,7 +9,7 @@ import type {
   GooglePlacePhoto,
   GooglePlaceReview,
 } from '~/services/google-places'
-import { getAreaGooglePlace } from '../admin.$city.$area.$category.$place/queries.server'
+import { getAreaGooglePlace } from './queries.server'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   await requireAdminUser(request)

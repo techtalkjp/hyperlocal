@@ -14,7 +14,7 @@ import {
   getPlacePhotoUri,
   type GooglePlacePhoto,
 } from '~/services/google-places'
-import { upsertLocalizedPlace } from '../../features/localize/mutations.server'
+import { upsertLocalizedPlace } from '../../../features/localize/mutations.server'
 import { getAreaGooglePlace } from './queries.server'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
