@@ -1,4 +1,4 @@
-import { categories } from '@hyper-local/consts'
+import { categories } from '@hyperlocal/consts'
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import { Card, CardHeader, CardTitle } from '~/components/ui'

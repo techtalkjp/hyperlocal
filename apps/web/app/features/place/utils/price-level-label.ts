@@ -1,4 +1,4 @@
-import type { Place } from '@hyper-local/types'
+import type { Place } from '@hyperlocal/types'
 import { match } from 'ts-pattern'
 // 円マークを追加
 

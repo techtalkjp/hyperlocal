@@ -24,9 +24,9 @@
     "forceConsistentCasingInFileNames": true,
     "paths": {
       "~/*": ["./app/*"],
-      "@hyper-local/consts/*": ["../../packages/consts/*"],
-      "@hyper-local/db/*": ["../../packages/db/*"],
-      "@hyper-local/types/*": ["../../packages/types/*"]
+      "@hyperlocal/consts/*": ["../../packages/consts/*"],
+      "@hyperlocal/db/*": ["../../packages/db/*"],
+      "@hyperlocal/types/*": ["../../packages/types/*"]
     },
     "noEmit": true
   }

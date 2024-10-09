@@ -1,4 +1,4 @@
-import { areas as allAreas } from '@hyper-local/consts'
+import { areas as allAreas } from '@hyperlocal/consts'
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, type MetaFunction, Outlet } from '@remix-run/react'
 import {

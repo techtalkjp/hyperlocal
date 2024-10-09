@@ -1,5 +1,5 @@
-import { db } from '@hyper-local/db'
-import type { Place } from '@hyper-local/types'
+import { db } from '@hyperlocal/db'
+import type { Place } from '@hyperlocal/types'
 import dayjs from '~/libs/dayjs'
 
 export const upsertGooglePlace = async (

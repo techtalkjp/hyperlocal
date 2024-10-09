@@ -1,4 +1,4 @@
-import type { Place } from '@hyper-local/types'
+import type { Place } from '@hyperlocal/types'
 
 const placeTypeLabelMap: Record<string, string> = {
   amusement_center: 'amusement center',

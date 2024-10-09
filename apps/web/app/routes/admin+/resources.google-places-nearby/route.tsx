@@ -1,6 +1,6 @@
 import { parseWithZod } from '@conform-to/zod'
-import { areas, categories, cities } from '@hyper-local/consts'
-import { type GooglePlaceType, nearBySearch } from '@hyper-local/types'
+import { areas, categories, cities } from '@hyperlocal/consts'
+import { type GooglePlaceType, nearBySearch } from '@hyperlocal/types'
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { useFetcher } from '@remix-run/react'
 import { MapIcon } from 'lucide-react'

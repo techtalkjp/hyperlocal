@@ -51,13 +51,13 @@ importers:
       '@conform-to/zod':
         specifier: 1.2.2
         version: 1.2.2(zod@3.23.8)
-      '@hyper-local/consts':
+      '@hyperlocal/consts':
         specifier: workspace:*
         version: link:../../packages/consts
-      '@hyper-local/db':
+      '@hyperlocal/db':
         specifier: workspace:*
         version: link:../../packages/db
-      '@hyper-local/types':
+      '@hyperlocal/types':
         specifier: workspace:*
         version: link:../../packages/types
       '@libsql/client':
@@ -253,7 +253,7 @@ importers:
 
   packages/consts:
     dependencies:
-      '@hyper-local/types':
+      '@hyperlocal/types':
         specifier: workspace:*
         version: link:../types
     devDependencies:
@@ -287,7 +287,7 @@ importers:
 
   packages/db:
     dependencies:
-      '@hyper-local/types':
+      '@hyperlocal/types':
         specifier: workspace:*
         version: link:../types
       '@libsql/kysely-libsql':
@@ -4134,12 +4134,10 @@ packages:
 
   libsql@0.3.19:
     resolution: {integrity: sha512-Aj5cQ5uk/6fHdmeW0TiXK42FqUlwx7ytmMLPSaUQPin5HKKKuUPD62MAbN4OEweGBBI7q1BekoEN4gPUEL6MZA==}
-    cpu: [x64, arm64, wasm32]
     os: [darwin, linux, win32]
 
   libsql@0.4.6:
     resolution: {integrity: sha512-F5M+ltteK6dCcpjMahrkgT96uFJvVI8aQ4r9f2AzHQjC7BkAYtvfMSTWGvRBezRgMUIU2h1Sy0pF9nOGOD5iyA==}
-    cpu: [x64, arm64, wasm32]
     os: [darwin, linux, win32]
 
   lilconfig@2.1.0:

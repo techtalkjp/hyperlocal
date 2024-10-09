@@ -1,4 +1,4 @@
-import { db, type GooglePlace } from '@hyper-local/db'
+import { db, type GooglePlace } from '@hyperlocal/db'
 
 export const getAreaGooglePlace = async (placeId: string) => {
   return (await db

@@ -15,7 +15,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@hyper-local/types/*": ["../types/*"]
+      "@hyperlocal/types/*": ["../types/*"]
     }
   },
   "include": ["./src/**/*"]

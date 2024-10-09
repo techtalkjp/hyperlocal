@@ -1,4 +1,4 @@
-import { db } from '@hyper-local/db'
+import { db } from '@hyperlocal/db'
 import { task } from '@trigger.dev/sdk/v3'
 import { translatePlaceTask } from './translate-google-place'
 

@@ -1,5 +1,5 @@
-import { cities } from '@hyper-local/consts'
-import type { LocalizedPlace } from '@hyper-local/db'
+import { cities } from '@hyperlocal/consts'
+import type { LocalizedPlace } from '@hyperlocal/db'
 import { MessageSquareIcon } from 'lucide-react'
 import { ClientOnly } from 'remix-utils/client-only'
 import { Badge, HStack } from '~/components/ui'

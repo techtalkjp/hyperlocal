@@ -1,4 +1,4 @@
-import type { GooglePlaceType } from '@hyper-local/types'
+import type { GooglePlaceType } from '@hyperlocal/types'
 import type { i18nRecord } from './languages'
 
 export interface Category {

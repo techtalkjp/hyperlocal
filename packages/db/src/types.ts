@@ -3,7 +3,7 @@ import type {
   GooglePlacePriceLevel,
   GooglePlaceReview,
   GooglePlaceType,
-} from '@hyper-local/types'
+} from '@hyperlocal/types'
 import type { Selectable } from 'kysely'
 import type { DB } from './schema'
 

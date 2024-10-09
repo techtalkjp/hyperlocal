@@ -1,4 +1,4 @@
-import { languages, type LanguageId } from '@hyper-local/consts'
+import { languages, type LanguageId } from '@hyperlocal/consts'
 import { Link, useLocation } from '@remix-run/react'
 import { GlobeIcon } from 'lucide-react'
 import type React from 'react'

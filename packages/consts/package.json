@@ -1,5 +1,5 @@
 {
-  "name": "@hyper-local/consts",
+  "name": "@hyperlocal/consts",
   "version": "1.0.0",
   "description": "",
   "type": "module",
@@ -23,6 +23,6 @@
     "typescript": "5.6.3"
   },
   "dependencies": {
-    "@hyper-local/types": "workspace:*"
+    "@hyperlocal/types": "workspace:*"
   }
 }

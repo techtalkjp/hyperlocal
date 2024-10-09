@@ -1,4 +1,4 @@
-import { db, type GooglePlace } from '@hyper-local/db'
+import { db, type GooglePlace } from '@hyperlocal/db'
 import { logger, task } from '@trigger.dev/sdk/v3'
 import { upsertLocalizedPlace } from '~/features/localize/mutations.server'
 import { translateGooglePlace } from '~/features/localize/translate-google-place'

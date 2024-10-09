@@ -1,4 +1,4 @@
-import { getPlacePhotoUri, type GooglePlacePhoto } from '@hyper-local/types'
+import { getPlacePhotoUri, type GooglePlacePhoto } from '@hyperlocal/types'
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
 import {
   isRouteErrorResponse,

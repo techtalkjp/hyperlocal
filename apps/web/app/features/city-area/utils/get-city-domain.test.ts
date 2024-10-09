@@ -1,4 +1,4 @@
-import type { City } from '@hyper-local/consts' // Adjust the import path as needed
+import type { City } from '@hyperlocal/consts' // Adjust the import path as needed
 import { describe, expect, it } from 'vitest'
 import { getCityDomain } from './get-city-domain' // Adjust the import path as needed
 

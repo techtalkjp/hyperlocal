@@ -1,4 +1,4 @@
-import { areas, cities, type LanguageId } from '@hyper-local/consts'
+import { areas, cities, type LanguageId } from '@hyperlocal/consts'
 import { match } from 'ts-pattern'
 
 type CategoryId =

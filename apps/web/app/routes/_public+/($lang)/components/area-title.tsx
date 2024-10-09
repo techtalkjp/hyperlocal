@@ -1,4 +1,4 @@
-import type { City, LanguageId } from '@hyper-local/consts'
+import type { City, LanguageId } from '@hyperlocal/consts'
 import { Link, useMatches, type UIMatch } from '@remix-run/react'
 import type React from 'react'
 

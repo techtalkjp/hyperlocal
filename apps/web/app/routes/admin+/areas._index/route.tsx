@@ -1,4 +1,4 @@
-import { areas } from '@hyper-local/consts'
+import { areas } from '@hyperlocal/consts'
 import { Link, useLoaderData } from '@remix-run/react'
 import {
   Button,

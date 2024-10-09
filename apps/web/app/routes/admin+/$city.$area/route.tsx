@@ -1,5 +1,5 @@
 import { parseWithZod } from '@conform-to/zod'
-import { categories } from '@hyper-local/consts'
+import { categories } from '@hyperlocal/consts'
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,

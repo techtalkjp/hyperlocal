@@ -1,5 +1,5 @@
-import { areas, categories, cities } from '@hyper-local/consts'
-import { nearBySearch, type GooglePlaceType } from '@hyper-local/types'
+import { areas, categories, cities } from '@hyperlocal/consts'
+import { nearBySearch, type GooglePlaceType } from '@hyperlocal/types'
 import { logger, task } from '@trigger.dev/sdk/v3'
 import { upsertGooglePlace } from '~/features/place/mutations'
 

@@ -1,4 +1,4 @@
-import { db, type LocalizedPlace } from '@hyper-local/db'
+import { db, type LocalizedPlace } from '@hyperlocal/db'
 import { useLoaderData } from '@remix-run/react'
 import { LocalizedPlaceCard } from '~/features/place/components/localized-place-card'
 

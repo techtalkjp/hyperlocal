@@ -1,4 +1,4 @@
-import { db, type GooglePlace } from '@hyper-local/db'
+import { db, type GooglePlace } from '@hyperlocal/db'
 import type { translateGooglePlace } from '~/features/localize/translate-google-place'
 import dayjs from '~/libs/dayjs'
 

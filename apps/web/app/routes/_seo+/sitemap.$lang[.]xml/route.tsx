@@ -1,5 +1,5 @@
-import { areas, categories, languages } from '@hyper-local/consts'
-import { db, sql } from '@hyper-local/db'
+import { areas, categories, languages } from '@hyperlocal/consts'
+import { db, sql } from '@hyperlocal/db'
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { getLangCityAreaCategory } from '~/features/city-area/utils'
 

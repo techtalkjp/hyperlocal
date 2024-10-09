@@ -1,4 +1,4 @@
-import type { GooglePlace } from '@hyper-local/db'
+import type { GooglePlace } from '@hyperlocal/db'
 import React from 'react'
 import { Button } from '~/components/ui'
 

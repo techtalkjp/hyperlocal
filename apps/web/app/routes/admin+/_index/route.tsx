@@ -1,4 +1,4 @@
-import { areas, cities } from '@hyper-local/consts'
+import { areas, cities } from '@hyperlocal/consts'
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import { Button, HStack } from '~/components/ui'
