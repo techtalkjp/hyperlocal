@@ -1,4 +1,6 @@
 import { parseWithZod } from '@conform-to/zod'
+import { areas, categories, cities } from '@hyper-local/consts'
+import { type GooglePlaceType, nearBySearch } from '@hyper-local/types'
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { useFetcher } from '@remix-run/react'
 import { MapIcon } from 'lucide-react'
@@ -15,12 +17,8 @@ import {
   HStack,
   Stack,
 } from '~/components/ui'
-import areas from '~/consts/areas'
-import categories from '~/consts/categories'
-import cities from '~/consts/cities'
 import { Rating } from '~/features/place/components'
 import { requireAdminUser } from '~/services/auth.server'
-import { type GooglePlaceType, nearBySearch } from '~/services/google-places'
 import { ReviewText } from './components/review'
 import { NearbyForm } from './forms/nearby-form'
 import { schema } from './schema'

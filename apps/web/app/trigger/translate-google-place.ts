@@ -1,9 +1,8 @@
+import { cities, languages } from '@hyper-local/consts'
+import { db, type GooglePlace } from '@hyper-local/db'
+import { getPlacePhotoUri } from '@hyper-local/types'
 import { logger, task } from '@trigger.dev/sdk/v3'
-import cities from '~/consts/cities'
-import languages from '~/consts/languages'
 import dayjs from '~/libs/dayjs'
-import { db, type GooglePlace } from '~/services/db'
-import { getPlacePhotoUri } from '~/services/google-places'
 import { translatePlaceToLangTask } from './translate-google-place-to-lang'
 
 export const translatePlaceTask = task({

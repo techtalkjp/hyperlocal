@@ -1,8 +1,7 @@
+import { areas, cities } from '@hyper-local/consts'
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import { Button, HStack } from '~/components/ui'
-import areas from '~/consts/areas'
-import cities from '~/consts/cities'
 import { requireAdminUser } from '~/services/auth.server'
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {

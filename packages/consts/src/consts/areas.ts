@@ -10,7 +10,7 @@ export interface Area {
   longitude: number
 }
 
-export default [
+export const areas = [
   {
     cityId: 'tokyo',
     areaId: 'tokyo-station',

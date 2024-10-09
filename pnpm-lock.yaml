@@ -51,6 +51,15 @@ importers:
       '@conform-to/zod':
         specifier: 1.2.2
         version: 1.2.2(zod@3.23.8)
+      '@hyper-local/consts':
+        specifier: workspace:*
+        version: link:../../packages/consts
+      '@hyper-local/db':
+        specifier: workspace:*
+        version: link:../../packages/db
+      '@hyper-local/types':
+        specifier: workspace:*
+        version: link:../../packages/types
       '@libsql/client':
         specifier: 0.14.0
         version: 0.14.0
@@ -241,6 +250,113 @@ importers:
       vitest:
         specifier: 2.1.2
         version: 2.1.2(@types/node@22.7.5)(jsdom@25.0.1)
+
+  packages/consts:
+    dependencies:
+      '@hyper-local/types':
+        specifier: workspace:*
+        version: link:../types
+    devDependencies:
+      '@biomejs/biome':
+        specifier: 1.9.3
+        version: 1.9.3
+      '@types/debug':
+        specifier: 4.1.12
+        version: 4.1.12
+      '@types/node':
+        specifier: 22.7.5
+        version: 22.7.5
+      prettier:
+        specifier: 3.3.3
+        version: 3.3.3
+      prettier-plugin-organize-imports:
+        specifier: 4.1.0
+        version: 4.1.0(prettier@3.3.3)(typescript@5.6.2)
+      prettier-plugin-tailwindcss:
+        specifier: 0.6.8
+        version: 0.6.8(prettier-plugin-organize-imports@4.1.0(prettier@3.3.3)(typescript@5.6.2))(prettier@3.3.3)
+      prisma:
+        specifier: 5.20.0
+        version: 5.20.0
+      prisma-kysely:
+        specifier: 1.8.0
+        version: 1.8.0
+      typescript:
+        specifier: 5.6.2
+        version: 5.6.2
+
+  packages/db:
+    dependencies:
+      '@hyper-local/types':
+        specifier: workspace:*
+        version: link:../types
+      '@libsql/kysely-libsql':
+        specifier: 0.4.1
+        version: 0.4.1(kysely@0.27.4)
+      debug:
+        specifier: 4.3.7
+        version: 4.3.7
+      kysely:
+        specifier: 0.27.4
+        version: 0.27.4
+    devDependencies:
+      '@biomejs/biome':
+        specifier: 1.9.3
+        version: 1.9.3
+      '@types/debug':
+        specifier: 4.1.12
+        version: 4.1.12
+      '@types/node':
+        specifier: 22.7.5
+        version: 22.7.5
+      prettier:
+        specifier: 3.3.3
+        version: 3.3.3
+      prettier-plugin-organize-imports:
+        specifier: 4.1.0
+        version: 4.1.0(prettier@3.3.3)(typescript@5.6.2)
+      prettier-plugin-tailwindcss:
+        specifier: 0.6.8
+        version: 0.6.8(prettier-plugin-organize-imports@4.1.0(prettier@3.3.3)(typescript@5.6.2))(prettier@3.3.3)
+      prisma:
+        specifier: 5.20.0
+        version: 5.20.0
+      prisma-kysely:
+        specifier: 1.8.0
+        version: 1.8.0
+      typescript:
+        specifier: 5.6.2
+        version: 5.6.2
+
+  packages/types:
+    devDependencies:
+      '@biomejs/biome':
+        specifier: 1.9.3
+        version: 1.9.3
+      '@types/debug':
+        specifier: 4.1.12
+        version: 4.1.12
+      '@types/node':
+        specifier: 22.7.5
+        version: 22.7.5
+      prettier:
+        specifier: 3.3.3
+        version: 3.3.3
+      prettier-plugin-organize-imports:
+        specifier: 4.1.0
+        version: 4.1.0(prettier@3.3.3)(typescript@5.6.2)
+      prettier-plugin-tailwindcss:
+        specifier: 0.6.8
+        version: 0.6.8(prettier-plugin-organize-imports@4.1.0(prettier@3.3.3)(typescript@5.6.2))(prettier@3.3.3)
+      prisma:
+        specifier: 5.20.0
+        version: 5.20.0
+      prisma-kysely:
+        specifier: 1.8.0
+        version: 1.8.0
+      typescript:
+        specifier: 5.6.2
+        version: 5.6.2
 
 packages:
 

@@ -1,6 +1,6 @@
+import { db, type LocalizedPlace } from '@hyper-local/db'
 import { useLoaderData } from '@remix-run/react'
 import { LocalizedPlaceCard } from '~/features/place/components/localized-place-card'
-import { db, type LocalizedPlace } from '~/services/db'
 
 export const loader = async () => {
   const place = (await db

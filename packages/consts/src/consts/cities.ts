@@ -9,7 +9,7 @@ export interface City {
   timezone: string
 }
 
-export default [
+export const cities = [
   {
     cityId: 'tokyo',
     i18n: {

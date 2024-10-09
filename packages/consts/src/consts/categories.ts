@@ -1,4 +1,4 @@
-import type { GooglePlaceType } from '~/services/google-places'
+import type { GooglePlaceType } from '@hyper-local/types'
 import type { i18nRecord } from './languages'
 
 export interface Category {
@@ -7,7 +7,7 @@ export interface Category {
   i18n: i18nRecord
 }
 
-export default [
+export const categories = [
   {
     id: 'cafe',
     googlePlaceTypes: ['cafe', 'coffee_shop'],
@@ -20,14 +20,58 @@ export default [
     },
   },
   {
-    id: 'restaurant',
+    id: 'sweet',
+    googlePlaceTypes: ['bakery'],
+    i18n: {
+      en: 'Sweets',
+      ja: 'スイーツ',
+      'zh-CN': '甜点',
+      'zh-TW': '甜點',
+      ko: '디저트',
+    },
+  },
+  {
+    id: 'breakfast',
     googlePlaceTypes: ['restaurant'],
     i18n: {
-      en: 'Restaurants',
-      ja: '飲食店',
-      'zh-CN': '餐厅',
-      'zh-TW': '餐廳',
-      ko: '식당',
+      en: 'Breakfast',
+      ja: '朝食',
+      'zh-CN': '早餐',
+      'zh-TW': '早餐',
+      ko: '아침식사',
+    },
+  },
+  {
+    id: 'lunch',
+    googlePlaceTypes: ['restaurant'],
+    i18n: {
+      en: 'Lunch',
+      ja: 'ランチ',
+      'zh-CN': '午餐',
+      'zh-TW': '午餐',
+      ko: '점심',
+    },
+  },
+  {
+    id: 'dinner',
+    googlePlaceTypes: ['restaurant'],
+    i18n: {
+      en: 'Dinner',
+      ja: 'ディナー',
+      'zh-CN': '晚餐',
+      'zh-TW': '晚餐',
+      ko: '저녁',
+    },
+  },
+  {
+    id: 'nightlife',
+    googlePlaceTypes: ['bar', 'night_club'],
+    i18n: {
+      en: 'Bars & Clubs',
+      ja: 'バー・クラブ',
+      'zh-CN': '酒吧夜店',
+      'zh-TW': '酒吧夜店',
+      ko: '바 & 클럽',
     },
   },
   {
@@ -50,17 +94,6 @@ export default [
       'zh-CN': '购物天堂',
       'zh-TW': '購物天地',
       ko: '쇼핑 플레이스',
-    },
-  },
-  {
-    id: 'nightlife',
-    googlePlaceTypes: ['bar', 'night_club'],
-    i18n: {
-      en: 'Bars & Clubs',
-      ja: 'バー・クラブ',
-      'zh-CN': '酒吧夜店',
-      'zh-TW': '酒吧夜店',
-      ko: '바 & 클럽',
     },
   },
   {

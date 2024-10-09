@@ -1,5 +1,5 @@
+import type { City } from '@hyper-local/consts' // Adjust the import path as needed
 import { describe, expect, it } from 'vitest'
-import type { City } from '~/consts/cities' // Adjust the import path as needed
 import { getCityDomain } from './get-city-domain' // Adjust the import path as needed
 
 describe('getCityDomain', () => {

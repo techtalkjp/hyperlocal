@@ -23,7 +23,10 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "~/*": ["./app/*"]
+      "~/*": ["./app/*"],
+      "@hyper-local/consts/*": ["../../packages/consts/*"],
+      "@hyper-local/db/*": ["../../packages/db/*"],
+      "@hyper-local/types/*": ["../../packages/types/*"]
     },
     "noEmit": true
   }

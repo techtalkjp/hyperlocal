@@ -1,3 +1,4 @@
+import { areas } from '@hyper-local/consts'
 import { Link, useLoaderData } from '@remix-run/react'
 import {
   Button,
@@ -14,7 +15,6 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui'
-import areas from '~/consts/areas'
 
 export const loader = () => {
   return { areas }

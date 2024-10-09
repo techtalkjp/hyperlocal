@@ -12,11 +12,19 @@ export type * from './types'
 
 const debug = createDebug('app:db')
 
+const getDatabaseConfig = () => {
+  const url = process.env.DATABASE_URL
+  const authToken = process.env.TURSO_AUTH_TOKEN
+  if (!url || !authToken) {
+    throw new Error(
+      'Missing required database configuration. Please check DATABASE_URL and TURSO_AUTH_TOKEN environment variables.',
+    )
+  }
+  return { url, authToken }
+}
+
 export const db = new Kysely<DB>({
-  dialect: new LibsqlDialect({
-    url: process.env.DATABASE_URL,
-    authToken: process.env.TURSO_AUTH_TOKEN,
-  }),
+  dialect: new LibsqlDialect(getDatabaseConfig()),
   log: (event) =>
     debug([
       event.level,

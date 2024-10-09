@@ -1,8 +1,5 @@
+import { areas, categories, cities, languages } from '@hyper-local/consts'
 import type { Params } from '@remix-run/react'
-import areas from '~/consts/areas'
-import categories from '~/consts/categories'
-import cities from '~/consts/cities'
-import languages from '~/consts/languages'
 
 export const getLangCityAreaCategory = (request: Request, params: Params) => {
   const {

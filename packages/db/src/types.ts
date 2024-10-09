@@ -1,10 +1,10 @@
-import type { Selectable } from 'kysely'
 import type {
   GooglePlacePhoto,
   GooglePlacePriceLevel,
   GooglePlaceReview,
   GooglePlaceType,
-} from '../google-places'
+} from '@hyper-local/types'
+import type { Selectable } from 'kysely'
 import type { DB } from './schema'
 
 export type GooglePlace = Omit<

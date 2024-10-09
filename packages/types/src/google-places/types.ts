@@ -1,5 +1,3 @@
-import type { GooglePlace } from '../db/schema'
-
 export type GooglePlaceType =
   | PlaceType_Automotive
   | PlaceType_Business
@@ -237,7 +235,7 @@ export interface Place {
   }
   googleMapsUri: string
   regularOpeningHours: GooglePlaceOpeningHours | undefined
-  businessStatus: GooglePlace
+  businessStatus: 'OPERATIONAL' | 'CLOSED_TEMPORARILY' | 'CLOSED_PERMANENTLY'
   priceLevel: GooglePlacePriceLevel | undefined
   reviews?: GooglePlaceReview[]
   photos?: GooglePlacePhoto[]

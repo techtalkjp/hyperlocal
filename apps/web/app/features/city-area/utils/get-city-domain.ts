@@ -1,4 +1,4 @@
-import type { City } from '~/consts/cities'
+import type { City } from '@hyper-local/consts'
 
 const SPECIAL_DOMAINS = ['localhost', 'hyper-local.app'] as const
 type SpecialDomain = (typeof SPECIAL_DOMAINS)[number]

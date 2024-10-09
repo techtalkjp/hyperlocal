@@ -1,4 +1,4 @@
-import { db, type LocalizedPlace } from '~/services/db'
+import { db, type LocalizedPlace } from '@hyper-local/db'
 
 export const listLocalizedPlaces = async (
   cityId: string,

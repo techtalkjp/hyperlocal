@@ -9,7 +9,7 @@ export interface Language {
   name: string
 }
 
-export default [
+export const languages = [
   { id: 'en', path: '', displayName: 'English', name: 'English' },
   {
     id: 'zh-CN',

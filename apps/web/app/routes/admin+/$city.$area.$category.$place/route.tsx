@@ -1,14 +1,11 @@
+import { languages } from '@hyper-local/consts'
+import type { GooglePlacePhoto, GooglePlaceReview } from '@hyper-local/types'
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, Outlet, useLoaderData } from '@remix-run/react'
 import { HStack, Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
-import languages from '~/consts/languages'
 import { getCityAreaCategory } from '~/features/admin/city-area-category/get-city-area-category'
 import { GooglePlaceCard, Rating } from '~/features/place/components'
 import { requireAdminUser } from '~/services/auth.server'
-import type {
-  GooglePlacePhoto,
-  GooglePlaceReview,
-} from '~/services/google-places'
 import { getAreaGooglePlace } from './queries.server'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {

@@ -5,12 +5,12 @@
  * @param radius
  * @returns
  */
-function calculateBoundingBox(
+export function calculateBoundingBox(
   latitude: number,
   longitude: number,
   radius: number,
 ) {
-  const earthRadius = 6378137 // 地球の半径 (メートル)
+  //  const earthRadius = 6378137 // 地球の半径 (メートル)
 
   // 緯度1度の長さ（メートル）
   const latLength = 111320

@@ -1,5 +1,6 @@
 import { defaultLanguageCode, fieldMask } from '../constants'
 import type { GooglePlaceType, Place } from '../types'
+import { calculateBoundingBox } from './utils'
 
 interface TextSearchResponse {
   places: Place[]
