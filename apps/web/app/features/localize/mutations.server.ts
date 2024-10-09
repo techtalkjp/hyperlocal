@@ -1,6 +1,6 @@
+import { db, type GooglePlace } from '@hyper-local/db'
 import type { translateGooglePlace } from '~/features/localize/translate-google-place'
 import dayjs from '~/libs/dayjs'
-import { db, type GooglePlace } from '~/services/db'
 
 export const upsertLocalizedPlace = async ({
   cityId,

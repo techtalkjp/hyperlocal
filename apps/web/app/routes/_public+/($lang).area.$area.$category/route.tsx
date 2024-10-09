@@ -1,3 +1,4 @@
+import { categories } from '@hyper-local/consts'
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, type MetaFunction, Outlet } from '@remix-run/react'
 import {
@@ -8,9 +9,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '~/components/ui'
-import categories from '~/consts/categories'
 import { getLangCityAreaCategory } from '~/features/city-area/utils'
 import { generateAreaCategoryMetaDescription } from '~/features/seo/meta-area-category'
+
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
   {
     title:

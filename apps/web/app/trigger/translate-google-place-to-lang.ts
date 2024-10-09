@@ -1,7 +1,7 @@
+import { db, type GooglePlace } from '@hyper-local/db'
 import { logger, task } from '@trigger.dev/sdk/v3'
 import { upsertLocalizedPlace } from '~/features/localize/mutations.server'
 import { translateGooglePlace } from '~/features/localize/translate-google-place'
-import { db, type GooglePlace } from '~/services/db'
 
 export const translatePlaceToLangTask = task({
   id: 'translate-google-place-to-lang',

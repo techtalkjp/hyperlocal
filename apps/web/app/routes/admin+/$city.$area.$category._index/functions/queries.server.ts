@@ -1,4 +1,4 @@
-import { db, type GooglePlace } from '~/services/db'
+import { db, type GooglePlace } from '@hyper-local/db'
 
 export const listAreaGooglePlaces = async (
   areaId: string,

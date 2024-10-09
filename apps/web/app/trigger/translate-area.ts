@@ -1,5 +1,5 @@
+import { db } from '@hyper-local/db'
 import { task } from '@trigger.dev/sdk/v3'
-import { db } from '~/services/db'
 import { translatePlaceTask } from './translate-google-place'
 
 function chunkArray<T>(array: T[], chunkSize: number): T[][] {

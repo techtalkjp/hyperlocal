@@ -1,3 +1,4 @@
+import { getPlacePhotoUri, type GooglePlacePhoto } from '@hyper-local/types'
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
 import {
   isRouteErrorResponse,
@@ -7,14 +8,10 @@ import {
 } from '@remix-run/react'
 import { Button, HStack, Stack } from '~/components/ui'
 import { getCityAreaCategory } from '~/features/admin/city-area-category/get-city-area-category'
+import { upsertLocalizedPlace } from '~/features/localize/mutations.server'
 import { translateGooglePlace } from '~/features/localize/translate-google-place'
 import { Rating } from '~/features/place/components'
 import { requireAdminUser } from '~/services/auth.server'
-import {
-  getPlacePhotoUri,
-  type GooglePlacePhoto,
-} from '~/services/google-places'
-import { upsertLocalizedPlace } from '../../../features/localize/mutations.server'
 import { getAreaGooglePlace } from './queries.server'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {

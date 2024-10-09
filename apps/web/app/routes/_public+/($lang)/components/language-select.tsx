@@ -1,3 +1,4 @@
+import { languages, type LanguageId } from '@hyper-local/consts'
 import { Link, useLocation } from '@remix-run/react'
 import { GlobeIcon } from 'lucide-react'
 import type React from 'react'
@@ -9,7 +10,6 @@ import {
   DropdownMenuTrigger,
   HStack,
 } from '~/components/ui'
-import languages, { type LanguageId } from '~/consts/languages'
 import { cn } from '~/libs/utils'
 
 function generateLanguageUrls(

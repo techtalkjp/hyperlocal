@@ -1,4 +1,5 @@
 import { parseWithZod } from '@conform-to/zod'
+import { categories } from '@hyper-local/consts'
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,
@@ -8,7 +9,6 @@ import { Link, Outlet, useFetcher, useLoaderData } from '@remix-run/react'
 import { jsonWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import { Button, Card, CardContent, HStack, Stack } from '~/components/ui'
-import categories from '~/consts/categories'
 import { getCityAreaCategory } from '~/features/admin/city-area-category/get-city-area-category'
 import { requireAdminUser } from '~/services/auth.server'
 import { registerAreaGooglePlacesCategoryTask } from '~/trigger/register-area-google-places-category'

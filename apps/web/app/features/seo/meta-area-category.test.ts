@@ -12,13 +12,13 @@ describe('generateMetaDescription', () => {
     {
       cityId: 'tokyo',
       areaId: 'ningyocho',
-      categoryId: 'restaurant' as const,
+      categoryId: 'sweet' as const,
       languageId: 'ja' as const,
     },
     {
       cityId: 'tokyo',
       areaId: 'ningyocho',
-      categoryId: 'shopping' as const,
+      categoryId: 'breakfast' as const,
       languageId: 'zh-CN' as const,
     },
     {
@@ -99,12 +99,12 @@ describe('generateMetaDescription', () => {
     const restaurant = generateAreaCategoryMetaDescription(
       'tokyo',
       'ningyocho',
-      'restaurant',
+      'sweet',
       'en',
     )
     expect(cafe).not.toEqual(restaurant)
     expect(cafe).toContain('best cafes')
-    expect(restaurant).toContain('top restaurants')
+    expect(restaurant).toContain('top sweet spots')
   })
 
   it('generates descriptions with correct length', () => {

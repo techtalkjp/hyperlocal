@@ -1,3 +1,4 @@
+import { areas as allAreas, cities } from '@hyper-local/consts'
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import {
@@ -9,8 +10,6 @@ import {
   HStack,
   Stack,
 } from '~/components/ui'
-import allAreas from '~/consts/areas'
-import cities from '~/consts/cities'
 import { getLangCityAreaCategory } from '~/features/city-area/utils'
 import { getCityDomain } from '~/features/city-area/utils/get-city-domain'
 

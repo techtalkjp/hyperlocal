@@ -1,11 +1,12 @@
+import { areas, cities, type LanguageId } from '@hyper-local/consts'
 import { match } from 'ts-pattern'
-import areas from '~/consts/areas'
-import cities from '~/consts/cities'
-import type { LanguageId } from '~/consts/languages'
 
 type CategoryId =
   | 'cafe'
-  | 'restaurant'
+  | 'sweet'
+  | 'breakfast'
+  | 'lunch'
+  | 'dinner'
   | 'shopping'
   | 'nightlife'
   | 'convenience_store'
@@ -33,7 +34,10 @@ const localeStrings: Record<LanguageId, LocaleStrings> = {
     instant_guide: 'Instant guide to',
     best: {
       cafe: 'best cafes',
-      restaurant: 'top restaurants',
+      sweet: 'top sweet spots',
+      breakfast: 'top breakfast spots',
+      lunch: 'top lunch spots',
+      dinner: 'top dinner spots',
       shopping: 'great shopping spots',
       nightlife: 'exciting nightlife venues',
       convenience_store: 'convenient stores',
@@ -56,7 +60,10 @@ const localeStrings: Record<LanguageId, LocaleStrings> = {
     instant_guide: 'のガイド',
     best: {
       cafe: '厳選カフェ',
-      restaurant: '人気レストラン',
+      sweet: 'おすすめスイーツ',
+      breakfast: '朝食',
+      lunch: 'ランチ',
+      dinner: 'ディナー',
       shopping: 'おすすめショッピングスポット',
       nightlife: '魅力的な夜遊びスポット',
       convenience_store: '便利なコンビニ',
@@ -79,7 +86,10 @@ const localeStrings: Record<LanguageId, LocaleStrings> = {
     instant_guide: '速览',
     best: {
       cafe: '最佳咖啡馆',
-      restaurant: '顶级餐厅',
+      sweet: '热门甜点',
+      breakfast: '热门早餐地点',
+      lunch: '热门午餐地点',
+      dinner: '热门晚餐地点',
       shopping: '热门购物地点',
       nightlife: '精彩夜生活场所',
       convenience_store: '便利店',
@@ -102,7 +112,10 @@ const localeStrings: Record<LanguageId, LocaleStrings> = {
     instant_guide: '速覽',
     best: {
       cafe: '頂級咖啡廳',
-      restaurant: '熱門餐廳',
+      sweet: '熱門甜點',
+      breakfast: '熱門早餐地點',
+      lunch: '熱門午餐地點',
+      dinner: '熱門晚餐地點',
       shopping: '熱門購物地點',
       nightlife: '精彩夜生活場所',
       convenience_store: '便利商店',
@@ -125,7 +138,10 @@ const localeStrings: Record<LanguageId, LocaleStrings> = {
     instant_guide: '즉석 가이드',
     best: {
       cafe: '최고의 카페',
-      restaurant: '인기 레스토랑',
+      sweet: '인기 있는 디저트',
+      breakfast: '인기 있는 아침 식사 장소',
+      lunch: '인기 있는 점심 식사 장소',
+      dinner: '인기 있는 저녁 식사 장소',
       shopping: '훌륭한 쇼핑 장소',
       nightlife: '흥미진진한 나이트라이프 명소',
       convenience_store: '편의점',

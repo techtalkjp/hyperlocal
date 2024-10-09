@@ -1,5 +1,5 @@
-import languages from '~/consts/languages'
-import type { GooglePlace } from '~/services/db'
+import { languages } from '@hyper-local/consts'
+import type { GooglePlace } from '@hyper-local/db'
 import { translateSentences } from './translate-sentences'
 
 export const translateGooglePlace = async (

@@ -1,7 +1,7 @@
+import type { GooglePlace } from '@hyper-local/db'
 import { MessageSquareIcon } from 'lucide-react'
 import { Badge, HStack } from '~/components/ui'
 import { Rating } from '~/features/place/components/rating'
-import type { GooglePlace } from '~/services/db'
 import { mapPlaceTypes, priceLevelLabel } from '../utils'
 
 interface GooglePlaceCardProps extends React.ComponentProps<typeof HStack> {

@@ -1,6 +1,6 @@
+import type { GooglePlace } from '@hyper-local/db'
 import React from 'react'
 import { Button } from '~/components/ui'
-import type { GooglePlace } from '~/services/db'
 
 export const LLMTest = ({ place }: { place: GooglePlace }) => {
   const [isCopied, setIsCopied] = React.useState(false)

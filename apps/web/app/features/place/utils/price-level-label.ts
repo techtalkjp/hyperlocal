@@ -1,5 +1,5 @@
+import type { Place } from '@hyper-local/types'
 import { match } from 'ts-pattern'
-import type { Place } from '~/services/google-places'
 // 円マークを追加
 
 export const priceLevelLabel = (priceLevel?: Place['priceLevel']) => {

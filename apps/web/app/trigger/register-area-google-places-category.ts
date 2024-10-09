@@ -1,9 +1,7 @@
+import { areas, categories, cities } from '@hyper-local/consts'
+import { nearBySearch, type GooglePlaceType } from '@hyper-local/types'
 import { logger, task } from '@trigger.dev/sdk/v3'
-import areas from '~/consts/areas'
-import categories from '~/consts/categories'
-import cities from '~/consts/cities'
 import { upsertGooglePlace } from '~/features/place/mutations'
-import { nearBySearch, type GooglePlaceType } from '~/services/google-places'
 
 export const registerAreaGooglePlacesCategoryTask = task({
   id: 'register-area-google-places-category',

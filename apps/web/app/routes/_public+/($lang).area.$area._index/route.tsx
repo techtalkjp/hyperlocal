@@ -1,7 +1,7 @@
+import { categories } from '@hyper-local/consts'
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import { Card, CardHeader, CardTitle } from '~/components/ui'
-import categories from '~/consts/categories'
 import { getLangCityAreaCategory } from '~/features/city-area/utils'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {

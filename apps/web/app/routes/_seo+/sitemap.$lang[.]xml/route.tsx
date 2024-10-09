@@ -1,9 +1,7 @@
+import { areas, categories, languages } from '@hyper-local/consts'
+import { db, sql } from '@hyper-local/db'
 import type { LoaderFunctionArgs } from '@remix-run/node'
-import areas from '~/consts/areas'
-import categories from '~/consts/categories'
-import languages from '~/consts/languages'
 import { getLangCityAreaCategory } from '~/features/city-area/utils'
-import { db, sql } from '~/services/db'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const url = new URL(request.url)

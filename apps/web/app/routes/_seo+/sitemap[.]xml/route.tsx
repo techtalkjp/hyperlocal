@@ -1,5 +1,5 @@
+import { languages } from '@hyper-local/consts'
 import type { LoaderFunctionArgs } from '@remix-run/node'
-import languages from '~/consts/languages'
 
 export const loader = ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url)
