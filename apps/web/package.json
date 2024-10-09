@@ -1,5 +1,5 @@
 {
-  "name": "@hyperlocal/web",
+  "name": "@hyper-local/web",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -7,8 +7,8 @@
     "build": "remix vite:build",
     "dev": "concurrently --kill-others --raw npm:dev:*",
     "dev:remix": "remix vite:dev --host",
-    "dev:trigger": "pnpm dlx trigger.dev@3.0.9 dev",
-    "deploy:trigger-prod": "pnpm dlx trigger.dev@3.0.9 deploy",
+    "dev:trigger": "pnpm dlx trigger.dev@3.0.11 dev",
+    "deploy:trigger-prod": "pnpm dlx trigger.dev@3.0.11 deploy",
     "start": "remix-serve ./build/server/index.js",
     "format": "prettier --check .",
     "lint": "biome lint .",
@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@ai-sdk/google": "0.0.51",
-    "@clerk/localizations": "3.1.2",
+    "@clerk/localizations": "3.2.0",
     "@clerk/remix": "4.2.35",
     "@conform-to/react": "1.2.2",
     "@conform-to/zod": "1.2.2",
@@ -42,7 +42,7 @@
     "@remix-run/react": "2.12.1",
     "@remix-run/serve": "2.12.1",
     "@remix-run/server-runtime": "2.12.1",
-    "@trigger.dev/sdk": "3.0.10",
+    "@trigger.dev/sdk": "3.0.11",
     "@vercel/remix": "2.12.0",
     "ai": "3.4.9",
     "class-variance-authority": "0.7.0",
@@ -53,7 +53,7 @@
     "embla-carousel-react": "8.3.0",
     "isbot": "5.1.17",
     "kysely": "0.27.4",
-    "lucide-react": "0.447.0",
+    "lucide-react": "0.451.0",
     "next-themes": "0.3.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
@@ -86,7 +86,7 @@
     "tailwindcss": "3.4.13",
     "tailwindcss-animate": "1.0.7",
     "tsx": "4.19.1",
-    "typescript": "5.6.2",
+    "typescript": "5.6.3",
     "vite": "5.4.8",
     "vite-tsconfig-paths": "5.0.1",
     "vitest": "2.1.2"
@@ -96,10 +96,5 @@
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
-  },
-  "pnpm": {
-    "overrides": {
-      "@libsql/isomorphic-fetch": "0.2.3"
-    }
   }
 }
