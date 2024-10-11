@@ -1,8 +1,6 @@
 import { cli, command } from 'cleye'
 import { config } from 'dotenv'
-import { crawlTabelog, ranking } from './commands'
-import { crawlGoogleMaps } from './commands/crawl-google-maps'
-import { mapping } from './commands/mapping'
+import { crawlTabelog, mapping, ranking, stats } from './commands'
 config()
 
 const argv = cli({
@@ -11,9 +9,9 @@ const argv = cli({
       { name: 'crawl-tabelog', flags: { delay: Number, maxRequest: Number } },
       (argv) => crawlTabelog(argv.flags),
     ),
-    command({ name: 'crawl-google-maps' }, () => crawlGoogleMaps()),
     command({ name: 'ranking' }, () => ranking()),
     command({ name: 'mapping' }, () => mapping()),
+    command({ name: 'stats' }, () => stats()),
   ],
 })
 

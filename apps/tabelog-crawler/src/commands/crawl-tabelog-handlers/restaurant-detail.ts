@@ -1,5 +1,10 @@
 import { Dataset } from 'crawlee'
 import type { Restaurant } from '~/types.js'
+import {
+  genreCategoryMapping,
+  genreMapping,
+  ignoreGenres,
+} from './tabelog-categories.js'
 import { type Handler, HandlerLabel } from './types.js'
 
 export const restaurantDetailHandler: Handler = async ({ request, $, log }) => {
@@ -21,19 +26,61 @@ export const restaurantDetailHandler: Handler = async ({ request, $, log }) => {
       .trim(),
     closedDay: $('#short-comment').text().trim(),
     address: $('.rstinfo-table__address').text().trim(),
+    categories: [],
+    genres: [],
     features: {},
   }
 
   // 特徴・関連情報の取得
-  for (const feature of $('.rstinfo-table__table th').toArray()) {
-    const title = $(feature).text().trim()
-    const content = $(feature).next().text().trim()
-    restaurant.features[title] = content
+  const features = $('.rstinfo-table__table th').toArray()
+  for (const feature of features) {
+    const key = $(feature).text().trim()
+    const value = $(feature).next().text().trim()
+    restaurant.features[key] = value
+
+    // ジャンルをカテゴリに
+    if (key === 'ジャンル') {
+      for (const tabelogGenre of value.split('、')) {
+        // カテゴリ
+        if (!ignoreGenres.includes(tabelogGenre)) {
+          const category = genreCategoryMapping[tabelogGenre]
+          if (category && !restaurant.categories.includes(category)) {
+            // レストラン以外
+            restaurant.categories.push(category)
+          }
+          // レストラン
+          if (
+            !category &&
+            !restaurant.categories.includes('lunch') &&
+            restaurant.budgetLunch !== '-'
+          ) {
+            // ランチ
+            restaurant.categories.push('lunch')
+          }
+          if (
+            !category &&
+            !restaurant.categories.includes('dinner') &&
+            restaurant.budgetDinner !== '-'
+          ) {
+            // ディナー
+            restaurant.categories.push('dinner')
+          }
+        }
+
+        // ジャンルを変換
+        const genre = genreMapping[tabelogGenre]
+        if (genre && !restaurant.genres.includes(genre)) {
+          restaurant.genres.push(genre)
+        }
+      }
+    }
   }
 
   // データを保存
-  const dataset = await Dataset.open('restaurant')
-  await dataset.pushData(restaurant)
+  if (restaurant.categories.length > 0) {
+    const dataset = await Dataset.open('restaurant')
+    await dataset.pushData(restaurant)
+  }
 
   // 口コミページへのリンクがあれば、それをクロール対象に追加
   // const reviewPageLink = $('.rstdtl-top-rvwlst__more-link a').attr('href')

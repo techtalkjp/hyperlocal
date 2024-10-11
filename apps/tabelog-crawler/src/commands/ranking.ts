@@ -10,6 +10,7 @@ interface Restaurant {
   budgetLunch: string
   closedDay: string
   address: string
+  categories: string[]
   genres: string[]
 }
 
@@ -21,45 +22,101 @@ export const ranking = async () => {
     .orderBy('reviewCount', 'desc')
     .execute()
 
-  const areaGenreMap: { [area: string]: { [genre: string]: Restaurant[] } } = {}
+  const areaCategoryMap: {
+    [area: string]: { [category: string]: Restaurant[] }
+  } = {}
 
   // レストランをエリアごとにグループ化し、その中でジャンルごとにグループ化
   for (const restaurant of restaurants) {
-    const { features, ...rest } = restaurant
-    const genres = features.ジャンル.split('、')
+    const { area } = restaurant
+    const categories = restaurant.categories
 
-    if (!areaGenreMap[rest.area]) {
-      areaGenreMap[rest.area] = {}
+    if (!areaCategoryMap[area]) {
+      areaCategoryMap[area] = {}
     }
 
-    for (const genre of genres) {
-      if (!areaGenreMap[rest.area][genre]) {
-        areaGenreMap[rest.area][genre] = []
+    for (const category of categories) {
+      if (!areaCategoryMap[area][category]) {
+        areaCategoryMap[area][category] = []
       }
-      areaGenreMap[rest.area][genre].push({
-        ...rest,
-        genres: genres,
+      areaCategoryMap[area][category].push({
+        ...restaurant,
       })
     }
   }
 
   // 各エリアごとにジャンル別ランキングを作成
-  for (const area in areaGenreMap) {
-    for (const genre in areaGenreMap[area]) {
-      console.log(`${area}: ${genre}: ${areaGenreMap[area][genre].length}件`)
-
-      areaGenreMap[area][genre].sort((a, b) => b.reviewCount - a.reviewCount)
-      areaGenreMap[area][genre].forEach((restaurant, index) => {
-        console.log({
-          rank: index + 1,
-          area: restaurant.area,
-          name: restaurant.name,
-          genre: restaurant.genres,
-          rating: restaurant.rating,
-          reviewCount: restaurant.reviewCount,
-          url: restaurant.url,
-        })
+  for (const area in areaCategoryMap) {
+    for (const category in areaCategoryMap[area]) {
+      if (category !== 'dinner') {
+        continue
+      }
+      // highly rated
+      console.log(
+        `${area}: ${category}: ${areaCategoryMap[area][category].length}件 highly rated`,
+      )
+      areaCategoryMap[area][category].sort((a, b) => b.rating - a.rating)
+      areaCategoryMap[area][category].forEach((restaurant, index) => {
+        if (index >= 10) {
+          return
+        }
+        console.log(
+          [
+            index + 1,
+            restaurant.rating,
+            restaurant.reviewCount,
+            restaurant.name,
+            restaurant.url,
+          ].join('\t'),
+        )
+        // console.log({
+        //   area,
+        //   category,
+        //   rank: index + 1,
+        //   name: restaurant.name,
+        //   categories: restaurant.categories,
+        //   genres: restaurant.genres,
+        //   rating: restaurant.rating,
+        //   reviewCount: restaurant.reviewCount,
+        //   url: restaurant.url,
+        // })
       })
+      console.log()
+
+      // most popular
+      console.log(
+        `${area}: ${category}: ${areaCategoryMap[area][category].length}件 most popular`,
+      )
+      areaCategoryMap[area][category].sort(
+        (a, b) => b.reviewCount - a.reviewCount,
+      )
+      areaCategoryMap[area][category].forEach((restaurant, index) => {
+        if (index >= 10) {
+          return
+        }
+        console.log(
+          [
+            index + 1,
+            restaurant.rating,
+            restaurant.reviewCount,
+            restaurant.name,
+            restaurant.url,
+          ].join('\t'),
+        )
+
+        // console.log({
+        //   area,
+        //   category,
+        //   rank: index + 1,
+        //   name: restaurant.name,
+        // categories: restaurant.categories,
+        // genres: restaurant.genres,
+        //   rating: restaurant.rating,
+        //   reviewCount: restaurant.reviewCount,
+        //   url: restaurant.url,
+        // })
+      })
+      console.log()
     }
   }
 }

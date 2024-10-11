@@ -13,6 +13,8 @@ interface Database {
     budgetLunch: string
     closedDay: string
     address: string
+    categories: string[]
+    genres: string[]
     features: Record<string, string>
   }
 }
@@ -32,6 +34,8 @@ const duckdbDialect = new DuckDbDialect({
         "budgetLunch": "STRING",
         "closedDay": "STRING",
         "address": "STRING",
+        "categories": "JSON",
+        "genres": "JSON",
         "features": "JSON"
       })`,
   },
