@@ -3,7 +3,7 @@ import { Kysely, ParseJSONResultsPlugin } from 'kysely'
 import { DuckDbDialect } from 'kysely-duckdb'
 
 interface Database {
-  restaurants: {
+  crawled_restaurants: {
     url: string
     area: string
     name: string
@@ -21,7 +21,7 @@ const db = new duckdb.Database(':memory:')
 const duckdbDialect = new DuckDbDialect({
   database: db,
   tableMappings: {
-    restaurants: `read_json('./storage/datasets/restaurant/*.json',
+    crawled_restaurants: `read_json('./storage/datasets/restaurant/*.json',
       columns={
         "url": "STRING",
         "area": "STRING",

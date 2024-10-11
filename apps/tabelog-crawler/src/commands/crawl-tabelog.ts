@@ -1,9 +1,12 @@
 import { CheerioCrawler, Dataset, log } from 'crawlee'
-import { HandlerLabel, router } from './crawl-handlers'
+import { HandlerLabel, router } from './crawl-tabelog-handlers'
 
 log.setLevel(log.LEVELS.INFO)
 
-export const crawl = async (opts: { delay?: number; maxRequest?: number }) => {
+export const crawlTabelog = async (opts: {
+  delay?: number
+  maxRequest?: number
+}) => {
   const crawler = new CheerioCrawler({
     requestHandler: router,
     maxRequestsPerCrawl: opts.maxRequest,
