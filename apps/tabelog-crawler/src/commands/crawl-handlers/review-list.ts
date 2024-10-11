@@ -5,7 +5,7 @@ export const reviewListHandler: Handler = async ({ request, $, crawler }) => {
   for (const elem of $('.rvw-item__title-target').toArray().slice(0, 5)) {
     const reviewLink = $(elem).attr('href')
     if (reviewLink) {
-      crawler.addRequests([
+      await crawler.addRequests([
         {
           url: new URL(reviewLink, request.loadedUrl).href,
           label: HandlerLabel.REVIEW_DETAIL,

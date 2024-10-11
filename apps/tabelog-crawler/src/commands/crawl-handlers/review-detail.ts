@@ -1,6 +1,6 @@
-import { type Handler, HandlerLabel } from './types.js'
 import { Dataset } from 'crawlee'
-import type { Review } from '../types.js'
+import type { Review } from '~/types.js'
+import { type Handler, HandlerLabel } from './types.js'
 
 // レビュー詳細ページ
 export const reviewDtailHandler: Handler = async ({ request, $, log }) => {

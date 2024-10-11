@@ -1,6 +1,6 @@
-import { type Handler, HandlerLabel } from './types.js'
-import type { Restaurant } from '../types.js'
 import { Dataset } from 'crawlee'
+import type { Restaurant } from '~/types.js'
+import { type Handler, HandlerLabel } from './types.js'
 
 export const restaurantDetailHandler: Handler = async ({ request, $, log }) => {
   log.debug(HandlerLabel.RESTAURANT_DETAIL, request)
