@@ -14,21 +14,24 @@ interface Restaurant {
   genres: string[]
 }
 
-export const ranking = async () => {
+export const ranking = async ({ area }: { area: string }) => {
   const restaurants = await kysely
     .selectFrom('crawled_restaurants')
     .selectAll()
     .where('reviewCount', '>=', 3)
+    .where('area', '=', area)
     .orderBy('reviewCount', 'desc')
     .execute()
 
   const areaCategoryMap: {
     [area: string]: { [category: string]: Restaurant[] }
   } = {}
+  const totalCategoryMap: {
+    [category: string]: Restaurant[]
+  } = {}
 
   // レストランをエリアごとにグループ化し、その中でジャンルごとにグループ化
   for (const restaurant of restaurants) {
-    const { area } = restaurant
     const categories = restaurant.categories
 
     if (!areaCategoryMap[area]) {
@@ -42,10 +45,19 @@ export const ranking = async () => {
       areaCategoryMap[area][category].push({
         ...restaurant,
       })
+
+      // トータル
+      if (!totalCategoryMap[category]) {
+        totalCategoryMap[category] = []
+      }
+      totalCategoryMap[category].push({
+        ...restaurant,
+      })
     }
   }
 
   // 各エリアごとにジャンル別ランキングを作成
+  /*
   for (const area in areaCategoryMap) {
     for (const category in areaCategoryMap[area]) {
       if (category !== 'dinner') {
@@ -57,7 +69,7 @@ export const ranking = async () => {
       )
       areaCategoryMap[area][category].sort((a, b) => b.rating - a.rating)
       areaCategoryMap[area][category].forEach((restaurant, index) => {
-        if (index >= 10) {
+        if (index >= 20) {
           return
         }
         console.log(
@@ -91,7 +103,7 @@ export const ranking = async () => {
         (a, b) => b.reviewCount - a.reviewCount,
       )
       areaCategoryMap[area][category].forEach((restaurant, index) => {
-        if (index >= 10) {
+        if (index >= 20) {
           return
         }
         console.log(
@@ -118,5 +130,54 @@ export const ranking = async () => {
       })
       console.log()
     }
+  }
+  */
+
+  console.log(Object.keys(totalCategoryMap))
+  // トータルランキングを作成
+  for (const category of Object.keys(totalCategoryMap)) {
+    // highly rated
+    console.log(
+      `${category}: ${totalCategoryMap[category].length}件 highly rated`,
+    )
+    totalCategoryMap[category].sort((a, b) => b.rating - a.rating)
+    totalCategoryMap[category].forEach((restaurant, index) => {
+      if (index >= 20) {
+        return
+      }
+      console.log(
+        [
+          index + 1,
+          restaurant.area,
+          restaurant.rating,
+          restaurant.reviewCount,
+          restaurant.name,
+          restaurant.url,
+        ].join('\t'),
+      )
+    })
+    console.log()
+
+    // most popular
+    console.log(
+      `${category}: ${totalCategoryMap[category].length}件 most popular`,
+    )
+    totalCategoryMap[category].sort((a, b) => b.reviewCount - a.reviewCount)
+    totalCategoryMap[category].forEach((restaurant, index) => {
+      if (index >= 20) {
+        return
+      }
+      console.log(
+        [
+          index + 1,
+          restaurant.area,
+          restaurant.rating,
+          restaurant.reviewCount,
+          restaurant.name,
+          restaurant.url,
+        ].join('\t'),
+      )
+    })
+    console.log()
   }
 }

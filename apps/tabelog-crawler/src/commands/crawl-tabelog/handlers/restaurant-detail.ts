@@ -4,7 +4,7 @@ import {
   genreCategoryMapping,
   genreMapping,
   ignoreGenres,
-} from './tabelog-categories.js'
+} from '../tabelog-categories.js'
 import { type Handler, HandlerLabel } from './types.js'
 
 export const restaurantDetailHandler: Handler = async ({ request, $, log }) => {

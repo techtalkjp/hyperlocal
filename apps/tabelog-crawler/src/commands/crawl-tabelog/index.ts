@@ -1,5 +1,5 @@
 import { CheerioCrawler, Dataset, log } from 'crawlee'
-import { HandlerLabel, router } from './crawl-tabelog-handlers'
+import { HandlerLabel, router } from './handlers'
 
 log.setLevel(log.LEVELS.INFO)
 

@@ -1,8 +1,8 @@
 import { createCheerioRouter } from 'crawlee'
 import { restaurantDetailHandler } from './restaurant-detail.js'
 import { restaurantListHandler } from './restaurant-list.js'
-import { reviewListHandler } from './review-list.js'
 import { reviewDtailHandler } from './review-detail.js'
+import { reviewListHandler } from './review-list.js'
 import { HandlerLabel } from './types.js'
 
 export { HandlerLabel }
