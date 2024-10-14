@@ -1,7 +1,7 @@
-import { kysely } from '~/services/duckdb.server'
+import { db } from '~/services/duckdb.server'
 
 export const stats = async () => {
-  const restaurants = await kysely
+  const restaurants = await db
     .selectFrom('crawled_restaurants')
     .selectAll()
     .where('reviewCount', '>=', 3)

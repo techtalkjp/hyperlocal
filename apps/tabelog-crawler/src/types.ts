@@ -1,4 +1,4 @@
-export interface Restaurant {
+export interface CrawledRestaurants {
   url: string
   area: string
   name: string
@@ -8,8 +8,6 @@ export interface Restaurant {
   budgetLunch: string
   closedDay: string
   address: string
-  categories: string[]
-  genres: string[]
   features: Record<string, string>
 }
 

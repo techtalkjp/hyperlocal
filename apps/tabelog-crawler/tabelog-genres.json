@@ -1,0 +1,1102 @@
+[
+  {
+    "id": "日本料理",
+    "category": "restaurant",
+    "genre": "japanese_cuisine"
+  },
+  {
+    "id": "寿司",
+    "category": "restaurant",
+    "genre": "sushi"
+  },
+  {
+    "id": "回転寿司",
+    "category": "restaurant",
+    "genre": "sushi"
+  },
+  {
+    "id": "立ち食い寿司",
+    "category": "restaurant",
+    "genre": "sushi"
+  },
+  {
+    "id": "いなり寿司",
+    "category": "restaurant",
+    "genre": "sushi"
+  },
+  {
+    "id": "棒寿司",
+    "category": "restaurant",
+    "genre": "sushi"
+  },
+  {
+    "id": "海鮮",
+    "category": "restaurant",
+    "genre": "seafood"
+  },
+  {
+    "id": "ふぐ",
+    "category": "restaurant",
+    "genre": "seafood"
+  },
+  {
+    "id": "かに",
+    "category": "restaurant",
+    "genre": "seafood"
+  },
+  {
+    "id": "すっぽん",
+    "category": "restaurant",
+    "genre": "seafood"
+  },
+  {
+    "id": "あんこう",
+    "category": "restaurant",
+    "genre": "seafood"
+  },
+  {
+    "id": "かき",
+    "category": "restaurant",
+    "genre": "seafood"
+  },
+  {
+    "id": "うなぎ",
+    "category": "restaurant",
+    "genre": "unagi"
+  },
+  {
+    "id": "あなご",
+    "category": "restaurant",
+    "genre": "unagi"
+  },
+  {
+    "id": "どじょう",
+    "category": "restaurant",
+    "genre": "japanese_cuisine"
+  },
+  {
+    "id": "天ぷら",
+    "category": "restaurant",
+    "genre": "tempura"
+  },
+  {
+    "id": "とんかつ",
+    "category": "restaurant",
+    "genre": "tonkatsu"
+  },
+  {
+    "id": "牛カツ",
+    "category": "restaurant",
+    "genre": "tonkatsu"
+  },
+  {
+    "id": "串揚げ",
+    "category": "restaurant",
+    "genre": "japanese_cuisine"
+  },
+  {
+    "id": "からあげ",
+    "category": "restaurant",
+    "genre": "japanese_cuisine"
+  },
+  {
+    "id": "揚げ物",
+    "category": "restaurant",
+    "genre": "japanese_cuisine"
+  },
+  {
+    "id": "焼き鳥",
+    "category": "restaurant",
+    "genre": "yakitori"
+  },
+  {
+    "id": "串焼き",
+    "category": "restaurant",
+    "genre": "yakitori"
+  },
+  {
+    "id": "もつ焼き",
+    "category": "restaurant",
+    "genre": "yakitori"
+  },
+  {
+    "id": "鳥料理",
+    "category": "restaurant",
+    "genre": "japanese_cuisine"
+  },
+  {
+    "id": "手羽先",
+    "category": "restaurant",
+    "genre": "japanese_cuisine"
+  },
+  {
+    "id": "すき焼き",
+    "category": "restaurant",
+    "genre": "japanese_cuisine"
+  },
+  {
+    "id": "しゃぶしゃぶ",
+    "category": "restaurant",
+    "genre": "japanese_cuisine"
+  },
+  {
+    "id": "豚しゃぶ",
+    "category": "restaurant",
+    "genre": "japanese_cuisine"
+  },
+  {
+    "id": "そば",
+    "category": "restaurant",
+    "genre": "soba"
+  },
+  {
+    "id": "立ち食いそば",
+    "category": "restaurant",
+    "genre": "soba"
+  },
+  {
+    "id": "うどん",
+    "category": "restaurant",
+    "genre": "udon"
+  },
+  {
+    "id": "カレーうどん",
+    "category": "restaurant",
+    "genre": "udon"
+  },
+  {
+    "id": "麺類",
+    "category": "restaurant",
+    "genre": "noodles"
+  },
+  {
+    "id": "焼きそば",
+    "category": "restaurant",
+    "genre": "noodles"
+  },
+  {
+    "id": "沖縄そば",
+    "category": "restaurant",
+    "genre": "okinawan_cuisine"
+  },
+  {
+    "id": "ほうとう",
+    "category": "restaurant",
+    "genre": "noodles"
+  },
+  {
+    "id": "ちゃんぽん",
+    "category": "restaurant",
+    "genre": "noodles"
+  },
+  {
+    "id": "お好み焼き",
+    "category": "restaurant",
+    "genre": "okonomiyaki"
+  },
+  {
+    "id": "もんじゃ焼き",
+    "category": "restaurant",
+    "genre": "okonomiyaki"
+  },
+  {
+    "id": "たこ焼き",
+    "category": "restaurant",
+    "genre": "takoyaki"
+  },
+  {
+    "id": "明石焼き",
+    "category": "restaurant",
+    "genre": "takoyaki"
+  },
+  {
+    "id": "丼",
+    "category": "restaurant",
+    "genre": "donburi"
+  },
+  {
+    "id": "牛丼",
+    "category": "restaurant",
+    "genre": "donburi"
+  },
+  {
+    "id": "親子丼",
+    "category": "restaurant",
+    "genre": "donburi"
+  },
+  {
+    "id": "天丼",
+    "category": "restaurant",
+    "genre": "donburi"
+  },
+  {
+    "id": "かつ丼",
+    "category": "restaurant",
+    "genre": "donburi"
+  },
+  {
+    "id": "海鮮丼",
+    "category": "restaurant",
+    "genre": "donburi"
+  },
+  {
+    "id": "豚丼",
+    "category": "restaurant",
+    "genre": "donburi"
+  },
+  {
+    "id": "おでん",
+    "category": "restaurant",
+    "genre": "oden"
+  },
+  {
+    "id": "郷土料理",
+    "category": "restaurant",
+    "genre": "regional_cuisine"
+  },
+  {
+    "id": "沖縄料理",
+    "category": "restaurant",
+    "genre": "okinawan_cuisine"
+  },
+  {
+    "id": "牛タン",
+    "category": "restaurant",
+    "genre": "japanese_cuisine"
+  },
+  {
+    "id": "麦とろ",
+    "category": "restaurant",
+    "genre": "japanese_cuisine"
+  },
+  {
+    "id": "釜飯",
+    "category": "restaurant",
+    "genre": "japanese_cuisine"
+  },
+  {
+    "id": "お茶漬け",
+    "category": "restaurant",
+    "genre": "japanese_cuisine"
+  },
+  {
+    "id": "豆腐料理",
+    "category": "restaurant",
+    "genre": "japanese_cuisine"
+  },
+  {
+    "id": "ろばた焼き",
+    "category": "restaurant",
+    "genre": "japanese_cuisine"
+  },
+  {
+    "id": "きりたんぽ",
+    "category": "restaurant",
+    "genre": "regional_cuisine"
+  },
+  {
+    "id": "くじら料理",
+    "category": "restaurant",
+    "genre": "japanese_cuisine"
+  },
+  {
+    "id": "洋食",
+    "category": "restaurant",
+    "genre": "yoshoku"
+  },
+  {
+    "id": "ハンバーグ",
+    "category": "restaurant",
+    "genre": "yoshoku"
+  },
+  {
+    "id": "オムライス",
+    "category": "restaurant",
+    "genre": "yoshoku"
+  },
+  {
+    "id": "コロッケ",
+    "category": "restaurant",
+    "genre": "yoshoku"
+  },
+  {
+    "id": "スープ",
+    "category": "restaurant",
+    "genre": "soup"
+  },
+  {
+    "id": "ステーキ",
+    "category": "restaurant",
+    "genre": "steak"
+  },
+  {
+    "id": "鉄板焼き",
+    "category": "restaurant",
+    "genre": "teppanyaki"
+  },
+  {
+    "id": "フレンチ",
+    "category": "restaurant",
+    "genre": "french"
+  },
+  {
+    "id": "ビストロ",
+    "category": "restaurant",
+    "genre": "french"
+  },
+  {
+    "id": "イタリアン",
+    "category": "restaurant",
+    "genre": "italian"
+  },
+  {
+    "id": "パスタ",
+    "category": "restaurant",
+    "genre": "italian"
+  },
+  {
+    "id": "ピザ",
+    "category": "restaurant",
+    "genre": "italian"
+  },
+  {
+    "id": "スペイン料理",
+    "category": "restaurant",
+    "genre": "spanish"
+  },
+  {
+    "id": "ヨーロッパ料理",
+    "category": "restaurant",
+    "genre": "european"
+  },
+  {
+    "id": "ポルトガル料理",
+    "category": "restaurant",
+    "genre": "european"
+  },
+  {
+    "id": "ドイツ料理",
+    "category": "restaurant",
+    "genre": "european"
+  },
+  {
+    "id": "ロシア料理",
+    "category": "restaurant",
+    "genre": "european"
+  },
+  {
+    "id": "ギリシャ料理",
+    "category": "restaurant",
+    "genre": "european"
+  },
+  {
+    "id": "アメリカ料理",
+    "category": "restaurant",
+    "genre": "american"
+  },
+  {
+    "id": "カリフォルニア料理",
+    "category": "restaurant",
+    "genre": "american"
+  },
+  {
+    "id": "ハワイ料理",
+    "category": "restaurant",
+    "genre": "american"
+  },
+  {
+    "id": "ハンバーガー",
+    "category": "restaurant",
+    "genre": "hamburger"
+  },
+  {
+    "id": "ホットドッグ",
+    "category": "restaurant",
+    "genre": "american"
+  },
+  {
+    "id": "中華料理",
+    "category": "restaurant",
+    "genre": "chinese"
+  },
+  {
+    "id": "四川料理",
+    "category": "restaurant",
+    "genre": "chinese"
+  },
+  {
+    "id": "台湾料理",
+    "category": "restaurant",
+    "genre": "taiwanese"
+  },
+  {
+    "id": "飲茶",
+    "category": "restaurant",
+    "genre": "dim_sum"
+  },
+  {
+    "id": "点心",
+    "category": "restaurant",
+    "genre": "dim_sum"
+  },
+  {
+    "id": "餃子",
+    "category": "restaurant",
+    "genre": "gyoza"
+  },
+  {
+    "id": "肉まん",
+    "category": "restaurant",
+    "genre": "chinese"
+  },
+  {
+    "id": "小籠包",
+    "category": "restaurant",
+    "genre": "chinese"
+  },
+  {
+    "id": "中華粥",
+    "category": "restaurant",
+    "genre": "chinese"
+  },
+  {
+    "id": "アジア料理",
+    "category": "restaurant",
+    "genre": "asian"
+  },
+  {
+    "id": "エスニック料理",
+    "category": "restaurant",
+    "genre": "ethnic"
+  },
+  {
+    "id": "韓国料理",
+    "category": "restaurant",
+    "genre": "korean"
+  },
+  {
+    "id": "冷麺",
+    "category": "restaurant",
+    "genre": "korean"
+  },
+  {
+    "id": "東南アジア料理",
+    "category": "restaurant",
+    "genre": "southeast_asian"
+  },
+  {
+    "id": "タイ料理",
+    "category": "restaurant",
+    "genre": "thai"
+  },
+  {
+    "id": "ベトナム料理",
+    "category": "restaurant",
+    "genre": "vietnamese"
+  },
+  {
+    "id": "バインミー",
+    "category": "restaurant",
+    "genre": "vietnamese"
+  },
+  {
+    "id": "インドネシア料理",
+    "category": "restaurant",
+    "genre": "indonesian"
+  },
+  {
+    "id": "シンガポール料理",
+    "category": "restaurant",
+    "genre": "southeast_asian"
+  },
+  {
+    "id": "南アジア料理",
+    "category": "restaurant",
+    "genre": "south_asian"
+  },
+  {
+    "id": "インド料理",
+    "category": "restaurant",
+    "genre": "indian"
+  },
+  {
+    "id": "ネパール料理",
+    "category": "restaurant",
+    "genre": "south_asian"
+  },
+  {
+    "id": "パキスタン料理",
+    "category": "restaurant",
+    "genre": "south_asian"
+  },
+  {
+    "id": "スリランカ料理",
+    "category": "restaurant",
+    "genre": "south_asian"
+  },
+  {
+    "id": "中東料理",
+    "category": "restaurant",
+    "genre": "middle_eastern"
+  },
+  {
+    "id": "トルコ料理",
+    "category": "restaurant",
+    "genre": "middle_eastern"
+  },
+  {
+    "id": "ケバブ",
+    "category": "restaurant",
+    "genre": "middle_eastern"
+  },
+  {
+    "id": "モロッコ料理",
+    "category": "restaurant",
+    "genre": "middle_eastern"
+  },
+  {
+    "id": "ファラフェル",
+    "category": "restaurant",
+    "genre": "middle_eastern"
+  },
+  {
+    "id": "中南米料理",
+    "category": "restaurant",
+    "genre": "latin_american"
+  },
+  {
+    "id": "メキシコ料理",
+    "category": "restaurant",
+    "genre": "mexican"
+  },
+  {
+    "id": "タコス",
+    "category": "restaurant",
+    "genre": "mexican"
+  },
+  {
+    "id": "ブラジル料理",
+    "category": "restaurant",
+    "genre": "brazilian"
+  },
+  {
+    "id": "シュラスコ",
+    "category": "restaurant",
+    "genre": "brazilian"
+  },
+  {
+    "id": "ペルー料理",
+    "category": "restaurant",
+    "genre": "latin_american"
+  },
+  {
+    "id": "アフリカ料理",
+    "category": "restaurant",
+    "genre": "african"
+  },
+  {
+    "id": "カレー",
+    "category": "restaurant",
+    "genre": "curry"
+  },
+  {
+    "id": "インドカレー",
+    "category": "restaurant",
+    "genre": "indian"
+  },
+  {
+    "id": "スープカレー",
+    "category": "restaurant",
+    "genre": "curry"
+  },
+  {
+    "id": "焼肉",
+    "category": "restaurant",
+    "genre": "yakiniku"
+  },
+  {
+    "id": "ホルモン",
+    "category": "restaurant",
+    "genre": "yakiniku"
+  },
+  {
+    "id": "ジンギスカン",
+    "category": "restaurant",
+    "genre": "yakiniku"
+  },
+  {
+    "id": "鍋",
+    "category": "restaurant",
+    "genre": "nabe"
+  },
+  {
+    "id": "もつ鍋",
+    "category": "restaurant",
+    "genre": "nabe"
+  },
+  {
+    "id": "水炊き",
+    "category": "restaurant",
+    "genre": "nabe"
+  },
+  {
+    "id": "ちゃんこ鍋",
+    "category": "restaurant",
+    "genre": "nabe"
+  },
+  {
+    "id": "火鍋",
+    "category": "restaurant",
+    "genre": "nabe"
+  },
+  {
+    "id": "うどんすき",
+    "category": "restaurant",
+    "genre": "nabe"
+  },
+  {
+    "id": "居酒屋",
+    "category": "restaurant",
+    "genre": "izakaya"
+  },
+  {
+    "id": "ダイニングバー",
+    "category": "restaurant",
+    "genre": "bar"
+  },
+  {
+    "id": "立ち飲み",
+    "category": "restaurant",
+    "genre": "bar"
+  },
+  {
+    "id": "バル",
+    "category": "restaurant",
+    "genre": "bar"
+  },
+  {
+    "id": "肉バル",
+    "category": "restaurant",
+    "genre": "bar"
+  },
+  {
+    "id": "ビアガーデン",
+    "category": "restaurant",
+    "genre": "beer_garden"
+  },
+  {
+    "id": "ビアホール",
+    "category": "restaurant",
+    "genre": "beer_garden"
+  },
+  {
+    "id": "レストラン",
+    "category": "restaurant",
+    "genre": "restaurant"
+  },
+  {
+    "id": "ファミレス",
+    "category": "restaurant",
+    "genre": "family_restaurant"
+  },
+  {
+    "id": "食堂",
+    "category": "restaurant",
+    "genre": "restaurant"
+  },
+  {
+    "id": "学生食堂",
+    "category": "restaurant",
+    "genre": "cafeteria"
+  },
+  {
+    "id": "社員食堂",
+    "category": "restaurant",
+    "genre": "cafeteria"
+  },
+  {
+    "id": "創作料理",
+    "category": "restaurant",
+    "genre": "fusion"
+  },
+  {
+    "id": "イノベーティブ",
+    "category": "restaurant",
+    "genre": "fusion"
+  },
+  {
+    "id": "オーガニック",
+    "category": "restaurant",
+    "genre": "organic"
+  },
+  {
+    "id": "薬膳",
+    "category": "restaurant",
+    "genre": "chinese"
+  },
+  {
+    "id": "弁当",
+    "category": "restaurant",
+    "genre": "bento"
+  },
+  {
+    "id": "おにぎり",
+    "category": "restaurant",
+    "genre": "japanese_cuisine"
+  },
+  {
+    "id": "惣菜",
+    "category": "restaurant",
+    "genre": "side_dishes"
+  },
+  {
+    "id": "デリ",
+    "category": "restaurant",
+    "genre": "deli"
+  },
+  {
+    "id": "肉料理",
+    "category": "restaurant",
+    "genre": "meat_dishes"
+  },
+  {
+    "id": "牛料理",
+    "category": "restaurant",
+    "genre": "beef_dishes"
+  },
+  {
+    "id": "豚料理",
+    "category": "restaurant",
+    "genre": "pork_dishes"
+  },
+  {
+    "id": "馬肉料理",
+    "category": "restaurant",
+    "genre": "meat_dishes"
+  },
+  {
+    "id": "ジビエ料理",
+    "category": "restaurant",
+    "genre": "game_meat"
+  },
+  {
+    "id": "シーフード",
+    "category": "restaurant",
+    "genre": "seafood"
+  },
+  {
+    "id": "オイスターバー",
+    "category": "restaurant",
+    "genre": "seafood"
+  },
+  {
+    "id": "サラダ",
+    "category": "restaurant",
+    "genre": "salad"
+  },
+  {
+    "id": "野菜料理",
+    "category": "restaurant",
+    "genre": "vegetable_dishes"
+  },
+  {
+    "id": "チーズ料理",
+    "category": "restaurant",
+    "genre": "cheese_dishes"
+  },
+  {
+    "id": "にんにく料理",
+    "category": "restaurant",
+    "genre": "fusion"
+  },
+  {
+    "id": "ビュッフェ",
+    "category": "restaurant",
+    "genre": "buffet"
+  },
+  {
+    "id": "バーベキュー",
+    "category": "restaurant",
+    "genre": "bbq"
+  },
+  {
+    "id": "屋形船",
+    "category": "restaurant",
+    "genre": "dining_cruise"
+  },
+  {
+    "id": "クルージング",
+    "category": "restaurant",
+    "genre": "dining_cruise"
+  },
+  {
+    "id": "ラーメン",
+    "category": "restaurant",
+    "genre": "ramen"
+  },
+  {
+    "id": "つけ麺",
+    "category": "restaurant",
+    "genre": "ramen"
+  },
+  {
+    "id": "油そば",
+    "category": "restaurant",
+    "genre": "ramen"
+  },
+  {
+    "id": "まぜそば",
+    "category": "restaurant",
+    "genre": "ramen"
+  },
+  {
+    "id": "台湾まぜそば",
+    "category": "restaurant",
+    "genre": "ramen"
+  },
+  {
+    "id": "担々麺",
+    "category": "restaurant",
+    "genre": "ramen"
+  },
+  {
+    "id": "汁なし担々麺",
+    "category": "restaurant",
+    "genre": "ramen"
+  },
+  {
+    "id": "刀削麺",
+    "category": "restaurant",
+    "genre": "ramen"
+  },
+  {
+    "id": "カフェ",
+    "category": "cafe",
+    "genre": "cafe"
+  },
+  {
+    "id": "喫茶店",
+    "category": "cafe",
+    "genre": "cafe"
+  },
+  {
+    "id": "甘味処",
+    "category": "cafe",
+    "genre": "cafe"
+  },
+  {
+    "id": "フルーツパーラー",
+    "category": "cafe",
+    "genre": "cafe"
+  },
+  {
+    "id": "パンケーキ",
+    "category": "cafe",
+    "genre": "cafe"
+  },
+  {
+    "id": "コーヒースタンド",
+    "category": "cafe",
+    "genre": "cafe"
+  },
+  {
+    "id": "ティースタンド",
+    "category": "cafe",
+    "genre": "cafe"
+  },
+  {
+    "id": "ジューススタンド",
+    "category": "cafe",
+    "genre": "cafe"
+  },
+  {
+    "id": "タピオカ",
+    "category": "cafe",
+    "genre": "bubble_tea"
+  },
+  {
+    "id": "スイーツ",
+    "category": "sweets",
+    "genre": "sweets"
+  },
+  {
+    "id": "洋菓子",
+    "category": "sweets",
+    "genre": "sweets"
+  },
+  {
+    "id": "ケーキ",
+    "category": "sweets",
+    "genre": "sweets"
+  },
+  {
+    "id": "シュークリーム",
+    "category": "sweets",
+    "genre": "sweets"
+  },
+  {
+    "id": "チョコレート",
+    "category": "sweets",
+    "genre": "sweets"
+  },
+  {
+    "id": "ドーナツ",
+    "category": "sweets",
+    "genre": "sweets"
+  },
+  {
+    "id": "マカロン",
+    "category": "sweets",
+    "genre": "sweets"
+  },
+  {
+    "id": "バームクーヘン",
+    "category": "sweets",
+    "genre": "sweets"
+  },
+  {
+    "id": "プリン",
+    "category": "sweets",
+    "genre": "sweets"
+  },
+  {
+    "id": "クレープ",
+    "category": "restaurant",
+    "genre": "sweets"
+  },
+  {
+    "id": "ガレット",
+    "category": "restaurant",
+    "genre": "sweets"
+  },
+  {
+    "id": "和菓子",
+    "category": "sweets",
+    "genre": "japanese_sweets"
+  },
+  {
+    "id": "大福",
+    "category": "sweets",
+    "genre": "japanese_sweets"
+  },
+  {
+    "id": "たい焼き",
+    "category": "restaurant",
+    "genre": "japanese_sweets"
+  },
+  {
+    "id": "大判焼き",
+    "category": "restaurant",
+    "genre": "japanese_sweets"
+  },
+  {
+    "id": "どら焼き",
+    "category": "sweets",
+    "genre": "japanese_sweets"
+  },
+  {
+    "id": "カステラ",
+    "category": "sweets",
+    "genre": "japanese_sweets"
+  },
+  {
+    "id": "焼き芋",
+    "category": "restaurant",
+    "genre": "japanese_sweets"
+  },
+  {
+    "id": "大学芋",
+    "category": "restaurant",
+    "genre": "japanese_sweets"
+  },
+  {
+    "id": "せんべい",
+    "category": "sweets",
+    "genre": "japanese_sweets"
+  },
+  {
+    "id": "中華菓子",
+    "category": "sweets",
+    "genre": "chinese_sweets"
+  },
+  {
+    "id": "ジェラート",
+    "category": "restaurant",
+    "genre": "ice_cream"
+  },
+  {
+    "id": "アイスクリーム",
+    "category": "restaurant",
+    "genre": "ice_cream"
+  },
+  {
+    "id": "ソフトクリーム",
+    "category": "sweets",
+    "genre": "ice_cream"
+  },
+  {
+    "id": "かき氷",
+    "category": "sweets",
+    "genre": "shaved_ice"
+  },
+  {
+    "id": "パン",
+    "category": "bakery",
+    "genre": "bakery"
+  },
+  {
+    "id": "サンドイッチ",
+    "category": "bakery",
+    "genre": "sandwich"
+  },
+  {
+    "id": "ベーグル",
+    "category": "bakery",
+    "genre": "bakery"
+  },
+  {
+    "id": "バー",
+    "category": "nightlife",
+    "genre": "bar"
+  },
+  {
+    "id": "パブ",
+    "category": "nightlife",
+    "genre": "bar"
+  },
+  {
+    "id": "ワインバー",
+    "category": "nightlife",
+    "genre": "bar"
+  },
+  {
+    "id": "ビアバー",
+    "category": "nightlife",
+    "genre": "bar"
+  },
+  {
+    "id": "スポーツバー",
+    "category": "nightlife",
+    "genre": "bar"
+  },
+  {
+    "id": "日本酒バー",
+    "category": "nightlife",
+    "genre": "bar"
+  },
+  {
+    "id": "焼酎バー",
+    "category": "nightlife",
+    "genre": "bar"
+  },
+  {
+    "id": "料理旅館",
+    "category": "restaurant",
+    "genre": "ryokan"
+  },
+  {
+    "id": "オーベルジュ",
+    "category": "restaurant",
+    "genre": "auberge"
+  }
+]

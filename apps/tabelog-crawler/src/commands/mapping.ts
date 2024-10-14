@@ -1,9 +1,9 @@
-import { kysely } from '~/services/duckdb.server'
+import { db } from '~/services/duckdb.server'
 import { textSearch } from '~/services/google-places-ids'
 
 // google places ID をマッピング
 export const mapping = async () => {
-  const restaurants = await kysely
+  const restaurants = await db
     .selectFrom('crawled_restaurants')
     .selectAll()
     .orderBy('reviewCount', 'desc')

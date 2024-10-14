@@ -1,6 +1,7 @@
 import { cli, command } from 'cleye'
 import { config } from 'dotenv'
 import { crawlTabelog, mapping, ranking, stats } from './commands'
+import { transform } from './commands/transform'
 config()
 
 const argv = cli({
@@ -22,6 +23,12 @@ const argv = cli({
         },
       },
       (argv) => crawlTabelog(argv.flags),
+    ),
+    command(
+      {
+        name: 'transform',
+      },
+      () => transform(),
     ),
     command(
       {

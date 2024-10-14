@@ -1,21 +1,7 @@
-import { kysely } from '~/services/duckdb.server'
-
-interface Restaurant {
-  url: string
-  area: string
-  name: string
-  rating: number
-  reviewCount: number
-  budgetDinner: string
-  budgetLunch: string
-  closedDay: string
-  address: string
-  categories: string[]
-  genres: string[]
-}
+import { db } from '~/services/duckdb.server'
 
 export const ranking = async ({ area }: { area: string }) => {
-  const restaurants = await kysely
+  const restaurants = await db
     .selectFrom('crawled_restaurants')
     .selectAll()
     .where('reviewCount', '>=', 3)
