@@ -20,11 +20,12 @@ export const transform = async () => {
           db
             .selectFrom('crawled_restaurants')
             .selectAll()
-            .select(() =>
-              sql<string>`unnest(string_split(features->>'ジャンル', '、'))`.as(
-                'genre',
-              ),
-            ),
+            .select([
+              () =>
+                sql<string>`unnest(string_split(features->>'ジャンル', '、'))`.as(
+                  'genre',
+                ),
+            ]),
         )
         // ジャンルごとにカテゴリを付与
         .with('categorized_restaurants_genres', (db) =>
@@ -66,7 +67,9 @@ export const transform = async () => {
           'closedDay',
           'address',
           'url',
+          () => sql<null>`null::varchar`.as('placeId'),
         ])
+        .where('category', '!=', 'restaurant')
         .groupBy([
           'area',
           'name',
@@ -171,7 +174,8 @@ export const transform = async () => {
         )
         .selectFrom('ranked_restaurants')
         .selectAll()
-        .where('rank', '<=', 30),
+        .select(() => sql<null>`null::varchar`.as('placeId'))
+        .where('rank', '<=', 20),
     )
     .execute()
 

@@ -1,29 +1,44 @@
+import { sql } from 'kysely'
 import { db } from '~/services/duckdb.server'
 import { textSearch } from '~/services/google-places-ids'
 
 // google places ID をマッピング
 export const mapping = async () => {
   const restaurants = await db
-    .selectFrom('crawled_restaurants')
-    .selectAll()
-    .orderBy('reviewCount', 'desc')
-    .limit(10)
+    .selectFrom('restaurants')
+    .select([
+      'name',
+      'address',
+      () => sql`string_split(address, ' ')[1]`.as('part_address'),
+      'url',
+    ])
+    .where('placeId', 'is', null)
     .execute()
 
   for (const restaurant of restaurants) {
     const place = await textSearch({
-      textQuery: `${restaurant.address} ${restaurant.name}`,
+      textQuery: `${restaurant.part_address} ${restaurant.name}`,
     })
+    const placeId = place.places?.map((p) => p.id)[0]
+    if (placeId === undefined) {
+      console.log('Not found:', { restaurant, place })
+      continue
+    }
 
-    console.dir({ place }, { depth: null })
-    const placeId = place.places.map((p) => p.id)[0]
+    await db
+      .updateTable('restaurants')
+      .set({
+        placeId: placeId ?? null,
+      })
+      .where('url', '==', restaurant.url)
+      .execute()
 
-    console.log({
-      area: restaurant.area,
-      name: restaurant.name,
-      address: restaurant.address,
-      googlePlacesId: placeId,
-      googleMaps: `https://www.google.com/maps/place/?q=place_id:${placeId}`,
-    })
+    await db
+      .updateTable('ranked_restaurants')
+      .set({
+        placeId: placeId ?? null,
+      })
+      .where('url', '==', restaurant.url)
+      .execute()
   }
 }

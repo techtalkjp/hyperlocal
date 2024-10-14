@@ -1,7 +1,6 @@
 import { cli, command } from 'cleye'
 import { config } from 'dotenv'
-import { crawlTabelog, mapping, ranking, stats } from './commands'
-import { transform } from './commands/transform'
+import { crawlTabelog, mapping, stats, transform } from './commands'
 config()
 
 const argv = cli({
@@ -22,25 +21,16 @@ const argv = cli({
           },
         },
       },
-      (argv) => crawlTabelog(argv.flags),
+      async (argv) => await crawlTabelog(argv.flags),
     ),
     command(
       {
         name: 'transform',
       },
-      () => transform(),
+      async () => await transform(),
     ),
-    command(
-      {
-        name: 'ranking',
-        flags: {
-          area: { type: String, description: '対象エリア', default: 'ginza' },
-        },
-      },
-      (argv) => ranking(argv.flags),
-    ),
-    command({ name: 'mapping' }, () => mapping()),
-    command({ name: 'stats' }, () => stats()),
+    command({ name: 'mapping' }, async () => await mapping()),
+    command({ name: 'stats' }, async () => await stats()),
   ],
 })
 

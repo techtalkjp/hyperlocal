@@ -2,7 +2,7 @@
   {
     "id": "日本料理",
     "category": "restaurant",
-    "genre": "japanese_cuisine"
+    "genre": "japanese"
   },
   {
     "id": "寿司",
@@ -72,7 +72,7 @@
   {
     "id": "どじょう",
     "category": "restaurant",
-    "genre": "japanese_cuisine"
+    "genre": "japanese"
   },
   {
     "id": "天ぷら",
@@ -92,17 +92,17 @@
   {
     "id": "串揚げ",
     "category": "restaurant",
-    "genre": "japanese_cuisine"
+    "genre": "japanese"
   },
   {
     "id": "からあげ",
     "category": "restaurant",
-    "genre": "japanese_cuisine"
+    "genre": "japanese"
   },
   {
     "id": "揚げ物",
     "category": "restaurant",
-    "genre": "japanese_cuisine"
+    "genre": "japanese"
   },
   {
     "id": "焼き鳥",
@@ -122,27 +122,27 @@
   {
     "id": "鳥料理",
     "category": "restaurant",
-    "genre": "japanese_cuisine"
+    "genre": "japanese"
   },
   {
     "id": "手羽先",
     "category": "restaurant",
-    "genre": "japanese_cuisine"
+    "genre": "japanese"
   },
   {
     "id": "すき焼き",
     "category": "restaurant",
-    "genre": "japanese_cuisine"
+    "genre": "japanese"
   },
   {
     "id": "しゃぶしゃぶ",
     "category": "restaurant",
-    "genre": "japanese_cuisine"
+    "genre": "japanese"
   },
   {
     "id": "豚しゃぶ",
     "category": "restaurant",
-    "genre": "japanese_cuisine"
+    "genre": "japanese"
   },
   {
     "id": "そば",
@@ -177,7 +177,7 @@
   {
     "id": "沖縄そば",
     "category": "restaurant",
-    "genre": "okinawan_cuisine"
+    "genre": "okinawan"
   },
   {
     "id": "ほうとう",
@@ -252,52 +252,52 @@
   {
     "id": "郷土料理",
     "category": "restaurant",
-    "genre": "regional_cuisine"
+    "genre": "regional"
   },
   {
     "id": "沖縄料理",
     "category": "restaurant",
-    "genre": "okinawan_cuisine"
+    "genre": "okinawan"
   },
   {
     "id": "牛タン",
     "category": "restaurant",
-    "genre": "japanese_cuisine"
+    "genre": "japanese"
   },
   {
     "id": "麦とろ",
     "category": "restaurant",
-    "genre": "japanese_cuisine"
+    "genre": "japanese"
   },
   {
     "id": "釜飯",
     "category": "restaurant",
-    "genre": "japanese_cuisine"
+    "genre": "japanese"
   },
   {
     "id": "お茶漬け",
     "category": "restaurant",
-    "genre": "japanese_cuisine"
+    "genre": "japanese"
   },
   {
     "id": "豆腐料理",
     "category": "restaurant",
-    "genre": "japanese_cuisine"
+    "genre": "japanese"
   },
   {
     "id": "ろばた焼き",
     "category": "restaurant",
-    "genre": "japanese_cuisine"
+    "genre": "japanese"
   },
   {
     "id": "きりたんぽ",
     "category": "restaurant",
-    "genre": "regional_cuisine"
+    "genre": "regional"
   },
   {
     "id": "くじら料理",
     "category": "restaurant",
-    "genre": "japanese_cuisine"
+    "genre": "japanese"
   },
   {
     "id": "洋食",
@@ -742,7 +742,7 @@
   {
     "id": "おにぎり",
     "category": "restaurant",
-    "genre": "japanese_cuisine"
+    "genre": "japanese"
   },
   {
     "id": "惣菜",

@@ -11,6 +11,7 @@ export interface Database {
     closedDay: string
     address: string
     url: string
+    placeId: string | null
   }
   ranked_restaurants: {
     area: string
@@ -26,6 +27,7 @@ export interface Database {
     closedDay: string
     address: string
     url: string
+    placeId: string | null
   }
   crawled_restaurants: {
     url: string
