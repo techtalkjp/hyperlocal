@@ -175,11 +175,17 @@ export const transform = async () => {
     )
     .execute()
 
-  const ret = await db
-    .selectFrom('ranked_restaurants')
-    .selectAll()
-    .limit(10)
-    .execute()
+  // ランク外のレストランを削除
+  await sql`
+    DELETE FROM restaurants
+    WHERE url NOT IN (
+      SELECT url 
+      FROM ranked_restaurants
+    )`.execute(db)
 
-  console.log(ret)
+  const { cnt } = await db
+    .selectFrom('restaurants')
+    .select((eb) => eb.fn.countAll().as('cnt'))
+    .executeTakeFirstOrThrow()
+  console.log(`${cnt} restaurants transformed`)
 }

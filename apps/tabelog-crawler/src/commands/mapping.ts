@@ -15,6 +15,7 @@ export const mapping = async () => {
       textQuery: `${restaurant.address} ${restaurant.name}`,
     })
 
+    console.dir({ place }, { depth: null })
     const placeId = place.places.map((p) => p.id)[0]
 
     console.log({
