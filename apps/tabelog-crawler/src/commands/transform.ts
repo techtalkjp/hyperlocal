@@ -19,21 +19,12 @@ export const transform = async () => {
         .with('tabelog_restaurants_genres', (db) =>
           db
             .selectFrom('crawled_restaurants')
-            .select([
-              'url',
-              'area',
-              'name',
-              'rating',
-              'reviewCount',
-              'budgetLunch',
-              'budgetDinner',
-              'closedDay',
-              'address',
-              () =>
-                sql<string>`unnest(string_split(features->>'ジャンル', '、'))`.as(
-                  'genre',
-                ),
-            ]),
+            .selectAll()
+            .select(() =>
+              sql<string>`unnest(string_split(features->>'ジャンル', '、'))`.as(
+                'genre',
+              ),
+            ),
         )
         // ジャンルごとにカテゴリを付与
         .with('categorized_restaurants_genres', (db) =>
@@ -62,26 +53,48 @@ export const transform = async () => {
               'tabelog_restaurants_genres.url',
             ]),
         )
-        // レストランごとにジャンルを集約
-        .with('transformed_restaurants', (db) =>
+        .selectFrom('categorized_restaurants_genres')
+        .select([
+          'area',
+          () => sql<string>`group_concat(DISTINCT category)`.as('categories'),
+          () => sql<string>`group_concat(DISTINCT genre)`.as('genres'),
+          'name',
+          'rating',
+          () => sql<number>`reviewCount::integer`.as('reviewCount'),
+          'budgetLunch',
+          'budgetDinner',
+          'closedDay',
+          'address',
+          'url',
+        ])
+        .groupBy([
+          'area',
+          'name',
+          'rating',
+          'reviewCount',
+          'budgetLunch',
+          'budgetDinner',
+          'closedDay',
+          'address',
+          'url',
+        ]),
+    )
+    .execute()
+
+  // エリア・カテゴリ別ランキングを生成
+  db.schema.dropTable('ranked_restaurants').ifExists().execute()
+  db.schema
+    .createTable('ranked_restaurants')
+    .as(
+      db
+        // カテゴリごとのレストランデータ
+        .with('categorized_restaurants', (db) =>
           db
-            .selectFrom('categorized_restaurants_genres')
+            .selectFrom('restaurants')
             .select([
               'area',
-              () =>
-                sql<string>`group_concat(DISTINCT category)`.as('categories'),
-              () => sql<string>`group_concat(DISTINCT genre)`.as('genres'),
-              'name',
-              'rating',
-              'reviewCount',
-              'budgetLunch',
-              'budgetDinner',
-              'closedDay',
-              'address',
-              'url',
-            ])
-            .groupBy([
-              'area',
+              () => sql`unnest(string_split(categories, ','))`.as('category'),
+              'genres',
               'name',
               'rating',
               'reviewCount',
@@ -92,12 +105,81 @@ export const transform = async () => {
               'url',
             ]),
         )
-        .selectFrom('transformed_restaurants')
-        .selectAll(),
+        // レートでのエリア・カテゴリランキング
+        .with('rating_rank', (db) =>
+          db
+            .selectFrom('categorized_restaurants')
+            .selectAll()
+            .select([
+              () => sql<string>`'rating'`.as('ranking_type'),
+              () =>
+                sql<number>`row_number() OVER (PARTITION BY area, category ORDER BY rating DESC)::integer`.as(
+                  'rank',
+                ),
+            ])
+            .where('category', 'in', ['lunch', 'dinner']),
+        )
+        .with('review_rank', (db) =>
+          db
+            .selectFrom('categorized_restaurants')
+            .selectAll()
+            .select([
+              () => sql<string>`'review'`.as('ranking_type'),
+              () =>
+                sql<number>`row_number() OVER (PARTITION BY area, category ORDER BY reviewCount DESC)::integer`.as(
+                  'rank',
+                ),
+            ]),
+        )
+        .with('ranked_restaurants', (db) =>
+          db
+            .selectFrom('rating_rank')
+            .select([
+              'area',
+              'category',
+              'ranking_type',
+              'rank',
+              'genres',
+              'name',
+              'rating',
+              'reviewCount',
+              'budgetLunch',
+              'budgetDinner',
+              'closedDay',
+              'address',
+              'url',
+            ])
+            .unionAll(
+              db
+                .selectFrom('review_rank')
+                .select([
+                  'area',
+                  'category',
+                  'ranking_type',
+                  'rank',
+                  'genres',
+                  'name',
+                  'rating',
+                  'reviewCount',
+                  'budgetLunch',
+                  'budgetDinner',
+                  'closedDay',
+                  'address',
+                  'url',
+                ]),
+            ),
+        )
+        .selectFrom('ranked_restaurants')
+        .selectAll()
+        .where('rank', '<=', 30),
     )
     .execute()
 
-  const ret = await db.selectFrom('restaurants').selectAll().limit(10).execute()
+  const ret = await db
+    .selectFrom('ranked_restaurants')
+    .selectAll()
+    .limit(10)
+    .execute()
 
   console.log(ret)
 }

@@ -12,6 +12,21 @@ export interface Database {
     address: string
     url: string
   }
+  ranked_restaurants: {
+    area: string
+    category: string
+    ranking_type: string
+    rank: number
+    genres: string
+    name: string
+    rating: number
+    reviewCount: number
+    budgetDinner: string
+    budgetLunch: string
+    closedDay: string
+    address: string
+    url: string
+  }
   crawled_restaurants: {
     url: string
     area: string
