@@ -7,7 +7,6 @@ export type Timestamp = ColumnType<Date, Date | string, Date | string>
 
 export type GooglePlace = {
   id: string
-  name: string
   types: string
   displayName: string
   rating: number

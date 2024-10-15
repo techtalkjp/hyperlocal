@@ -1,6 +1,6 @@
 generator kysely {
   provider  = "prisma-kysely"
-  output    = "../app/services/db"
+  output    = "../src"
   fileName  = "schema.ts"
   camelCase = "true"
 }
@@ -12,7 +12,6 @@ datasource db {
 
 model GooglePlace {
   id                  String   @id // google place id: e.g. "ChIJN1t_tDeuEmsRUsoyG83frY4"
-  name                String // google place name: e.g. "place/ChIJN1t_tDeuEmsRUsoyG83frY4"
   types               String // JSON array of types
   displayName         String   @map("display_name")
   rating              Float

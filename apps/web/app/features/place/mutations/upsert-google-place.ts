@@ -11,7 +11,6 @@ export const upsertGooglePlace = async (
   return await db.transaction().execute(async (tsx) => {
     const googlePlaceRecord = {
       id: place.id,
-      name: place.name,
       types: JSON.stringify(place.types),
       displayName: place.displayName.text,
       rating: place.rating ?? 0,
