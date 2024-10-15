@@ -41,8 +41,8 @@ const handleRegularDomain = (hostname: string, cityId?: string): string => {
   return parts.join('.')
 }
 
-export const getCityDomain = (url: URL, cityId?: City['cityId']): URL => {
-  const newUrl = new URL(url.href)
+export const getCityDomain = (url: string, cityId?: City['cityId']): URL => {
+  const newUrl = new URL(url)
 
   newUrl.hostname = isSpecialDomain(newUrl.hostname)
     ? handleSpecialDomain(newUrl.hostname, cityId)

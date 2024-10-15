@@ -92,15 +92,8 @@ describe('getCityDomain', () => {
 
   for (const { description, input, expected } of testCases) {
     it(description, () => {
-      const result = getCityDomain(new URL(input.url), input.cityId)
+      const result = getCityDomain(input.url, input.cityId)
       expect(result.href).toBe(expected)
     })
   }
-
-  it('should not modify the original URL object', () => {
-    const originalUrl = new URL('https://tokyo.hostname.com/path?query=test')
-    const originalHref = originalUrl.href
-    getCityDomain(originalUrl, 'osaka')
-    expect(originalUrl.href).toBe(originalHref)
-  })
 })

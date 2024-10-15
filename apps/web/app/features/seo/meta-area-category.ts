@@ -1,18 +1,12 @@
-import { areas, cities, type LanguageId } from '@hyperlocal/consts'
+import {
+  areas,
+  cities,
+  type Category,
+  type LanguageId,
+} from '@hyperlocal/consts'
 import { match } from 'ts-pattern'
 
-type CategoryId =
-  | 'cafe'
-  | 'sweet'
-  | 'breakfast'
-  | 'lunch'
-  | 'dinner'
-  | 'shopping'
-  | 'nightlife'
-  | 'convenience_store'
-  | 'drugstore'
-  | 'tourist_attractions'
-  | 'transit'
+type CategoryId = Category['id']
 
 interface LocaleStrings {
   instant_guide: string

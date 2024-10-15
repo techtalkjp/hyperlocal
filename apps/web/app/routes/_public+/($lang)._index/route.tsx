@@ -17,8 +17,7 @@ export const loader = ({ request, params }: LoaderFunctionArgs) => {
   const { city, lang } = getLangCityAreaCategory(request, params)
   const areas = allAreas.filter((area) => area.cityId === city.cityId)
 
-  const url = new URL(request.url)
-  return { cities, areas, city, lang, url }
+  return { cities, areas, city, lang, url: request.url }
 }
 
 export default function IndexPage() {
