@@ -1,4 +1,2 @@
 pnpm-lock.yaml
-prisma/migrations
-app/services/db/schema.ts
 build
