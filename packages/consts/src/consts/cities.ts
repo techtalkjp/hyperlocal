@@ -24,18 +24,4 @@ export const cities = [
     longitude: 139.6917,
     timezone: 'Asia/Tokyo',
   },
-  {
-    cityId: 'seoul',
-    i18n: {
-      en: 'Seoul',
-      ja: 'ソウル',
-      'zh-CN': '首尔',
-      'zh-TW': '首爾',
-      ko: '서울',
-    },
-    language: 'ko',
-    latitude: 37.5665851,
-    longitude: 126.9756289,
-    timezone: 'Asia/Seoul',
-  },
 ] as const satisfies City[]

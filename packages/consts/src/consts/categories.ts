@@ -9,6 +9,28 @@ export interface Category {
 
 export const categories = [
   {
+    id: 'lunch',
+    googlePlaceTypes: ['restaurant'],
+    i18n: {
+      en: 'Lunch',
+      ja: 'ランチ',
+      'zh-CN': '午餐',
+      'zh-TW': '午餐',
+      ko: '점심',
+    },
+  },
+  {
+    id: 'dinner',
+    googlePlaceTypes: ['restaurant'],
+    i18n: {
+      en: 'Dinner',
+      ja: 'ディナー',
+      'zh-CN': '晚餐',
+      'zh-TW': '晚餐',
+      ko: '저녁',
+    },
+  },
+  {
     id: 'cafe',
     googlePlaceTypes: ['cafe', 'coffee_shop'],
     i18n: {
@@ -31,36 +53,14 @@ export const categories = [
     },
   },
   {
-    id: 'breakfast',
+    id: 'bakery',
     googlePlaceTypes: ['restaurant'],
     i18n: {
-      en: 'Breakfast',
-      ja: '朝食',
-      'zh-CN': '早餐',
-      'zh-TW': '早餐',
-      ko: '아침식사',
-    },
-  },
-  {
-    id: 'lunch',
-    googlePlaceTypes: ['restaurant'],
-    i18n: {
-      en: 'Lunch',
-      ja: 'ランチ',
-      'zh-CN': '午餐',
-      'zh-TW': '午餐',
-      ko: '점심',
-    },
-  },
-  {
-    id: 'dinner',
-    googlePlaceTypes: ['restaurant'],
-    i18n: {
-      en: 'Dinner',
-      ja: 'ディナー',
-      'zh-CN': '晚餐',
-      'zh-TW': '晚餐',
-      ko: '저녁',
+      en: 'Bakery',
+      ja: 'パン屋',
+      'zh-CN': '面包店',
+      'zh-TW': '麵包店',
+      ko: '빵집',
     },
   },
   {
