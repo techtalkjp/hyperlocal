@@ -8,6 +8,7 @@ export interface Area {
   radius: number
   latitude: number
   longitude: number
+  tabelogUrl: string
 }
 
 export const areas = [
@@ -25,6 +26,8 @@ export const areas = [
     radius: 80,
     latitude: 35.680743,
     longitude: 139.7682689,
+    tabelogUrl:
+      'https://tabelog.com/tokyo/A1302/A130201/R6586/rstLst/1?SrtT=rt&LstRange=SF',
   },
   {
     cityId: 'tokyo',
@@ -41,6 +44,8 @@ export const areas = [
     radius: 80,
     latitude: 35.6816919,
     longitude: 139.7635604,
+    tabelogUrl:
+      'https://tabelog.com/tokyo/C13101/C36087/rstLst/1?SrtT=rt&LstRange=SF',
   },
   {
     cityId: 'tokyo',
@@ -56,6 +61,8 @@ export const areas = [
     radius: 160,
     latitude: 35.6712552,
     longitude: 139.7650191,
+    tabelogUrl:
+      'https://tabelog.com/tokyo/A1301/A130101/R3368/rstLst/1?SrtT=rt&LstRange=SF',
   },
   {
     cityId: 'tokyo',
@@ -71,6 +78,8 @@ export const areas = [
     radius: 160,
     latitude: 35.6694464,
     longitude: 139.7670348,
+    tabelogUrl:
+      'https://tabelog.com/tokyo/A1301/A130101/R8188/rstLst/1?SrtT=rt&LstRange=SF',
   },
   {
     cityId: 'tokyo',
@@ -86,6 +95,8 @@ export const areas = [
     radius: 160,
     latitude: 35.6665341,
     longitude: 139.7705992,
+    tabelogUrl:
+      'https://tabelog.com/tokyo/A1313/A131301/R6341/rstLst/1?SrtT=rt&LstRange=SF',
   },
 
   {
@@ -102,6 +113,8 @@ export const areas = [
     radius: 160,
     latitude: 35.6823317,
     longitude: 139.773856,
+    tabelogUrl:
+      'https://tabelog.com/tokyo/A1302/A130202/R7650/rstLst/1?SrtT=rt&LstRange=SF',
   },
   {
     cityId: 'tokyo',
@@ -117,6 +130,8 @@ export const areas = [
     radius: 400,
     latitude: 35.6850407,
     longitude: 139.7834224,
+    tabelogUrl:
+      'https://tabelog.com/tokyo/A1302/A130204/R7672/rstLst/1?SrtT=rt&LstRange=SF',
   },
   {
     cityId: 'tokyo',
@@ -132,6 +147,8 @@ export const areas = [
     radius: 160,
     latitude: 35.6799672,
     longitude: 139.8014225,
+    tabelogUrl:
+      'https://tabelog.com/tokyo/A1313/A131303/R3341/rstLst/1?SrtT=rt&LstRange=SF',
   },
   {
     cityId: 'tokyo',
@@ -147,110 +164,7 @@ export const areas = [
     radius: 160,
     latitude: 35.6953134,
     longitude: 139.8140385,
-  },
-  {
-    cityId: 'seoul',
-    areaId: 'apgujeongrodeo',
-    name: '압구정로데오',
-    i18n: {
-      en: 'Apgujeong Rodeo',
-      ja: 'アプゲジョンロデオ',
-      'zh-CN': '狎鷗亭路',
-      'zh-TW': '狎鷗亭路',
-      ko: '압구정로데오',
-    },
-    radius: 400,
-    latitude: 37.527631,
-    longitude: 127.040631,
-  },
-  {
-    cityId: 'seoul',
-    areaId: 'seonleung',
-    name: '선릉',
-    i18n: {
-      en: 'Seonleung',
-      ja: 'ソンルン',
-      'zh-CN': '松陵',
-      'zh-TW': '松陵',
-      ko: '선릉',
-    },
-    radius: 400,
-    latitude: 37.504487,
-    longitude: 127.048957,
-  },
-  {
-    cityId: 'seoul',
-    areaId: 'seongsu',
-    name: '성수',
-    i18n: {
-      en: 'Seongsu',
-      ja: 'ソンス',
-      'zh-CN': '聖水',
-      'zh-TW': '聖水',
-      ko: '성수',
-    },
-    radius: 400,
-    latitude: 37.544444,
-    longitude: 127.056111,
-  },
-  {
-    cityId: 'seoul',
-    areaId: 'anguk',
-    name: '안국',
-    i18n: {
-      en: 'Anguk',
-      ja: 'アングク',
-      'zh-CN': '安国',
-      'zh-TW': '安國',
-      ko: '안국',
-    },
-    radius: 400,
-    latitude: 37.576439,
-    longitude: 126.985431,
-  },
-  {
-    cityId: 'seoul',
-    areaId: 'sinsa',
-    name: '신사',
-    i18n: {
-      en: 'Sinsa',
-      ja: 'シンサ',
-      'zh-CN': '新沙',
-      'zh-TW': '新沙',
-      ko: '신사',
-    },
-    radius: 400,
-    latitude: 37.5162873,
-    longitude: 127.0200228,
-  },
-  {
-    cityId: 'seoul',
-    areaId: 'garosu-gil',
-    name: '가로수길',
-    i18n: {
-      en: 'Garosu-gil',
-      ja: 'カロスキル',
-      'zh-CN': '林荫路',
-      'zh-TW': '林蔭路',
-      ko: '가로수길',
-    },
-    radius: 400,
-    latitude: 37.5208761,
-    longitude: 127.0228498,
-  },
-  {
-    cityId: 'seoul',
-    areaId: 'incheon-airport',
-    name: '인천국제공항',
-    i18n: {
-      en: 'Incheon Airport',
-      ja: '仁川国際空港',
-      'zh-CN': '仁川国际机场',
-      'zh-TW': '仁川國際機場',
-      ko: '인천국제공항',
-    },
-    radius: 1200,
-    latitude: 37.457868,
-    longitude: 126.4355671,
+    tabelogUrl:
+      'https://tabelog.com/tokyo/A1312/A131201/R3373/rstLst/1?SrtT=rt&LstRange=SF',
   },
 ] as const satisfies Area[]

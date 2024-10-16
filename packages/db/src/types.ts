@@ -26,3 +26,12 @@ export type LocalizedPlace = Omit<
   photos: string[]
   reviews: Array<{ rating: number; text?: string }>
 }
+
+export type Place = Omit<
+  Selectable<DB['places']>,
+  'priceLevel' | 'photos' | 'reviews'
+> & {
+  priceLevel: GooglePlacePriceLevel | null
+  photos: GooglePlacePhoto[]
+  reviews: GooglePlaceReview[]
+}

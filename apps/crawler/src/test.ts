@@ -1,3 +1,5 @@
+import { UTCDate } from '@date-fns/utc'
+import { format } from 'date-fns'
 import { db } from '~/services/duckdb.server'
 
 export const main = async () => {
@@ -6,7 +8,7 @@ export const main = async () => {
     .selectAll()
     .limit(1)
     .executeTakeFirstOrThrow()
-  console.log({ restaurant })
+  console.log({ restaurant, now: format(new UTCDate(), 'yyyy-MM-dd HH:mm:ss') })
 }
 
 main()

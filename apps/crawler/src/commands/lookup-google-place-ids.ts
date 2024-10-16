@@ -3,7 +3,7 @@ import { db } from '~/services/duckdb.server'
 import { textSearch } from '~/services/google-places-ids'
 
 // google places ID をマッピング
-export const mapping = async () => {
+export const lookupGooglePlaceIds = async () => {
   const restaurants = await db
     .selectFrom('restaurants')
     .select([

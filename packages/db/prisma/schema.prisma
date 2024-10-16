@@ -28,7 +28,6 @@ model GooglePlace {
   updatedAt           DateTime @default(now()) @map("updated_at")
 
   googlePlacesArea GooglePlaceArea[]
-  localizedPlaces  LocalizedPlace[]
 
   @@map("google_places")
 }
@@ -46,27 +45,66 @@ model GooglePlaceArea {
   @@map("google_places_areas")
 }
 
-model LocalizedPlace {
-  cityId              String      @map("city_id")
-  areaId              String      @map("area_id")
-  categoryId          String      @map("category_id")
-  placeId             String      @map("place_id")
-  language            String
-  types               String
-  displayName         String      @map("display_name")
-  originalDisplayName String      @map("original_display_name")
+model Place {
+  id                  String   @id // google place id: e.g. "ChIJN1t_tDeuEmsRUsoyG83frY4"
+  categories          String   @default("[]") // JSON array of category
+  genres              String   @default("[]") // JSON array of genre
+  displayName         String   @map("display_name")
   rating              Float
-  userRatingCount     Int         @map("user_rating_count")
+  userRatingCount     Int      @map("user_rating_count")
   latitude            Float
   longitude           Float
-  googleMapsUri       String      @map("google_maps_uri")
-  priceLevel          String?     @map("price_level")
-  regularOpeningHours String?     @map("regular_opening_hours") // JSON array of opening hours objects
+  googleMapsUri       String   @map("google_maps_uri")
+  sourceUri           String?  @map("source_uri")
+  priceLevel          String?  @map("price_level")
+  regularOpeningHours String?  @map("regular_opening_hours") // JSON array of opening hours objects
   reviews             String // JSON array of review objects
   photos              String // JSON array of photo objects
-  createdAt           DateTime    @default(now()) @map("created_at")
-  updatedAt           DateTime    @default(now()) @map("updated_at")
-  googlePlace         GooglePlace @relation(fields: [placeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @default(now()) @map("updated_at")
+
+  placeListing    PlaceListing[]
+  localizedPlaces LocalizedPlace[]
+
+  @@map("places")
+}
+
+model PlaceListing {
+  cityId      String   @map("city_id")
+  areaId      String   @map("area_id")
+  categoryId  String   @map("category_id")
+  rankingType String   @map("ranking_type") // review, rating
+  placeId     String   @map("place_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @map("updated_at")
+  places      Place    @relation(fields: [placeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([cityId, areaId, categoryId, rankingType, placeId], map: "place_listings_unique")
+  @@map("place_listings")
+}
+
+model LocalizedPlace {
+  cityId              String   @map("city_id")
+  areaId              String   @map("area_id")
+  categoryId          String   @map("category_id")
+  placeId             String   @map("place_id")
+  language            String
+  genres              String   @default("[]") // JSON array of genre
+  displayName         String   @map("display_name")
+  originalDisplayName String   @map("original_display_name")
+  rating              Float
+  userRatingCount     Int      @map("user_rating_count")
+  latitude            Float
+  longitude           Float
+  googleMapsUri       String   @map("google_maps_uri")
+  sourceUri           String?  @map("source_uri")
+  priceLevel          String?  @map("price_level")
+  regularOpeningHours String?  @map("regular_opening_hours") // JSON array of opening hours objects
+  reviews             String // JSON array of review objects
+  photos              String // JSON array of photo objects
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @default(now()) @map("updated_at")
+  place               Place    @relation(fields: [placeId], references: [id])
 
   @@id([cityId, language, areaId, categoryId, placeId])
   @@map("localized_places")

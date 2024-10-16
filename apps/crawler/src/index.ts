@@ -1,6 +1,12 @@
 import { cli, command } from 'cleye'
 import { config } from 'dotenv'
-import { crawlTabelog, mapping, stats, transform } from './commands'
+import {
+  crawlTabelog,
+  lookupGooglePlaceIds,
+  retrievePlaceDetails,
+  stats,
+  transform,
+} from './commands'
 config()
 
 const argv = cli({
@@ -23,13 +29,17 @@ const argv = cli({
       },
       async (argv) => await crawlTabelog(argv.flags),
     ),
+    command({ name: 'transform' }, async () => await transform()),
+    command(
+      { name: 'lookup-google-place-ids' },
+      async () => await lookupGooglePlaceIds(),
+    ),
     command(
       {
-        name: 'transform',
+        name: 'retrieve-place-details',
       },
-      async () => await transform(),
+      async () => await retrievePlaceDetails(),
     ),
-    command({ name: 'mapping' }, async () => await mapping()),
     command({ name: 'stats' }, async () => await stats()),
   ],
 })
