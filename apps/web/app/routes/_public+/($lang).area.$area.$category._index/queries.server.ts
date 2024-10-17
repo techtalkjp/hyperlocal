@@ -5,6 +5,7 @@ export const listLocalizedPlaces = async (
   areaId: string,
   categoryId: string,
   lang: string,
+  rankingType: 'review' | 'rating' = 'review',
 ) => {
   return (await db
     .selectFrom('localizedPlaces')
@@ -13,7 +14,7 @@ export const listLocalizedPlaces = async (
     .where('localizedPlaces.areaId', '==', areaId)
     .where('localizedPlaces.categoryId', '==', categoryId)
     .where('localizedPlaces.language', '==', lang)
-    .where('localizedPlaces.rankingType', '==', 'review')
+    .where('localizedPlaces.rankingType', '==', rankingType)
     .where('localizedPlaces.rating', '>', 0)
     .orderBy([
       'localizedPlaces.rating desc',

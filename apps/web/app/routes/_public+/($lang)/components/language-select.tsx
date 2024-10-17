@@ -1,5 +1,5 @@
 import { languages, type LanguageId } from '@hyperlocal/consts'
-import { Link, useLocation } from '@remix-run/react'
+import { Link, useLocation, useSearchParams } from '@remix-run/react'
 import { GlobeIcon } from 'lucide-react'
 import type React from 'react'
 import {
@@ -55,6 +55,7 @@ export const LanguageSelect = ({
     location.pathname,
     currentLanguageId,
   )
+  const [searchParams] = useSearchParams()
 
   return (
     <DropdownMenu>
@@ -79,7 +80,10 @@ export const LanguageSelect = ({
           .filter((l) => l.id !== currentLang?.id)
           .map((lang) => (
             <DropdownMenuItem key={lang.id} asChild>
-              <Link to={lang.url} prefetch="intent">
+              <Link
+                to={`${lang.url}?${searchParams.toString()}`}
+                prefetch="intent"
+              >
                 {lang.displayName}
               </Link>
             </DropdownMenuItem>

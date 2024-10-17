@@ -1,6 +1,8 @@
 import type { HeadersFunction, LoaderFunctionArgs } from '@remix-run/node'
-import { Link, useLoaderData } from '@remix-run/react'
-import { Stack } from '~/components/ui'
+import { Link, NavLink, useLoaderData } from '@remix-run/react'
+import { z } from 'zod'
+import { zx } from 'zodix'
+import { Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { getLangCityAreaCategory } from '~/features/city-area/utils'
 import { LocalizedPlaceCard } from '~/features/place/components/localized-place-card'
 import { listLocalizedPlaces } from './queries.server'
@@ -15,6 +17,13 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     request,
     params,
   )
+  const { rankingType } = zx.parseQuery(request, {
+    rankingType: z
+      .union([z.literal('review'), z.literal('rating')])
+      .optional()
+      .default('review'),
+  })
+
   if (!area) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
@@ -30,16 +39,31 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     area.areaId,
     category.id,
     lang.id,
+    rankingType,
   )
 
-  return { places, city, lang }
+  return { places, city, area, category, lang, rankingType }
 }
 
 export default function CategoryIndexPage() {
-  const { places, city, lang } = useLoaderData<typeof loader>()
+  const { places, city, area, category, lang, rankingType } =
+    useLoaderData<typeof loader>()
 
   return (
     <Stack className="gap-4">
+      {(category.id === 'lunch' || category.id === 'dinner') && (
+        <Tabs value={rankingType}>
+          <TabsList>
+            <TabsTrigger value="review" asChild>
+              <NavLink to=".">Most Popular</NavLink>
+            </TabsTrigger>
+            <TabsTrigger value="rating">
+              <NavLink to={'?rankingType=rating'}>Top Rated</NavLink>
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      )}
+
       {places.length === 0 && (
         <div className="text-sm text-muted-foreground">No Places</div>
       )}
