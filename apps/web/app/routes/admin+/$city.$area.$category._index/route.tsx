@@ -10,10 +10,10 @@ import {
   TabsTrigger,
 } from '~/components/ui'
 import { getCityAreaCategory } from '~/features/admin/city-area-category/get-city-area-category'
-import { GooglePlaceCard } from '~/features/place/components'
+import { PlaceCard } from '~/features/place/components'
 import { NearbyPlaceList } from '~/routes/admin+/resources.google-places-nearby/route'
 import { requireAdminUser } from '~/services/auth.server'
-import { listAreaGooglePlaces } from './functions/queries.server'
+import { listAreaPlaces } from './queries.server'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   await requireAdminUser(request)
@@ -25,7 +25,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
 
-  const places = await listAreaGooglePlaces(area.areaId, category.id)
+  const places = await listAreaPlaces(area.areaId, category.id)
 
   return {
     city,
@@ -68,7 +68,7 @@ export default function AdminCreategoryIndex() {
                         </Link>
                       </Button>
                     </Stack>
-                    <GooglePlaceCard place={place} no={idx + 1} />
+                    <PlaceCard place={place} no={idx + 1} />
                   </React.Fragment>
                 )
               })}

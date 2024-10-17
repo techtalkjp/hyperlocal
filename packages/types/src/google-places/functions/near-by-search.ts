@@ -1,8 +1,8 @@
 import { defaultLanguageCode, fieldMask } from '../constants'
-import type { GooglePlaceType, Place } from '../types'
+import type { GooglePlace, GooglePlaceType } from '../types'
 
 interface NearbySearchResponse {
-  places: Place[]
+  places: GooglePlace[]
 }
 
 interface NearbySearchProps {

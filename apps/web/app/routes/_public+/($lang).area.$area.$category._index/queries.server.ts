@@ -13,6 +13,7 @@ export const listLocalizedPlaces = async (
     .where('localizedPlaces.areaId', '==', areaId)
     .where('localizedPlaces.categoryId', '==', categoryId)
     .where('localizedPlaces.language', '==', lang)
+    .where('localizedPlaces.rankingType', '==', 'review')
     .where('localizedPlaces.rating', '>', 0)
     .orderBy([
       'localizedPlaces.rating desc',

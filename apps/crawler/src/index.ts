@@ -6,6 +6,7 @@ import {
   retrievePlaceDetails,
   stats,
   transform,
+  translate,
 } from './commands'
 config()
 
@@ -39,6 +40,13 @@ const argv = cli({
         name: 'retrieve-place-details',
       },
       async () => await retrievePlaceDetails(),
+    ),
+    command(
+      {
+        name: 'translate',
+        parameters: ['<area ids...>'],
+      },
+      async (argv) => await translate(argv._.areaIds),
     ),
     command({ name: 'stats' }, async () => await stats()),
   ],

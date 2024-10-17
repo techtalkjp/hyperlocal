@@ -98,7 +98,6 @@ export const areas = [
     tabelogUrl:
       'https://tabelog.com/tokyo/A1313/A131301/R6341/rstLst/1?SrtT=rt&LstRange=SF',
   },
-
   {
     cityId: 'tokyo',
     areaId: 'nihonbashi',

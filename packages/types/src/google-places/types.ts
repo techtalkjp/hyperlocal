@@ -220,7 +220,7 @@ type PlaceType_Transportation =
   | 'transit_station'
   | 'truck_stop'
 
-export interface Place {
+export interface GooglePlace {
   name: string
   id: string
   types: GooglePlaceType[]
