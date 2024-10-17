@@ -57,7 +57,7 @@ export const categories = [
     googlePlaceTypes: ['restaurant'],
     i18n: {
       en: 'Bakery',
-      ja: 'パン屋',
+      ja: 'ベーカリー',
       'zh-CN': '面包店',
       'zh-TW': '麵包店',
       ko: '빵집',
