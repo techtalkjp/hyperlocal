@@ -1,9 +1,11 @@
-import { db, type GooglePlace } from '@hyperlocal/db'
+import { db, type Place } from '@hyperlocal/db'
 
-export const getAreaGooglePlace = async (placeId: string) => {
-  return (await db
-    .selectFrom('googlePlaces')
+export const getPlace = async (placeId: string): Promise<Place | undefined> => {
+  const place = await db
+    .selectFrom('places')
     .selectAll()
-    .where('googlePlaces.id', '==', placeId)
-    .executeTakeFirst()) as unknown as GooglePlace | undefined
+    .where('places.id', '==', placeId)
+    .executeTakeFirst()
+
+  return place as Place | undefined
 }

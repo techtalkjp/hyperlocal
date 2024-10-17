@@ -10,7 +10,6 @@ import { BusinessStatusBadge } from '.'
 import {
   type BusinessHours,
   getBusinessStatus,
-  mapPlaceTypes,
   priceLevelLabel,
 } from '../utils'
 
@@ -75,13 +74,13 @@ export const LocalizedPlaceCard = ({
         </HStack>
 
         <HStack className="flex-wrap gap-1">
-          {mapPlaceTypes(place.types).map((type) => (
+          {place.genres.map((genre) => (
             <Badge
-              key={type}
+              key={genre}
               variant="outline"
               className="rounded border-none bg-muted px-1 py-0.5 font-semibold capitalize text-muted-foreground"
             >
-              {type}
+              {genre}
             </Badge>
           ))}
         </HStack>

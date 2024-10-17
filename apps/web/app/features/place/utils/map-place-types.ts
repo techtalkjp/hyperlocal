@@ -1,4 +1,4 @@
-import type { Place } from '@hyperlocal/types'
+import type { GooglePlace } from '@hyperlocal/types'
 
 const placeTypeLabelMap: Record<string, string> = {
   amusement_center: 'amusement center',
@@ -90,7 +90,7 @@ const placeTypeLabelMap: Record<string, string> = {
   train_station: 'train',
 }
 // 表示する Badge をフィルタ
-export const mapPlaceTypes = (types: Place['types']) => {
+export const mapPlaceTypes = (types: GooglePlace['types']) => {
   return types
     .filter((type) => Object.keys(placeTypeLabelMap).includes(type))
     .map((type: string) => placeTypeLabelMap[type] ?? '')

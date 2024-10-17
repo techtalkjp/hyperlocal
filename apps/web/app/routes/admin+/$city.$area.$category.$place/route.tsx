@@ -4,9 +4,9 @@ import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, Outlet, useLoaderData } from '@remix-run/react'
 import { HStack, Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { getCityAreaCategory } from '~/features/admin/city-area-category/get-city-area-category'
-import { GooglePlaceCard, Rating } from '~/features/place/components'
+import { PlaceCard, Rating } from '~/features/place/components'
 import { requireAdminUser } from '~/services/auth.server'
-import { getAreaGooglePlace } from './queries.server'
+import { getPlace } from './queries.server'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   await requireAdminUser(request)
@@ -21,7 +21,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   if (!placeId) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
-  const place = await getAreaGooglePlace(placeId)
+  const place = await getPlace(placeId)
   if (!place) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
@@ -40,7 +40,7 @@ export default function AdminPlaceLayout() {
   return (
     <div className="grid grid-cols-2 gap-4">
       <Stack>
-        <GooglePlaceCard place={place} />
+        <PlaceCard place={place} />
 
         <HStack className="overflow-auto">
           {photos.slice(1).map((photo) => (

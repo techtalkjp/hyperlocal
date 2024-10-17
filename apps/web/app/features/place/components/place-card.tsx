@@ -1,14 +1,14 @@
-import type { GooglePlace } from '@hyperlocal/db'
+import type { Place } from '@hyperlocal/db'
 import { MessageSquareIcon } from 'lucide-react'
 import { Badge, HStack } from '~/components/ui'
 import { Rating } from '~/features/place/components/rating'
-import { mapPlaceTypes, priceLevelLabel } from '../utils'
+import { priceLevelLabel } from '../utils'
 
-interface GooglePlaceCardProps extends React.ComponentProps<typeof HStack> {
-  place: GooglePlace
+interface PlaceCardProps extends React.ComponentProps<typeof HStack> {
+  place: Place
   no?: number
 }
-export const GooglePlaceCard = ({ place, no }: GooglePlaceCardProps) => {
+export const PlaceCard = ({ place, no }: PlaceCardProps) => {
   return (
     <HStack className="items-start gap-4" key={place.id}>
       <div className="grid h-32 w-32 flex-shrink-0 place-content-center place-items-center rounded bg-muted text-muted-foreground">
@@ -33,13 +33,13 @@ export const GooglePlaceCard = ({ place, no }: GooglePlaceCardProps) => {
         <div className="text-xs text-foreground/70">{place.displayName}</div>
 
         <HStack className="my-0.5 flex-wrap gap-1">
-          {mapPlaceTypes(place.types).map((type) => (
+          {place.genres.map((genre) => (
             <Badge
-              key={type}
+              key={genre}
               variant="outline"
               className="bg-muted px-2 py-0.5 capitalize text-muted-foreground"
             >
-              {type}
+              {genre}
             </Badge>
           ))}
         </HStack>

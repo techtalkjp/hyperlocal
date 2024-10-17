@@ -2,26 +2,15 @@ import type {
   GooglePlacePhoto,
   GooglePlacePriceLevel,
   GooglePlaceReview,
-  GooglePlaceType,
 } from '@hyperlocal/types'
 import type { Selectable } from 'kysely'
 import type { DB } from './schema'
 
-export type GooglePlace = Omit<
-  Selectable<DB['googlePlaces']>,
-  'types' | 'priceLevel' | 'photos' | 'reviews'
-> & {
-  types: GooglePlaceType[]
-  priceLevel: GooglePlacePriceLevel | null
-  photos: GooglePlacePhoto[]
-  reviews: GooglePlaceReview[]
-}
-
 export type LocalizedPlace = Omit<
   Selectable<DB['localizedPlaces']>,
-  'types' | 'priceLevel' | 'photos' | 'reviews'
+  'genres' | 'priceLevel' | 'photos' | 'reviews'
 > & {
-  types: GooglePlaceType[]
+  genres: string[]
   priceLevel: GooglePlacePriceLevel | null
   photos: string[]
   reviews: Array<{ rating: number; text?: string }>
@@ -29,8 +18,10 @@ export type LocalizedPlace = Omit<
 
 export type Place = Omit<
   Selectable<DB['places']>,
-  'priceLevel' | 'photos' | 'reviews'
+  'categories' | 'genres' | 'priceLevel' | 'photos' | 'reviews'
 > & {
+  categories: string[]
+  genres: string[]
   priceLevel: GooglePlacePriceLevel | null
   photos: GooglePlacePhoto[]
   reviews: GooglePlaceReview[]
