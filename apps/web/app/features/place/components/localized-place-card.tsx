@@ -38,7 +38,7 @@ export const LocalizedPlaceCard = ({
   return (
     <div
       className={cn(
-        'grid grid-cols-[auto_1fr] gap-2 text-card-foreground',
+        'grid grid-cols-[auto_1fr] gap-2 text-xs text-card-foreground sm:text-base md:text-lg',
         className,
       )}
     >
@@ -56,7 +56,7 @@ export const LocalizedPlaceCard = ({
       </div>
 
       <div className="ml-2">
-        <div className="font-semibold">
+        <div className="text-base font-semibold sm:text-xl md:text-2xl">
           {no && `${no}.`} {place.displayName}
         </div>
 
@@ -88,9 +88,7 @@ export const LocalizedPlaceCard = ({
         <HStack>
           <ClientOnly
             fallback={
-              <span className="px-1 py-0.5 text-xs text-transparent">
-                Status
-              </span>
+              <span className="px-1 py-0.5 text-transparent">Status</span>
             }
           >
             {() => <BusinessStatusBadge statusResult={businessStatusResult} />}
@@ -99,7 +97,7 @@ export const LocalizedPlaceCard = ({
           <div className="flex-1" />
 
           {place.priceLevel && (
-            <div className="flex-shrink-0 text-xs text-muted-foreground">
+            <div className="flex-shrink-0 text-muted-foreground">
               {priceLevelLabel(place.priceLevel)}
             </div>
           )}
@@ -141,9 +139,7 @@ export const LocalizedPlaceCard = ({
         {place.reviews[0]?.text && (
           <HStack className="items-start text-muted-foreground">
             <MessageSquareIcon size="12" className="mt-0.5 flex-shrink-0" />
-            <div className="line-clamp-3 text-xs">
-              "{place.reviews[0].text}"
-            </div>
+            <div className="line-clamp-3">"{place.reviews[0].text}"</div>
           </HStack>
         )}
       </div>
