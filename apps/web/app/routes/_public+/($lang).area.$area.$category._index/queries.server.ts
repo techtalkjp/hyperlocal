@@ -7,7 +7,7 @@ export const listLocalizedPlaces = async (
   lang: string,
   rankingType: 'review' | 'rating' = 'review',
 ) => {
-  return (await db
+  let query = db
     .selectFrom('localizedPlaces')
     .selectAll()
     .where('cityId', '==', cityId)
@@ -16,10 +16,14 @@ export const listLocalizedPlaces = async (
     .where('localizedPlaces.language', '==', lang)
     .where('localizedPlaces.rankingType', '==', rankingType)
     .where('localizedPlaces.rating', '>', 0)
-    .orderBy([
-      'localizedPlaces.rating desc',
-      'localizedPlaces.userRatingCount desc',
-    ])
     .limit(100)
-    .execute()) as unknown as LocalizedPlace[]
+
+  if (rankingType === 'review') {
+    query = query.orderBy(['userRatingCount desc', 'rating desc'])
+  }
+  if (rankingType === 'rating') {
+    query = query.orderBy(['rating desc', 'userRatingCount desc'])
+  }
+
+  return (await query.execute()) as unknown as LocalizedPlace[]
 }
