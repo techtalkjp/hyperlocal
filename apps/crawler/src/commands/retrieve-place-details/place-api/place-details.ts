@@ -1,13 +1,15 @@
-import type { GooglePlaceType, Place } from './types'
+import type { Place } from './types'
 
 const fieldMask = [
   'id',
-  'location',
-  'regularOpeningHours',
-  'priceLevel',
   'displayName.text',
   'rating',
   'userRatingCount',
+  'location',
+  'googleMapsUri',
+  'regularOpeningHours',
+  'businessStatus',
+  'priceLevel',
   'reviews.rating',
   'reviews.originalText.text',
   'photos.name',
@@ -16,7 +18,6 @@ const defaultLanguageCode = 'ja'
 
 interface PlaceDetailsProps {
   placeId: string
-  includedType?: GooglePlaceType
   languageCode?: string
 }
 /**

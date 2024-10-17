@@ -46,7 +46,7 @@ export const retrievePlaceDetails = async () => {
     await upsertPlace({
       id: restaurant.placeId,
       displayName: place.displayName.text,
-      googleMapsUri: `https://www.google.com/maps/place/?q=place_id:${restaurant.placeId}`,
+      googleMapsUri: place.googleMapsUri,
       sourceUri: restaurant.url,
       latitude: place.location.latitude,
       longitude: place.location.longitude,

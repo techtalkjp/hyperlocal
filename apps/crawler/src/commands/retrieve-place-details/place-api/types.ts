@@ -221,9 +221,7 @@ type PlaceType_Transportation =
   | 'truck_stop'
 
 export interface Place {
-  name: string
   id: string
-  types: GooglePlaceType[]
   displayName: {
     text: string
   }
