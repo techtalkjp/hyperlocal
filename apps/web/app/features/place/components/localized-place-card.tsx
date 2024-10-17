@@ -105,7 +105,7 @@ export const LocalizedPlaceCard = ({
           )}
         </HStack>
 
-        <HStack>
+        <HStack className="text-muted-foreground">
           <Button
             type="button"
             size="xs"
