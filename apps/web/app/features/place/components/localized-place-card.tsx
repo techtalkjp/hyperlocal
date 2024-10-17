@@ -1,8 +1,8 @@
 import { cities } from '@hyperlocal/consts'
 import type { LocalizedPlace } from '@hyperlocal/db'
-import { MessageSquareIcon } from 'lucide-react'
+import { LinkIcon, MapIcon, MessageSquareIcon } from 'lucide-react'
 import { ClientOnly } from 'remix-utils/client-only'
-import { Badge, HStack } from '~/components/ui'
+import { Badge, Button, HStack } from '~/components/ui'
 import { Rating } from '~/features/place/components/rating'
 import dayjs from '~/libs/dayjs'
 import { cn } from '~/libs/utils'
@@ -102,6 +102,41 @@ export const LocalizedPlaceCard = ({
             <div className="flex-shrink-0 text-xs text-muted-foreground">
               {priceLevelLabel(place.priceLevel)}
             </div>
+          )}
+        </HStack>
+
+        <HStack>
+          <Button
+            type="button"
+            size="xs"
+            variant="outline"
+            onClick={(e) => e.stopPropagation()}
+            asChild
+            className="cursor-pointer"
+          >
+            <div>
+              <MapIcon size="14" className="mr-1" />
+              <a href={place.googleMapsUri} target="_blank" rel="noreferrer">
+                Google Maps
+              </a>
+            </div>
+          </Button>
+          {place.sourceUri && (
+            <Button
+              type="button"
+              size="xs"
+              variant="outline"
+              onClick={(e) => e.stopPropagation()}
+              asChild
+              className="cursor-pointer"
+            >
+              <div>
+                <LinkIcon size="14" className="mr-1" />
+                <a href={place.sourceUri} target="_blank" rel="noreferrer">
+                  Tabelog
+                </a>
+              </div>
+            </Button>
           )}
         </HStack>
       </div>

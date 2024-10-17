@@ -1,5 +1,5 @@
 import type { HeadersFunction, LoaderFunctionArgs } from '@remix-run/node'
-import { Link, NavLink, useLoaderData } from '@remix-run/react'
+import { NavLink, useLoaderData } from '@remix-run/react'
 import { z } from 'zod'
 import { zx } from 'zodix'
 import { Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
@@ -68,20 +68,20 @@ export default function CategoryIndexPage() {
         <div className="text-sm text-muted-foreground">No Places</div>
       )}
       {places.map((place, idx) => (
-        <Link
-          to={place.googleMapsUri}
+        // <Link
+        //   to={place.googleMapsUri}
+        //   key={place.placeId}
+        //   target="_blank"
+        //   rel="noreferrer"
+        // >
+        <LocalizedPlaceCard
           key={place.placeId}
-          target="_blank"
-          rel="noreferrer"
-        >
-          <LocalizedPlaceCard
-            key={place.placeId}
-            place={place}
-            no={idx + 1}
-            loading={idx <= 5 ? 'eager' : 'lazy'}
-            withOriginalName={city.language !== lang.id}
-          />
-        </Link>
+          place={place}
+          no={idx + 1}
+          loading={idx <= 5 ? 'eager' : 'lazy'}
+          withOriginalName={city.language !== lang.id}
+        />
+        // </Link>
       ))}
     </Stack>
   )
