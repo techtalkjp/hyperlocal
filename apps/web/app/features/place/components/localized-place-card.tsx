@@ -114,12 +114,10 @@ export const LocalizedPlaceCard = ({
             asChild
             className="cursor-pointer"
           >
-            <div>
-              <a href={place.googleMapsUri} target="_blank" rel="noreferrer">
-                <MapIcon size="14" className="mr-1" />
-                Google Maps
-              </a>
-            </div>
+            <a href={place.googleMapsUri} target="_blank" rel="noreferrer">
+              <MapIcon size="14" className="mr-1" />
+              Google Maps
+            </a>
           </Button>
           {place.sourceUri && (
             <Button
@@ -130,12 +128,10 @@ export const LocalizedPlaceCard = ({
               asChild
               className="cursor-pointer"
             >
-              <div>
-                <a href={place.sourceUri} target="_blank" rel="noreferrer">
-                  <LinkIcon size="14" className="mr-1" />
-                  Tabelog
-                </a>
-              </div>
+              <a href={place.sourceUri} target="_blank" rel="noreferrer">
+                <LinkIcon size="14" className="mr-1" />
+                Tabelog
+              </a>
             </Button>
           )}
         </HStack>
