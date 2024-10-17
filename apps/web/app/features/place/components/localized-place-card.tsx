@@ -8,12 +8,13 @@ import dayjs from '~/libs/dayjs'
 import { cn } from '~/libs/utils'
 import { BusinessStatusBadge } from '.'
 import {
+  buildTabelogLink,
   type BusinessHours,
   getBusinessStatus,
   priceLevelLabel,
 } from '../utils'
 
-interface GooglePlaceCardProps extends React.ComponentProps<typeof HStack> {
+interface PlaceCardProps extends React.ComponentProps<typeof HStack> {
   place: LocalizedPlace
   no?: number
   loading?: 'eager' | 'lazy'
@@ -25,9 +26,8 @@ export const LocalizedPlaceCard = ({
   loading = 'eager',
   withOriginalName = false,
   className,
-}: GooglePlaceCardProps) => {
+}: PlaceCardProps) => {
   const city = cities.find((c) => c.cityId === place.cityId)
-
   const date = dayjs().utc().toDate()
   const businessStatusResult = getBusinessStatus(
     place.regularOpeningHours as BusinessHours | null,
@@ -126,7 +126,11 @@ export const LocalizedPlaceCard = ({
               asChild
               className="cursor-pointer"
             >
-              <a href={place.sourceUri} target="_blank" rel="noreferrer">
+              <a
+                href={buildTabelogLink(place.sourceUri, place.language)}
+                target="_blank"
+                rel="noreferrer"
+              >
                 <LinkIcon size="14" className="mr-1 inline" />
                 Tabelog
               </a>
