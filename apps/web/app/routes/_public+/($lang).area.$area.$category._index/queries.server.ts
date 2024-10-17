@@ -5,7 +5,7 @@ export const listLocalizedPlaces = async (
   areaId: string,
   categoryId: string,
   lang: string,
-  rankingType: 'review' | 'rating' = 'review',
+  rankingType: 'review' | 'rating' = 'rating',
 ) => {
   let query = db
     .selectFrom('localizedPlaces')

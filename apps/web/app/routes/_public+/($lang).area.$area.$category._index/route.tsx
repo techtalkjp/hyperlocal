@@ -21,7 +21,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     rankingType: z
       .union([z.literal('review'), z.literal('rating')])
       .optional()
-      .default('review'),
+      .default('rating'),
   })
 
   if (!area) {
@@ -54,11 +54,11 @@ export default function CategoryIndexPage() {
       {(category.id === 'lunch' || category.id === 'dinner') && (
         <Tabs value={rankingType}>
           <TabsList>
-            <TabsTrigger value="review" asChild>
-              <NavLink to=".">Most Popular</NavLink>
-            </TabsTrigger>
             <TabsTrigger value="rating">
-              <NavLink to={'?rankingType=rating'}>Top Rated</NavLink>
+              <NavLink to={'.'}>Top Rated</NavLink>
+            </TabsTrigger>
+            <TabsTrigger value="review" asChild>
+              <NavLink to={'?rankingType=review'}>Most Popular</NavLink>
             </TabsTrigger>
           </TabsList>
         </Tabs>
