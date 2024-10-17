@@ -34,13 +34,17 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
 
-  const places = await listLocalizedPlaces(
-    city.cityId,
-    area.areaId,
-    category.id,
-    lang.id,
-    rankingType,
-  )
+  const places = await listLocalizedPlaces({
+    cityId: city.cityId,
+    areaId: area.areaId,
+    categoryId: category.id,
+    language: lang.id,
+    rankingType:
+      // only lunch and dinner categories have rating
+      category.id === 'lunch' || category.id === 'dinner'
+        ? rankingType
+        : 'review',
+  })
 
   return { places, city, area, category, lang, rankingType }
 }

@@ -1,19 +1,25 @@
 import { db, type LocalizedPlace } from '@hyperlocal/db'
 
-export const listLocalizedPlaces = async (
-  cityId: string,
-  areaId: string,
-  categoryId: string,
-  lang: string,
-  rankingType: 'review' | 'rating' = 'rating',
-) => {
+export const listLocalizedPlaces = async ({
+  cityId,
+  areaId,
+  categoryId,
+  language,
+  rankingType = 'rating',
+}: {
+  cityId: string
+  areaId: string
+  categoryId: string
+  language: string
+  rankingType: 'review' | 'rating'
+}) => {
   let query = db
     .selectFrom('localizedPlaces')
     .selectAll()
     .where('cityId', '==', cityId)
     .where('localizedPlaces.areaId', '==', areaId)
     .where('localizedPlaces.categoryId', '==', categoryId)
-    .where('localizedPlaces.language', '==', lang)
+    .where('localizedPlaces.language', '==', language)
     .where('localizedPlaces.rankingType', '==', rankingType)
     .where('localizedPlaces.rating', '>', 0)
     .limit(100)
