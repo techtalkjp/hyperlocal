@@ -39,11 +39,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     areaId: area.areaId,
     categoryId: category.id,
     language: lang.id,
-    rankingType:
-      // only lunch and dinner categories have rating
-      category.id === 'lunch' || category.id === 'dinner'
-        ? rankingType
-        : 'review',
+    rankingType,
   })
 
   return { places, city, area, category, lang, rankingType }
