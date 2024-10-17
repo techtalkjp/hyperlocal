@@ -57,5 +57,5 @@ export const BusinessStatusBadge = ({
     .with(BusinessStatus.UNKNOWN, () => <span />)
     .exhaustive()
 
-  return <div className="my-1 flex-shrink-0">{statusLabel}</div>
+  return <div className="my-1 flex-shrink-0 text-xs">{statusLabel}</div>
 }
