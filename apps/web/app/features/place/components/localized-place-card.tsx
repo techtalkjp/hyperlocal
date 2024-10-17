@@ -115,7 +115,7 @@ export const LocalizedPlaceCard = ({
             className="cursor-pointer"
           >
             <a href={place.googleMapsUri} target="_blank" rel="noreferrer">
-              <MapIcon size="14" className="mr-1" />
+              <MapIcon size="14" className="mr-1 inline" />
               Google Maps
             </a>
           </Button>
@@ -129,7 +129,7 @@ export const LocalizedPlaceCard = ({
               className="cursor-pointer"
             >
               <a href={place.sourceUri} target="_blank" rel="noreferrer">
-                <LinkIcon size="14" className="mr-1" />
+                <LinkIcon size="14" className="mr-1 inline" />
                 Tabelog
               </a>
             </Button>
