@@ -37,16 +37,20 @@ export default function IndexPage() {
         ))}
       </HStack>
 
-      {areas.map((area) => (
-        <Link key={area.areaId} to={`area/${area.areaId}`} prefetch="intent">
-          <Card className="hover:bg-secondary">
-            <CardHeader>
-              <CardTitle>{area.i18n[lang.id]}</CardTitle>
-              <CardDescription>{area.name}</CardDescription>
-            </CardHeader>
-          </Card>
-        </Link>
-      ))}
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
+        {areas.map((area) => (
+          <Link key={area.areaId} to={`area/${area.areaId}`} prefetch="intent">
+            <Card className="h-full hover:bg-secondary">
+              <CardHeader className="h-full">
+                <CardTitle>{area.i18n[lang.id]}</CardTitle>
+                <CardDescription>
+                  {lang.id !== 'ja' && area.name}
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </Link>
+        ))}
+      </div>
     </Stack>
   )
 }
