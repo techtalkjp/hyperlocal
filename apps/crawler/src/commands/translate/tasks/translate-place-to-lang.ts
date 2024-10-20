@@ -6,12 +6,10 @@ export const translatePlaceToLangTask = async ({
   placeId,
   from,
   to,
-  photos,
 }: {
   placeId: string
   from: string
   to: string
-  photos: string[]
 }) => {
   const place = await db
     .selectFrom('places')
@@ -41,7 +39,6 @@ export const translatePlaceToLangTask = async ({
       languageId: to,
       rankingType: areaCategory.rankingType,
       place: place as unknown as Place,
-      photos: photos,
       translated,
     })
     console.info('upsertLocalizedPlace', { upserted })

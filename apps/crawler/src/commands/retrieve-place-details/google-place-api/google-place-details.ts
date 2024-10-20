@@ -1,4 +1,4 @@
-import type { Place } from './types'
+import type { GooglePlace } from './types'
 
 const fieldMask = [
   'id',
@@ -25,10 +25,10 @@ interface PlaceDetailsProps {
  * https://developers.google.com/maps/documentation/places/web-service/text-search
  */
 
-export const placeDetails = async ({
+export const googlePlaceDetails = async ({
   placeId,
   languageCode = defaultLanguageCode,
-}: PlaceDetailsProps): Promise<Place | null> => {
+}: PlaceDetailsProps): Promise<GooglePlace | null> => {
   const ret = await fetch(
     `https://places.googleapis.com/v1/places/${placeId}?languageCode=${languageCode}`,
     {

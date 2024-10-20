@@ -1,5 +1,4 @@
 import type {
-  GooglePlacePhoto,
   GooglePlacePriceLevel,
   GooglePlaceReview,
 } from '@hyperlocal/types'
@@ -23,6 +22,6 @@ export type Place = Omit<
   categories: string[]
   genres: string[]
   priceLevel: GooglePlacePriceLevel | null
-  photos: GooglePlacePhoto[]
+  photos: string[]
   reviews: GooglePlaceReview[]
 }

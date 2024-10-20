@@ -11,7 +11,6 @@ export const upsertLocalizedPlace = async ({
   rankingType,
   place,
   translated,
-  photos,
 }: {
   cityId: string
   areaId: string
@@ -20,7 +19,6 @@ export const upsertLocalizedPlace = async ({
   rankingType: string
   place: Place
   translated: Awaited<ReturnType<typeof translatePlace>>
-  photos: string[]
 }) => {
   const values = {
     cityId,
@@ -36,7 +34,7 @@ export const upsertLocalizedPlace = async ({
     sourceUri: place.sourceUri,
     latitude: place.latitude,
     longitude: place.longitude,
-    photos: JSON.stringify(photos ?? []),
+    photos: JSON.stringify(place.photos),
     reviews: JSON.stringify(translated.reviews ?? []),
     priceLevel: place.priceLevel,
     rating: place.rating,

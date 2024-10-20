@@ -220,7 +220,7 @@ type PlaceType_Transportation =
   | 'transit_station'
   | 'truck_stop'
 
-export interface Place {
+export interface GooglePlace {
   id: string
   displayName: {
     text: string

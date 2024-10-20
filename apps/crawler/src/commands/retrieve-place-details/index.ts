@@ -1,8 +1,9 @@
 import { areas } from '@hyperlocal/consts'
+import { getPlacePhotoUri } from '@hyperlocal/types'
 import { differenceInDays, format } from 'date-fns'
 import { db as duckdb } from '~/services/duckdb.server'
+import { googlePlaceDetails } from './google-place-api'
 import { upsertPlace, upsertPlaceListing } from './mutations'
-import { placeDetails } from './place-api'
 import { getPlace } from './queries'
 
 export const retrievePlaceDetails = async () => {
@@ -33,29 +34,42 @@ export const retrievePlaceDetails = async () => {
       continue
     }
 
-    const place = await placeDetails({ placeId: restaurant.placeId })
-    if (!place) {
+    const googlePlace = await googlePlaceDetails({
+      placeId: restaurant.placeId,
+    })
+    if (!googlePlace) {
       console.log('Place not found', restaurant)
       continue
     }
-    if (!place.reviews) {
+    if (!googlePlace.reviews) {
       console.log('Place reviews not found', restaurant)
       continue
     }
 
+    const photos: string[] = []
+    if (googlePlace.photos) {
+      for (const photo of googlePlace.photos) {
+        photos.push(
+          await getPlacePhotoUri({
+            name: photo.name,
+          }),
+        )
+      }
+    }
+
     await upsertPlace({
       id: restaurant.placeId,
-      displayName: place.displayName.text,
-      googleMapsUri: place.googleMapsUri,
+      displayName: googlePlace.displayName.text,
+      googleMapsUri: googlePlace.googleMapsUri,
       sourceUri: restaurant.url,
-      latitude: place.location.latitude,
-      longitude: place.location.longitude,
-      rating: place.rating ?? 0,
-      userRatingCount: place.userRatingCount ?? 0,
-      priceLevel: place.priceLevel,
-      regularOpeningHours: JSON.stringify(place.regularOpeningHours),
-      photos: JSON.stringify(place.photos) ?? '[]',
-      reviews: JSON.stringify(place.reviews) ?? '[]',
+      latitude: googlePlace.location.latitude,
+      longitude: googlePlace.location.longitude,
+      rating: googlePlace.rating ?? 0,
+      userRatingCount: googlePlace.userRatingCount ?? 0,
+      priceLevel: googlePlace.priceLevel,
+      regularOpeningHours: JSON.stringify(googlePlace.regularOpeningHours),
+      photos: JSON.stringify(photos),
+      reviews: JSON.stringify(googlePlace.reviews) ?? '[]',
       categories: JSON.stringify(restaurant.categories.split(',')),
       genres: JSON.stringify(restaurant.genres.split(',')),
     })
