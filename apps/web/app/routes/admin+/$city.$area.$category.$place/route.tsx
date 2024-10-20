@@ -1,5 +1,8 @@
 import { languages } from '@hyperlocal/consts'
-import type { GooglePlacePhoto, GooglePlaceReview } from '@hyperlocal/types'
+import type {
+  GooglePlacePhoto,
+  GooglePlaceReview,
+} from '@hyperlocal/google-place-api'
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, Outlet, useLoaderData } from '@remix-run/react'
 import { HStack, Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'

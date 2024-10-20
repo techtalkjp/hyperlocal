@@ -1,8 +1,8 @@
 import { areas } from '@hyperlocal/consts'
-import { getPlacePhotoUri } from '@hyperlocal/types'
 import { differenceInDays, format } from 'date-fns'
 import { db as duckdb } from '~/services/duckdb.server'
 import { googlePlaceDetails } from './google-place-api'
+import { getGooglePlacePhotoUri } from './google-place-api/google-place-photo'
 import { upsertPlace, upsertPlaceListing } from './mutations'
 import { getPlace } from './queries'
 
@@ -50,7 +50,7 @@ export const retrievePlaceDetails = async () => {
     if (googlePlace.photos) {
       for (const photo of googlePlace.photos) {
         photos.push(
-          await getPlacePhotoUri({
+          await getGooglePlacePhotoUri({
             name: photo.name,
           }),
         )

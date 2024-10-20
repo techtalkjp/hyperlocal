@@ -13,10 +13,7 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "paths": {
-      "@hyperlocal/types/*": ["../types/*"]
-    }
+    "noFallthroughCasesInSwitch": true
   },
   "include": ["./src/**/*"]
 }

@@ -1,7 +1,7 @@
 import type {
   GooglePlacePriceLevel,
   GooglePlaceReview,
-} from '@hyperlocal/types'
+} from '@hyperlocal/google-place-api'
 import type { Selectable } from 'kysely'
 import type { DB } from './schema'
 

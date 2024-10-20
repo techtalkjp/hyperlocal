@@ -1,4 +1,4 @@
-export const placePhoto = async ({
+export const googlePlacePhoto = async ({
   name,
   maxWidthPx = 400,
   maxHeightPx = 400,
@@ -13,7 +13,7 @@ export const placePhoto = async ({
   return ret
 }
 
-export const getPlacePhotoUri = async ({
+export const getGooglePlacePhotoUri = async ({
   name,
   maxWidthPx = 400,
   maxHeightPx = 400,

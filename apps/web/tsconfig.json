@@ -26,7 +26,7 @@
       "~/*": ["./app/*"],
       "@hyperlocal/consts/*": ["../../packages/consts/*"],
       "@hyperlocal/db/*": ["../../packages/db/*"],
-      "@hyperlocal/types/*": ["../../packages/types/*"]
+      "@hyperlocal/google-place-api/*": ["../../packages/goolge-place-api/*"]
     },
     "noEmit": true
   }

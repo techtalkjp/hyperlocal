@@ -221,14 +221,12 @@ type PlaceType_Transportation =
   | 'truck_stop'
 
 export interface GooglePlace {
-  name: string
   id: string
-  types: GooglePlaceType[]
   displayName: {
     text: string
   }
   rating?: number
-  userRatingCount: number
+  userRatingCount?: number
   location: {
     latitude: number
     longitude: number

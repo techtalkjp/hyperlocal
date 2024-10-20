@@ -18,7 +18,7 @@
       "~/*": ["./src/*"],
       "@hyperlocal/consts/*": ["../../packages/consts/*"],
       "@hyperlocal/db/*": ["../../packages/db/*"],
-      "@hyperlocal/types/*": ["../../packages/types/*"]
+      "@hyperlocal/google-place-api/*": ["../../packages/google-place-api/*"]
     }
   },
   "include": ["./src/**/*"]

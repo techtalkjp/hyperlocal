@@ -24,7 +24,7 @@
     "typescript": "5.6.3"
   },
   "dependencies": {
-    "@hyperlocal/types": "workspace:*",
+    "@hyperlocal/google-place-api": "workspace:*",
     "@libsql/kysely-libsql": "0.4.1",
     "debug": "4.3.7",
     "kysely": "0.27.4"

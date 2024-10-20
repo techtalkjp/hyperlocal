@@ -11,7 +11,6 @@ import {
 } from '~/components/ui'
 import { getCityAreaCategory } from '~/features/admin/city-area-category/get-city-area-category'
 import { PlaceCard } from '~/features/place/components'
-import { NearbyPlaceList } from '~/routes/admin+/resources.google-places-nearby/route'
 import { requireAdminUser } from '~/services/auth.server'
 import { listAreaPlaces } from './queries.server'
 
@@ -42,7 +41,6 @@ export default function AdminCreategoryIndex() {
     <Tabs defaultValue="registered">
       <TabsList className="grid grid-cols-2">
         <TabsTrigger value="registered">Registered</TabsTrigger>
-        <TabsTrigger value="nearby">Place API Nearby</TabsTrigger>
       </TabsList>
       <TabsContent value="registered">
         <Stack>
@@ -74,16 +72,6 @@ export default function AdminCreategoryIndex() {
               })}
             </div>
           )}
-        </Stack>
-      </TabsContent>
-      <TabsContent value="nearby">
-        <Stack>
-          <NearbyPlaceList
-            cityId={city.cityId}
-            areaId={area.areaId}
-            categoryId={category.id}
-            radius={area.radius}
-          />
         </Stack>
       </TabsContent>
     </Tabs>

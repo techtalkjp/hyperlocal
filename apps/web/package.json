@@ -21,7 +21,7 @@
     "@conform-to/zod": "1.2.2",
     "@hyperlocal/consts": "workspace:*",
     "@hyperlocal/db": "workspace:*",
-    "@hyperlocal/types": "workspace:*",
+    "@hyperlocal/google-place-api": "workspace:*",
     "@libsql/client": "0.14.0",
     "@libsql/kysely-libsql": "0.4.1",
     "@radix-ui/react-checkbox": "1.1.2",

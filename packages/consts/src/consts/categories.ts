@@ -1,16 +1,13 @@
-import type { GooglePlaceType } from '@hyperlocal/types'
 import type { i18nRecord } from './languages'
 
 export interface Category {
   id: string
-  googlePlaceTypes: GooglePlaceType[]
   i18n: i18nRecord
 }
 
 export const categories = [
   {
     id: 'lunch',
-    googlePlaceTypes: ['restaurant'],
     i18n: {
       en: 'Lunch',
       ja: 'ランチ',
@@ -21,7 +18,6 @@ export const categories = [
   },
   {
     id: 'dinner',
-    googlePlaceTypes: ['restaurant'],
     i18n: {
       en: 'Dinner',
       ja: 'ディナー',
@@ -32,7 +28,6 @@ export const categories = [
   },
   {
     id: 'cafe',
-    googlePlaceTypes: ['cafe', 'coffee_shop'],
     i18n: {
       en: 'Cafes',
       ja: 'カフェ',
@@ -43,7 +38,6 @@ export const categories = [
   },
   {
     id: 'sweets',
-    googlePlaceTypes: ['bakery'],
     i18n: {
       en: 'Sweets',
       ja: 'スイーツ',
@@ -54,7 +48,6 @@ export const categories = [
   },
   {
     id: 'bakery',
-    googlePlaceTypes: ['restaurant'],
     i18n: {
       en: 'Bakery',
       ja: 'ベーカリー',
@@ -65,7 +58,6 @@ export const categories = [
   },
   {
     id: 'nightlife',
-    googlePlaceTypes: ['bar', 'night_club'],
     i18n: {
       en: 'Bars & Clubs',
       ja: 'バー・クラブ',
