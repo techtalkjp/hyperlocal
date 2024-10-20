@@ -1,4 +1,4 @@
-import type { GooglePlacePriceLevel } from '@hyperlocal/types'
+import type { GooglePlacePriceLevel } from '@hyperlocal/google-place-api'
 import { match } from 'ts-pattern'
 // 円マークを追加
 
