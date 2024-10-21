@@ -50,7 +50,7 @@ export default function CategoryIndexPage() {
     useLoaderData<typeof loader>()
 
   return (
-    <Stack className="gap-4">
+    <Stack className="gap-2">
       {(category.id === 'lunch' || category.id === 'dinner') && (
         <Tabs value={rankingType}>
           <TabsList>
