@@ -1,4 +1,4 @@
-import { areas, languages } from '@hyperlocal/consts'
+import { areas, cities, languages } from '@hyperlocal/consts'
 import type { LocalizedPlace } from '@hyperlocal/db'
 import {
   ChevronLeft,
@@ -8,6 +8,7 @@ import {
   Star,
 } from 'lucide-react'
 import { useState } from 'react'
+import { ClientOnly } from 'remix-utils/client-only'
 import {
   Badge,
   Button,
@@ -17,6 +18,14 @@ import {
   CardHeader,
   CardTitle,
 } from '~/components/ui'
+import dayjs from '~/libs/dayjs'
+import {
+  buildTabelogLink,
+  type BusinessHours,
+  getBusinessStatus,
+  priceLevelLabel,
+} from '../utils'
+import { BusinessStatusBadge } from './business-status-badge'
 
 export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
@@ -32,13 +41,15 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
     )
   }
 
-  const renderPriceLevel = () => {
-    if (!place.priceLevel) return null
-    return <div>{place.priceLevel}</div>
-  }
-
+  const city = cities.find((c) => c.cityId === place.cityId)
   const language = languages.find((lang) => lang.id === place.language)
   const area = areas.find((area) => area.areaId === place.areaId)
+  const date = dayjs().utc().toDate()
+  const businessStatusResult = getBusinessStatus(
+    place.regularOpeningHours as BusinessHours | null,
+    date,
+    city?.timezone ?? 'Asia/Tokyo',
+  )
 
   return (
     <Card>
@@ -103,7 +114,26 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
               <span className="text-gray-600">
                 ({place.userRatingCount} reviews)
               </span>
-              {renderPriceLevel()}
+
+              <ClientOnly
+                fallback={
+                  <span className="px-1 py-0.5 text-sm text-transparent">
+                    Status
+                  </span>
+                }
+              >
+                {() => (
+                  <BusinessStatusBadge statusResult={businessStatusResult} />
+                )}
+              </ClientOnly>
+
+              <div className="flex-1" />
+
+              {place.priceLevel && (
+                <div className="flex-shrink-0 text-muted-foreground">
+                  {priceLevelLabel(place.priceLevel)}
+                </div>
+              )}
             </div>
           </div>
           <div>
@@ -135,7 +165,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
               {place.sourceUri && (
                 <Button variant="outline" className="w-full" asChild>
                   <a
-                    href={place.sourceUri}
+                    href={buildTabelogLink(place.sourceUri, place.language)}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
