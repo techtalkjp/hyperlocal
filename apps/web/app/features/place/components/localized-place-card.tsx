@@ -45,7 +45,7 @@ export const LocalizedPlaceCard = ({
         className,
       )}
     >
-      <div className="grid grid-cols-[auto_1fr] gap-4">
+      <div className="grid grid-cols-[auto_1fr] gap-2 md:gap-4">
         <div className="h-32 w-32 flex-shrink-0 place-content-center place-items-center rounded bg-muted text-muted-foreground">
           <Link to={to}>
             {place.photos.length > 0 ? (
@@ -61,7 +61,7 @@ export const LocalizedPlaceCard = ({
           </Link>
         </div>
 
-        <div>
+        <div className="overflow-hidden">
           <div className="text-base font-semibold sm:text-xl md:text-2xl">
             <Link to={to} className="hover:underline">
               {no && `${no}.`} {place.displayName}
@@ -76,12 +76,12 @@ export const LocalizedPlaceCard = ({
 
           <HStack>
             <Rating star={place.rating} withLabel size={16} />
-            <div className="text-sm text-muted-foreground">
+            <div className="whitespace-nowrap text-xs text-muted-foreground">
               ({place.userRatingCount} reviews)
             </div>
           </HStack>
 
-          <HStack className="flex-wrap gap-1">
+          <HStack className="flex gap-2 overflow-auto">
             {place.genres.map((genre) => (
               <Badge
                 key={genre}
