@@ -68,20 +68,14 @@ export default function CategoryIndexPage() {
         <div className="text-sm text-muted-foreground">No Places</div>
       )}
       {places.map((place, idx) => (
-        // <Link
-        //   to={place.googleMapsUri}
-        //   key={place.placeId}
-        //   target="_blank"
-        //   rel="noreferrer"
-        // >
         <LocalizedPlaceCard
           key={place.placeId}
           place={place}
           no={idx + 1}
           loading={idx <= 5 ? 'eager' : 'lazy'}
           withOriginalName={city.language !== lang.id}
+          to={`/${lang.id === 'en' ? '' : `${lang.id}/`}place/${place.placeId}?area=${area.areaId}&category=${category.id}&rankingType=${rankingType}`}
         />
-        // </Link>
       ))}
     </Stack>
   )
