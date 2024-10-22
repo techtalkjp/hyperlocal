@@ -15,6 +15,8 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  HStack,
+  Stack,
 } from '~/components/ui'
 import dayjs from '~/libs/dayjs'
 import {
@@ -38,32 +40,23 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
 
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="p-2 md:p-4">
         <div className="flex items-start justify-between">
           <div>
-            <CardTitle className="text-3xl font-bold">
-              {place.displayName}
-            </CardTitle>
-            <CardDescription className="mt-2 text-lg">
-              {place.originalDisplayName}
-            </CardDescription>
+            <CardTitle>{place.displayName}</CardTitle>
+            <CardDescription>{place.originalDisplayName}</CardDescription>
           </div>
-          <div className="flex flex-wrap justify-end gap-2">
-            {place.genres.map((genre) => (
-              <Badge
-                key={genre}
-                variant="secondary"
-                className="text-base capitalize"
-              >
-                {genre}
-              </Badge>
-            ))}
-          </div>
+          {area && language && (
+            <div className="flex items-center space-x-2">
+              <MapPin className="h-5 w-5 text-gray-600" />
+              <span>{area.i18n[language.id]}</span>
+            </div>
+          )}
         </div>
       </CardHeader>
 
-      <CardContent>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+      <CardContent className="p-2 md:p-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <div className="md:col-span-2">
             <Carousel>
               <CarouselContent>
@@ -75,7 +68,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
                       width={400}
                       height={400}
                       loading={index === 0 ? 'eager' : 'lazy'}
-                      className="h-[400px] w-full rounded-lg object-cover"
+                      className="aspect-square w-full rounded-lg object-cover"
                     />
                   </CarouselItem>
                 ))}
@@ -83,8 +76,22 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
               <CarouselPrevious />
               <CarouselNext />
             </Carousel>
+          </div>
 
-            <div className="mt-4 flex items-center space-x-4">
+          <Stack className="gap-2">
+            <div className="flex flex-wrap gap-2">
+              {place.genres.map((genre) => (
+                <Badge
+                  key={genre}
+                  variant="secondary"
+                  className="text-base capitalize"
+                >
+                  {genre}
+                </Badge>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-4">
               <div className="flex items-center">
                 <Star className="h-6 w-6 fill-current text-yellow-400" />
                 <span className="ml-2 text-2xl font-bold">
@@ -103,25 +110,16 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
                 </div>
               )}
             </div>
-          </div>
 
-          <div>
-            <div className="space-y-4">
-              <ClientOnly
-                fallback={<div className="text-transparent">Status</div>}
-              >
-                {() => (
-                  <BusinessStatusBadge statusResult={businessStatusResult} />
-                )}
-              </ClientOnly>
-
-              {area && language && (
-                <div className="flex items-center space-x-2">
-                  <MapPin className="h-5 w-5 text-gray-600" />
-                  <span>{area.i18n[language.id]}</span>
-                </div>
+            <ClientOnly
+              fallback={<div className="text-transparent">Status</div>}
+            >
+              {() => (
+                <BusinessStatusBadge statusResult={businessStatusResult} />
               )}
+            </ClientOnly>
 
+            <HStack>
               <Button className="w-full" asChild>
                 <a
                   href={place.googleMapsUri}
@@ -144,14 +142,20 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
                   </a>
                 </Button>
               )}
-            </div>
-          </div>
+            </HStack>
+          </Stack>
         </div>
-        <div className="mt-8">
-          <h3 className="mb-4 text-2xl font-semibold">All Reviews</h3>
+
+        <Stack>
+          <h3 className="mb-4 text-2xl font-semibold" id="reviews">
+            All Reviews
+          </h3>
           {place.reviews.map((review, index) => (
-            <div key={review.text} className="mb-4 rounded-lg bg-gray-50 p-4">
-              <div className="mb-2 flex items-center">
+            <Stack
+              key={review.text}
+              className="rounded-lg bg-gray-50 p-2 md:p-4"
+            >
+              <div className="flex items-center">
                 <Star className="h-5 w-5 fill-current text-yellow-400" />
                 <span className="ml-2 font-bold">
                   {review.rating.toFixed(1)}
@@ -160,9 +164,9 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
               <p className="whitespace-pre-wrap break-words text-gray-700">
                 {review.text}
               </p>
-            </div>
+            </Stack>
           ))}
-        </div>
+        </Stack>
       </CardContent>
     </Card>
   )
