@@ -43,10 +43,10 @@ export const LocalizedPlaceCard = ({
     >
       <Link to={to} className="absolute inset-0 z-10" />
 
-      <div className="relative grid grid-cols-[auto_1fr] gap-2 md:gap-4">
+      <div className="relative grid grid-cols-[auto_1fr] md:gap-4">
         <ImageSection place={place} loading={loading} />
 
-        <Stack className="relative py-2">
+        <Stack className="relative p-2">
           <InfoSection
             place={place}
             no={no}
@@ -54,13 +54,11 @@ export const LocalizedPlaceCard = ({
             businessStatusResult={businessStatusResult}
           />
 
-          <ActionButtons place={place} className="relative z-10" />
+          <ActionButtons place={place} className="relative z-20" />
         </Stack>
       </div>
 
-      <Stack className="p-2">
-        <ReviewSection place={place} />
-      </Stack>
+      <ReviewSection place={place} className="p-2" />
     </div>
   )
 }

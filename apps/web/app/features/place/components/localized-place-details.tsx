@@ -1,6 +1,6 @@
 import { areas, cities, languages } from '@hyperlocal/consts'
 import type { LocalizedPlace } from '@hyperlocal/db'
-import { ExternalLink, MapPin, Star } from 'lucide-react'
+import { ExternalLink, MapIcon, MapPin, Star } from 'lucide-react'
 import { ClientOnly } from 'remix-utils/client-only'
 import {
   Badge,
@@ -68,7 +68,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
                       width={400}
                       height={400}
                       loading={index === 0 ? 'eager' : 'lazy'}
-                      className="aspect-square w-full rounded-lg object-cover"
+                      className="aspect-auto w-full rounded-lg object-cover"
                     />
                   </CarouselItem>
                 ))}
@@ -120,18 +120,28 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
             </ClientOnly>
 
             <HStack>
-              <Button className="w-full" asChild>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full"
+                asChild
+              >
                 <a
                   href={place.googleMapsUri}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <ExternalLink className="mr-2 h-4 w-4" />
+                  <MapIcon className="mr-2 h-4 w-4" />
                   Google Maps
                 </a>
               </Button>
               {place.sourceUri && (
-                <Button variant="outline" className="w-full" asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full"
+                  asChild
+                >
                   <a
                     href={buildTabelogLink(place.sourceUri, place.language)}
                     target="_blank"
@@ -146,27 +156,20 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
           </Stack>
         </div>
 
-        <Stack>
-          <h3 className="mb-4 text-2xl font-semibold" id="reviews">
-            All Reviews
-          </h3>
-          {place.reviews.map((review, index) => (
-            <Stack
-              key={review.text}
-              className="rounded-lg bg-gray-50 p-2 md:p-4"
-            >
-              <div className="flex items-center">
-                <Star className="h-5 w-5 fill-current text-yellow-400" />
-                <span className="ml-2 font-bold">
-                  {review.rating.toFixed(1)}
-                </span>
-              </div>
-              <p className="whitespace-pre-wrap break-words text-gray-700">
-                {review.text}
-              </p>
-            </Stack>
-          ))}
-        </Stack>
+        <h3 className="mt-4 text-2xl font-semibold" id="reviews">
+          Recent Reviews
+        </h3>
+        {place.reviews.map((review, index) => (
+          <Stack key={review.text} className="rounded-lg bg-gray-50 p-2 md:p-4">
+            <div className="flex items-center">
+              <Star className="h-5 w-5 fill-current text-yellow-400" />
+              <span className="ml-2 font-bold">{review.rating.toFixed(1)}</span>
+            </div>
+            <p className="whitespace-pre-wrap break-words text-gray-700">
+              {review.text}
+            </p>
+          </Stack>
+        ))}
       </CardContent>
     </Card>
   )

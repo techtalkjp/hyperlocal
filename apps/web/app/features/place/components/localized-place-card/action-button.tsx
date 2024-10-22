@@ -1,5 +1,5 @@
 import type { LocalizedPlace } from '@hyperlocal/db'
-import { LinkIcon, MapIcon } from 'lucide-react'
+import { ExternalLink, MapIcon } from 'lucide-react'
 import React from 'react'
 import { Button, HStack } from '~/components/ui'
 import { cn } from '~/libs/utils'
@@ -11,9 +11,14 @@ interface ActionButtonsProps extends React.ComponentProps<'div'> {
 
 export const ActionButtons: React.FC<ActionButtonsProps> = React.memo(
   ({ place, className }) => (
-    <HStack className={cn('pointer-events-none', className)}>
-      <Button type="button" variant="default" size="xs" asChild>
-        <a href={place.googleMapsUri} target="_blank" rel="noopener noreferrer">
+    <HStack className={cn('pointer-events-none flex gap-2', className)}>
+      <Button type="button" variant="outline" size="xs" asChild>
+        <a
+          href={place.googleMapsUri}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="pointer-events-auto"
+        >
           <MapIcon size="14" className="mr-1" />
           Google Maps
         </a>
@@ -25,8 +30,9 @@ export const ActionButtons: React.FC<ActionButtonsProps> = React.memo(
             href={buildTabelogLink(place.sourceUri, place.language)}
             target="_blank"
             rel="noopener noreferrer"
+            className="pointer-events-auto"
           >
-            <LinkIcon size="14" className="mr-1" />
+            <ExternalLink size="14" className="mr-1" />
             Tabelog
           </a>
         </Button>
