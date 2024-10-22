@@ -66,7 +66,6 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
                       src={photoUrl}
                       alt={`${place.displayName} - ${index + 1}`}
                       width={400}
-                      height={400}
                       loading={index === 0 ? 'eager' : 'lazy'}
                       className="aspect-auto w-full rounded-lg object-cover"
                     />
