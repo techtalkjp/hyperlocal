@@ -13,6 +13,8 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from '~/components/ui'
 import dayjs from '~/libs/dayjs'
 import {
@@ -78,6 +80,8 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
                   </CarouselItem>
                 ))}
               </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
             </Carousel>
 
             <div className="mt-4 flex items-center space-x-4">
