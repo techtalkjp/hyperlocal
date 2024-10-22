@@ -1,12 +1,19 @@
+import type React from 'react'
 import { match } from 'ts-pattern'
+import { cn } from '~/libs/utils'
 import { BusinessStatus, type BusinessStatusResult } from '../utils'
 
 const weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+
+interface BusinessStatusBadgeProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  statusResult: BusinessStatusResult
+}
+
 export const BusinessStatusBadge = ({
   statusResult,
-}: {
-  statusResult: BusinessStatusResult
-}) => {
+  className,
+}: BusinessStatusBadgeProps) => {
   const statusLabel = match(statusResult.status)
     .with(BusinessStatus.OPEN_24_HOURS, () => (
       <div className="text-green-600">
@@ -57,5 +64,5 @@ export const BusinessStatusBadge = ({
     .with(BusinessStatus.UNKNOWN, () => <span />)
     .exhaustive()
 
-  return <div className="my-1 flex-shrink-0 text-xs">{statusLabel}</div>
+  return <div className={cn('flex-shrink-0', className)}>{statusLabel}</div>
 }

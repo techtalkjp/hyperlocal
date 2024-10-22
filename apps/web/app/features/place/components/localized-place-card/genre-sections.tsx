@@ -12,7 +12,7 @@ export const GenresSection: React.FC<GenresSectionProps> = React.memo(
         <Badge
           key={genre}
           variant="outline"
-          className="rounded border-none bg-muted px-1 py-0.5 font-semibold capitalize text-muted-foreground"
+          className="rounded border-none bg-muted px-1 py-1 font-semibold capitalize text-muted-foreground"
         >
           {genre}
         </Badge>

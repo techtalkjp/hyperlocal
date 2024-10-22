@@ -81,6 +81,7 @@ export default function SpotDetail() {
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
+
           <div>
             <Button variant="ghost" asChild>
               <Link to={getBackToListUrl()}>
