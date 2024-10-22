@@ -14,12 +14,14 @@ export const StatusPriceSection: React.FC<StatusPriceSectionProps> = React.memo(
   ({ businessStatusResult, priceLevel }) => (
     <HStack>
       <ClientOnly
-        fallback={<span className="text-sm text-transparent">Status</span>}
+        fallback={
+          <span className="text-xs text-transparent md:text-sm">Status</span>
+        }
       >
         {() => (
           <BusinessStatusBadge
             statusResult={businessStatusResult}
-            className="text-sm"
+            className="text-xs md:text-sm"
           />
         )}
       </ClientOnly>

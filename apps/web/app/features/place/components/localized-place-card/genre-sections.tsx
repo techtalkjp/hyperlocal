@@ -7,7 +7,7 @@ interface GenresSectionProps {
 
 export const GenresSection: React.FC<GenresSectionProps> = React.memo(
   ({ genres }) => (
-    <HStack className="flex gap-2 overflow-auto">
+    <HStack className="flex flex-wrap gap-x-2 gap-y-0.5">
       {genres.map((genre) => (
         <Badge
           key={genre}

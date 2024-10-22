@@ -27,7 +27,7 @@ export default function PublicLayout() {
   return (
     <div>
       <header>
-        <div className="flex items-center border-b px-2 py-2">
+        <div className="flex items-center border-b px-2 py-2 sm:px-4 md:px-6">
           <AreaTitle city={city} languageId={lang.id} />
           <div className="flex-1" />
           <LanguageSelect
@@ -37,7 +37,7 @@ export default function PublicLayout() {
         </div>
 
         {area && (
-          <nav className="px-2 pt-2">
+          <nav className="px-2 pt-2 sm:px-4 md:px-6">
             <Breadcrumbs>
               <Link to={`/${lang.path}`}>{city.i18n[lang.id]}</Link>
             </Breadcrumbs>
@@ -45,7 +45,7 @@ export default function PublicLayout() {
         )}
       </header>
 
-      <main className="px-0.5 py-2">
+      <main className="px-0.5 py-2 sm:px-4 md:px-6">
         <Outlet />
       </main>
     </div>
