@@ -1,9 +1,14 @@
 import { areas, categories } from '@hyperlocal/consts'
-import type { LoaderFunctionArgs } from '@remix-run/node'
+import type { HeadersFunction, LoaderFunctionArgs } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import { z } from 'zod'
 import { zx } from 'zodix'
 import { getLangCityAreaCategory } from '~/features/city-area/utils'
+
+export const headers: HeadersFunction = () => ({
+  // cache for 30 days
+  'Cache-Control': 'public, s-maxage=2592000, stale-while-revalidate=2592000',
+})
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const { place: placeId } = zx.parseParams(params, {
