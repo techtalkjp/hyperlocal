@@ -45,7 +45,7 @@ export default function PublicLayout() {
         )}
       </header>
 
-      <main className="p-2">
+      <main className="px-0.5 py-2">
         <Outlet />
       </main>
     </div>
