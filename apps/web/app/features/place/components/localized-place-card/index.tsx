@@ -37,7 +37,7 @@ export const LocalizedPlaceCard = ({
   return (
     <div
       className={cn(
-        'elative grid grid-cols-1 rounded-md border p-0 text-sm text-card-foreground hover:bg-slate-50 hover:shadow-md sm:text-base md:text-lg',
+        'relative grid grid-cols-1 rounded-md border p-0 text-sm text-card-foreground hover:bg-slate-50 hover:shadow-md sm:text-base md:text-lg',
         className,
       )}
     >
@@ -46,7 +46,7 @@ export const LocalizedPlaceCard = ({
       <div className="relative grid grid-cols-[auto_1fr] gap-2 md:gap-4">
         <ImageSection place={place} loading={loading} />
 
-        <Stack className="relative p-1">
+        <Stack className="relative py-2">
           <InfoSection
             place={place}
             no={no}
