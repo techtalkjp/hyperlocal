@@ -67,7 +67,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
                       alt={`${place.displayName} - ${index + 1}`}
                       width={400}
                       loading={index === 0 ? 'eager' : 'lazy'}
-                      className="aspect-auto w-full rounded-lg object-cover"
+                      className="aspect-square w-full rounded-lg object-cover"
                     />
                   </CarouselItem>
                 ))}
