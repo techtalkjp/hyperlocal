@@ -61,7 +61,7 @@ export const LanguageSelect = ({
     <DropdownMenu>
       <DropdownMenuTrigger
         className={cn(
-          'rounded border px-2 py-0.5 text-sm text-muted-foreground',
+          'rounded-full border px-2 py-0.5 text-sm text-muted-foreground',
           className,
         )}
         {...rest}
