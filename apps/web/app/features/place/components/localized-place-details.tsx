@@ -43,7 +43,11 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
       <CardHeader className="p-2 md:p-4">
         <div className="flex items-start justify-between">
           <div>
-            <CardTitle>{place.displayName}</CardTitle>
+            <CardTitle
+              style={{ viewTransitionName: `displayName-${place.placeId}` }}
+            >
+              {place.displayName}
+            </CardTitle>
             <CardDescription>{place.originalDisplayName}</CardDescription>
           </div>
           {area && language && (
@@ -64,10 +68,14 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
                   <CarouselItem key={photoUrl}>
                     <img
                       src={photoUrl}
-                      alt={`${place.displayName} - ${index + 1}`}
                       width={400}
                       loading={index === 0 ? 'eager' : 'lazy'}
+                      alt={`${place.displayName} - ${index + 1}`}
                       className="aspect-square w-full rounded-lg object-cover"
+                      style={{
+                        viewTransitionName:
+                          index === 0 ? `hero-${place.placeId}` : '',
+                      }}
                     />
                   </CarouselItem>
                 ))}

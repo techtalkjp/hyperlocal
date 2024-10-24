@@ -16,7 +16,10 @@ interface InfoSectionProps {
 export const InfoSection: React.FC<InfoSectionProps> = React.memo(
   ({ place, no, withOriginalName, businessStatusResult }) => (
     <Stack className="gap-0.5 overflow-hidden">
-      <div className="text-base font-semibold leading-none sm:text-xl md:text-2xl">
+      <div
+        className="text-base font-semibold leading-none sm:text-xl md:text-2xl"
+        style={{ viewTransitionName: `displayName-${place.placeId}` }}
+      >
         {no && `${no}.`} {place.displayName}
       </div>
 

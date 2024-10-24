@@ -92,7 +92,7 @@ export default function SpotDetail() {
 
           <div>
             <Button variant="ghost" asChild>
-              <Link to={getBackToListUrl()}>
+              <Link to={getBackToListUrl()} viewTransition>
                 <ChevronLeft className="mr-2 h-4 w-4" />
                 Back to List
               </Link>
