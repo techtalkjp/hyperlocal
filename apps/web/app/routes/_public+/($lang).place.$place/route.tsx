@@ -1,9 +1,20 @@
 import { areas, categories } from '@hyperlocal/consts'
 import type { HeadersFunction, LoaderFunctionArgs } from '@remix-run/node'
 import { Link, type MetaFunction, useLoaderData } from '@remix-run/react'
+import { ChevronLeft } from 'lucide-react'
 import { z } from 'zod'
 import { zx } from 'zodix'
-import { getLangCityAreaCategory } from '~/features/city-area/utils'
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+  Button,
+} from '~/components/ui'
+import { getPathParams } from '~/features/city-area/utils'
+import { LocalizedPlaceDetails } from '~/features/place/components/localized-place-details'
+import { getLocalizedPlace } from './queries.server'
 
 export const headers: HeadersFunction = () => ({
   // cache for 30 days
@@ -23,41 +34,36 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     place: z.string(),
   })
 
-  const { area: areaId, category: categoryId } = zx.parseQuery(request, {
+  const {
+    area: areaId,
+    category: categoryId,
+    rank: rankingType,
+  } = zx.parseQuery(request, {
     area: z.string().optional(),
     category: z.string().optional(),
+    rank: z.string().optional(),
   })
 
-  const { city, lang } = getLangCityAreaCategory(request, params)
+  const { city, lang } = getPathParams(request, params)
   const area = areas.find((a) => a.areaId === areaId)
   const category = categories.find((c) => c.id === categoryId)
+  const rank = rankingType ?? 'review'
 
   const place = await getLocalizedPlace({ placeId, language: lang.id })
   if (!place) {
     throw new Response('Not Found', { status: 404 })
   }
 
-  return { placeId, city, lang, area, category, place }
+  return { placeId, city, lang, area, category, rank, place }
 }
 
-import { ChevronLeft } from 'lucide-react'
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbSeparator,
-  Button,
-} from '~/components/ui'
-import { LocalizedPlaceDetails } from '~/features/place/components/localized-place-details'
-import { getLocalizedPlace } from './queries.server'
-
 export default function SpotDetail() {
-  const { lang, city, area, category, place } = useLoaderData<typeof loader>()
+  const { lang, city, area, category, rank, place } =
+    useLoaderData<typeof loader>()
 
   const languagePath = lang.id === 'en' ? '' : `${lang.path}/`
   const getBackToListUrl = () => {
-    return `/${languagePath}area/${area?.areaId}/${category?.id}`
+    return `/${languagePath}area/${area?.areaId}/${category?.id}/${rank}`
   }
 
   const isLinkedFromList = !!area && !!category
@@ -76,7 +82,7 @@ export default function SpotDetail() {
               <BreadcrumbSeparator />
               <BreadcrumbItem>
                 <BreadcrumbLink
-                  href={`/${languagePath}area/${area?.areaId}/${category?.id}`}
+                  href={`/${languagePath}area/${area?.areaId}/${category?.id}/${rank}`}
                 >
                   {category?.i18n[lang.id]}
                 </BreadcrumbLink>

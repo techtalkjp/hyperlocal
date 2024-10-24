@@ -5,7 +5,7 @@ import {
   Outlet,
   useLoaderData,
 } from '@remix-run/react'
-import { getLangCityAreaCategory } from '~/features/city-area/utils'
+import { getPathParams } from '~/features/city-area/utils'
 import { AreaTitle, Breadcrumbs, LanguageSelect } from './components'
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
@@ -17,7 +17,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => [
 export const shouldRevalidate = () => true
 
 export const loader = ({ request, params }: LoaderFunctionArgs) => {
-  const { city, area, lang } = getLangCityAreaCategory(request, params)
+  const { city, area, lang } = getPathParams(request, params)
   return { city, area, lang }
 }
 

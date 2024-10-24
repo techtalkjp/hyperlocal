@@ -2,10 +2,10 @@ import { categories } from '@hyperlocal/consts'
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import { Card, CardHeader, CardTitle } from '~/components/ui'
-import { getLangCityAreaCategory } from '~/features/city-area/utils'
+import { getPathParams } from '~/features/city-area/utils'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
-  const { lang } = await getLangCityAreaCategory(request, params)
+  const { lang } = await getPathParams(request, params)
   return { lang }
 }
 

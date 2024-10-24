@@ -10,11 +10,11 @@ import {
   HStack,
   Stack,
 } from '~/components/ui'
-import { getLangCityAreaCategory } from '~/features/city-area/utils'
+import { getPathParams } from '~/features/city-area/utils'
 import { getCityDomain } from '~/features/city-area/utils/get-city-domain'
 
 export const loader = ({ request, params }: LoaderFunctionArgs) => {
-  const { city, lang } = getLangCityAreaCategory(request, params)
+  const { city, lang } = getPathParams(request, params)
   const areas = allAreas.filter((area) => area.cityId === city.cityId)
 
   return { cities, areas, city, lang, url: request.url }

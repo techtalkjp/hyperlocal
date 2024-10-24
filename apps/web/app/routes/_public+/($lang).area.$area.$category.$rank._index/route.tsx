@@ -1,9 +1,7 @@
 import type { HeadersFunction, LoaderFunctionArgs } from '@remix-run/node'
 import { NavLink, useLoaderData } from '@remix-run/react'
-import { z } from 'zod'
-import { zx } from 'zodix'
 import { Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
-import { getLangCityAreaCategory } from '~/features/city-area/utils'
+import { getPathParams } from '~/features/city-area/utils'
 import { LocalizedPlaceCard } from '~/features/place/components/localized-place-card'
 import { listLocalizedPlaces } from './queries.server'
 
@@ -13,16 +11,10 @@ export const headers: HeadersFunction = () => ({
 })
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
-  const { city, area, lang, category } = getLangCityAreaCategory(
+  const { city, area, lang, category, rankingType } = getPathParams(
     request,
     params,
   )
-  const { rankingType } = zx.parseQuery(request, {
-    rankingType: z
-      .union([z.literal('review'), z.literal('rating')])
-      .optional()
-      .default('rating'),
-  })
 
   if (!area) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
@@ -39,7 +31,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     areaId: area.areaId,
     categoryId: category.id,
     language: lang.id,
-    rankingType,
+    rankingType: rankingType ?? 'review',
   })
 
   return { places, city, area, category, lang, rankingType }
@@ -55,10 +47,10 @@ export default function CategoryIndexPage() {
         <Tabs value={rankingType}>
           <TabsList>
             <TabsTrigger value="rating">
-              <NavLink to={'.'}>Top Rated</NavLink>
+              <NavLink to={'../rating'}>Top Rated</NavLink>
             </TabsTrigger>
             <TabsTrigger value="review" asChild>
-              <NavLink to={'?rankingType=review'}>Most Popular</NavLink>
+              <NavLink to={'../review'}>Most Popular</NavLink>
             </TabsTrigger>
           </TabsList>
         </Tabs>
@@ -74,7 +66,7 @@ export default function CategoryIndexPage() {
           no={idx + 1}
           loading={idx <= 5 ? 'eager' : 'lazy'}
           withOriginalName={city.language !== lang.id}
-          to={`/${lang.id === 'en' ? '' : `${lang.id}/`}place/${place.placeId}?area=${area.areaId}&category=${category.id}&rankingType=${rankingType}`}
+          to={`/${lang.id === 'en' ? '' : `${lang.id}/`}place/${place.placeId}?area=${area.areaId}&category=${category.id}&rank=${rankingType}`}
         />
       ))}
     </Stack>

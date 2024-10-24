@@ -1,6 +1,6 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
-import { Link, type MetaFunction, Outlet } from '@remix-run/react'
-import { getLangCityAreaCategory } from '~/features/city-area/utils'
+import { Link, redirect, type MetaFunction } from '@remix-run/react'
+import { getPathParams } from '~/features/city-area/utils'
 import { generateAreaCategoryMetaDescription } from '~/features/seo/meta-area-category'
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
@@ -36,7 +36,7 @@ export const handle = {
 }
 
 export const loader = ({ request, params }: LoaderFunctionArgs) => {
-  const { lang, city, area, category } = getLangCityAreaCategory(
+  const { lang, city, area, category, rankingType } = getPathParams(
     request,
     params,
   )
@@ -47,9 +47,11 @@ export const loader = ({ request, params }: LoaderFunctionArgs) => {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
 
-  return { lang, city, area, category }
-}
+  if (!rankingType) {
+    throw redirect(
+      `/${lang.id === 'en' ? '' : `${lang.id}/`}area/${area.areaId}/${category.id}/rating`,
+    )
+  }
 
-export default function CategoryLayout() {
-  return <Outlet />
+  return { lang, city, area, category }
 }

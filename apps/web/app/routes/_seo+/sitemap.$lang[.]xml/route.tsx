@@ -1,12 +1,12 @@
 import { areas, categories, languages } from '@hyperlocal/consts'
 import { db, sql } from '@hyperlocal/db'
 import type { LoaderFunctionArgs } from '@remix-run/node'
-import { getLangCityAreaCategory } from '~/features/city-area/utils'
+import { getPathParams } from '~/features/city-area/utils'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const url = new URL(request.url)
   const origin = url.origin
-  const { lang, city } = getLangCityAreaCategory(request, params)
+  const { lang, city } = getPathParams(request, params)
 
   if (!languages.find((l) => l.id === params.lang)) {
     return new Response('Language not found', { status: 404 })
