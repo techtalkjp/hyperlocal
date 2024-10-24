@@ -49,7 +49,7 @@ export const LocalizedPlaceCard = ({
       <div className="grid grid-cols-[auto_1fr] md:gap-4">
         <ImageSection place={place} loading={loading} />
 
-        <Stack className="gap-2 p-2">
+        <Stack className="gap-1 p-2">
           <InfoSection
             place={place}
             no={no}
