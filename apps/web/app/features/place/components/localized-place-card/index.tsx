@@ -51,13 +51,12 @@ export const LocalizedPlaceCard = ({
         <Stack className="p-2">
           <InfoSection
             place={place}
-            distance={distance}
             no={no}
             withOriginalName={withOriginalName}
             businessStatusResult={businessStatusResult}
           />
 
-          <ActionButtons place={place} className="z-20" />
+          <ActionButtons place={place} distance={distance} className="z-20" />
         </Stack>
       </div>
 
