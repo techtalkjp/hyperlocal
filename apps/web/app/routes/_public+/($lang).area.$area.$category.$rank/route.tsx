@@ -1,13 +1,8 @@
 import type { HeadersFunction, LoaderFunctionArgs } from '@remix-run/node'
-import {
-  type ClientLoaderFunctionArgs,
-  NavLink,
-  useLoaderData,
-} from '@remix-run/react'
+import { NavLink, useLoaderData } from '@remix-run/react'
 import { Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { LocalizedPlaceCard } from '~/features/place/components/localized-place-card'
-import { sortLocalizedPlaceByDistance } from './distance'
 import { listLocalizedPlaces } from './queries.server'
 
 export const headers: HeadersFunction = () => ({
@@ -40,35 +35,6 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   })
 
   return { places, city, area, category, lang, rankingType }
-}
-
-export const clientLoader = async ({
-  serverLoader,
-}: ClientLoaderFunctionArgs) => {
-  const { places, rankingType, ...loaderResponses } =
-    await serverLoader<typeof loader>()
-
-  if (rankingType === 'distance') {
-    let position: GeolocationPosition | null = null
-    if (navigator.geolocation) {
-      position = await new Promise<GeolocationPosition>((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject)
-      }).catch((e) => {
-        console.log(e)
-        return null
-      })
-    }
-    const sortedPlaces = position
-      ? sortLocalizedPlaceByDistance(
-          places,
-          position.coords.latitude,
-          position.coords.longitude,
-        )
-      : places
-    return { places: sortedPlaces, ...loaderResponses, position }
-  }
-
-  return { places, rankingType, ...loaderResponses }
 }
 
 export default function CategoryIndexPage() {
