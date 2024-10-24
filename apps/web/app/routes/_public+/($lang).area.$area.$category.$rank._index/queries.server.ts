@@ -11,24 +11,46 @@ export const listLocalizedPlaces = async ({
   areaId: string
   categoryId: string
   language: string
-  rankingType: 'review' | 'rating'
+  rankingType: 'review' | 'rating' | 'distance'
 }) => {
   let query = db
     .selectFrom('localizedPlaces')
-    .selectAll()
+    .select([
+      'cityId',
+      'areaId',
+      'categoryId',
+      'placeId',
+      'language',
+      'genres',
+      'displayName',
+      'originalDisplayName',
+      'rating',
+      'userRatingCount',
+      'latitude',
+      'longitude',
+      'googleMapsUri',
+      'sourceUri',
+      'priceLevel',
+      'regularOpeningHours',
+      'reviews',
+      'photos',
+    ])
+    .distinct()
     .where('cityId', '==', cityId)
     .where('localizedPlaces.areaId', '==', areaId)
     .where('localizedPlaces.categoryId', '==', categoryId)
     .where('localizedPlaces.language', '==', language)
-    .where('localizedPlaces.rankingType', '==', rankingType)
+    .$if(rankingType !== 'distance', (q) =>
+      q.where('localizedPlaces.rating', '>', 0),
+    )
     .where('localizedPlaces.rating', '>', 0)
     .limit(100)
 
-  if (rankingType === 'review') {
-    query = query.orderBy(['userRatingCount desc', 'rating desc'])
-  }
   if (rankingType === 'rating') {
     query = query.orderBy(['rating desc', 'userRatingCount desc'])
+  }
+  if (rankingType === 'review') {
+    query = query.orderBy(['userRatingCount desc', 'rating desc'])
   }
 
   return (await query.execute()) as unknown as LocalizedPlace[]

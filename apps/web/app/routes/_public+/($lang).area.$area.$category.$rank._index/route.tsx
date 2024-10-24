@@ -1,8 +1,13 @@
 import type { HeadersFunction, LoaderFunctionArgs } from '@remix-run/node'
-import { NavLink, useLoaderData } from '@remix-run/react'
+import {
+  type ClientLoaderFunctionArgs,
+  NavLink,
+  useLoaderData,
+} from '@remix-run/react'
 import { Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { LocalizedPlaceCard } from '~/features/place/components/localized-place-card'
+import { sortLocalizedPlaceByDistance } from './distance'
 import { listLocalizedPlaces } from './queries.server'
 
 export const headers: HeadersFunction = () => ({
@@ -37,24 +42,54 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   return { places, city, area, category, lang, rankingType }
 }
 
+export const clientLoader = async ({
+  serverLoader,
+}: ClientLoaderFunctionArgs) => {
+  const { places, ...loaderResponses } = await serverLoader<typeof loader>()
+
+  let position: GeolocationPosition | null = null
+  if (navigator.geolocation) {
+    position = await new Promise<GeolocationPosition>((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject)
+    }).catch((e) => {
+      console.log(e)
+      return null
+    })
+  }
+
+  const sortedPlaces = position
+    ? sortLocalizedPlaceByDistance(
+        places,
+        position.coords.latitude,
+        position.coords.longitude,
+      )
+    : places
+
+  return { places: sortedPlaces, ...loaderResponses, position }
+}
+clientLoader.hydrate = true
+
 export default function CategoryIndexPage() {
   const { places, city, area, category, lang, rankingType } =
     useLoaderData<typeof loader>()
 
   return (
     <Stack className="gap-2">
-      {(category.id === 'lunch' || category.id === 'dinner') && (
-        <Tabs value={rankingType}>
-          <TabsList>
-            <TabsTrigger value="rating">
-              <NavLink to={'../rating'}>Top Rated</NavLink>
-            </TabsTrigger>
+      <Tabs value={rankingType}>
+        <TabsList>
+          <TabsTrigger value="rating">
+            <NavLink to={'../rating'}>Top Rated</NavLink>
+          </TabsTrigger>
+          {(category.id === 'lunch' || category.id === 'dinner') && (
             <TabsTrigger value="review" asChild>
               <NavLink to={'../review'}>Most Popular</NavLink>
             </TabsTrigger>
-          </TabsList>
-        </Tabs>
-      )}
+          )}
+          <TabsTrigger value="distance" asChild>
+            <NavLink to={'../distance'}>Distance</NavLink>
+          </TabsTrigger>
+        </TabsList>
+      </Tabs>
 
       {places.length === 0 && (
         <div className="text-sm text-muted-foreground">No Places</div>
