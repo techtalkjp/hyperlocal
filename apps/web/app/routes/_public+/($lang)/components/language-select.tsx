@@ -3,12 +3,12 @@ import { Link, useLocation, useSearchParams } from '@remix-run/react'
 import { GlobeIcon } from 'lucide-react'
 import type React from 'react'
 import {
+  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  HStack,
 } from '~/components/ui'
 import { cn } from '~/libs/utils'
 
@@ -59,17 +59,11 @@ export const LanguageSelect = ({
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger
-        className={cn(
-          'rounded-full border px-2 py-0.5 text-sm text-muted-foreground',
-          className,
-        )}
-        {...rest}
-      >
-        <HStack>
-          <GlobeIcon size="12" className="inline" />
+      <DropdownMenuTrigger className={cn(className)} {...rest} asChild>
+        <Button variant="outline" className="rounded-full" size="sm">
+          <GlobeIcon className="mr-2 inline h-4 w-4" />
           Language
-        </HStack>
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem className="font-semibold">
