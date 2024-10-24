@@ -11,7 +11,7 @@ export const listLocalizedPlaces = async ({
   areaId: string
   categoryId: string
   language: string
-  rankingType: 'review' | 'rating' | 'distance'
+  rankingType: 'review' | 'rating'
 }) => {
   let query = db
     .selectFrom('localizedPlaces')
@@ -40,9 +40,6 @@ export const listLocalizedPlaces = async ({
     .where('localizedPlaces.areaId', '==', areaId)
     .where('localizedPlaces.categoryId', '==', categoryId)
     .where('localizedPlaces.language', '==', language)
-    .$if(rankingType !== 'distance', (q) =>
-      q.where('localizedPlaces.rating', '>', 0),
-    )
     .where('localizedPlaces.rating', '>', 0)
     .limit(100)
 

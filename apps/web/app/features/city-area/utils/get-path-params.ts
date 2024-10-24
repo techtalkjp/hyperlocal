@@ -40,10 +40,9 @@ export const getPathParams = (request: Request, params: Params) => {
   const category = categories.find((category) => category.id === categoryId)
   const lang = languages.find((lang) => lang.id === langId) ?? languages[0]
   const rankingType = match(rankingTypeId)
-    .returnType<'review' | 'rating' | 'distance' | undefined>()
+    .returnType<'review' | 'rating' | undefined>()
     .with('review', () => 'review')
     .with('rating', () => 'rating')
-    .with('distance', () => 'distance')
     .otherwise(() => undefined)
 
   return { city, area, category, lang, rankingType }
