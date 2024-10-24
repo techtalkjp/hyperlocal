@@ -68,7 +68,7 @@ export const LanguageSelect = ({
       >
         <HStack>
           <GlobeIcon size="12" className="inline" />
-          {currentLang?.displayName}
+          Language
         </HStack>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
