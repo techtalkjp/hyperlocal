@@ -65,7 +65,7 @@ export default function SpotDetail() {
   return (
     <div className="grid gap-2">
       {isLinkedFromList && (
-        <div className="px-1.5 sm:px-4 md:px-6">
+        <div className="px-1.5 md:px-0">
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
