@@ -17,16 +17,16 @@ export const StatusPriceSection: React.FC<StatusPriceSectionProps> = ({
   businessStatusResult,
   priceLevel,
 }) => (
-  <HStack>
+  <HStack className="gap-0">
     {distance && (
       <span className="text-xs text-muted-foreground md:text-sm">
-        <MapPinIcon className="mb-1 inline h-4 w-4" />
+        <MapPinIcon className="mb-1 mr-1 inline h-4 w-4" />
         {distance > 1000
           ? `${(distance / 1000).toFixed(1)} km`
           : `${distance.toFixed(0)} m`}
+        <span className="mx-0.5 text-muted-foreground">⋅</span>
       </span>
     )}
-
     <ClientOnly
       fallback={
         <span className="text-xs text-transparent md:text-sm">Status</span>
@@ -39,9 +39,7 @@ export const StatusPriceSection: React.FC<StatusPriceSectionProps> = ({
         />
       )}
     </ClientOnly>
-
     <div className="flex-1" />
-
     {priceLevel && (
       <div className="flex-shrink-0 text-muted-foreground">
         {priceLevelLabel(priceLevel)}
