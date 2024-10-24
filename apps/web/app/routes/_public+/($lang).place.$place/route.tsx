@@ -13,7 +13,7 @@ export const headers: HeadersFunction = () => ({
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
     {
-      title: `${data?.place.displayName}  - Hyperlocal ${data?.city.i18n[data.language.id]}`,
+      title: `${data?.place.displayName}  - Hyperlocal ${data?.city.i18n[data.lang.id]}`,
     },
   ]
 }
@@ -28,16 +28,16 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     category: z.string().optional(),
   })
 
-  const { city, lang: language } = getLangCityAreaCategory(request, params)
+  const { city, lang } = getLangCityAreaCategory(request, params)
   const area = areas.find((a) => a.areaId === areaId)
   const category = categories.find((c) => c.id === categoryId)
 
-  const place = await getLocalizedPlace({ placeId, language: language.id })
+  const place = await getLocalizedPlace({ placeId, language: lang.id })
   if (!place) {
     throw new Response('Not Found', { status: 404 })
   }
 
-  return { placeId, city, language, area, category, place }
+  return { placeId, city, lang, area, category, place }
 }
 
 import { ChevronLeft } from 'lucide-react'
@@ -53,10 +53,9 @@ import { LocalizedPlaceDetails } from '~/features/place/components/localized-pla
 import { getLocalizedPlace } from './queries.server'
 
 export default function SpotDetail() {
-  const { language, city, area, category, place } =
-    useLoaderData<typeof loader>()
+  const { lang, city, area, category, place } = useLoaderData<typeof loader>()
 
-  const languagePath = language.id === 'en' ? '' : `${language.path}/`
+  const languagePath = lang.id === 'en' ? '' : `${lang.path}/`
   const getBackToListUrl = () => {
     return `/${languagePath}area/${area?.areaId}/${category?.id}`
   }
@@ -66,18 +65,12 @@ export default function SpotDetail() {
   return (
     <div className="grid gap-2">
       {isLinkedFromList && (
-        <>
+        <div className="px-1.5 sm:px-4 md:px-6">
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link to={`/${languagePath}`}>{city.i18n[language.id]}</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
                 <BreadcrumbLink href={`/${languagePath}area/${area?.areaId}`}>
-                  {area?.i18n[language.id]}
+                  {area?.i18n[lang.id]}
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
@@ -85,12 +78,8 @@ export default function SpotDetail() {
                 <BreadcrumbLink
                   href={`/${languagePath}area/${area?.areaId}/${category?.id}`}
                 >
-                  {category?.i18n[language.id]}
+                  {category?.i18n[lang.id]}
                 </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbLink href={getBackToListUrl()}>List</BreadcrumbLink>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -103,7 +92,7 @@ export default function SpotDetail() {
               </Link>
             </Button>
           </div>
-        </>
+        </div>
       )}
 
       <LocalizedPlaceDetails place={place} />

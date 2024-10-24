@@ -3,7 +3,6 @@ import React from 'react'
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
 } from '~/components/ui'
@@ -28,12 +27,9 @@ export const Breadcrumbs = ({
       {...props}
     >
       <BreadcrumbList>
-        <BreadcrumbItem>
-          <BreadcrumbLink asChild>{children}</BreadcrumbLink>
-        </BreadcrumbItem>
-        {matches.map(({ handle, data, id }) => (
+        {matches.map(({ handle, data, id }, index) => (
           <React.Fragment key={id}>
-            <BreadcrumbSeparator />
+            {index > 0 && <BreadcrumbSeparator />}
             <BreadcrumbItem
               className="contents"
               itemProp="itemListElement"
