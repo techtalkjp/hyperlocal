@@ -12,6 +12,7 @@ import { ReviewSection } from './review-section'
 
 interface PlaceCardProps extends React.ComponentProps<typeof HStack> {
   place: LocalizedPlace
+  distance?: number
   no?: number
   loading?: 'eager' | 'lazy'
   withOriginalName?: boolean
@@ -20,6 +21,7 @@ interface PlaceCardProps extends React.ComponentProps<typeof HStack> {
 
 export const LocalizedPlaceCard = ({
   place,
+  distance,
   no,
   loading = 'eager',
   withOriginalName = false,
@@ -49,6 +51,7 @@ export const LocalizedPlaceCard = ({
         <Stack className="p-2">
           <InfoSection
             place={place}
+            distance={distance}
             no={no}
             withOriginalName={withOriginalName}
             businessStatusResult={businessStatusResult}

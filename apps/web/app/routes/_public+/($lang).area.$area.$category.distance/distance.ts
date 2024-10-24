@@ -25,6 +25,10 @@ export function calculateDistance(
   return R * c
 }
 
+export interface LocalizedPlaceWithDistance extends LocalizedPlace {
+  distance: number
+}
+
 /**
  * 指定された位置からの距離でソートする
  */
@@ -32,7 +36,7 @@ export function sortLocalizedPlaceByDistance(
   places: LocalizedPlace[],
   userLat: number,
   userLon: number,
-): LocalizedPlace[] {
+): LocalizedPlaceWithDistance[] {
   // 距離を計算して追加
   const placesWithDistance = places.map((restaurant) => ({
     ...restaurant,
@@ -46,9 +50,5 @@ export function sortLocalizedPlaceByDistance(
 
   // 距離でソート
   placesWithDistance.sort((a, b) => a.distance - b.distance)
-  return placesWithDistance.map((place) => {
-    // distanceを除いて返す
-    const { distance, ...rest } = place
-    return rest
-  })
+  return placesWithDistance
 }

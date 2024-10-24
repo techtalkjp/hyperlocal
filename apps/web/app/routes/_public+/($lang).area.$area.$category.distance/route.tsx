@@ -46,22 +46,22 @@ export const clientLoader = async ({
 }: ClientLoaderFunctionArgs) => {
   const { places, ...loaderResponses } = await serverLoader<typeof loader>()
 
-  let position: GeolocationPosition | null = null
-  if (navigator.geolocation) {
-    position = await new Promise<GeolocationPosition>((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resolve, reject)
-    }).catch((e) => {
-      console.log(e)
-      return null
-    })
+  const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject)
+  }).catch((e) => {
+    console.log(e)
+    return null
+  })
+  if (!position) {
+    throw new Error('Geolocation not available')
   }
-  const sortedPlaces = position
-    ? sortLocalizedPlaceByDistance(
-        places,
-        position.coords.latitude,
-        position.coords.longitude,
-      )
-    : places
+
+  const sortedPlaces = sortLocalizedPlaceByDistance(
+    places,
+    position.coords.latitude,
+    position.coords.longitude,
+  )
+
   return { places: sortedPlaces, ...loaderResponses, position }
 }
 clientLoader.hydrate = true
@@ -95,6 +95,7 @@ export default function CategoryIndexPage() {
         <LocalizedPlaceCard
           key={place.placeId}
           place={place}
+          distance={place.distance}
           no={idx + 1}
           loading={idx <= 5 ? 'eager' : 'lazy'}
           withOriginalName={city.language !== lang.id}
