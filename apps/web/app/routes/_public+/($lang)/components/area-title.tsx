@@ -18,7 +18,7 @@ export const AreaTitle = ({ city, languageId, ...props }: AreaTitleProps) => {
   const area = matches?.handle.area(matches.data)
 
   return (
-    <h1 className="flex flex-wrap items-end gap-2 text-xl font-bold">
+    <h1 className="flex flex-wrap items-end gap-x-2 text-xl font-bold">
       <Link to={`/${languageId === 'en' ? '' : languageId}`} prefetch="intent">
         Hyperlocal {city.i18n[languageId]}{' '}
       </Link>
