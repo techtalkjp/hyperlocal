@@ -1,6 +1,7 @@
 import { cities } from '@hyperlocal/consts'
 import type { LocalizedPlace } from '@hyperlocal/db'
 import { Link } from '@remix-run/react'
+import { MapPinIcon } from 'lucide-react'
 import { Stack, type HStack } from '~/components/ui'
 import dayjs from '~/libs/dayjs'
 import { cn } from '~/libs/utils'
@@ -48,7 +49,7 @@ export const LocalizedPlaceCard = ({
       <div className="grid grid-cols-[auto_1fr] md:gap-4">
         <ImageSection place={place} loading={loading} />
 
-        <Stack className="p-2">
+        <Stack className="gap-2 p-2">
           <InfoSection
             place={place}
             no={no}
@@ -57,6 +58,15 @@ export const LocalizedPlaceCard = ({
           />
 
           <ActionButtons place={place} distance={distance} className="z-20" />
+
+          {distance && (
+            <div className="whitespace-nowrap text-xs text-muted-foreground md:text-sm">
+              <MapPinIcon className="mb-1 mr-1 inline h-4 w-4" />
+              {distance > 1000
+                ? `${(distance / 1000).toFixed(1)} km`
+                : `${distance.toFixed(0)} m`}
+            </div>
+          )}
         </Stack>
       </div>
 
