@@ -45,29 +45,31 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 export const clientLoader = async ({
   serverLoader,
 }: ClientLoaderFunctionArgs) => {
-  const { places, ...loaderResponses } = await serverLoader<typeof loader>()
+  const { places, rankingType, ...loaderResponses } =
+    await serverLoader<typeof loader>()
 
-  let position: GeolocationPosition | null = null
-  if (navigator.geolocation) {
-    position = await new Promise<GeolocationPosition>((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resolve, reject)
-    }).catch((e) => {
-      console.log(e)
-      return null
-    })
+  if (rankingType === 'distance') {
+    let position: GeolocationPosition | null = null
+    if (navigator.geolocation) {
+      position = await new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject)
+      }).catch((e) => {
+        console.log(e)
+        return null
+      })
+    }
+    const sortedPlaces = position
+      ? sortLocalizedPlaceByDistance(
+          places,
+          position.coords.latitude,
+          position.coords.longitude,
+        )
+      : places
+    return { places: sortedPlaces, ...loaderResponses, position }
   }
 
-  const sortedPlaces = position
-    ? sortLocalizedPlaceByDistance(
-        places,
-        position.coords.latitude,
-        position.coords.longitude,
-      )
-    : places
-
-  return { places: sortedPlaces, ...loaderResponses, position }
+  return { places, rankingType, ...loaderResponses }
 }
-clientLoader.hydrate = true
 
 export default function CategoryIndexPage() {
   const { places, city, area, category, lang, rankingType } =

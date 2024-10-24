@@ -46,7 +46,6 @@ export function sortLocalizedPlaceByDistance(
 
   // 距離でソート
   placesWithDistance.sort((a, b) => a.distance - b.distance)
-  console.log(placesWithDistance)
   return placesWithDistance.map((place) => {
     // distanceを除いて返す
     const { distance, ...rest } = place
