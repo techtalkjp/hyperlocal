@@ -1,5 +1,6 @@
 import type { HeadersFunction, LoaderFunctionArgs } from '@remix-run/node'
 import { NavLink, useLoaderData } from '@remix-run/react'
+import { LoaderIcon } from 'lucide-react'
 import { Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { LocalizedPlaceCard } from '~/features/place/components/localized-place-card'
@@ -59,7 +60,14 @@ export default function CategoryIndexPage() {
           )}
           <TabsTrigger value="distance" asChild>
             <NavLink to={'../distance'} prefetch="viewport">
-              Distance
+              {({ isPending }) => (
+                <span>
+                  Distance
+                  {isPending && (
+                    <LoaderIcon className="ml-2 inline h-4 w-4 animate-spin" />
+                  )}
+                </span>
+              )}
             </NavLink>
           </TabsTrigger>
         </TabsList>

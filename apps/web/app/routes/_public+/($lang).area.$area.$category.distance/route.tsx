@@ -4,8 +4,10 @@ import {
   type ClientLoaderFunctionArgs,
   NavLink,
   useLoaderData,
+  useNavigation,
   useParams,
 } from '@remix-run/react'
+import { LoaderIcon } from 'lucide-react'
 import { Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { LocalizedPlaceCard } from '~/features/place/components/localized-place-card'
@@ -69,6 +71,7 @@ clientLoader.hydrate = true
 export default function CategoryIndexPage() {
   const { places, city, area, category, lang } =
     useLoaderData<typeof clientLoader>()
+  const navigation = useNavigation()
 
   return (
     <Stack className="gap-2">
@@ -129,6 +132,7 @@ export const HydrateFallback = () => {
           <TabsTrigger value="distance" asChild>
             <NavLink to={'../distance'} prefetch="viewport">
               Distance
+              <LoaderIcon className="ml-2 inline h-4 w-4 animate-spin" />
             </NavLink>
           </TabsTrigger>
         </TabsList>
