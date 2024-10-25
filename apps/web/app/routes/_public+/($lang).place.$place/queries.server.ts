@@ -12,6 +12,7 @@ export const getLocalizedPlace = async ({
     .selectAll()
     .where('placeId', '==', placeId)
     .where('language', '==', language)
+    .limit(1)
     .executeTakeFirst()
 
   return place as unknown as LocalizedPlace
