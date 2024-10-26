@@ -1,9 +1,9 @@
+import { UTCDate } from '@date-fns/utc'
 import { cities } from '@hyperlocal/consts'
 import type { LocalizedPlace } from '@hyperlocal/db'
 import { Link } from '@remix-run/react'
 import { FootprintsIcon, MapPinIcon } from 'lucide-react'
 import { HStack, Stack } from '~/components/ui'
-import dayjs from '~/libs/dayjs'
 import { cn } from '~/libs/utils'
 import { getBusinessStatus, type BusinessHours } from '../../utils'
 import { ActionButtons } from './action-button'
@@ -30,7 +30,7 @@ export const LocalizedPlaceCard = ({
   className,
 }: PlaceCardProps) => {
   const city = cities.find((c) => c.cityId === place.cityId)
-  const date = dayjs().utc().toDate()
+  const date = new UTCDate()
   const businessStatusResult = getBusinessStatus(
     place.regularOpeningHours as BusinessHours | null,
     date,

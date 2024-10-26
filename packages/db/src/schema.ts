@@ -4,6 +4,16 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   : ColumnType<T, T | undefined, T>;
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
+export type AdminUser = {
+    id: string;
+    email: string;
+    displayName: string;
+    pictureUrl: string | null;
+    locale: string;
+    role: Generated<string>;
+    updatedAt: string;
+    createdAt: Generated<string>;
+};
 export type LocalizedPlace = {
     cityId: string;
     areaId: string;
@@ -55,6 +65,7 @@ export type PlaceListing = {
     updatedAt: Generated<string>;
 };
 export type DB = {
+    adminUsers: AdminUser;
     localizedPlaces: LocalizedPlace;
     placeListings: PlaceListing;
     places: Place;

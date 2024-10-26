@@ -8,6 +8,7 @@ import {
 } from 'kysely'
 import type { DB } from './schema'
 export { sql } from 'kysely'
+export type { Insertable, Selectable, Updateable } from 'kysely'
 export type * from './types'
 export type { DB }
 
