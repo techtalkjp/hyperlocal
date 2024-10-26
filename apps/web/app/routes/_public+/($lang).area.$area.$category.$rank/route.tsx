@@ -58,13 +58,13 @@ export default function CategoryIndexPage() {
               </NavLink>
             </TabsTrigger>
           )}
-          <TabsTrigger value="distance" asChild>
-            <NavLink to={'../distance'} prefetch="viewport">
+          <TabsTrigger value="nearme" asChild>
+            <NavLink to={'../nearme'} prefetch="viewport">
               {({ isPending }) => (
                 <span>
-                  Distance
+                  Near Me
                   {isPending && (
-                    <LoaderIcon className="ml-2 inline h-4 w-4 animate-spin" />
+                    <LoaderIcon className="ml-2 inline h-4 w-4 animate-spin text-blue-500" />
                   )}
                 </span>
               )}

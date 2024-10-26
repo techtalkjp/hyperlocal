@@ -75,7 +75,7 @@ export default function CategoryIndexPage() {
 
   return (
     <Stack className="gap-2">
-      <Tabs value={'distance'}>
+      <Tabs value="nearme">
         <TabsList>
           <TabsTrigger value="rating">
             <NavLink to={'../rating'}>Top Rated</NavLink>
@@ -85,8 +85,12 @@ export default function CategoryIndexPage() {
               <NavLink to={'../review'}>Most Popular</NavLink>
             </TabsTrigger>
           )}
-          <TabsTrigger value="distance" asChild>
-            <NavLink to={'../distance'}>Distance</NavLink>
+          <TabsTrigger
+            value="nearme"
+            className="border data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
+            asChild
+          >
+            <NavLink to={'../nearme'}>Near Me</NavLink>
           </TabsTrigger>
         </TabsList>
       </Tabs>
@@ -115,7 +119,7 @@ export const HydrateFallback = () => {
 
   return (
     <Stack className="gap-2">
-      <Tabs value={'distance'}>
+      <Tabs value="nearme">
         <TabsList>
           <TabsTrigger value="rating">
             <NavLink to={'../rating'} prefetch="viewport">
@@ -129,10 +133,14 @@ export const HydrateFallback = () => {
               </NavLink>
             </TabsTrigger>
           )}
-          <TabsTrigger value="distance" asChild>
-            <NavLink to={'../distance'} prefetch="viewport">
-              Distance
-              <LoaderIcon className="ml-2 inline h-4 w-4 animate-spin" />
+          <TabsTrigger
+            value="nearme"
+            className="border data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
+            asChild
+          >
+            <NavLink to={'../nearme'} prefetch="viewport">
+              Near Me
+              <LoaderIcon className="ml-2 inline h-4 w-4 animate-spin text-blue-500" />
             </NavLink>
           </TabsTrigger>
         </TabsList>
