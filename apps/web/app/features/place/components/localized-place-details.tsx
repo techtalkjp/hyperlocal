@@ -1,3 +1,4 @@
+import { UTCDate } from '@date-fns/utc'
 import { areas, cities, languages } from '@hyperlocal/consts'
 import type { LocalizedPlace } from '@hyperlocal/db'
 import { ExternalLink, MapIcon, MapPin, Star } from 'lucide-react'
@@ -18,7 +19,6 @@ import {
   HStack,
   Stack,
 } from '~/components/ui'
-import dayjs from '~/libs/dayjs'
 import {
   buildTabelogLink,
   type BusinessHours,
@@ -31,7 +31,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
   const city = cities.find((c) => c.cityId === place.cityId)
   const language = languages.find((lang) => lang.id === place.language)
   const area = areas.find((area) => area.areaId === place.areaId)
-  const date = dayjs().utc().toDate()
+  const date = new UTCDate()
   const businessStatusResult = getBusinessStatus(
     place.regularOpeningHours as BusinessHours | null,
     date,

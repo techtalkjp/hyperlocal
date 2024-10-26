@@ -10,6 +10,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+model AdminUser {
+  id          String        @id @default(cuid())
+  email       String        @unique
+  displayName String        @map("display_name")
+  pictureUrl  String?       @map("picture_url")
+  locale      String
+  role        String        @default("user")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+  createdAt   DateTime      @default(now()) @map("created_at")
+
+  @@map("admin_users")
+}
+
 model Place {
   id                  String   @id // google place id: e.g. "ChIJN1t_tDeuEmsRUsoyG83frY4"
   categories          String   @default("[]") // JSON array of category
