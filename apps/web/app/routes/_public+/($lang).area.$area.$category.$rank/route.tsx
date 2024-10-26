@@ -58,13 +58,13 @@ export default function CategoryIndexPage() {
               </NavLink>
             </TabsTrigger>
           )}
-          <TabsTrigger value="distance" asChild>
-            <NavLink to={'../distance'} prefetch="viewport">
+          <TabsTrigger value="nearme" asChild>
+            <NavLink to={'../nearme'} prefetch="viewport">
               {({ isPending }) => (
                 <span>
-                  Distance
+                  Near Me
                   {isPending && (
-                    <LoaderIcon className="ml-2 inline h-4 w-4 animate-spin" />
+                    <LoaderIcon className="ml-2 inline h-4 w-4 animate-spin text-blue-500" />
                   )}
                 </span>
               )}
@@ -82,7 +82,6 @@ export default function CategoryIndexPage() {
           place={place}
           no={idx + 1}
           loading={idx <= 5 ? 'eager' : 'lazy'}
-          withOriginalName={city.language !== lang.id}
           to={`/${lang.id === 'en' ? '' : `${lang.id}/`}place/${place.placeId}?area=${area.areaId}&category=${category.id}&rank=${rankingType}`}
         />
       ))}

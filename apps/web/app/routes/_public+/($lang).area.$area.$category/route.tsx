@@ -47,7 +47,7 @@ export const loader = ({ request, params }: LoaderFunctionArgs) => {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
 
-  if (!rankingType && !request.url.endsWith('distance')) {
+  if (!rankingType && !request.url.endsWith('nearme')) {
     throw redirect(
       `/${lang.id === 'en' ? '' : `${lang.id}/`}area/${area.areaId}/${category.id}/rating`,
     )

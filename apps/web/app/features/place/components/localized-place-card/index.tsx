@@ -16,7 +16,6 @@ interface PlaceCardProps extends React.ComponentProps<typeof HStack> {
   distance?: number
   no?: number
   loading?: 'eager' | 'lazy'
-  withOriginalName?: boolean
   to: string
 }
 
@@ -25,7 +24,6 @@ export const LocalizedPlaceCard = ({
   distance,
   no,
   loading = 'eager',
-  withOriginalName = false,
   to,
   className,
 }: PlaceCardProps) => {
@@ -58,7 +56,6 @@ export const LocalizedPlaceCard = ({
           <InfoSection
             place={place}
             no={no}
-            withOriginalName={withOriginalName}
             businessStatusResult={businessStatusResult}
           />
 

@@ -4,7 +4,6 @@ import {
   type ClientLoaderFunctionArgs,
   NavLink,
   useLoaderData,
-  useNavigation,
   useParams,
 } from '@remix-run/react'
 import { LoaderIcon } from 'lucide-react'
@@ -37,7 +36,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     areaId: area.areaId,
     categoryId: category.id,
     language: lang.id,
-    rankingType: 'distance',
+    rankingType: 'nearme',
   })
 
   return { places, city, area, category, lang }
@@ -71,11 +70,10 @@ clientLoader.hydrate = true
 export default function CategoryIndexPage() {
   const { places, city, area, category, lang } =
     useLoaderData<typeof clientLoader>()
-  const navigation = useNavigation()
 
   return (
     <Stack className="gap-2">
-      <Tabs value={'distance'}>
+      <Tabs value="nearme">
         <TabsList>
           <TabsTrigger value="rating">
             <NavLink to={'../rating'}>Top Rated</NavLink>
@@ -85,8 +83,12 @@ export default function CategoryIndexPage() {
               <NavLink to={'../review'}>Most Popular</NavLink>
             </TabsTrigger>
           )}
-          <TabsTrigger value="distance" asChild>
-            <NavLink to={'../distance'}>Distance</NavLink>
+          <TabsTrigger
+            value="nearme"
+            className="border data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
+            asChild
+          >
+            <NavLink to={'../nearme'}>Near Me</NavLink>
           </TabsTrigger>
         </TabsList>
       </Tabs>
@@ -101,7 +103,6 @@ export default function CategoryIndexPage() {
           distance={place.distance}
           no={idx + 1}
           loading={idx <= 5 ? 'eager' : 'lazy'}
-          withOriginalName={city.language !== lang.id}
           to={`/${lang.id === 'en' ? '' : `${lang.id}/`}place/${place.placeId}?area=${area.areaId}&category=${category.id}&rank=distance`}
         />
       ))}
@@ -115,7 +116,7 @@ export const HydrateFallback = () => {
 
   return (
     <Stack className="gap-2">
-      <Tabs value={'distance'}>
+      <Tabs value="nearme">
         <TabsList>
           <TabsTrigger value="rating">
             <NavLink to={'../rating'} prefetch="viewport">
@@ -129,10 +130,14 @@ export const HydrateFallback = () => {
               </NavLink>
             </TabsTrigger>
           )}
-          <TabsTrigger value="distance" asChild>
-            <NavLink to={'../distance'} prefetch="viewport">
-              Distance
-              <LoaderIcon className="ml-2 inline h-4 w-4 animate-spin" />
+          <TabsTrigger
+            value="nearme"
+            className="border data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
+            asChild
+          >
+            <NavLink to={'../nearme'} prefetch="viewport">
+              Near Me
+              <LoaderIcon className="ml-2 inline h-4 w-4 animate-spin text-blue-500" />
             </NavLink>
           </TabsTrigger>
         </TabsList>
