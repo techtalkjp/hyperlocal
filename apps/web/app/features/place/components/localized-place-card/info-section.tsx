@@ -9,17 +9,15 @@ import { StatusPriceSection } from './status-price-section'
 interface InfoSectionProps {
   place: LocalizedPlace
   no?: number
-  withOriginalName: boolean
   businessStatusResult: ReturnType<typeof getBusinessStatus>
 }
 
 export const InfoSection: React.FC<InfoSectionProps> = ({
   place,
   no,
-  withOriginalName,
   businessStatusResult,
 }) => (
-  <Stack className="gap-1 overflow-hidden">
+  <Stack className="gap-0.5 overflow-hidden">
     <div
       className="text-base font-semibold leading-none sm:text-xl md:text-2xl"
       style={{ viewTransitionName: `displayName-${place.placeId}` }}

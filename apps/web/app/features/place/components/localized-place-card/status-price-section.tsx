@@ -24,7 +24,7 @@ export const StatusPriceSection: React.FC<StatusPriceSectionProps> = ({
       {() => (
         <BusinessStatusBadge
           statusResult={businessStatusResult}
-          className="text-xs md:text-sm"
+          className="text-sm"
         />
       )}
     </ClientOnly>

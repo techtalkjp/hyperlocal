@@ -16,7 +16,6 @@ interface PlaceCardProps extends React.ComponentProps<typeof HStack> {
   distance?: number
   no?: number
   loading?: 'eager' | 'lazy'
-  withOriginalName?: boolean
   to: string
 }
 
@@ -25,7 +24,6 @@ export const LocalizedPlaceCard = ({
   distance,
   no,
   loading = 'eager',
-  withOriginalName = false,
   to,
   className,
 }: PlaceCardProps) => {
@@ -54,11 +52,10 @@ export const LocalizedPlaceCard = ({
       <div className="grid grid-cols-[auto_1fr] md:gap-4">
         <ImageSection place={place} loading={loading} />
 
-        <Stack className="gap-1 p-2">
+        <Stack className="gap-0.5 p-2">
           <InfoSection
             place={place}
             no={no}
-            withOriginalName={withOriginalName}
             businessStatusResult={businessStatusResult}
           />
 
