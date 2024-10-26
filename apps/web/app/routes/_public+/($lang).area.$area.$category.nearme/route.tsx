@@ -4,7 +4,6 @@ import {
   type ClientLoaderFunctionArgs,
   NavLink,
   useLoaderData,
-  useNavigation,
   useParams,
 } from '@remix-run/react'
 import { LoaderIcon } from 'lucide-react'
@@ -37,7 +36,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     areaId: area.areaId,
     categoryId: category.id,
     language: lang.id,
-    rankingType: 'distance',
+    rankingType: 'nearme',
   })
 
   return { places, city, area, category, lang }
@@ -71,7 +70,6 @@ clientLoader.hydrate = true
 export default function CategoryIndexPage() {
   const { places, city, area, category, lang } =
     useLoaderData<typeof clientLoader>()
-  const navigation = useNavigation()
 
   return (
     <Stack className="gap-2">
