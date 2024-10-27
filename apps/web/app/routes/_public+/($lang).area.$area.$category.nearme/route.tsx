@@ -103,7 +103,7 @@ export default function CategoryIndexPage() {
           distance={place.distance}
           no={idx + 1}
           loading={idx <= 5 ? 'eager' : 'lazy'}
-          to={`/${lang.id === 'en' ? '' : `${lang.id}/`}place/${place.placeId}?area=${area.areaId}&category=${category.id}&rank=distance`}
+          to={`/${lang.id === 'en' ? '' : `${lang.id}/`}place/${place.placeId}?area=${area.areaId}&category=${category.id}&rank=nearme`}
         />
       ))}
     </Stack>
