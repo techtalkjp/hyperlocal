@@ -42,12 +42,7 @@ export const LocalizedPlaceCard = ({
         className,
       )}
     >
-      <Link
-        to={to}
-        className="absolute inset-0 z-10"
-        viewTransition
-        prefetch="viewport"
-      />
+      <Link to={to} className="absolute inset-0 z-10" viewTransition />
 
       <div className="grid grid-cols-[auto_1fr] md:gap-4">
         <ImageSection place={place} loading={loading} />
