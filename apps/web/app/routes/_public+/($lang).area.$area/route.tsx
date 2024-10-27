@@ -47,7 +47,7 @@ export default function AreaLayout() {
 
   return (
     <Stack>
-      <CategoryNav>
+      <CategoryNav className="px-2">
         {categories.map((category) => (
           <CategoryNavItem
             key={category.id}
@@ -57,6 +57,7 @@ export default function AreaLayout() {
           </CategoryNavItem>
         ))}
       </CategoryNav>
+
       <Outlet />
     </Stack>
   )

@@ -1,12 +1,7 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
-import {
-  Link,
-  type MetaFunction,
-  Outlet,
-  useLoaderData,
-} from '@remix-run/react'
+import { type MetaFunction, Outlet, useLoaderData } from '@remix-run/react'
 import { getPathParams } from '~/features/city-area/utils'
-import { AreaTitle, Breadcrumbs, LanguageSelect } from './components'
+import { AreaTitle, LanguageSelect } from './components'
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
   {
@@ -36,13 +31,13 @@ export default function PublicLayout() {
           />
         </div>
 
-        {area && (
+        {/* {area && (
           <nav className="px-2 pt-2 sm:px-4 md:px-6">
             <Breadcrumbs>
               <Link to={`/${lang.path}`}>{city.i18n[lang.id]}</Link>
             </Breadcrumbs>
           </nav>
-        )}
+        )} */}
       </header>
 
       <main className="px-0.5 py-2 sm:px-4 md:px-6">
