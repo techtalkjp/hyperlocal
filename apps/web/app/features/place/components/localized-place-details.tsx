@@ -25,6 +25,7 @@ import {
   getBusinessStatus,
   priceLevelLabel,
 } from '../utils'
+import { getSquareImageUrl } from '../utils/google-place-photo-url'
 import { BusinessStatusBadge } from './business-status-badge'
 
 export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
@@ -67,7 +68,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
                 {place.photos.map((photoUrl, index) => (
                   <CarouselItem key={photoUrl}>
                     <img
-                      src={photoUrl}
+                      src={getSquareImageUrl(photoUrl, 1200)}
                       width={400}
                       loading={index === 0 ? 'eager' : 'lazy'}
                       alt={`${place.displayName} - ${index + 1}`}
