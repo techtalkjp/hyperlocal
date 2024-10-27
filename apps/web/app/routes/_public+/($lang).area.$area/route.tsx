@@ -1,7 +1,14 @@
-import { areas as allAreas } from '@hyperlocal/consts'
+import { areas as allAreas, categories } from '@hyperlocal/consts'
 import type { LoaderFunctionArgs } from '@remix-run/node'
-import { Link, type MetaFunction } from '@remix-run/react'
+import {
+  Link,
+  Outlet,
+  useLoaderData,
+  type MetaFunction,
+} from '@remix-run/react'
+import { Stack } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
+import { CategoryNav, CategoryNavItem } from './components/category-nav-item'
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
   {
@@ -33,4 +40,24 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const areas = allAreas.filter((a) => a.cityId === city.cityId)
 
   return { lang, city, area, category, areas }
+}
+
+export default function AreaLayout() {
+  const { lang, area } = useLoaderData<typeof loader>()
+
+  return (
+    <Stack>
+      <CategoryNav>
+        {categories.map((category) => (
+          <CategoryNavItem
+            key={category.id}
+            to={`/${lang.id === 'en' ? '' : `${lang.id}/`}area/${area.areaId}/${category.id}`}
+          >
+            {category.i18n[lang.id]}
+          </CategoryNavItem>
+        ))}
+      </CategoryNav>
+      <Outlet />
+    </Stack>
+  )
 }
