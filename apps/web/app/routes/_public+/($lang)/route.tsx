@@ -40,7 +40,7 @@ export default function PublicLayout() {
         )} */}
       </header>
 
-      <main className="px-0.5 py-2 sm:px-4 md:px-6">
+      <main className="px-1 py-2 sm:px-4 md:px-6">
         <Outlet />
       </main>
     </div>
