@@ -70,7 +70,7 @@ export const NearbyAreasSelector = ({
   return (
     <DropdownMenu open={isOpen} onOpenChange={handleOpenChange}>
       <DropdownMenuTrigger asChild>
-        <Button type="button" variant="default">
+        <Button type="button" variant="default" className="rounded-full">
           <MapPinIcon className="mr-2 h-4 w-4" />
           {ButtonLabels[languageId]}
         </Button>
