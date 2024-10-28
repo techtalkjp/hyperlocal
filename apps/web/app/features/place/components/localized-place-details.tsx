@@ -25,8 +25,8 @@ import {
   getBusinessStatus,
   priceLevelLabel,
 } from '../utils'
-import { getSquareImageUrl } from '../utils/google-place-photo-url'
 import { BusinessStatusBadge } from './business-status-badge'
+import { ResponsivePlacesImage } from './responsive-place-image'
 
 export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
   const city = cities.find((c) => c.cityId === place.cityId)
@@ -67,10 +67,8 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
               <CarouselContent>
                 {place.photos.map((photoUrl, index) => (
                   <CarouselItem key={photoUrl}>
-                    <img
-                      src={getSquareImageUrl(photoUrl, 1200)}
-                      width={400}
-                      loading={index === 0 ? 'eager' : 'lazy'}
+                    <ResponsivePlacesImage
+                      imageUrl={photoUrl}
                       alt={`${place.displayName} - ${index + 1}`}
                       className="aspect-square w-full rounded-lg object-cover"
                       style={{
@@ -78,6 +76,13 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
                           index === 0 ? `hero-${place.placeId}` : '',
                       }}
                     />
+                    {/* <img
+                      src={getSquareImageUrl(photoUrl, 1200)}
+                      width={400}
+                      loading={index === 0 ? 'eager' : 'lazy'}
+                      alt={`${place.displayName} - ${index + 1}`}
+                      className="aspect-square w-full rounded-lg object-cover"
+                    /> */}
                   </CarouselItem>
                 ))}
               </CarouselContent>
