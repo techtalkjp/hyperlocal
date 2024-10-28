@@ -23,9 +23,8 @@ export const AreaTitle = ({ city, languageId, ...props }: AreaTitleProps) => {
   return (
     <h1 className="flex flex-wrap items-end gap-x-2 text-xl font-bold">
       <Link to={`${language.path}`} prefetch="intent">
-        Hyperlocal {city.i18n[languageId]}{' '}
+        Hyperlocal {city.i18n[languageId]}
       </Link>
-      {/* <div className="text-sm text-muted-foreground">{area}</div> */}
     </h1>
   )
 }

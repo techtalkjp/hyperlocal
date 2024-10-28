@@ -75,16 +75,30 @@ export default function SpotDetail() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href={`/${languagePath}area/${area?.areaId}`}>
-                  {area?.i18n[lang.id]}
+                <BreadcrumbLink asChild>
+                  <Link
+                    to={`/${languagePath}area/${area?.areaId}`}
+                    viewTransition
+                    style={{
+                      viewTransitionName: `nav-area-${area?.areaId}`,
+                    }}
+                  >
+                    {area?.i18n[lang.id]}
+                  </Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbLink
-                  href={`/${languagePath}area/${area?.areaId}/${category?.id}/${rank}`}
-                >
-                  {category?.i18n[lang.id]}
+                <BreadcrumbLink asChild>
+                  <Link
+                    to={`/${languagePath}area/${area?.areaId}/${category?.id}/${rank}`}
+                    viewTransition
+                    style={{
+                      viewTransitionName: `nav-category-${category?.id}`,
+                    }}
+                  >
+                    {category?.i18n[lang.id]}
+                  </Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
             </BreadcrumbList>

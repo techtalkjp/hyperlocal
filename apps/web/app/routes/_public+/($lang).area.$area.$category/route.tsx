@@ -66,6 +66,8 @@ export default function AreaCategory() {
           <CategoryNavItem
             key={category.id}
             to={`${lang.path}area/${area.areaId}/${category.id}`}
+            viewTransition
+            style={{ viewTransitionName: `nav-category-${category.id}` }}
           >
             {category.i18n[lang.id]}
           </CategoryNavItem>

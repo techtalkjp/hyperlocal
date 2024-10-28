@@ -30,14 +30,6 @@ export default function PublicLayout() {
             className="flex-shrink-0"
           />
         </div>
-
-        {/* {area && (
-          <nav className="px-2 pt-2 sm:px-4 md:px-6">
-            <Breadcrumbs>
-              <Link to={`/${lang.path}`}>{city.i18n[lang.id]}</Link>
-            </Breadcrumbs>
-          </nav>
-        )} */}
       </header>
 
       <main className="px-1 py-2 sm:px-4 md:px-6">
