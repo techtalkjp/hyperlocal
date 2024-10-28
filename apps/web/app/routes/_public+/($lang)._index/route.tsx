@@ -39,11 +39,26 @@ export default function IndexPage() {
 
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
         {areas.map((area) => (
-          <Link key={area.areaId} to={`area/${area.areaId}`} prefetch="intent">
+          <Link
+            key={area.areaId}
+            to={`area/${area.areaId}`}
+            prefetch="intent"
+            viewTransition
+          >
             <Card className="h-full hover:bg-secondary">
               <CardHeader className="h-full">
-                <CardTitle>{area.i18n[lang.id]}</CardTitle>
-                <CardDescription>{area.description[lang.id]}</CardDescription>
+                <CardTitle
+                  style={{ viewTransitionName: `area-title-${area.areaId}` }}
+                >
+                  {area.i18n[lang.id]}
+                </CardTitle>
+                <CardDescription
+                  style={{
+                    viewTransitionName: `area-description-${area.areaId}`,
+                  }}
+                >
+                  {area.description[lang.id]}
+                </CardDescription>
               </CardHeader>
             </Card>
           </Link>

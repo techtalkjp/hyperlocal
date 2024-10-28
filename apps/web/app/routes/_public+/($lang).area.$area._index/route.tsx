@@ -16,19 +16,32 @@ export default function AreaIndexPage() {
   const { lang, area } = useLoaderData<typeof loader>()
   return (
     <Stack>
-      <h3 className="text-xl font-semibold leading-none tracking-tight">
-        {area.i18n[lang.id]}
-      </h3>
-      <p className="text-sm text-muted-foreground">
-        {area.description[lang.id]}
-      </p>
+      <div className="mx-auto my-8 gap-8">
+        <h3
+          className="text-center text-xl font-semibold leading-none tracking-tight"
+          style={{ viewTransitionName: `area-title-${area.areaId}` }}
+        >
+          {area.i18n[lang.id]}
+        </h3>
+
+        <p
+          className="mt-8 max-w-96 text-sm text-muted-foreground"
+          style={{ viewTransitionName: `area-description-${area.areaId}` }}
+        >
+          {area.description[lang.id]}
+        </p>
+      </div>
 
       <div className="grid grid-cols-2 gap-2">
         {categories.map((category) => (
-          <Link to={`${category.id}`} key={category.id}>
+          <Link to={`${category.id}`} key={category.id} viewTransition>
             <Card className="hover:bg-secondary">
               <CardHeader>
-                <CardTitle>{category.i18n[lang.id]}</CardTitle>
+                <CardTitle
+                  style={{ viewTransitionName: `nav-category-${category.id}` }}
+                >
+                  {category.i18n[lang.id]}
+                </CardTitle>
               </CardHeader>
             </Card>
           </Link>
