@@ -10,19 +10,19 @@ export interface Language {
 }
 
 export const languages = [
-  { id: 'en', path: '', displayName: 'English', name: 'English' },
+  { id: 'en', path: '/', displayName: 'English', name: 'English' },
   {
     id: 'zh-CN',
-    path: 'zh-CN',
+    path: '/zh-CN/',
     displayName: '中文簡体',
     name: 'Simplified Chinese',
   },
   {
     id: 'zh-TW',
-    path: 'zh-TW',
+    path: '/zh-TW/',
     displayName: '中文繁体',
     name: 'Traditional Chinese',
   },
-  { id: 'ko', path: 'ko', displayName: '한국어', name: 'Korean' },
-  { id: 'ja', path: 'ja', displayName: '日本語', name: 'Japanese' },
+  { id: 'ko', path: '/ko/', displayName: '한국어', name: 'Korean' },
+  { id: 'ja', path: '/ja/', displayName: '日本語', name: 'Japanese' },
 ] as const satisfies Language[]

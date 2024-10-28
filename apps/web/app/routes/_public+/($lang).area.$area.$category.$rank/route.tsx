@@ -78,7 +78,7 @@ export default function CategoryIndexPage() {
           place={place}
           no={idx + 1}
           loading={idx <= 5 ? 'eager' : 'lazy'}
-          to={`/${lang.id === 'en' ? '' : `${lang.id}/`}place/${place.placeId}?area=${area.areaId}&category=${category.id}&rank=${rankingType}`}
+          to={`${lang.path}place/${place.placeId}?area=${area.areaId}&category=${category.id}&rank=${rankingType}`}
         />
       ))}
     </Stack>

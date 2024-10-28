@@ -14,7 +14,7 @@ export default function AreaIndexPage() {
   return (
     <div className="grid grid-cols-2 gap-2">
       {categories.map((category) => (
-        <Link to={`${category.id}`} key={category.id} prefetch="intent">
+        <Link to={`${category.id}`} key={category.id} prefetch="viewport">
           <Card className="hover:bg-secondary">
             <CardHeader>
               <CardTitle>{category.i18n[lang.id]}</CardTitle>

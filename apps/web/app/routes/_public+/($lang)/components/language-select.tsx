@@ -35,7 +35,7 @@ function generateLanguageUrls(
 
   return languages.map((lang) => ({
     id: lang.id,
-    url: lang.id === 'en' ? pathWithoutLang : `/${lang.path}${pathWithoutLang}`,
+    url: `${lang.path}${pathWithoutLang}`,
     displayName: lang.displayName,
   }))
 }
