@@ -94,7 +94,7 @@ export const NearbyAreasSelector = () => {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link to="/areas" onClick={handleClickLink}>
+          <Link to="/" onClick={handleClickLink}>
             <div>See all areas</div>
           </Link>
         </DropdownMenuItem>
