@@ -47,15 +47,19 @@ export default function CategoryIndexPage() {
       <Tabs value={rankingType}>
         <TabsList>
           <TabsTrigger value="rating">
-            <NavLink to={'../rating'}>Top Rated</NavLink>
+            <NavLink to={'../rating'} viewTransition>
+              Top Rated
+            </NavLink>
           </TabsTrigger>
           {(category.id === 'lunch' || category.id === 'dinner') && (
             <TabsTrigger value="review" asChild>
-              <NavLink to={'../review'}>Most Popular</NavLink>
+              <NavLink to={'../review'} viewTransition>
+                Most Popular
+              </NavLink>
             </TabsTrigger>
           )}
           <TabsTrigger value="nearme" asChild>
-            <NavLink to={'../nearme'}>
+            <NavLink to={'../nearme'} viewTransition>
               {({ isPending }) => (
                 <span>
                   Near Me

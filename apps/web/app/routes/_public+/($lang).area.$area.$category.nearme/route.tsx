@@ -76,11 +76,15 @@ export default function CategoryIndexPage() {
       <Tabs value="nearme">
         <TabsList>
           <TabsTrigger value="rating">
-            <NavLink to={'../rating'}>Top Rated</NavLink>
+            <NavLink to={'../rating'} viewTransition>
+              Top Rated
+            </NavLink>
           </TabsTrigger>
           {(category.id === 'lunch' || category.id === 'dinner') && (
             <TabsTrigger value="review" asChild>
-              <NavLink to={'../review'}>Most Popular</NavLink>
+              <NavLink to={'../review'} viewTransition>
+                Most Popular
+              </NavLink>
             </TabsTrigger>
           )}
           <TabsTrigger
@@ -88,7 +92,9 @@ export default function CategoryIndexPage() {
             className="border data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
             asChild
           >
-            <NavLink to={'../nearme'}>Near Me</NavLink>
+            <NavLink to={'../nearme'} viewTransition>
+              Near Me
+            </NavLink>
           </TabsTrigger>
         </TabsList>
       </Tabs>
