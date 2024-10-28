@@ -70,7 +70,7 @@ export const NearbyAreasSelector = () => {
         )}
         <DropdownMenuGroup>
           {fetcher.data?.nearbyAreas.map((area) => (
-            <DropdownMenuItem key={area.areaId}>
+            <DropdownMenuItem key={area.areaId} asChild>
               <Link to={`/area/${area.areaId}`} onClick={handleClickLink}>
                 <div>{area.i18n.en}</div>
                 {area.distance && (
