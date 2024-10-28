@@ -61,9 +61,8 @@ export default function SpotDetail() {
   const { lang, city, area, category, rank, place } =
     useLoaderData<typeof loader>()
 
-  const languagePath = lang.id === 'en' ? '' : `${lang.path}/`
   const getBackToListUrl = () => {
-    return `/${languagePath}area/${area?.areaId}/${category?.id}/${rank}`
+    return `${lang.path}area/${area?.areaId}/${category?.id}/${rank}`
   }
 
   const isLinkedFromList = !!area && !!category
@@ -76,10 +75,7 @@ export default function SpotDetail() {
             <BreadcrumbList>
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link
-                    to={`/${languagePath}area/${area?.areaId}`}
-                    viewTransition
-                  >
+                  <Link to={`${lang.path}area/${area?.areaId}`} viewTransition>
                     {area?.i18n[lang.id]}
                   </Link>
                 </BreadcrumbLink>
@@ -88,7 +84,7 @@ export default function SpotDetail() {
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
                   <Link
-                    to={`/${languagePath}area/${area?.areaId}/${category?.id}/${rank}`}
+                    to={`${lang.path}area/${area?.areaId}/${category?.id}/${rank}`}
                     viewTransition
                     style={{
                       viewTransitionName: `nav-category-${category?.id}`,
