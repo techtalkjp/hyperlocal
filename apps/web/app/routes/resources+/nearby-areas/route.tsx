@@ -1,4 +1,9 @@
-import { areas, languages, type LanguageId } from '@hyperlocal/consts'
+import {
+  areas,
+  languages,
+  type LanguageId,
+  type i18nRecord,
+} from '@hyperlocal/consts'
 import { Link, useFetcher, type ClientLoaderFunction } from '@remix-run/react'
 import { FootprintsIcon, LoaderIcon, MapPinIcon } from 'lucide-react'
 import React from 'react'
@@ -13,6 +18,14 @@ import {
   HStack,
 } from '~/components/ui'
 import { sortAreasByDistance } from '~/services/distance.client'
+
+const ButtonLabels: i18nRecord = {
+  en: 'Nearby Areas',
+  ja: '近くのエリア',
+  ko: '근처 지역',
+  'zh-CN': '附近地区',
+  'zh-TW': '附近地區',
+}
 
 export const clientLoader = async (args: ClientLoaderFunction) => {
   const position = await new Promise<GeolocationPosition>((resolve, reject) => {
@@ -59,7 +72,7 @@ export const NearbyAreasSelector = ({
       <DropdownMenuTrigger asChild>
         <Button type="button" variant="default">
           <MapPinIcon className="mr-2 h-4 w-4" />
-          Nearby Areas
+          {ButtonLabels[languageId]}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
