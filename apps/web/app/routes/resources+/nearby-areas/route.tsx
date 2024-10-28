@@ -1,6 +1,6 @@
 import { areas } from '@hyperlocal/consts'
 import { Link, useFetcher, type ClientLoaderFunction } from '@remix-run/react'
-import { FootprintsIcon, MapPinIcon } from 'lucide-react'
+import { FootprintsIcon, LoaderIcon, MapPinIcon } from 'lucide-react'
 import React from 'react'
 import {
   Button,
@@ -22,7 +22,7 @@ export const clientLoader = async (args: ClientLoaderFunction) => {
     return null
   })
   if (!position) {
-    throw new Error('Geolocation not available')
+    return { nearbyAreas: [], error: 'Failed to get your location' }
   }
 
   const nearbyAreas = sortAreasByDistance(
@@ -30,7 +30,7 @@ export const clientLoader = async (args: ClientLoaderFunction) => {
     position.coords.latitude,
     position.coords.longitude,
   ).slice(0, 5)
-  return { nearbyAreas }
+  return { nearbyAreas, error: null }
 }
 
 export const NearbyAreasSelector = () => {
@@ -58,8 +58,14 @@ export const NearbyAreasSelector = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         {fetcher.state === 'loading' && (
-          <DropdownMenuItem>
-            <div>Loading...</div>
+          <DropdownMenuItem className="text-blue-500">
+            <LoaderIcon className="mr-2 inline h-4 w-4 animate-spin" />
+            Loading...
+          </DropdownMenuItem>
+        )}
+        {fetcher.data?.error && (
+          <DropdownMenuItem className="text-red-500">
+            <div>{fetcher.data.error}</div>
           </DropdownMenuItem>
         )}
         <DropdownMenuGroup>
