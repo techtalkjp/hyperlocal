@@ -1,14 +1,15 @@
+import type { Area } from '@hyperlocal/consts'
 import type { LocalizedPlace } from '@hyperlocal/db'
 
 /**
  * 2点間の距離をヒュベニの公式で計算する（メートル単位）
  */
-export function calculateDistance(
+export const calculateDistance = (
   lat1: number,
   lon1: number,
   lat2: number,
   lon2: number,
-): number {
+): number => {
   const R = 6371000 // 地球の半径（メートル）
 
   const φ1 = (lat1 * Math.PI) / 180
@@ -32,11 +33,11 @@ export interface LocalizedPlaceWithDistance extends LocalizedPlace {
 /**
  * 指定された位置からの距離でソートする
  */
-export function sortLocalizedPlaceByDistance(
+export const sortLocalizedPlaceByDistance = (
   places: LocalizedPlace[],
   userLat: number,
   userLon: number,
-): LocalizedPlaceWithDistance[] {
+): LocalizedPlaceWithDistance[] => {
   // 距離を計算して追加
   const placesWithDistance = places.map((restaurant) => ({
     ...restaurant,
@@ -51,4 +52,32 @@ export function sortLocalizedPlaceByDistance(
   // 距離でソート
   placesWithDistance.sort((a, b) => a.distance - b.distance)
   return placesWithDistance
+}
+
+export interface AreaWithDistance extends Area {
+  distance: number
+}
+
+/**
+ * 指定された位置からの距離で areas をソートする
+ */
+export const sortAreasByDistance = (
+  areas: Area[],
+  userLat: number,
+  userLon: number,
+): AreaWithDistance[] => {
+  // 距離を計算して追加
+  const areasWithDistance = areas.map((area) => ({
+    ...area,
+    distance: calculateDistance(
+      userLat,
+      userLon,
+      area.latitude,
+      area.longitude,
+    ),
+  }))
+
+  // 距離でソート
+  areasWithDistance.sort((a, b) => a.distance - b.distance)
+  return areasWithDistance
 }

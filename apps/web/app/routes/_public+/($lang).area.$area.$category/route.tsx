@@ -62,7 +62,7 @@ export default function AreaCategory() {
 
   return (
     <Stack>
-      <div className="rounded-md border p-2">
+      <div className="rounded-md border-2 p-2">
         <Link to={`${lang.path}area/${area.areaId}`} viewTransition>
           {area.i18n[lang.id]}
         </Link>

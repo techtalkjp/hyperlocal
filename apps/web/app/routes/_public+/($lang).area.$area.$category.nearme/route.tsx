@@ -10,7 +10,7 @@ import { LoaderIcon } from 'lucide-react'
 import { Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { LocalizedPlaceCard } from '~/features/place/components/localized-place-card'
-import { sortLocalizedPlaceByDistance } from './distance'
+import { sortLocalizedPlaceByDistance } from '../../../services/distance.client'
 import { listLocalizedPlaces } from './queries.server'
 
 export const headers: HeadersFunction = () => ({
