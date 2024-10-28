@@ -25,7 +25,7 @@ export default function PublicLayout() {
       <header className="flex items-center border-b px-2 py-2 sm:px-4 md:px-6">
         <AreaTitle city={city} languageId={lang.id} />
         <div className="flex-1" />
-        <NearbyAreasSelector />
+        <NearbyAreasSelector languageId={lang.id} />
       </header>
 
       <main className="px-1 py-2 sm:px-4 md:px-6">

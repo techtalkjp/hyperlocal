@@ -66,8 +66,8 @@ export const LocalizedPlaceCard = ({
                   : `${distance.toFixed(0)} m`}
               </div>
 
-              {/* 徒歩何分か。1キロ未満のときだけ表示 */}
-              {distance < 1000 && (
+              {/* 徒歩何分か。2キロ未満のときだけ表示 */}
+              {distance < 2000 && (
                 <div className="whitespace-nowrap">
                   <FootprintsIcon className="mb-1 mr-1 inline h-4 w-4" />
                   <span>{(distance / 80).toFixed(0)} min</span>

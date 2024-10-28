@@ -1,4 +1,4 @@
-import { areas } from '@hyperlocal/consts'
+import { areas, languages, type LanguageId } from '@hyperlocal/consts'
 import { Link, useFetcher, type ClientLoaderFunction } from '@remix-run/react'
 import { FootprintsIcon, LoaderIcon, MapPinIcon } from 'lucide-react'
 import React from 'react'
@@ -33,7 +33,11 @@ export const clientLoader = async (args: ClientLoaderFunction) => {
   return { nearbyAreas, error: null }
 }
 
-export const NearbyAreasSelector = () => {
+export const NearbyAreasSelector = ({
+  languageId,
+}: {
+  languageId: LanguageId
+}) => {
   const [isOpen, setIsOpen] = React.useState(false)
   const fetcher = useFetcher<typeof clientLoader>()
 
@@ -47,6 +51,8 @@ export const NearbyAreasSelector = () => {
   const handleClickLink = (e: React.MouseEvent) => {
     setIsOpen(false)
   }
+
+  const lang = languages.find((l) => l.id === languageId)
 
   return (
     <DropdownMenu open={isOpen} onOpenChange={handleOpenChange}>
@@ -70,9 +76,16 @@ export const NearbyAreasSelector = () => {
         )}
         <DropdownMenuGroup>
           {fetcher.data?.nearbyAreas.map((area) => (
-            <DropdownMenuItem key={area.areaId} asChild>
-              <Link to={`/area/${area.areaId}`} onClick={handleClickLink}>
-                <div>{area.i18n.en}</div>
+            <DropdownMenuItem
+              key={area.areaId}
+              className="block cursor-pointer"
+              asChild
+            >
+              <Link
+                to={`${lang?.path}area/${area.areaId}`}
+                onClick={handleClickLink}
+              >
+                <div>{area.i18n[languageId]}</div>
                 {area.distance && (
                   <HStack className="text-xs text-blue-500">
                     {/* 距離 */}
@@ -83,8 +96,8 @@ export const NearbyAreasSelector = () => {
                         : `${area.distance.toFixed(0)} m`}
                     </div>
 
-                    {/* 徒歩何分か。1キロ未満のときだけ表示 */}
-                    {area.distance < 1000 && (
+                    {/* 徒歩何分か。2キロ未満のときだけ表示 */}
+                    {area.distance < 3000 && (
                       <div className="whitespace-nowrap">
                         <FootprintsIcon className="mb-1 mr-1 inline h-4 w-4" />
                         <span>{(area.distance / 80).toFixed(0)} min</span>
@@ -97,9 +110,9 @@ export const NearbyAreasSelector = () => {
           ))}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
+        <DropdownMenuItem className="cursor-pointer" asChild>
           <Link to="/" onClick={handleClickLink}>
-            <div>See all areas</div>
+            See all areas
           </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
