@@ -1,6 +1,7 @@
 import { categories } from '@hyperlocal/consts'
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import {
+  Link,
   Outlet,
   redirect,
   useLoaderData,
@@ -57,10 +58,19 @@ export const loader = ({ request, params }: LoaderFunctionArgs) => {
 }
 
 export default function AreaCategory() {
-  const { lang, area, category } = useLoaderData<typeof loader>()
+  const { lang, area } = useLoaderData<typeof loader>()
 
   return (
     <Stack>
+      <div>
+        <Link to={`${lang.path}area/${area.areaId}`} viewTransition>
+          {area.i18n[lang.id]}
+        </Link>
+        <div className="text-xs text-muted-foreground">
+          {area.description[lang.id]}
+        </div>
+      </div>
+
       <CategoryNav>
         {categories.map((category) => (
           <CategoryNavItem

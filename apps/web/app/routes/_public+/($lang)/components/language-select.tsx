@@ -18,7 +18,7 @@ function generateLanguageUrls(
 ) {
   // 現在の言語のパスを取得
   const currentLangPath =
-    languages.find((lang) => lang.id === currentLanguage)?.path || ''
+    languages.find((lang) => lang.id === currentLanguage)?.id || ''
 
   // 現在のパスから言語部分を削除
   let pathWithoutLang = currentPathname
@@ -28,16 +28,18 @@ function generateLanguageUrls(
       '',
     )
   }
-  // パスが'/'で始まっていない場合、追加する
-  if (!pathWithoutLang.startsWith('/')) {
-    pathWithoutLang = `/${pathWithoutLang}`
+  // パスが'/'で始まっている場合は削除する
+  if (pathWithoutLang.startsWith('/')) {
+    pathWithoutLang = pathWithoutLang.slice(1)
   }
 
-  return languages.map((lang) => ({
-    id: lang.id,
-    url: `${lang.path}${pathWithoutLang}`,
-    displayName: lang.displayName,
-  }))
+  return languages.map((lang) => {
+    return {
+      id: lang.id,
+      url: `${lang.path}${pathWithoutLang}`,
+      displayName: lang.displayName,
+    }
+  })
 }
 
 interface LanguageSelectProps

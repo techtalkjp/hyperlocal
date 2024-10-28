@@ -43,9 +43,7 @@ export default function IndexPage() {
             <Card className="h-full hover:bg-secondary">
               <CardHeader className="h-full">
                 <CardTitle>{area.i18n[lang.id]}</CardTitle>
-                <CardDescription>
-                  {lang.id !== 'ja' && area.name}
-                </CardDescription>
+                <CardDescription>{area.description[lang.id]}</CardDescription>
               </CardHeader>
             </Card>
           </Link>
