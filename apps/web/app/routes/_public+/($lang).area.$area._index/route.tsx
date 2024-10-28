@@ -18,7 +18,7 @@ export default function AreaIndexPage() {
     <Stack>
       <div className="mx-auto my-8 gap-8">
         <h3
-          className="text-center text-xl font-semibold leading-none tracking-tight"
+          className="text-center text-4xl font-semibold leading-none tracking-tight"
           style={{ viewTransitionName: `area-title-${area.areaId}` }}
         >
           {area.i18n[lang.id]}
