@@ -79,9 +79,6 @@ export default function SpotDetail() {
                   <Link
                     to={`/${languagePath}area/${area?.areaId}`}
                     viewTransition
-                    style={{
-                      viewTransitionName: `nav-area-${area?.areaId}`,
-                    }}
                   >
                     {area?.i18n[lang.id]}
                   </Link>

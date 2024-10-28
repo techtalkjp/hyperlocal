@@ -38,11 +38,7 @@ export default function AreaLayout() {
 
   return (
     <Stack>
-      <Link
-        to={`${lang.path}area/${area.areaId}`}
-        viewTransition
-        style={{ viewTransitionName: `nav-area-${area.areaId}` }}
-      >
+      <Link to={`${lang.path}area/${area.areaId}`} viewTransition>
         {area.i18n[lang.id]}
       </Link>
 
