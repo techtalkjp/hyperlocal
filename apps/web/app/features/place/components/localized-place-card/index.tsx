@@ -57,22 +57,22 @@ export const LocalizedPlaceCard = ({
           <ActionButtons place={place} distance={distance} className="z-20" />
 
           {distance && (
-            <HStack>
+            <HStack className="text-sm font-semibold text-blue-500">
               {/* 距離 */}
-              <div className="whitespace-nowrap text-sm font-semibold text-blue-500">
+              <div className="whitespace-nowrap">
                 <MapPinIcon className="mb-1 mr-1 inline h-4 w-4" />
                 {distance > 1000
                   ? `${(distance / 1000).toFixed(1)} km`
                   : `${distance.toFixed(0)} m`}
               </div>
 
-              {/* 徒歩何分か。10キロ未満のときだけ表示 */}
-              <div className="whitespace-nowrap text-sm font-semibold text-blue-500">
-                <FootprintsIcon className="mb-1 mr-1 inline h-4 w-4" />
-                <span>
-                  {distance > 10000 ? '' : `${(distance / 80).toFixed(0)} min`}
-                </span>
-              </div>
+              {/* 徒歩何分か。1キロ未満のときだけ表示 */}
+              {distance < 1000 && (
+                <div className="whitespace-nowrap">
+                  <FootprintsIcon className="mb-1 mr-1 inline h-4 w-4" />
+                  <span>{(distance / 80).toFixed(0)} min</span>
+                </div>
+              )}
             </HStack>
           )}
         </Stack>

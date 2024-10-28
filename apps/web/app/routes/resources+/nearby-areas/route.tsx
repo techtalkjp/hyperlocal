@@ -74,7 +74,7 @@ export const NearbyAreasSelector = () => {
               <Link to={`/area/${area.areaId}`} onClick={handleClickLink}>
                 <div>{area.i18n.en}</div>
                 {area.distance && (
-                  <HStack className="text-xs font-semibold text-blue-500">
+                  <HStack className="text-xs text-blue-500">
                     {/* 距離 */}
                     <div className="whitespace-nowrap">
                       <MapPinIcon className="mb-1 mr-1 inline h-4 w-4" />
@@ -83,15 +83,13 @@ export const NearbyAreasSelector = () => {
                         : `${area.distance.toFixed(0)} m`}
                     </div>
 
-                    {/* 徒歩何分か。10キロ未満のときだけ表示 */}
-                    <div className="whitespace-nowrap">
-                      <FootprintsIcon className="mb-1 mr-1 inline h-4 w-4" />
-                      <span>
-                        {area.distance > 10000
-                          ? ''
-                          : `${(area.distance / 80).toFixed(0)} min`}
-                      </span>
-                    </div>
+                    {/* 徒歩何分か。1キロ未満のときだけ表示 */}
+                    {area.distance < 1000 && (
+                      <div className="whitespace-nowrap">
+                        <FootprintsIcon className="mb-1 mr-1 inline h-4 w-4" />
+                        <span>{(area.distance / 80).toFixed(0)} min</span>
+                      </div>
+                    )}
                   </HStack>
                 )}
               </Link>
