@@ -22,7 +22,7 @@ export const AreaTitle = ({ city, languageId, ...props }: AreaTitleProps) => {
       <Link to={`/${languageId === 'en' ? '' : languageId}`} prefetch="intent">
         Hyperlocal {city.i18n[languageId]}{' '}
       </Link>
-      <div className="text-sm text-muted-foreground">{area}</div>
+      {/* <div className="text-sm text-muted-foreground">{area}</div> */}
     </h1>
   )
 }

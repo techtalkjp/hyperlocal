@@ -1,4 +1,4 @@
-import { areas as allAreas, categories } from '@hyperlocal/consts'
+import { areas as allAreas } from '@hyperlocal/consts'
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import {
   Link,
@@ -8,7 +8,6 @@ import {
 } from '@remix-run/react'
 import { Stack } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
-import { CategoryNav, CategoryNavItem } from './components/category-nav-item'
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
   {
@@ -19,14 +18,6 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => [
 export const shouldRevalidate = () => true
 
 export const handle = {
-  breadcrumb: (data: Awaited<ReturnType<typeof loader>>) => (
-    <Link
-      to={`/${data.lang.id === 'en' ? '' : `${data.lang.path}/`}area/${data.area.areaId}`}
-      prefetch="intent"
-    >
-      {data.area.i18n[data.lang.id]}
-    </Link>
-  ),
   area: (data: Awaited<ReturnType<typeof loader>>) =>
     data.area.i18n[data.lang.id],
 }
@@ -47,16 +38,9 @@ export default function AreaLayout() {
 
   return (
     <Stack>
-      <CategoryNav className="px-1">
-        {categories.map((category) => (
-          <CategoryNavItem
-            key={category.id}
-            to={`/${lang.id === 'en' ? '' : `${lang.id}/`}area/${area.areaId}/${category.id}`}
-          >
-            {category.i18n[lang.id]}
-          </CategoryNavItem>
-        ))}
-      </CategoryNav>
+      <Link to={`${lang.id === 'en' ? '' : lang.path}/area/${area.areaId}`}>
+        {area.i18n[lang.id]}
+      </Link>
 
       <Outlet />
     </Stack>

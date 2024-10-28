@@ -1,7 +1,15 @@
+import { categories } from '@hyperlocal/consts'
 import type { LoaderFunctionArgs } from '@remix-run/node'
-import { Link, redirect, type MetaFunction } from '@remix-run/react'
+import {
+  Outlet,
+  redirect,
+  useLoaderData,
+  type MetaFunction,
+} from '@remix-run/react'
+import { Stack } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { generateAreaCategoryMetaDescription } from '~/features/seo/meta-area-category'
+import { CategoryNav, CategoryNavItem } from './components/category-nav-item'
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
   {
@@ -23,14 +31,6 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => [
 ]
 
 export const handle = {
-  breadcrumb: (data: Awaited<ReturnType<typeof loader>>) => (
-    <Link
-      to={`/${data.lang.id === 'en' ? '' : `${data.lang.path}/`}area/${data.area.areaId}/${data.category.id}`}
-      prefetch="intent"
-    >
-      {data.category.i18n[data.lang.id]}
-    </Link>
-  ),
   category: (data: Awaited<ReturnType<typeof loader>>) =>
     data.category.i18n[data.lang.id],
 }
@@ -54,4 +54,24 @@ export const loader = ({ request, params }: LoaderFunctionArgs) => {
   }
 
   return { lang, city, area, category }
+}
+
+export default function AreaCategory() {
+  const { lang, area, category } = useLoaderData<typeof loader>()
+
+  return (
+    <Stack>
+      <CategoryNav>
+        {categories.map((category) => (
+          <CategoryNavItem
+            key={category.id}
+            to={`/${lang.id === 'en' ? '' : `${lang.id}/`}area/${area.areaId}/${category.id}`}
+          >
+            {category.i18n[lang.id]}
+          </CategoryNavItem>
+        ))}
+      </CategoryNav>
+      <Outlet />
+    </Stack>
+  )
 }
