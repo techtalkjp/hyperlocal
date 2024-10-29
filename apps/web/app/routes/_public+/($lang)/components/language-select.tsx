@@ -49,6 +49,7 @@ interface LanguageSelectProps
 export const LanguageSelect = ({
   currentLanguageId,
   className,
+  children,
   ...rest
 }: LanguageSelectProps) => {
   const currentLang = languages.find((lang) => lang.id === currentLanguageId)
@@ -63,8 +64,8 @@ export const LanguageSelect = ({
     <DropdownMenu>
       <DropdownMenuTrigger className={cn(className)} {...rest} asChild>
         <Button variant="outline" className="rounded-full" size="sm">
-          <GlobeIcon className="mr-2 inline h-4 w-4" />
-          Language
+          <GlobeIcon className={cn('inline h-4 w-4', children && 'mr-2')} />
+          {children}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
