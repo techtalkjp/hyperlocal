@@ -75,7 +75,13 @@ export default function SpotDetail() {
             <BreadcrumbList>
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link to={`${lang.path}area/${area?.areaId}`} viewTransition>
+                  <Link
+                    to={`${lang.path}area/${area?.areaId}`}
+                    viewTransition
+                    style={{
+                      viewTransitionName: `area-title-${area?.areaId}`,
+                    }}
+                  >
                     {area?.i18n[lang.id]}
                   </Link>
                 </BreadcrumbLink>
