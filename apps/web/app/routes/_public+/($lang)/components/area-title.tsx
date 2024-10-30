@@ -1,6 +1,6 @@
 import type { City, LanguageId } from '@hyperlocal/consts'
 import { languages } from '@hyperlocal/consts'
-import { Link, useMatches, type UIMatch } from '@remix-run/react'
+import { Link, type UIMatch } from '@remix-run/react'
 import type React from 'react'
 
 type AreaMatch = UIMatch<
@@ -12,17 +12,12 @@ interface AreaTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
   languageId: LanguageId
 }
 export const AreaTitle = ({ city, languageId, ...props }: AreaTitleProps) => {
-  const matches = (useMatches() as unknown as AreaMatch[]).find(
-    ({ handle }) => handle?.area,
-  )
-
   const language =
     languages.find((lang) => lang.id === languageId) ?? languages[0]
-  const area = matches?.handle.area(matches.data)
 
   return (
     <h1 className="flex flex-wrap items-end gap-x-2 text-xl font-bold">
-      <Link to={`${language.path}`} prefetch="intent">
+      <Link to={`${language.path}`} prefetch="intent" viewTransition>
         Hyperlocal {city.i18n[languageId]}
       </Link>
     </h1>
