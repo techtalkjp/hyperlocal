@@ -17,7 +17,7 @@ import {
   DropdownMenuTrigger,
   HStack,
 } from '~/components/ui'
-import { sortAreasByDistance } from '~/services/distance.client'
+import { sortAreasByDistance } from '~/services/distance'
 
 const ButtonLabels: i18nRecord = {
   en: 'Nearby Areas',
