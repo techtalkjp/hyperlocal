@@ -67,6 +67,7 @@ export default function AreaCategory() {
           to={`${lang.path}area/${area.areaId}`}
           viewTransition
           style={{ viewTransitionName: `area-title-${area.areaId}` }}
+          className="font-semibold"
         >
           {area.i18n[lang.id]}
         </Link>
