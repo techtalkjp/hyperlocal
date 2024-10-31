@@ -71,8 +71,18 @@ export default function AreaIndexPage() {
                 viewTransition
               >
                 <div className="rounded-md border p-2 hover:bg-secondary">
-                  <div className="font-semibold">{area.i18n[lang.id]}</div>
-                  <div className="text-xs text-muted-foreground">
+                  <div
+                    className="font-semibold"
+                    style={{ viewTransitionName: `area-title-${area.areaId}` }}
+                  >
+                    {area.i18n[lang.id]}
+                  </div>
+                  <div
+                    className="text-xs text-muted-foreground"
+                    style={{
+                      viewTransitionName: `area-description-${area.areaId}`,
+                    }}
+                  >
                     {area.description[lang.id]}
                   </div>
                 </div>
