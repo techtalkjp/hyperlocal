@@ -7,7 +7,7 @@ import {
   useLoaderData,
   type MetaFunction,
 } from '@remix-run/react'
-import { Stack } from '~/components/ui'
+import { Badge, Stack } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { generateAreaCategoryMetaDescription } from '~/features/seo/meta-area-category'
 import { CategoryNav, CategoryNavItem } from './components/category-nav-item'
@@ -62,22 +62,27 @@ export default function AreaCategory() {
 
   return (
     <Stack>
-      <div className="rounded-md border-2 p-2">
-        <Link
-          to={`${lang.path}area/${area.areaId}`}
-          viewTransition
-          style={{ viewTransitionName: `area-title-${area.areaId}` }}
-          className="font-semibold"
-        >
-          {area.i18n[lang.id]}
-        </Link>
-        <div
-          className="text-xs text-muted-foreground"
-          style={{ viewTransitionName: `area-description-${area.areaId}` }}
-        >
-          {area.description[lang.id]}
+      <Link to={`${lang.path}area/${area.areaId}`} viewTransition>
+        <div className="flex rounded-md border p-2 hover:bg-secondary">
+          <div className="flex-1">
+            <div
+              className="font-semibold"
+              style={{ viewTransitionName: `area-title-${area.areaId}` }}
+            >
+              {area.i18n[lang.id]}
+            </div>
+            <div
+              className="text-xs text-muted-foreground"
+              style={{ viewTransitionName: `area-description-${area.areaId}` }}
+            >
+              {area.description[lang.id]}
+            </div>
+          </div>
+          <div>
+            <Badge variant="secondary">Area</Badge>
+          </div>
         </div>
-      </div>
+      </Link>
 
       <CategoryNav>
         {categories.map((category) => (

@@ -1,7 +1,7 @@
 import { areas, categories } from '@hyperlocal/consts'
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
-import { Card, CardHeader, CardTitle, Stack } from '~/components/ui'
+import { Badge, Card, CardHeader, CardTitle, Stack } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { sortAreasByDistance } from '~/services/distance'
 
@@ -23,15 +23,20 @@ export default function AreaIndexPage() {
   return (
     <Stack>
       <div className="mx-auto my-8 gap-8">
-        <h3
-          className="text-center text-4xl font-semibold leading-none tracking-tight"
-          style={{ viewTransitionName: `area-title-${area.areaId}` }}
-        >
-          {area.i18n[lang.id]}
-        </h3>
+        <Stack>
+          <h3
+            className="text-center text-4xl font-semibold leading-none tracking-tight"
+            style={{ viewTransitionName: `area-title-${area.areaId}` }}
+          >
+            {area.i18n[lang.id]}
+          </h3>
+          <div className="text-center">
+            <Badge variant="secondary">Area</Badge>
+          </div>
+        </Stack>
 
         <p
-          className="mt-8 max-w-96 text-sm text-muted-foreground"
+          className="mx-2 mt-8 max-w-96 text-sm text-muted-foreground"
           style={{ viewTransitionName: `area-description-${area.areaId}` }}
         >
           {area.description[lang.id]}
@@ -70,20 +75,27 @@ export default function AreaIndexPage() {
                 key={area.areaId}
                 viewTransition
               >
-                <div className="rounded-md border p-2 hover:bg-secondary">
-                  <div
-                    className="font-semibold"
-                    style={{ viewTransitionName: `area-title-${area.areaId}` }}
-                  >
-                    {area.i18n[lang.id]}
+                <div className="flex rounded-md border p-2 hover:bg-secondary">
+                  <div className="flex-1">
+                    <div
+                      className="font-semibold"
+                      style={{
+                        viewTransitionName: `area-title-${area.areaId}`,
+                      }}
+                    >
+                      {area.i18n[lang.id]}
+                    </div>
+                    <div
+                      className="text-xs text-muted-foreground"
+                      style={{
+                        viewTransitionName: `area-description-${area.areaId}`,
+                      }}
+                    >
+                      {area.description[lang.id]}
+                    </div>
                   </div>
-                  <div
-                    className="text-xs text-muted-foreground"
-                    style={{
-                      viewTransitionName: `area-description-${area.areaId}`,
-                    }}
-                  >
-                    {area.description[lang.id]}
+                  <div>
+                    <Badge variant="secondary">Area</Badge>
                   </div>
                 </div>
               </Link>
