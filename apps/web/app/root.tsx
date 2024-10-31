@@ -7,6 +7,7 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from '@remix-run/react'
+import { AppLoadingProgress } from './components/AppLoadingProgress'
 import globalStyles from './styles/globals.css?url'
 
 export const meta: MetaFunction = () => [
@@ -34,6 +35,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        <Outlet />
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -68,7 +70,7 @@ const App = () => {
           />
         </>
       )}
-      <Outlet />
+      <AppLoadingProgress />
     </>
   )
 }
