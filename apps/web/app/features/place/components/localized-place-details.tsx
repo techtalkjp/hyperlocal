@@ -172,17 +172,24 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
         <h3 className="mt-4 text-2xl font-semibold" id="reviews">
           Recent Reviews
         </h3>
-        {place.reviews.map((review, index) => (
-          <Stack key={review.text} className="rounded-lg bg-gray-50 p-2 md:p-4">
-            <div className="flex items-center">
-              <Star className="h-5 w-5 fill-current text-yellow-400" />
-              <span className="ml-2 font-bold">{review.rating.toFixed(1)}</span>
-            </div>
-            <p className="whitespace-pre-wrap break-words text-gray-700">
-              {review.text}
-            </p>
-          </Stack>
-        ))}
+        <Stack>
+          {place.reviews.map((review) => (
+            <Stack
+              key={review.text}
+              className="rounded-lg bg-secondary p-2 md:p-4"
+            >
+              <div className="flex items-center">
+                <Star className="h-5 w-5 fill-current text-yellow-400" />
+                <span className="ml-2 font-bold">
+                  {review.rating.toFixed(1)}
+                </span>
+              </div>
+              <p className="whitespace-pre-wrap break-words text-muted-foreground">
+                {review.text}
+              </p>
+            </Stack>
+          ))}
+        </Stack>
       </CardContent>
     </Card>
   )

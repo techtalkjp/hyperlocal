@@ -3,7 +3,7 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { useEffect } from 'react'
 
-export const AppLoadingProgress = () => {
+export const PageLoadingProgress = () => {
   const navigation = useNavigation()
 
   useEffect(() => {
