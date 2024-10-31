@@ -38,20 +38,25 @@ export default function AreaIndexPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-2">
-        {categories.map((category) => (
-          <Link to={`${category.id}`} key={category.id} viewTransition>
-            <Card className="hover:bg-secondary">
-              <CardHeader>
-                <CardTitle
-                  style={{ viewTransitionName: `nav-category-${category.id}` }}
-                >
-                  {category.i18n[lang.id]}
-                </CardTitle>
-              </CardHeader>
-            </Card>
-          </Link>
-        ))}
+      <div>
+        <h4 className="font-semibold">Places</h4>
+        <div className="grid grid-cols-2 gap-2">
+          {categories.map((category) => (
+            <Link to={`${category.id}`} key={category.id} viewTransition>
+              <Card className="hover:bg-secondary">
+                <CardHeader>
+                  <CardTitle
+                    style={{
+                      viewTransitionName: `nav-category-${category.id}`,
+                    }}
+                  >
+                    {category.i18n[lang.id]}
+                  </CardTitle>
+                </CardHeader>
+              </Card>
+            </Link>
+          ))}
+        </div>
       </div>
 
       {nearbyAreas.length > 0 && (
