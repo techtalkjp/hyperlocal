@@ -27,6 +27,11 @@ const argv = cli({
             default: 10000,
             description: '最大リクエスト数',
           },
+          all: {
+            type: Boolean,
+            default: false,
+            description: '全てのエリアをクロールする',
+          },
         },
       },
       async (argv) => await crawlTabelog(argv.flags, argv._.areaIds),
