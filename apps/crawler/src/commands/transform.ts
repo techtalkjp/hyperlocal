@@ -164,8 +164,7 @@ export const transform = async () => {
                 sql<number>`row_number() OVER (PARTITION BY area, category ORDER BY rating DESC)::integer`.as(
                   'rank',
                 ),
-            ])
-            .where('category', 'in', ['lunch', 'dinner']),
+            ]),
         )
         .with('review_rank', (db) =>
           db
