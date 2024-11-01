@@ -15,6 +15,8 @@ export const lookupGooglePlaceIds = async () => {
     .where('placeId', 'is', null)
     .execute()
 
+  console.log(`${restaurants.length} restaurants to lookup`)
+
   for (const restaurant of restaurants) {
     const place = await textSearch({
       textQuery: `${restaurant.part_address} ${restaurant.name}`,

@@ -15,6 +15,7 @@ const argv = cli({
     command(
       {
         name: '01_crawl-tabelog',
+        parameters: ['[area ids...]'],
         flags: {
           delay: {
             type: Number,
@@ -28,7 +29,7 @@ const argv = cli({
           },
         },
       },
-      async (argv) => await crawlTabelog(argv.flags),
+      async (argv) => await crawlTabelog(argv.flags, argv._.areaIds),
     ),
     // 食べログのデータをリスティング用のデータに変換する。ランキング外のデータは除外される
     command({ name: '02_transform' }, async () => await transform()),

@@ -10,11 +10,42 @@ export const transform = async () => {
     .execute()
 
   // ジャンル/カテゴリを変換したレストランデータを生成
-  await db.schema.dropTable('restaurants').ifExists().execute()
+  // レストランテーブルを作成し、'url'を主キーとして定義
   await db.schema
     .createTable('restaurants')
-    .as(
-      // ジャンルごとに１行に展開
+    .ifNotExists()
+    .addColumn('url', 'varchar', (col) => col.primaryKey())
+    .addColumn('area', 'varchar', (col) => col.notNull())
+    .addColumn('categories', 'varchar', (col) => col.notNull())
+    .addColumn('genres', 'varchar', (col) => col.notNull())
+    .addColumn('name', 'varchar', (col) => col.notNull())
+    .addColumn('rating', 'float4')
+    .addColumn('reviewCount', 'integer')
+    .addColumn('budgetLunch', 'varchar')
+    .addColumn('budgetDinner', 'varchar')
+    .addColumn('closedDay', 'varchar')
+    .addColumn('address', 'varchar')
+    .addColumn('placeId', 'varchar')
+    .execute()
+
+  await db
+    .insertInto('restaurants')
+    .columns([
+      'area',
+      'categories',
+      'genres',
+      'name',
+      'rating',
+      'reviewCount',
+      'budgetLunch',
+      'budgetDinner',
+      'closedDay',
+      'address',
+      'url',
+      'placeId',
+    ])
+    .expression(
+      // The query that generates new restaurant data
       db
         .with('tabelog_restaurants_genres', (db) =>
           db
@@ -27,7 +58,6 @@ export const transform = async () => {
                 ),
             ]),
         )
-        // ジャンルごとにカテゴリを付与
         .with('categorized_restaurants_genres', (db) =>
           db
             .selectFrom('tabelog_restaurants_genres')
@@ -40,9 +70,9 @@ export const transform = async () => {
               'tabelog_restaurants_genres.area',
               () =>
                 sql<string>`
-            CASE WHEN genres.category = 'restaurant' AND tabelog_restaurants_genres.budgetLunch != '-' THEN 'lunch'
-        		WHEN genres.category = 'restaurant' AND tabelog_restaurants_genres.budgetDinner != '-' THEN 'dinner'
-        		ELSE genres.category END`.as('category'),
+                  CASE WHEN genres.category = 'restaurant' AND tabelog_restaurants_genres.budgetLunch != '-' THEN 'lunch'
+                  WHEN genres.category = 'restaurant' AND tabelog_restaurants_genres.budgetDinner != '-' THEN 'dinner'
+                  ELSE genres.category END`.as('category'),
               'genres.genre',
               'tabelog_restaurants_genres.name',
               'tabelog_restaurants_genres.rating',
@@ -81,6 +111,21 @@ export const transform = async () => {
           'address',
           'url',
         ]),
+    )
+    .onConflict((oc) =>
+      oc.column('url').doUpdateSet({
+        area: (eb) => eb.ref('excluded.area'),
+        categories: (eb) => eb.ref('excluded.categories'),
+        genres: (eb) => eb.ref('excluded.genres'),
+        name: (eb) => eb.ref('excluded.name'),
+        rating: (eb) => eb.ref('excluded.rating'),
+        reviewCount: (eb) => eb.ref('excluded.reviewCount'),
+        budgetLunch: (eb) => eb.ref('excluded.budgetLunch'),
+        budgetDinner: (eb) => eb.ref('excluded.budgetDinner'),
+        closedDay: (eb) => eb.ref('excluded.closedDay'),
+        address: (eb) => eb.ref('excluded.address'),
+        // Do not update 'placeId' to preserve existing data
+      }),
     )
     .execute()
 

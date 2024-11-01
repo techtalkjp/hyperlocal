@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "tsx --env-file=.env src/index.ts",
+    "crawl": "tsx --env-file=.env src/index.ts",
     "build": "tsc",
     "start:crawler": "npm run start:crawler:dev",
     "start:crawler:prod": "node dist/index.js",

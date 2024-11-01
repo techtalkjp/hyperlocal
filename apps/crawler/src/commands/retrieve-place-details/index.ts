@@ -21,10 +21,10 @@ export const retrievePlaceDetails = async () => {
     }
 
     const existPlace = await getPlace(restaurant.placeId)
-    // １ヶ月未満の場合はスキップ
+    // 3ヶ月未満の場合はスキップ
     if (
       existPlace &&
-      differenceInDays(new Date(), new Date(existPlace.updatedAt)) < 30
+      differenceInDays(new Date(), new Date(existPlace.updatedAt)) < 90
     ) {
       console.log(
         'Skip',
