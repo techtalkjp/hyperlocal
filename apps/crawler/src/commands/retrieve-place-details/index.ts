@@ -20,8 +20,8 @@ export const retrievePlaceDetails = async () => {
       continue
     }
 
+    // 既存の場所情報があり、最終更新が3ヶ月未満の場合はスキップ
     const existPlace = await getPlace(restaurant.placeId)
-    // 3ヶ月未満の場合はスキップ
     if (
       existPlace &&
       differenceInDays(new Date(), new Date(existPlace.updatedAt)) < 90
@@ -34,6 +34,7 @@ export const retrievePlaceDetails = async () => {
       continue
     }
 
+    // Google Place API で詳細情報を取得
     const googlePlace = await googlePlaceDetails({
       placeId: restaurant.placeId,
     })
@@ -46,9 +47,10 @@ export const retrievePlaceDetails = async () => {
       continue
     }
 
+    // 画像情報を取得(最大5枚)
     const photos: string[] = []
     if (googlePlace.photos) {
-      for (const photo of googlePlace.photos) {
+      for (const photo of googlePlace.photos.slice(0, 5)) {
         photos.push(
           await getGooglePlacePhotoUri({
             name: photo.name,
@@ -57,6 +59,7 @@ export const retrievePlaceDetails = async () => {
       }
     }
 
+    // データを保存
     await upsertPlace({
       id: restaurant.placeId,
       displayName: googlePlace.displayName.text,
@@ -74,19 +77,20 @@ export const retrievePlaceDetails = async () => {
       genres: JSON.stringify(restaurant.genres.split(',')),
     })
 
+    // ランキング情報を取得
     const listings = await duckdb
       .selectFrom('ranked_restaurants')
       .selectAll()
       .where('placeId', '==', restaurant.placeId)
       .execute()
 
+    // エリアごとのランキング情報を保存
     for (const listing of listings) {
       const area = areas.find((area) => area.areaId === listing.area)
       if (!area) {
         console.log('Area not found', restaurant.area)
         continue
       }
-
       await upsertPlaceListing({
         placeId: restaurant.placeId,
         cityId: area.cityId,
