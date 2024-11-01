@@ -15,6 +15,29 @@ export interface Area {
 export const areas = [
   {
     cityId: 'tokyo',
+    areaId: 'shibuya',
+    name: '渋谷',
+    i18n: {
+      en: 'Shibuya',
+      ja: '渋谷',
+      'zh-CN': '涩谷',
+      'zh-TW': '澀谷',
+      ko: '시부야',
+    },
+    description: {
+      en: 'A bustling shopping and entertainment district known for its iconic scramble crossing and vibrant nightlife.',
+      ja: 'シブヤスクランブル交差点や賑やかなナイトライフで有名な繁華街。',
+      'zh-CN': '繁华的购物娱乐区，以标志性的十字路口和充满活力的夜生活闻名。',
+      'zh-TW': '繁華的購物娛樂區，以標誌性的十字路口和充滿活力的夜生活聞名。',
+      ko: '시부야 스크램블 교차로와 활기찬 나이트라이프로 유명한 번화가.',
+    },
+    radius: 500,
+    latitude: 35.6642992,
+    longitude: 139.6787672,
+    tabelogUrl: 'https://tabelog.com/tokyo/C13113/C36621/rstLst?SrtT=rt',
+  },
+  {
+    cityId: 'tokyo',
     areaId: 'tokyo-station',
     name: '東京駅',
     i18n: {
@@ -31,7 +54,7 @@ export const areas = [
       'zh-TW': '東京的門戶。紅磚建築與現代交通樞紐融為一體的標誌性建築。',
       ko: '도쿄의 관문. 역사적인 붉은 벽돌 건물과 현대적인 교통 허브가 조화를 이루는 상징적인 장소.',
     },
-    radius: 80,
+    radius: 300,
     latitude: 35.680743,
     longitude: 139.7682689,
     tabelogUrl:
@@ -55,7 +78,7 @@ export const areas = [
       'zh-TW': '東京的主要商務區，雲集現代摩天大樓、高級購物中心和精緻餐廳。',
       ko: '도쿄를 대표하는 비즈니스 지구. 현대적인 고층 빌딩, 고급 쇼핑, 미식 레스토랑이 모여 있는 곳.',
     },
-    radius: 80,
+    radius: 300,
     latitude: 35.6816919,
     longitude: 139.7635604,
     tabelogUrl:
@@ -79,11 +102,10 @@ export const areas = [
       'zh-TW': '東京最負盛名的購物娛樂區，雲集奢侈品牌和傳統百貨公司。',
       ko: '도쿄의 대표적인 고급 쇼핑가. 세계적인 럭셔리 브랜드와 전통있는 백화점이 즐비한 곳.',
     },
-    radius: 160,
+    radius: 300,
     latitude: 35.6712552,
     longitude: 139.7650191,
-    tabelogUrl:
-      'https://tabelog.com/tokyo/A1301/A130101/R3368/rstLst/1?SrtT=rt&LstRange=SF',
+    tabelogUrl: 'https://tabelog.com/tokyo/C13102/C36104/rstLst/1?SrtT=rt',
   },
   {
     cityId: 'tokyo',
@@ -103,7 +125,7 @@ export const areas = [
       'zh-TW': '銀座的文化中心，以歌舞伎劇場和傳統日本表演藝術聞名。',
       ko: '긴자의 문화 중심지. 가부키자를 비롯한 일본 전통 예능의 본거지.',
     },
-    radius: 160,
+    radius: 300,
     latitude: 35.6694464,
     longitude: 139.7670348,
     tabelogUrl:
@@ -129,11 +151,10 @@ export const areas = [
         '歷史悠久的魚市場區域，以壽司餐廳和美食文化著稱。築地場外市場所在地。',
       ko: '쓰키지 외시장을 중심으로 한 먹거리 거리. 신선한 스시집과 식문화의 중심지로 세계적으로 유명.',
     },
-    radius: 160,
+    radius: 300,
     latitude: 35.6665341,
     longitude: 139.7705992,
-    tabelogUrl:
-      'https://tabelog.com/tokyo/A1313/A131301/R6341/rstLst/1?SrtT=rt&LstRange=SF',
+    tabelogUrl: 'https://tabelog.com/tokyo/C13102/C36108/rstLst/1/?SrtT=rt',
   },
   {
     cityId: 'tokyo',
@@ -153,7 +174,7 @@ export const areas = [
       'zh-TW': '自江戶時代以來的商業中心。傳統與現代共存的金融區。',
       ko: '에도 시대부터 이어져 온 상업의 중심지. 현대와 전통이 공존하는 금융가.',
     },
-    radius: 160,
+    radius: 300,
     latitude: 35.6823317,
     longitude: 139.773856,
     tabelogUrl:
@@ -177,7 +198,7 @@ export const areas = [
       'zh-TW': '傳統的市中心區域，以古老商店、寺廟和純正的日本氛圍聞名。',
       ko: '에도의 정취가 남아있는 시타마치. 오래된 가게와 신사가 점재하며 옛 도쿄의 분위기를 느낄 수 있는 곳.',
     },
-    radius: 400,
+    radius: 300,
     latitude: 35.6850407,
     longitude: 139.7834224,
     tabelogUrl:
@@ -201,11 +222,11 @@ export const areas = [
       'zh-TW': '新興的文化區域，以藝術畫廊、博物館和精品咖啡店聞名。',
       ko: '아트 갤러리와 미술관, 개성있는 커피숍이 점재하는 새로운 문화의 발신지.',
     },
-    radius: 160,
+    radius: 500,
     latitude: 35.6799672,
     longitude: 139.8014225,
     tabelogUrl:
-      'https://tabelog.com/tokyo/A1313/A131303/R3341/rstLst/1?SrtT=rt&LstRange=SF',
+      'https://tabelog.com/tokyo/A1313/A131303/R3341/rstLst/1?SrtT=rt&LstRange=SG',
   },
   {
     cityId: 'tokyo',
@@ -225,10 +246,10 @@ export const areas = [
       'zh-TW': '充滿活力的娛樂區，擁有購物中心、餐廳和音樂廳。',
       ko: '쇼핑몰, 음식점, 콘서트홀을 갖춘 활기 넘치는 복합 지역.',
     },
-    radius: 160,
+    radius: 500,
     latitude: 35.6953134,
     longitude: 139.8140385,
     tabelogUrl:
-      'https://tabelog.com/tokyo/A1312/A131201/R3373/rstLst/1?SrtT=rt&LstRange=SF',
+      'https://tabelog.com/tokyo/A1312/A131201/R3373/rstLst/1?SrtT=rt&LstRange=SG',
   },
 ] as const satisfies Area[]
