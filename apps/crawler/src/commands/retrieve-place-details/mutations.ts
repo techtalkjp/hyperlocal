@@ -66,7 +66,9 @@ export const upsertPlaceListing = async ({
     .onConflict((oc) =>
       oc
         .columns(['cityId', 'areaId', 'categoryId', 'rankingType', 'placeId'])
-        .doNothing(),
+        .doUpdateSet((eb) => ({
+          updatedAt: eb.ref('excluded.updatedAt'),
+        })),
     )
     .execute()
 }

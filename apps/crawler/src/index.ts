@@ -47,8 +47,15 @@ const argv = cli({
     command(
       {
         name: '04_retrieve-place-details',
+        flags: {
+          count: {
+            type: Number,
+            default: 1,
+            description: '取得する件数',
+          },
+        },
       },
-      async () => await retrievePlaceDetails(),
+      async (argv) => await retrievePlaceDetails(argv.flags),
     ),
     // 翻訳してローカライズする
     command(

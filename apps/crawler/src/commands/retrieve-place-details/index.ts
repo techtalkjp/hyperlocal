@@ -1,12 +1,17 @@
 import { areas } from '@hyperlocal/consts'
-import { differenceInDays, format } from 'date-fns'
+import { differenceInDays } from 'date-fns'
 import { db as duckdb } from '~/services/duckdb.server'
 import { googlePlaceDetails } from './google-place-api'
 import { getGooglePlacePhotoUri } from './google-place-api/google-place-photo'
 import { upsertPlace, upsertPlaceListing } from './mutations'
 import { getPlace } from './queries'
 
-export const retrievePlaceDetails = async () => {
+interface RetrievePlaceDetailsOptions {
+  count: number
+}
+export const retrievePlaceDetails = async (
+  opts: RetrievePlaceDetailsOptions,
+) => {
   const restaurants = await duckdb
     .selectFrom('restaurants')
     .selectAll()
@@ -26,11 +31,11 @@ export const retrievePlaceDetails = async () => {
       existPlace &&
       differenceInDays(new Date(), new Date(existPlace.updatedAt)) < 90
     ) {
-      console.log(
-        'Skip',
-        restaurant.placeId,
-        format(new Date(existPlace.updatedAt), 'yyyy-MM-dd HH:mm:ss'),
-      )
+      // console.log(
+      //   'Skip',
+      //   restaurant.placeId,
+      //   format(new Date(existPlace.updatedAt), 'yyyy-MM-dd HH:mm:ss'),
+      // )
       continue
     }
 
@@ -58,6 +63,13 @@ export const retrievePlaceDetails = async () => {
         )
       }
     }
+
+    // ログ
+    console.log(
+      `upsertPlace: ${n + 1}`,
+      restaurant.placeId,
+      googlePlace.displayName.text,
+    )
 
     // データを保存
     await upsertPlace({
@@ -101,6 +113,10 @@ export const retrievePlaceDetails = async () => {
     }
 
     n++
+    if (n >= opts.count) {
+      break
+    }
+
     if (n % 100 === 0) {
       console.log('Processing', n)
     }
