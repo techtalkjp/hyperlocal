@@ -72,6 +72,11 @@ const argv = cli({
             default: false,
             description: '全てのデータを翻訳する',
           },
+          refresh: {
+            type: Boolean,
+            default: false,
+            description: '翻訳済みのデータも含めてすべて再翻訳する',
+          },
         },
       },
       async (argv) => await localize(argv.flags),

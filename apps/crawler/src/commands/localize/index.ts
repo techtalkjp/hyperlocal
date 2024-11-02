@@ -11,13 +11,14 @@ function chunkArray<T>(array: T[], chunkSize: number): T[][] {
 interface LocalizeOptions {
   count: number
   all: boolean
+  refresh: boolean
 }
 export const localize = async (opts: LocalizeOptions) => {
   const updatedPlaces = await db
     .selectFrom('places')
     .leftJoin('localizedPlaces', 'places.id', 'localizedPlaces.placeId')
     .$if(
-      !opts.all,
+      !opts.refresh,
       (
         eb, // すべてを翻訳しない場合は、updatedAtがnullまたはplaces.updatedAtよりも新しいものを翻訳する
       ) =>
@@ -30,7 +31,10 @@ export const localize = async (opts: LocalizeOptions) => {
     )
     .$if(!opts.all, (eb) => eb.limit(opts.count)) // すべてを翻訳しない場合は、指定された数だけ翻訳する
     .select('id')
+    .distinct()
     .execute()
+
+  console.log(`translating ${updatedPlaces.length} places`)
 
   let n = 0
   for (const chunk of chunkArray(updatedPlaces, 25)) {
