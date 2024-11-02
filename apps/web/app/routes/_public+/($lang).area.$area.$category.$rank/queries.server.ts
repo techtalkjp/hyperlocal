@@ -39,6 +39,7 @@ export const listLocalizedPlaces = async ({
     .where('cityId', '==', cityId)
     .where('localizedPlaces.areaId', '==', areaId)
     .where('localizedPlaces.categoryId', '==', categoryId)
+    .where('localizedPlaces.rankingType', '==', rankingType)
     .where('localizedPlaces.language', '==', language)
     .where('localizedPlaces.rating', '>', 0)
     .limit(100)

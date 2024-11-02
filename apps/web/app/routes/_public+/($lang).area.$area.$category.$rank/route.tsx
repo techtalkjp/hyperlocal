@@ -32,7 +32,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     areaId: area.areaId,
     categoryId: category.id,
     language: lang.id,
-    rankingType: rankingType ?? 'review',
+    rankingType: rankingType ?? 'rating',
   })
 
   return { places, city, area, category, lang, rankingType }
