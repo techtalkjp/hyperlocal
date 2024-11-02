@@ -19,13 +19,13 @@ export const translatePlace = async (
     }
   }
 
-  const source = languages.find((l) => l.id === from)
-  if (!source) {
+  const sourceLang = languages.find((l) => l.id === from)
+  if (!sourceLang) {
     throw new Error('Source language not found')
   }
 
-  const target = languages.find((l) => l.id === to)
-  if (!target) {
+  const targetLang = languages.find((l) => l.id === to)
+  if (!targetLang) {
     throw new Error('Target language not found')
   }
 
@@ -33,11 +33,13 @@ export const translatePlace = async (
   try {
     displayName = await translateSentences({
       sentence: place.displayName,
-      source: source.displayName,
-      target: target.displayName,
+      source: sourceLang.displayName,
+      target: targetLang.displayName,
     })
   } catch (error) {
-    console.log(displayName, error)
+    if (error instanceof Error) {
+      console.log(displayName, error.message, place.displayName)
+    }
   }
 
   const reviews: { rating: number; text?: string }[] = []
@@ -51,8 +53,8 @@ export const translatePlace = async (
     try {
       const translatedText = await translateSentences({
         sentence: text,
-        source: source.displayName,
-        target: target.displayName,
+        source: sourceLang.displayName,
+        target: targetLang.displayName,
       })
 
       reviews.push({
@@ -60,7 +62,9 @@ export const translatePlace = async (
         text: translatedText !== '' ? translatedText : undefined,
       })
     } catch (error) {
-      console.log(text, error)
+      if (error instanceof Error) {
+        console.log(text, error.message, text)
+      }
     }
   }
 
