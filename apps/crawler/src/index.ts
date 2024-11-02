@@ -24,7 +24,7 @@ const argv = cli({
           },
           maxRequest: {
             type: Number,
-            default: 10000,
+            default: 1000000,
             description: '最大リクエスト数',
           },
           all: {
