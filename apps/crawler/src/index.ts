@@ -61,9 +61,20 @@ const argv = cli({
     command(
       {
         name: '05_localize',
-        parameters: ['<area ids...>'],
+        flags: {
+          count: {
+            type: Number,
+            default: 1,
+            description: '翻訳する件数',
+          },
+          all: {
+            type: Boolean,
+            default: false,
+            description: '全てのデータを翻訳する',
+          },
+        },
       },
-      async (argv) => await localize(argv._.areaIds),
+      async (argv) => await localize(argv.flags),
     ),
   ],
 })

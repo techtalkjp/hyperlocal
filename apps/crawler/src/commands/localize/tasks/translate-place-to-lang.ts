@@ -1,6 +1,8 @@
+import { areas } from '@hyperlocal/consts/src'
 import { db, type Place } from '@hyperlocal/db'
 import { upsertLocalizedPlace } from '~/features/localize/mutations.server'
 import { translatePlace } from '~/features/localize/translate-place'
+import { db as duckdb } from '~/services/duckdb.server'
 
 export const translatePlaceToLangTask = async ({
   placeId,
@@ -16,31 +18,38 @@ export const translatePlaceToLangTask = async ({
     .selectAll()
     .where('id', '==', placeId)
     .executeTakeFirstOrThrow()
-  console.log('place', place)
 
-  // 翻訳
-  console.log(`translate ${place.id} from ${from} to ${to}`)
-  const translated = await translatePlace(place as unknown as Place, from, to)
-  console.log('translated', translated)
-
-  const placeAreas = await db
-    .selectFrom('placeListings')
+  const ranked = await duckdb
+    .selectFrom('ranked_restaurants')
     .selectAll()
     .where('placeId', '==', placeId)
     .execute()
-  console.info('placeAreas', { placeAreas })
+
+  if (!ranked) {
+    console.error('no area found for place', place)
+    return
+  }
+
+  // 翻訳
+  //  console.log(`translate ${place.id} from ${from} to ${to}`)
+  const translated = await translatePlace(place as unknown as Place, from, to)
 
   // localized place 保存
-  for (const areaCategory of placeAreas) {
-    const upserted = await upsertLocalizedPlace({
-      cityId: areaCategory.cityId,
-      areaId: areaCategory.areaId,
-      categoryId: areaCategory.categoryId,
+  for (const areaCategory of ranked) {
+    const area = areas.find((a) => a.areaId === areaCategory.area)
+    if (!area) {
+      console.error('no area found for areaId', areaCategory.area)
+      continue
+    }
+
+    await upsertLocalizedPlace({
+      cityId: area.cityId,
+      areaId: area.areaId,
+      categoryId: areaCategory.category,
       languageId: to,
-      rankingType: areaCategory.rankingType,
+      rankingType: areaCategory.ranking_type,
       place: place as unknown as Place,
       translated,
     })
-    console.info('upsertLocalizedPlace', { upserted })
   }
 }

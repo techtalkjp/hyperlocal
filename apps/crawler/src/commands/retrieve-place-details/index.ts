@@ -1,9 +1,8 @@
-import { areas } from '@hyperlocal/consts'
 import { differenceInDays } from 'date-fns'
 import { db as duckdb } from '~/services/duckdb.server'
 import { googlePlaceDetails } from './google-place-api'
 import { getGooglePlacePhotoUri } from './google-place-api/google-place-photo'
-import { upsertPlace, upsertPlaceListing } from './mutations'
+import { upsertPlace } from './mutations'
 import { getPlace } from './queries'
 
 interface RetrievePlaceDetailsOptions {
@@ -88,29 +87,6 @@ export const retrievePlaceDetails = async (
       categories: JSON.stringify(restaurant.categories.split(',')),
       genres: JSON.stringify(restaurant.genres.split(',')),
     })
-
-    // ランキング情報を取得
-    const listings = await duckdb
-      .selectFrom('ranked_restaurants')
-      .selectAll()
-      .where('placeId', '==', restaurant.placeId)
-      .execute()
-
-    // エリアごとのランキング情報を保存
-    for (const listing of listings) {
-      const area = areas.find((area) => area.areaId === listing.area)
-      if (!area) {
-        console.log('Area not found', restaurant.area)
-        continue
-      }
-      await upsertPlaceListing({
-        placeId: restaurant.placeId,
-        cityId: area.cityId,
-        areaId: area.areaId,
-        categoryId: listing.category,
-        rankingType: listing.ranking_type,
-      })
-    }
 
     n++
     if (n >= opts.count) {
