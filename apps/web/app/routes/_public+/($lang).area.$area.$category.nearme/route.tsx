@@ -123,19 +123,21 @@ export const HydrateFallback = () => {
       <Tabs value="nearme">
         <TabsList>
           <TabsTrigger value="rating">
-            <NavLink to={'../rating'}>Top Rated</NavLink>
+            <NavLink to={'../rating'} viewTransition>
+              Top Rated
+            </NavLink>
           </TabsTrigger>
-          {(category?.id === 'lunch' || category?.id === 'dinner') && (
-            <TabsTrigger value="review" asChild>
-              <NavLink to={'../review'}>Most Popular</NavLink>
-            </TabsTrigger>
-          )}
+          <TabsTrigger value="review" asChild>
+            <NavLink to={'../review'} viewTransition>
+              Most Popular
+            </NavLink>
+          </TabsTrigger>
           <TabsTrigger
             value="nearme"
             className="border data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
             asChild
           >
-            <NavLink to={'../nearme'}>
+            <NavLink to={'../nearme'} viewTransition>
               Near Me
               <LoaderIcon className="ml-2 inline h-4 w-4 animate-spin text-blue-500" />
             </NavLink>
