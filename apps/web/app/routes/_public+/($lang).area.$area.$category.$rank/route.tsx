@@ -51,13 +51,11 @@ export default function CategoryIndexPage() {
               Top Rated
             </NavLink>
           </TabsTrigger>
-          {(category.id === 'lunch' || category.id === 'dinner') && (
-            <TabsTrigger value="review" asChild>
-              <NavLink to={'../review'} viewTransition>
-                Most Popular
-              </NavLink>
-            </TabsTrigger>
-          )}
+          <TabsTrigger value="review" asChild>
+            <NavLink to={'../review'} viewTransition>
+              Most Popular
+            </NavLink>
+          </TabsTrigger>
           <TabsTrigger value="nearme" asChild>
             <NavLink to={'../nearme'} viewTransition>
               {({ isPending }) => (

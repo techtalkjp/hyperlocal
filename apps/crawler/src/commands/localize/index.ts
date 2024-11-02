@@ -1,13 +1,56 @@
-import { areas } from '@hyperlocal/consts'
-import { translateAreaTask } from './tasks'
+import { db } from '@hyperlocal/db'
+import { translatePlaceTask } from './tasks'
 
-export const localize = async (areaIds: string[]) => {
-  for (const areaId of areaIds) {
-    if (!areas.find((area) => area.areaId === areaId)) {
-      console.log(`エリアID ${areaId} が見つかりません`)
-      continue
-    }
-    await translateAreaTask(areaId)
+function chunkArray<T>(array: T[], chunkSize: number): T[][] {
+  const chunks: T[][] = []
+  for (let i = 0; i < array.length; i += chunkSize) {
+    chunks.push(array.slice(i, i + chunkSize))
   }
+  return chunks
+}
+interface LocalizeOptions {
+  count: number
+  all: boolean
+  refresh: boolean
+}
+export const localize = async (opts: LocalizeOptions) => {
+  const updatedPlaces = await db
+    .selectFrom('places')
+    .leftJoin('localizedPlaces', 'places.id', 'localizedPlaces.placeId')
+    .$if(
+      !opts.refresh,
+      (
+        eb, // すべてを翻訳しない場合は、updatedAtがnullまたはplaces.updatedAtよりも新しいものを翻訳する
+      ) =>
+        eb.where((eb) =>
+          eb.or([
+            eb('localizedPlaces.updatedAt', 'is', null),
+            eb('places.updatedAt', '>', eb.ref('localizedPlaces.updatedAt')),
+          ]),
+        ),
+    )
+    .$if(!opts.all, (eb) => eb.limit(opts.count)) // すべてを翻訳しない場合は、指定された数だけ翻訳する
+    .select('id')
+    .distinct()
+    .execute()
+
+  console.log(`translating ${updatedPlaces.length} places`)
+
+  let n = 0
+  for (const chunk of chunkArray(updatedPlaces, 25)) {
+    await Promise.all(
+      chunk.map((place) =>
+        translatePlaceTask({
+          placeId: place.id,
+        }),
+      ),
+    )
+    n += chunk.length
+    if (n % 100 === 0) {
+      console.log(`translated ${n} places`)
+    }
+  }
+  console.log(`translated ${n} places`)
+
   return
 }

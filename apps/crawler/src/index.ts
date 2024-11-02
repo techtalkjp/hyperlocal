@@ -24,8 +24,13 @@ const argv = cli({
           },
           maxRequest: {
             type: Number,
-            default: 10000,
+            default: 1000000,
             description: '最大リクエスト数',
+          },
+          all: {
+            type: Boolean,
+            default: false,
+            description: '全てのエリアをクロールする',
           },
         },
       },
@@ -42,16 +47,39 @@ const argv = cli({
     command(
       {
         name: '04_retrieve-place-details',
+        flags: {
+          count: {
+            type: Number,
+            default: 1,
+            description: '取得する件数',
+          },
+        },
       },
-      async () => await retrievePlaceDetails(),
+      async (argv) => await retrievePlaceDetails(argv.flags),
     ),
     // 翻訳してローカライズする
     command(
       {
         name: '05_localize',
-        parameters: ['<area ids...>'],
+        flags: {
+          count: {
+            type: Number,
+            default: 1,
+            description: '翻訳する件数',
+          },
+          all: {
+            type: Boolean,
+            default: false,
+            description: '全てのデータを翻訳する',
+          },
+          refresh: {
+            type: Boolean,
+            default: false,
+            description: '翻訳済みのデータも含めてすべて再翻訳する',
+          },
+        },
       },
-      async (argv) => await localize(argv._.areaIds),
+      async (argv) => await localize(argv.flags),
     ),
   ],
 })

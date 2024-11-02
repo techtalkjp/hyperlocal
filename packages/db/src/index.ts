@@ -27,13 +27,7 @@ const getDatabaseConfig = () => {
 
 export const db = new Kysely<DB>({
   dialect: new LibsqlDialect(getDatabaseConfig()),
-  log: (event) =>
-    debug([
-      event.level,
-      event.queryDurationMillis,
-      event.query.sql,
-      event.query.parameters,
-    ]),
+  log: (event) => debug([event.query.sql, event.query.parameters]),
   plugins: [
     new CamelCasePlugin(),
     new ParseJSONResultsPlugin(),

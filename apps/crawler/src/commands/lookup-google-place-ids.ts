@@ -17,6 +17,7 @@ export const lookupGooglePlaceIds = async () => {
 
   console.log(`${restaurants.length} restaurants to lookup`)
 
+  let n = 0
   for (const restaurant of restaurants) {
     const place = await textSearch({
       textQuery: `${restaurant.part_address} ${restaurant.name}`,
@@ -42,5 +43,12 @@ export const lookupGooglePlaceIds = async () => {
       })
       .where('url', '==', restaurant.url)
       .execute()
+
+    n++
+    if (n % 100 === 0) {
+      console.log(`${n} restaurants updated`)
+    }
   }
+
+  console.log('Done. ${n} restaurants updated.')
 }

@@ -23,7 +23,27 @@ Preserve the original meaning and tone of the reviews while ensuring they sound 
 Pay special attention to:
 1. Accurate translation of place names, considering their cultural context
 2. Maintaining the nuances and sentiment of the original reviews
-3. Using appropriate ${target} characters and expressions`
+3. Using appropriate ${target} characters and expressions
+
+Content Rules:
+
+Remove:
+- Policy-violating content
+- Inappropriate language
+- Personal information
+- Multiple language mixing
+- Excessive symbols/emoji
+- Promotional content
+- Platform-specific comments
+
+Keep:
+- Genuine visitor experiences
+- Cultural observations
+- Relevant details only
+
+Ensure proper ${target} grammar and writing conventions.
+
+`
   const prompt = `
 Original ${source}: ${sentence}`
 

@@ -1,12 +1,16 @@
-import { areas } from '@hyperlocal/consts'
-import { differenceInDays, format } from 'date-fns'
+import { differenceInDays } from 'date-fns'
 import { db as duckdb } from '~/services/duckdb.server'
 import { googlePlaceDetails } from './google-place-api'
 import { getGooglePlacePhotoUri } from './google-place-api/google-place-photo'
-import { upsertPlace, upsertPlaceListing } from './mutations'
+import { upsertPlace } from './mutations'
 import { getPlace } from './queries'
 
-export const retrievePlaceDetails = async () => {
+interface RetrievePlaceDetailsOptions {
+  count: number
+}
+export const retrievePlaceDetails = async (
+  opts: RetrievePlaceDetailsOptions,
+) => {
   const restaurants = await duckdb
     .selectFrom('restaurants')
     .selectAll()
@@ -20,20 +24,21 @@ export const retrievePlaceDetails = async () => {
       continue
     }
 
+    // 既存の場所情報があり、最終更新が3ヶ月未満の場合はスキップ
     const existPlace = await getPlace(restaurant.placeId)
-    // 3ヶ月未満の場合はスキップ
     if (
       existPlace &&
       differenceInDays(new Date(), new Date(existPlace.updatedAt)) < 90
     ) {
-      console.log(
-        'Skip',
-        restaurant.placeId,
-        format(new Date(existPlace.updatedAt), 'yyyy-MM-dd HH:mm:ss'),
-      )
+      // console.log(
+      //   'Skip',
+      //   restaurant.placeId,
+      //   format(new Date(existPlace.updatedAt), 'yyyy-MM-dd HH:mm:ss'),
+      // )
       continue
     }
 
+    // Google Place API で詳細情報を取得
     const googlePlace = await googlePlaceDetails({
       placeId: restaurant.placeId,
     })
@@ -46,9 +51,10 @@ export const retrievePlaceDetails = async () => {
       continue
     }
 
+    // 画像情報を取得(最大5枚)
     const photos: string[] = []
     if (googlePlace.photos) {
-      for (const photo of googlePlace.photos) {
+      for (const photo of googlePlace.photos.slice(0, 5)) {
         photos.push(
           await getGooglePlacePhotoUri({
             name: photo.name,
@@ -57,6 +63,14 @@ export const retrievePlaceDetails = async () => {
       }
     }
 
+    // ログ
+    console.log(
+      `upsertPlace: ${n + 1}`,
+      restaurant.placeId,
+      googlePlace.displayName.text,
+    )
+
+    // データを保存
     await upsertPlace({
       id: restaurant.placeId,
       displayName: googlePlace.displayName.text,
@@ -74,29 +88,11 @@ export const retrievePlaceDetails = async () => {
       genres: JSON.stringify(restaurant.genres.split(',')),
     })
 
-    const listings = await duckdb
-      .selectFrom('ranked_restaurants')
-      .selectAll()
-      .where('placeId', '==', restaurant.placeId)
-      .execute()
-
-    for (const listing of listings) {
-      const area = areas.find((area) => area.areaId === listing.area)
-      if (!area) {
-        console.log('Area not found', restaurant.area)
-        continue
-      }
-
-      await upsertPlaceListing({
-        placeId: restaurant.placeId,
-        cityId: area.cityId,
-        areaId: area.areaId,
-        categoryId: listing.category,
-        rankingType: listing.ranking_type,
-      })
+    n++
+    if (n >= opts.count) {
+      break
     }
 
-    n++
     if (n % 100 === 0) {
       console.log('Processing', n)
     }

@@ -1,34 +1,30 @@
-import { cities, languages } from '@hyperlocal/consts'
-import { db, type Place } from '@hyperlocal/db'
+import { languages } from '@hyperlocal/consts'
+import { db } from '@hyperlocal/db'
+import { db as duckdb } from '~/services/duckdb.server'
 import { translatePlaceToLangTask } from './translate-place-to-lang'
 
 export const translatePlaceTask = async ({ placeId }: { placeId: string }) => {
-  const place = (await db
+  const place = await db
     .selectFrom('places')
-    .selectAll()
+    .select('places.id')
     .where('id', '==', placeId)
-    .executeTakeFirstOrThrow()) as unknown as Place
-  console.info('place', place)
-
-  // TODO: 前回更新から日が浅い場合はスキップ
-
-  const placeArea = await db
-    .selectFrom('placeListings')
-    .selectAll()
-    .where('placeId', '==', placeId)
     .executeTakeFirstOrThrow()
 
-  const city = cities.find((city) => city.cityId === placeArea.cityId)
-  if (!city) {
-    throw new Error(`Unknown City Id: ${placeArea.cityId}`)
+  const ranked = await duckdb
+    .selectFrom('ranked_restaurants')
+    .select('placeId')
+    .where('placeId', '==', placeId)
+    .executeTakeFirst()
+  if (!ranked) {
+    console.error('no area found for place', place)
+    return
   }
 
   // 各言語に翻訳
   for (const lang of languages) {
-    console.log(`translate ${place.id} from ${city.language} to ${lang.id}`)
     await translatePlaceToLangTask({
       placeId: place.id,
-      from: city.language,
+      from: 'ja',
       to: lang.id,
     })
   }

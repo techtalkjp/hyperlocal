@@ -8,10 +8,11 @@ export const crawlTabelog = async (
   opts: {
     delay?: number
     maxRequest?: number
+    all?: boolean
   },
   areaIds: string[],
 ) => {
-  if (areaIds.length === 0) {
+  if (!opts.all && areaIds.length === 0) {
     console.log('No area ids specified')
     console.log('Available area ids:')
     for (const area of areas) {
@@ -19,6 +20,7 @@ export const crawlTabelog = async (
     }
     return
   }
+
   const crawler = new CheerioCrawler({
     requestHandler: router,
     maxRequestsPerCrawl: opts.maxRequest,
@@ -32,9 +34,10 @@ export const crawlTabelog = async (
   await reviewDataset.drop()
 
   for (const area of areas) {
-    if (areaIds.length > 0 && !areaIds.includes(area.areaId)) {
+    if (!opts.all && !areaIds.includes(area.areaId)) {
       continue
     }
+
     await crawler.addRequests([
       {
         url: area.tabelogUrl,
