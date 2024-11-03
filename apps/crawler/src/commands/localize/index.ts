@@ -12,6 +12,7 @@ interface LocalizeOptions {
   count: number
   all: boolean
   refresh: boolean
+  placeId?: string
 }
 export const localize = async (opts: LocalizeOptions) => {
   const updatedPlaces = await db
@@ -30,6 +31,9 @@ export const localize = async (opts: LocalizeOptions) => {
         ),
     )
     .$if(!opts.all, (eb) => eb.limit(opts.count)) // すべてを翻訳しない場合は、指定された数だけ翻訳する
+    .$if(opts.placeId !== undefined, (eb) =>
+      eb.where('places.id', '==', opts.placeId ?? ''),
+    )
     .select('id')
     .distinct()
     .execute()
