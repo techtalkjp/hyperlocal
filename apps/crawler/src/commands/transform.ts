@@ -28,6 +28,87 @@ export const transform = async () => {
     .addColumn('placeId', 'varchar')
     .execute()
 
+  // Step 1: Extract genres from crawled_restaurants
+  console.log('step 1: Extract genres from crawled_restaurants')
+  await db.schema
+    .dropTable('tr_tabelog_restaurants_genres')
+    .ifExists()
+    .execute()
+  await db.schema
+    .createTable('tr_tabelog_restaurants_genres')
+    .as(
+      db
+        .selectFrom('crawled_restaurants')
+        .selectAll()
+        .select([
+          sql<string>`unnest(string_split(features->>'ジャンル', '、'))`.as(
+            'genre',
+          ),
+        ]),
+    )
+    .execute()
+
+  // Step 2: Join with genres table and assign categories
+  console.log('step 2: Join with genres table and assign categories')
+  await db.schema
+    .dropTable('tr_restaurants_with_genre_categories')
+    .ifExists()
+    .execute()
+  await db.schema
+    .createTable('tr_restaurants_with_genre_categories')
+    .as(
+      db
+        .selectFrom('tr_tabelog_restaurants_genres')
+        .innerJoin('genres', 'tr_tabelog_restaurants_genres.genre', 'genres.id')
+        .select([
+          'tr_tabelog_restaurants_genres.area',
+          'genres.genre',
+          'tr_tabelog_restaurants_genres.name',
+          'tr_tabelog_restaurants_genres.rating',
+          'tr_tabelog_restaurants_genres.reviewCount',
+          'tr_tabelog_restaurants_genres.budgetLunch',
+          'tr_tabelog_restaurants_genres.budgetDinner',
+          'tr_tabelog_restaurants_genres.closedDay',
+          'tr_tabelog_restaurants_genres.address',
+          'tr_tabelog_restaurants_genres.url',
+          // Construct categories array
+          sql<string[]>`CASE
+            WHEN genres.category != 'restaurant' THEN [genres.category]
+            ELSE list_concat(
+              CASE WHEN tr_tabelog_restaurants_genres.budgetLunch != '-' THEN ['lunch'] ELSE [] END,
+              CASE WHEN tr_tabelog_restaurants_genres.budgetDinner != '-' THEN ['dinner'] ELSE [] END
+            )
+          END`.as('categories'),
+        ]),
+    )
+    .execute()
+
+  // Step 2.1: Unnest categories to create multiple rows
+  console.log('step 2.1: Unnest categories to create multiple rows')
+  await db.schema.dropTable('tr_expanded_restaurants').ifExists().execute()
+  await db.schema
+    .createTable('tr_expanded_restaurants')
+    .as(
+      db
+        .selectFrom('tr_restaurants_with_genre_categories')
+        .select([
+          'area',
+          'genre',
+          'name',
+          'rating',
+          'reviewCount',
+          'budgetLunch',
+          'budgetDinner',
+          'closedDay',
+          'address',
+          'url',
+          sql<string>`unnest(categories)`.as('category'),
+        ]),
+    )
+    .execute()
+
+  // Step 3: Aggregate data into restaurants table
+  console.log('step 3: Aggregate data into restaurants table')
   await db
     .insertInto('restaurants')
     .columns([
@@ -45,61 +126,23 @@ export const transform = async () => {
       'placeId',
     ])
     .expression(
-      // The query that generates new restaurant data
       db
-        .with('tabelog_restaurants_genres', (db) =>
-          db
-            .selectFrom('crawled_restaurants')
-            .selectAll()
-            .select([
-              () =>
-                sql<string>`unnest(string_split(features->>'ジャンル', '、'))`.as(
-                  'genre',
-                ),
-            ]),
-        )
-        .with('categorized_restaurants_genres', (db) =>
-          db
-            .selectFrom('tabelog_restaurants_genres')
-            .innerJoin(
-              'genres',
-              'tabelog_restaurants_genres.genre',
-              'genres.id',
-            )
-            .select([
-              'tabelog_restaurants_genres.area',
-              () =>
-                sql<string>`
-                  CASE WHEN genres.category = 'restaurant' AND tabelog_restaurants_genres.budgetLunch != '-' THEN 'lunch'
-                  WHEN genres.category = 'restaurant' AND tabelog_restaurants_genres.budgetDinner != '-' THEN 'dinner'
-                  ELSE genres.category END`.as('category'),
-              'genres.genre',
-              'tabelog_restaurants_genres.name',
-              'tabelog_restaurants_genres.rating',
-              'tabelog_restaurants_genres.reviewCount',
-              'tabelog_restaurants_genres.budgetLunch',
-              'tabelog_restaurants_genres.budgetDinner',
-              'tabelog_restaurants_genres.closedDay',
-              'tabelog_restaurants_genres.address',
-              'tabelog_restaurants_genres.url',
-            ]),
-        )
-        .selectFrom('categorized_restaurants_genres')
+        .selectFrom('tr_expanded_restaurants')
         .select([
           'area',
-          () => sql<string>`group_concat(DISTINCT category)`.as('categories'),
-          () => sql<string>`group_concat(DISTINCT genre)`.as('genres'),
+          // Aggregate categories back into a string
+          sql<string>`group_concat(DISTINCT category, ',')`.as('categories'),
+          sql<string>`group_concat(DISTINCT genre, ',')`.as('genres'),
           'name',
           'rating',
-          () => sql<number>`reviewCount::integer`.as('reviewCount'),
+          sql<number>`CAST(reviewCount AS INTEGER)`.as('reviewCount'),
           'budgetLunch',
           'budgetDinner',
           'closedDay',
           'address',
           'url',
-          () => sql<null>`null::varchar`.as('placeId'),
+          sql<null>`NULL::VARCHAR`.as('placeId'),
         ])
-        .where('category', '!=', 'restaurant')
         .groupBy([
           'area',
           'name',
@@ -124,113 +167,154 @@ export const transform = async () => {
         budgetDinner: (eb) => eb.ref('excluded.budgetDinner'),
         closedDay: (eb) => eb.ref('excluded.closedDay'),
         address: (eb) => eb.ref('excluded.address'),
-        // Do not update 'placeId' to preserve existing data
+        // 'placeId' remains unchanged
       }),
     )
     .execute()
 
-  // エリア・カテゴリ別ランキングを生成
-  db.schema.dropTable('ranked_restaurants').ifExists().execute()
-  db.schema
-    .createTable('ranked_restaurants')
+  // Step 4: Generate rankings per area and category
+  console.log('step 4: Generate rankings per area and category')
+  await db.schema.dropTable('tr_restaurants_by_category').ifExists().execute()
+  await db.schema
+    .createTable('tr_restaurants_by_category')
     .as(
       db
-        // カテゴリごとのレストランデータ
-        .with('categorized_restaurants', (db) =>
-          db
-            .selectFrom('restaurants')
-            .select([
-              'area',
-              () => sql`unnest(string_split(categories, ','))`.as('category'),
-              'genres',
-              'name',
-              'rating',
-              'reviewCount',
-              'budgetLunch',
-              'budgetDinner',
-              'closedDay',
-              'address',
-              'url',
-            ]),
-        )
-        // レートでのエリア・カテゴリランキング
-        .with('rating_rank', (db) =>
-          db
-            .selectFrom('categorized_restaurants')
-            .selectAll()
-            .select([
-              () => sql<string>`'rating'`.as('ranking_type'),
-              () =>
-                sql<number>`row_number() OVER (PARTITION BY area, category ORDER BY rating DESC)::integer`.as(
-                  'rank',
-                ),
-            ]),
-        )
-        .with('review_rank', (db) =>
-          db
-            .selectFrom('categorized_restaurants')
-            .selectAll()
-            .select([
-              () => sql<string>`'review'`.as('ranking_type'),
-              () =>
-                sql<number>`row_number() OVER (PARTITION BY area, category ORDER BY reviewCount DESC)::integer`.as(
-                  'rank',
-                ),
-            ]),
-        )
-        .with('ranked_restaurants', (db) =>
-          db
-            .selectFrom('rating_rank')
-            .select([
-              'area',
-              'category',
-              'ranking_type',
-              'rank',
-              'genres',
-              'name',
-              'rating',
-              'reviewCount',
-              'budgetLunch',
-              'budgetDinner',
-              'closedDay',
-              'address',
-              'url',
-            ])
-            .unionAll(
-              db
-                .selectFrom('review_rank')
-                .select([
-                  'area',
-                  'category',
-                  'ranking_type',
-                  'rank',
-                  'genres',
-                  'name',
-                  'rating',
-                  'reviewCount',
-                  'budgetLunch',
-                  'budgetDinner',
-                  'closedDay',
-                  'address',
-                  'url',
-                ]),
-            ),
-        )
-        .selectFrom('ranked_restaurants')
-        .selectAll()
-        .select(() => sql<null>`null::varchar`.as('placeId'))
-        .where('rank', '<=', 20),
+        .selectFrom('restaurants')
+        .select([
+          'area',
+          sql<string>`unnest(string_split(categories, ','))`.as('category'),
+          'genres',
+          'name',
+          'rating',
+          'reviewCount',
+          'budgetLunch',
+          'budgetDinner',
+          'closedDay',
+          'address',
+          'url',
+          'placeId',
+        ]),
     )
     .execute()
 
-  // ランク外のレストランを削除
+  await db.schema.dropTable('tr_rating_rank').ifExists().execute()
+  await db.schema
+    .createTable('tr_rating_rank')
+    .as(
+      db
+        .selectFrom('tr_restaurants_by_category')
+        .select([
+          'area',
+          'category',
+          sql<string>`'rating'`.as('ranking_type'),
+          sql<number>`ROW_NUMBER() OVER (PARTITION BY area, category ORDER BY rating DESC)`.as(
+            'rank',
+          ),
+          'genres',
+          'name',
+          'rating',
+          'reviewCount',
+          'budgetLunch',
+          'budgetDinner',
+          'closedDay',
+          'address',
+          'url',
+          'placeId',
+        ]),
+    )
+    .execute()
+
+  await db.schema.dropTable('tr_review_rank').ifExists().execute()
+  await db.schema
+    .createTable('tr_review_rank')
+    .as(
+      db
+        .selectFrom('tr_restaurants_by_category')
+        .select([
+          'area',
+          'category',
+          sql<string>`'review'`.as('ranking_type'),
+          sql<number>`ROW_NUMBER() OVER (PARTITION BY area, category ORDER BY reviewCount DESC)`.as(
+            'rank',
+          ),
+          'genres',
+          'name',
+          'rating',
+          'reviewCount',
+          'budgetLunch',
+          'budgetDinner',
+          'closedDay',
+          'address',
+          'url',
+          'placeId',
+        ]),
+    )
+    .execute()
+
+  // Ensure 'ranked_restaurants' table exists
+  console.log('Ensure ranked_restaurants table exists')
+  await db.schema.dropTable('ranked_restaurants').ifExists().execute()
+  await db.schema
+    .createTable('ranked_restaurants')
+    .addColumn('area', 'varchar')
+    .addColumn('category', 'varchar')
+    .addColumn('ranking_type', 'varchar')
+    .addColumn('rank', 'integer')
+    .addColumn('genres', 'varchar')
+    .addColumn('name', 'varchar')
+    .addColumn('rating', 'float4')
+    .addColumn('reviewCount', 'integer')
+    .addColumn('budgetLunch', 'varchar')
+    .addColumn('budgetDinner', 'varchar')
+    .addColumn('closedDay', 'varchar')
+    .addColumn('address', 'varchar')
+    .addColumn('url', 'varchar')
+    .addColumn('placeId', 'varchar')
+    .execute()
+
+  // insert data into 'ranked_restaurants'
+  console.log('insert data into ranked_restaurants')
+  await db
+    .insertInto('ranked_restaurants')
+    .columns([
+      'area',
+      'category',
+      'ranking_type',
+      'rank',
+      'genres',
+      'name',
+      'rating',
+      'reviewCount',
+      'budgetLunch',
+      'budgetDinner',
+      'closedDay',
+      'address',
+      'url',
+      'placeId',
+    ])
+    .expression(
+      db
+        .selectFrom('tr_rating_rank')
+        .selectAll()
+        .unionAll(db.selectFrom('tr_review_rank').selectAll()),
+      // .selectAll(),
+    )
+    .execute()
+
+  // Remove entries beyond rank 20
+  console.log('Remove entries beyond rank 20')
+  await db.deleteFrom('ranked_restaurants').where('rank', '>', 20).execute()
+
+  // Remove restaurants not in the rankings
+  console.log('Remove restaurants not in the rankings')
   await sql`
     DELETE FROM restaurants
     WHERE url NOT IN (
-      SELECT url 
-      FROM ranked_restaurants
-    )`.execute(db)
+      SELECT url FROM ranked_restaurants
+    );
+  `.execute(db)
 
+  // Log the number of restaurants transformed
   const { cnt } = await db
     .selectFrom('restaurants')
     .select((eb) => eb.fn.countAll().as('cnt'))
