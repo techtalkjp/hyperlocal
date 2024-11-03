@@ -38,7 +38,7 @@ export const translatePlace = async (
     })
   } catch (error) {
     if (error instanceof Error) {
-      console.log(displayName, error.message, place.displayName)
+      console.log(displayName, error.message)
     }
   }
 
@@ -63,7 +63,7 @@ export const translatePlace = async (
       })
     } catch (error) {
       if (error instanceof Error) {
-        console.log(text, error.message, text)
+        console.log(text, error.message)
       }
     }
   }
