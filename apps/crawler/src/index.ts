@@ -62,6 +62,10 @@ const argv = cli({
       {
         name: '05_localize',
         flags: {
+          placeId: {
+            type: String,
+            description: '翻訳するplaceId',
+          },
           count: {
             type: Number,
             default: 1,
