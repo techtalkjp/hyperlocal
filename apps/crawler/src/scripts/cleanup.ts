@@ -1,6 +1,9 @@
 import { db } from '@hyperlocal/db'
 import { db as duckdb } from '~/services/duckdb.server'
 
+/**
+ * duckdb 上のランキングに存在しない場所を削除する
+ */
 export const cleanup = async () => {
   const allPlaces = await db.selectFrom('places').select('places.id').execute()
   console.log(allPlaces.length)
