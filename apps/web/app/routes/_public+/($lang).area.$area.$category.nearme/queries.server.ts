@@ -40,10 +40,6 @@ export const listLocalizedPlaces = async ({
     .where('localizedPlaces.areaId', '==', areaId)
     .where('localizedPlaces.categoryId', '==', categoryId)
     .where('localizedPlaces.language', '==', language)
-    .$if(rankingType !== 'nearme', (q) =>
-      q.where('localizedPlaces.rating', '>', 0),
-    )
-    .where('localizedPlaces.rating', '>', 0)
     .limit(100)
 
   if (rankingType === 'rating') {
