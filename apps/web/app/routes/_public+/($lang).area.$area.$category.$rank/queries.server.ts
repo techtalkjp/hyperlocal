@@ -1,4 +1,4 @@
-import { db, type LocalizedPlace } from '@hyperlocal/db'
+import { db, sql, type LocalizedPlace } from '@hyperlocal/db'
 
 export const listLocalizedPlaces = async ({
   cityId,
@@ -33,7 +33,7 @@ export const listLocalizedPlaces = async ({
       'priceLevel',
       'regularOpeningHours',
       'reviews',
-      'photos',
+      () => sql`JSON_ARRAY(JSON_EXTRACT(photos, '$[0]'))`.as('photos'), // 最初の写真だけ取得
     ])
     .distinct()
     .where('cityId', '==', cityId)
