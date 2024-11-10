@@ -26,6 +26,8 @@
     "@radix-ui/react-tabs": "catalog:",
     "@remix-run/node": "catalog:",
     "@remix-run/react": "catalog:",
+    "@remix-run/route-config": "2.14.0",
+    "@remix-run/routes-option-adapter": "2.14.0",
     "@remix-run/serve": "catalog:",
     "@remix-run/server-runtime": "catalog:",
     "@vercel/remix": "catalog:",

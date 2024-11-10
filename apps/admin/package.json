@@ -31,7 +31,7 @@
     "@radix-ui/react-slot": "catalog:",
     "@radix-ui/react-tabs": "catalog:",
     "@react-router/node": "catalog:",
-    "@react-router/remix-config-routes-adapter": "catalog:",
+    "@react-router/remix-routes-option-adapter": "catalog:",
     "@react-router/serve": "catalog:",
     "@remix-run/server-runtime": "catalog:",
     "accept-language": "catalog:",
