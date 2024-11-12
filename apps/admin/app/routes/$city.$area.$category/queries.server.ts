@@ -1,4 +1,4 @@
-import { db, type Place } from '@hyperlocal/db'
+import { db, type Place } from '~/services/db.server'
 
 export const listAreaPlaces = async (areaId: string, categoryId: string) => {
   const places = (await db

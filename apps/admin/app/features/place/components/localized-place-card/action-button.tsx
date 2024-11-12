@@ -1,4 +1,4 @@
-import type { LocalizedPlace } from '@hyperlocal/db'
+import type { LocalizedPlace } from '@hyperlocal/db/src/types'
 import { ExternalLink, MapIcon } from 'lucide-react'
 import type React from 'react'
 import { Button, HStack } from '~/components/ui'

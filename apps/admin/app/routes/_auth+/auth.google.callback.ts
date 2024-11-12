@@ -17,5 +17,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     'Set-Cookie': await sessionStorage.commitSession(session),
   })
 
+  console.log(Object.fromEntries(headers.entries()))
+
   return redirect('/', { headers })
 }

@@ -6,8 +6,13 @@
   "scripts": {
     "dev": "react-router dev",
     "build": "react-router build",
-    "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "deploy": "NODE_ENV=production wrangler deploy",
+    "start": "wrangler dev",
+    "lint": "biome lint .",
+    "format": "prettier --check .",
+    "typecheck": "wrangler types && react-router typegen && tsc",
+    "test": "vitest run",
+    "validate": "run-p format lint && run-p typecheck test"
   },
   "dependencies": {
     "@ai-sdk/google": "catalog:",
@@ -19,6 +24,7 @@
     "@hyperlocal/consts": "workspace:*",
     "@hyperlocal/db": "workspace:*",
     "@hyperlocal/google-place-api": "workspace:*",
+    "@libsql/kysely-libsql": "0.4.1",
     "@radix-ui/react-checkbox": "catalog:",
     "@radix-ui/react-collapsible": "catalog:",
     "@radix-ui/react-dialog": "catalog:",
@@ -30,7 +36,7 @@
     "@radix-ui/react-slider": "catalog:",
     "@radix-ui/react-slot": "catalog:",
     "@radix-ui/react-tabs": "catalog:",
-    "@react-router/node": "catalog:",
+    "@react-router/cloudflare": "catalog:",
     "@react-router/remix-routes-option-adapter": "catalog:",
     "@react-router/serve": "catalog:",
     "@remix-run/server-runtime": "catalog:",
@@ -39,9 +45,9 @@
     "class-variance-authority": "catalog:",
     "clsx": "catalog:",
     "date-fns": "catalog:",
-    "debug": "catalog:",
     "embla-carousel-react": "catalog:",
     "isbot": "^5.1.17",
+    "kysely": "0.27.4",
     "lucide-react": "catalog:",
     "nanoid": "catalog:",
     "next-themes": "catalog:",
@@ -55,6 +61,7 @@
     "remix-flat-routes": "catalog:",
     "remix-toast": "catalog:",
     "remix-utils": "catalog:",
+    "session-context": "0.0.6",
     "sonner": "catalog:",
     "tailwind-merge": "catalog:",
     "ts-pattern": "catalog:",
@@ -63,11 +70,14 @@
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
+    "@cloudflare/workers-types": "4.20241106.0",
     "@react-router/dev": "catalog:",
     "@types/debug": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "autoprefixer": "catalog:",
+    "debug": "catalog:",
+    "npm-run-all": "4.1.5",
     "postcss": "catalog:",
     "prettier": "catalog:",
     "prettier-plugin-organize-imports": "catalog:",
@@ -76,7 +86,8 @@
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-tsconfig-paths": "catalog:",
-    "vitest": "catalog:"
+    "vitest": "catalog:",
+    "wrangler": "3.86.1"
   },
   "engines": {
     "node": ">=20.0.0"

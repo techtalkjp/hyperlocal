@@ -41,7 +41,7 @@ export default function AdminCityAreaLayout() {
                   </small>
                 </Link>
               </h2>
-              <HStack className="text-muted-foreground text-xs">
+              <HStack className="text-xs text-muted-foreground">
                 <p>{area.latitude}</p>
                 <p>{area.longitude}</p>
                 <p>{area.radius}m</p>

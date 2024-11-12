@@ -1,6 +1,6 @@
 import { UTCDate } from '@date-fns/utc'
 import { cities } from '@hyperlocal/consts'
-import type { LocalizedPlace } from '@hyperlocal/db'
+import type { LocalizedPlace } from '@hyperlocal/db/src/types'
 import { FootprintsIcon, MapPinIcon } from 'lucide-react'
 import { Link } from 'react-router'
 import { HStack, Stack } from '~/components/ui'
@@ -40,7 +40,7 @@ export const LocalizedPlaceCard = ({
   return (
     <div
       className={cn(
-        'text-card-foreground relative grid grid-cols-1 rounded-md border p-0 text-sm hover:bg-slate-50 hover:shadow-md sm:text-base md:text-lg',
+        'relative grid grid-cols-1 rounded-md border p-0 text-sm text-card-foreground hover:bg-slate-50 hover:shadow-md sm:text-base md:text-lg',
         className,
       )}
     >

@@ -1,4 +1,4 @@
-import type { Place } from '@hyperlocal/db'
+import type { Place } from '@hyperlocal/db/src/types'
 import { MessageSquareIcon } from 'lucide-react'
 import { Badge, HStack } from '~/components/ui'
 import { Rating } from '~/features/place/components/rating'

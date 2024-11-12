@@ -1,4 +1,4 @@
-import type { LocalizedPlace } from '@hyperlocal/db'
+import type { LocalizedPlace } from '@hyperlocal/db/src/types'
 import type React from 'react'
 import { Stack } from '~/components/ui'
 import type { getBusinessStatus } from '../../utils'

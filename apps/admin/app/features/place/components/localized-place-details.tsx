@@ -1,6 +1,6 @@
 import { UTCDate } from '@date-fns/utc'
 import { areas, cities, languages } from '@hyperlocal/consts'
-import type { LocalizedPlace } from '@hyperlocal/db'
+import type { LocalizedPlace } from '@hyperlocal/db/src/types'
 import { ExternalLink, MapIcon, MapPin, Star } from 'lucide-react'
 import { ClientOnly } from 'remix-utils/client-only'
 import {
@@ -112,7 +112,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
               <div className="flex-1" />
 
               {place.priceLevel && (
-                <div className="text-muted-foreground flex-shrink-0">
+                <div className="flex-shrink-0 text-muted-foreground">
                   {priceLevelLabel(place.priceLevel)}
                 </div>
               )}

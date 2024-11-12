@@ -1,4 +1,4 @@
-import type { LocalizedPlace } from '@hyperlocal/db/src'
+import type { LocalizedPlace } from '@hyperlocal/db/src/types'
 import React from 'react'
 
 interface ImageSectionProps {

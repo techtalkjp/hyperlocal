@@ -1,9 +1,9 @@
 import type { GoogleExtraParams, GoogleProfile } from '@coji/remix-auth-google'
-import { db, sql, type DB, type Selectable } from '@hyperlocal/db'
 import acceptLanguage from 'accept-language'
 import { nanoid } from 'nanoid'
 import type { StrategyVerifyCallback } from 'remix-auth'
 import type { OAuth2StrategyVerifyParams } from 'remix-auth-oauth2'
+import { db, sql, type DB, type Selectable } from '~/services/db.server'
 import type { SessionUser } from '../types/types'
 
 acceptLanguage.languages(['ja', 'en'])
