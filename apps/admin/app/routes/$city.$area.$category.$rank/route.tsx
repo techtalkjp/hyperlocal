@@ -9,37 +9,41 @@ import { listAreaPlaces } from './queries.server'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   await requireAdminUser(request)
-  const { city, area, category, rank } = getPathParams(params)
+  const { city, area, category, rankType } = getPathParams(params)
   if (!area) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
   if (!category) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
-  if (!rank) {
+  if (!rankType) {
+    throw new Response(null, { status: 404, statusText: 'Not Found' })
+  }
+  if (rankType !== 'rating' && rankType !== 'review') {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
 
-  const places = await listAreaPlaces(area.areaId, category.id, 'review')
+  const places = await listAreaPlaces(area.areaId, category.id, rankType)
 
   return {
     city,
     area,
     category,
-    rank,
+    rankType,
     places,
   }
 }
 
 export default function AdminCreategoryIndex() {
-  const { city, area, category, rank, places } = useLoaderData<typeof loader>()
+  const { city, area, category, rankType, places } =
+    useLoaderData<typeof loader>()
 
   return (
     <Stack>
       {places.length > 0 ? (
         <div>{places.length} places found.</div>
       ) : (
-        <p className="text-muted-foreground grid h-32 place-content-center">
+        <p className="grid h-32 place-content-center text-muted-foreground">
           No places found
         </p>
       )}

@@ -1,4 +1,13 @@
-export type LanguageId = 'en' | 'zh-CN' | 'zh-TW' | 'ko' | 'ja'
+import { z } from 'zod'
+
+export const LanguageIdSchema = z.union([
+  z.literal('en'),
+  z.literal('zh-CN'),
+  z.literal('zh-TW'),
+  z.literal('ko'),
+  z.literal('ja'),
+])
+export type LanguageId = z.infer<typeof LanguageIdSchema>
 
 export type i18nRecord = Record<LanguageId, string>
 

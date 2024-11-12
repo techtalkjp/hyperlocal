@@ -7,7 +7,7 @@ export const getPathParams = (params: Params) => {
     city: cityId,
     area: areaId,
     category: categoryId,
-    rank,
+    rank: rankType,
     place,
   } = params
 
@@ -20,5 +20,5 @@ export const getPathParams = (params: Params) => {
   }
   const category = categories.find((category) => category.id === categoryId)
 
-  return { lang, city, area, category, rank, place }
+  return { lang, city, area, category, rankType, place }
 }

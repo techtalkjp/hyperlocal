@@ -9,3 +9,13 @@ export const getPlace = async (placeId: string): Promise<Place | undefined> => {
 
   return place as Place | undefined
 }
+
+export const getLocalizedPlace = async (placeId: string, lang: string) => {
+  return await db
+    .selectFrom('localizedPlaces')
+    .distinct()
+    .selectAll()
+    .where('placeId', '==', placeId)
+    .where('language', '==', lang)
+    .executeTakeFirst()
+}

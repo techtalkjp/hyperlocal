@@ -1,51 +1,42 @@
-import { languages } from '@hyperlocal/consts'
-import type {
-  GooglePlacePhoto,
-  GooglePlaceReview,
-} from '@hyperlocal/google-place-api'
+import { LanguageIdSchema, languages } from '@hyperlocal/consts'
 import type { LoaderFunctionArgs } from 'react-router'
-import { Link, useLoaderData } from 'react-router'
+import { Link, redirect, useLoaderData } from 'react-router'
 import { z } from 'zod'
 import { zx } from 'zodix'
 import { HStack, Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { requireAdminUser } from '~/features/auth/services/user-session.server'
 import { PlaceCard, Rating } from '~/features/place/components'
-import { getPlace } from './queries.server'
+import { getLocalizedPlace, getPlace } from './queries.server'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   await requireAdminUser(request)
 
-  const {
-    city: cityId,
-    area: areaId,
-    category: categoryId,
-    language: languageId,
-  } = zx.parseQuery(request, {
-    city: z.string().optional(),
-    area: z.string().optional().default('tokyo'),
-    category: z.string().optional(),
-    language: z.string().optional().default('en'),
+  const { place: placeId, lang: languageId } = zx.parseParams(params, {
+    place: z.string(),
+    lang: LanguageIdSchema.optional(),
   })
-  const { place: placeId } = params
   if (!placeId) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
+  if (!languageId) {
+    throw redirect('en')
+  }
+
   const place = await getPlace(placeId)
   if (!place) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
-  const lang = languages.find((lang) => lang.id === languageId)
+  const localizedPlace = await getLocalizedPlace(placeId, languageId)
 
   return {
     place,
-    lang,
+    languageId,
+    localizedPlace,
   }
 }
 
 export default function AdminPlaceLayout() {
-  const { place, lang } = useLoaderData<typeof loader>()
-  const photos = place.photos as unknown as GooglePlacePhoto[]
-  const reviews = place.reviews as unknown as GooglePlaceReview[]
+  const { place, languageId, localizedPlace } = useLoaderData<typeof loader>()
 
   return (
     <div className="grid grid-cols-2 gap-4">
@@ -53,11 +44,11 @@ export default function AdminPlaceLayout() {
         <PlaceCard place={place} />
 
         <HStack className="overflow-auto">
-          {photos.map((photo) => (
+          {place.photos.map((photo) => (
             <img
-              key={photo.name}
+              key={photo}
               className="h-32 w-32 rounded object-cover"
-              src={photo.name}
+              src={photo}
               loading="lazy"
               alt="photo1"
             />
@@ -65,7 +56,7 @@ export default function AdminPlaceLayout() {
         </HStack>
 
         <Stack>
-          {reviews.map((review, idx) => (
+          {place.reviews.map((review, idx) => (
             <div key={`${idx}-${review.originalText?.text}`}>
               <Rating
                 star={review.rating}
@@ -80,15 +71,19 @@ export default function AdminPlaceLayout() {
       </Stack>
 
       <Stack>
-        <Tabs defaultValue={lang?.id}>
+        <Tabs defaultValue={languageId}>
           <TabsList>
             {languages.map((lang) => (
               <TabsTrigger key={lang.id} value={lang.id} asChild>
-                <Link to={lang.id}>{lang.displayName}</Link>
+                <Link to={`../${lang.id}`} relative="path">
+                  {lang.displayName}
+                </Link>
               </TabsTrigger>
             ))}
           </TabsList>
         </Tabs>
+
+        <div>{JSON.stringify(localizedPlace)}</div>
       </Stack>
     </div>
   )

@@ -6,14 +6,14 @@ import { requireAdminUser } from '~/features/auth/services/user-session.server'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   await requireAdminUser(request)
-  const { city, area, category, rank } = getPathParams(params)
+  const { city, area, category, rankType } = getPathParams(params)
   if (!area) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
   if (!category) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
-  if (!rank) {
+  if (!rankType) {
     throw replace('rating')
   }
 
