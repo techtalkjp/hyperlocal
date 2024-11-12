@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid'
 import type { StrategyVerifyCallback } from 'remix-auth'
 import type { OAuth2StrategyVerifyParams } from 'remix-auth-oauth2'
 import { db, sql, type DB, type Selectable } from '~/services/db.server'
-import type { SessionUser } from '../types/types'
+import type { SessionUser } from '../types'
 
 acceptLanguage.languages(['ja', 'en'])
 

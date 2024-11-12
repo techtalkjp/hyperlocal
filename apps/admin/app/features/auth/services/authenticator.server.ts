@@ -1,6 +1,6 @@
 import { createCookieSessionStorage } from 'react-router'
 import { Authenticator } from 'remix-auth'
-import type { SessionUser } from '../types/types'
+import type { SessionUser } from '../types'
 import { strategy as GoogleStrategy } from './google-auth.server'
 
 const getSessionStorage = () => {

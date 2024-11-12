@@ -1,5 +1,5 @@
 import { redirect } from 'react-router'
-import type { SessionUser } from '../types/types'
+import type { SessionUser } from '../types'
 import { authenticator, sessionStorage } from './authenticator.server'
 
 /**
