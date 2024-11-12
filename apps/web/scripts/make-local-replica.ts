@@ -4,12 +4,8 @@ import fs from 'node:fs/promises'
 
 dotenv.config()
 
-const files = await fs.readdir('./data')
-for (const file of files) {
-  if (file.startsWith('dev.db')) {
-    await fs.unlink(`./data/${file}`)
-  }
-}
+const url = new URL(process.env.DATABASE_URL)
+await fs.unlink(url.pathname)
 
 const client = createClient({
   url: process.env.DATABASE_URL,
