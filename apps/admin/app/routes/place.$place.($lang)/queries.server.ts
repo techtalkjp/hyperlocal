@@ -1,4 +1,4 @@
-import { db, type Place } from '~/services/db.server'
+import { db, type Place } from '@hyperlocal/db'
 
 export const getPlace = async (placeId: string): Promise<Place | undefined> => {
   const place = await db

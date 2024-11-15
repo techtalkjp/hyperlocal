@@ -1,7 +1,7 @@
 import { languages, type LanguageId } from '@hyperlocal/consts'
-import { Link, useLocation, useSearchParams } from '@remix-run/react'
 import { GlobeIcon } from 'lucide-react'
 import type React from 'react'
+import { Link, useLocation, useSearchParams } from 'react-router'
 import {
   Button,
   DropdownMenu,

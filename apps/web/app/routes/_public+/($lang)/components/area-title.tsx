@@ -1,7 +1,7 @@
 import type { City, LanguageId } from '@hyperlocal/consts'
 import { languages } from '@hyperlocal/consts'
-import { Link, type UIMatch } from '@remix-run/react'
 import type React from 'react'
+import { Link, type UIMatch } from 'react-router'
 
 type AreaMatch = UIMatch<
   Record<string, unknown>,

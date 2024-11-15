@@ -3,14 +3,9 @@
 interface Env {
 	GOOGLE_MAPS_API_KEY: string;
 	GOOGLE_GENERATIVE_AI_API_KEY: string;
-	CLERK_PUBLISHABLE_KEY: string;
-	CLERK_SECRET_KEY: string;
 	TURSO_DATABASE_URL: string;
 	TURSO_AUTH_TOKEN: string;
 	DATABASE_URL: string;
 	SESSION_SECRET: string;
-	GOOGLE_CLIENT_ID: string;
-	GOOGLE_CLIENT_SECRET: string;
-	NODE_ENV: string;
 	ASSETS: Fetcher;
 }

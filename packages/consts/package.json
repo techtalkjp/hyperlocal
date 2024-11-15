@@ -13,8 +13,6 @@
   "license": "ISC",
   "devDependencies": {
     "@biomejs/biome": "catalog:",
-    "@types/debug": "catalog:",
-    "@types/node": "catalog:",
     "prettier": "catalog:",
     "prettier-plugin-organize-imports": "catalog:",
     "prettier-plugin-tailwindcss": "catalog:",

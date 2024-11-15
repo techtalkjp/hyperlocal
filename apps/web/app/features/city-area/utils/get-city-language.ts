@@ -1,5 +1,5 @@
 import { cities, languages } from '@hyperlocal/consts'
-import type { Params } from '@remix-run/react'
+import type { Params } from 'react-router'
 
 export const getCity = (request: Request, params: Params) => {
   const { lang: langId } = params
