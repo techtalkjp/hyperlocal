@@ -1,5 +1,5 @@
 import { areas, categories, cities, languages } from '@hyperlocal/consts'
-import type { Params } from 'react-router';
+import type { Params } from 'react-router'
 import { match } from 'ts-pattern'
 
 /**

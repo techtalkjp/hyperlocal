@@ -4,11 +4,12 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "react-router build",
     "dev": "react-router dev --host",
-    "start": "react-router-serve ./build/server/index.js",
-    "format": "prettier --check .",
+    "build": "react-router build",
+    "deploy": "NODE_ENV=production wrangler deploy",
+    "start": "wrangler dev",
     "lint": "biome lint .",
+    "format": "prettier --check .",
     "typecheck": "react-router typegen && tsc",
     "test": "vitest --run",
     "validate": "run-s lint format typecheck test"

@@ -1,7 +1,12 @@
 import { categories } from '@hyperlocal/consts/src'
-import type { HeadersFunction, LoaderFunctionArgs } from 'react-router';
-import { type ClientLoaderFunctionArgs, NavLink, useLoaderData, useParams } from 'react-router';
 import { LoaderIcon } from 'lucide-react'
+import type { HeadersFunction, LoaderFunctionArgs } from 'react-router'
+import {
+  type ClientLoaderFunctionArgs,
+  NavLink,
+  useLoaderData,
+  useParams,
+} from 'react-router'
 import { Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { LocalizedPlaceCard } from '~/features/place/components/localized-place-card'

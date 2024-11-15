@@ -1,6 +1,6 @@
 import { areas, categories } from '@hyperlocal/consts'
-import type { LoaderFunctionArgs } from 'react-router';
-import { Link, useLoaderData } from 'react-router';
+import type { LoaderFunctionArgs } from 'react-router'
+import { Link, useLoaderData } from 'react-router'
 import { Badge, Card, CardHeader, CardTitle, Stack } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { sortAreasByDistance } from '~/services/distance'

@@ -1,6 +1,6 @@
 import { areas, categories, languages } from '@hyperlocal/consts'
 import { db, sql } from '@hyperlocal/db'
-import type { LoaderFunctionArgs } from 'react-router';
+import type { LoaderFunctionArgs } from 'react-router'
 import { getPathParams } from '~/features/city-area/utils'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {

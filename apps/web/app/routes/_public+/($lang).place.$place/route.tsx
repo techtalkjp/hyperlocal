@@ -1,7 +1,7 @@
 import { areas, categories } from '@hyperlocal/consts'
-import type { HeadersFunction, LoaderFunctionArgs } from 'react-router';
-import { Link, type MetaFunction, useLoaderData } from 'react-router';
 import { ChevronLeft } from 'lucide-react'
+import type { HeadersFunction, LoaderFunctionArgs } from 'react-router'
+import { Link, type MetaFunction, useLoaderData } from 'react-router'
 import { z } from 'zod'
 import { zx } from 'zodix'
 import {
