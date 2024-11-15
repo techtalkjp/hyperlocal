@@ -40,9 +40,11 @@ export const googlePlaceDetails = async ({
       },
     },
   )
-  const json = (await ret.json()) as unknown as any
+  const json = (await ret.json()) as unknown as GooglePlace
 
   if (json.displayName.text === undefined) {
     return null
   }
+
+  return json
 }
