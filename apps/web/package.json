@@ -78,9 +78,6 @@
     "wrangler": "3.86.1"
   },
   "engines": {
-    "node": "20.16.0"
-  },
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
+    "node": ">=20.0.0"
   }
 }
