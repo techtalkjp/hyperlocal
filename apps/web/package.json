@@ -24,7 +24,7 @@
     "@radix-ui/react-dropdown-menu": "catalog:",
     "@radix-ui/react-slot": "catalog:",
     "@radix-ui/react-tabs": "catalog:",
-    "@react-router/cloudflare": "0.0.0-nightly-a5f191b5e-20240820",
+    "@react-router/cloudflare": "catalog:",
     "@react-router/node": "catalog:",
     "@react-router/remix-routes-option-adapter": "catalog:",
     "@react-router/serve": "catalog:",
