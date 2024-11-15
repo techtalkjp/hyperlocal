@@ -2,6 +2,7 @@
   "name": "hyperlocal",
   "scripts": {
     "build": "turbo build",
+    "deploy": "turbo deploy",
     "dev": "turbo dev",
     "format": "turbo format",
     "lint": "turbo lint",
