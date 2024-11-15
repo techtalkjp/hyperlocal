@@ -5,6 +5,11 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", "build/**"]
     },
+    "deploy": {
+      "dependsOn": ["^deploy"],
+      "outputs": [],
+      "cache": false
+    },
     "dev": {
       "dependsOn": ["^dev"],
       "outputs": ["dist/**", "build/**"],
