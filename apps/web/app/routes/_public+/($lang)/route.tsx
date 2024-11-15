@@ -1,5 +1,5 @@
-import type { LoaderFunctionArgs } from '@remix-run/node'
-import { type MetaFunction, Outlet, useLoaderData } from '@remix-run/react'
+import type { LoaderFunctionArgs } from 'react-router';
+import { type MetaFunction, Outlet, useLoaderData } from 'react-router';
 import { HStack } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { NearbyAreasSelector } from '~/routes/resources+/nearby-areas/route'

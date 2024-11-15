@@ -39,7 +39,6 @@
     "@react-router/cloudflare": "catalog:",
     "@react-router/remix-routes-option-adapter": "catalog:",
     "@react-router/serve": "catalog:",
-    "@remix-run/server-runtime": "catalog:",
     "accept-language": "catalog:",
     "ai": "catalog:",
     "class-variance-authority": "catalog:",

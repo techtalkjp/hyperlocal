@@ -1,28 +1,15 @@
-import { vitePlugin as remix } from '@remix-run/dev'
-import { vercelPreset } from '@vercel/remix/vite'
+import { reactRouter } from '@react-router/dev/vite'
+import { cloudflareDevProxy } from '@react-router/dev/vite/cloudflare'
+import { sessionContextPlugin } from 'session-context/vite'
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
-
-declare module '@remix-run/server-runtime' {
-  interface Future {
-    v3_singleFetch: true
-  }
-}
+import { getLoadContext } from './load-context'
 
 export default defineConfig({
   plugins: [
-    remix({
-      future: {
-        v3_fetcherPersist: true,
-        v3_relativeSplatPath: true,
-        v3_throwAbortReason: true,
-        v3_lazyRouteDiscovery: true,
-        v3_singleFetch: true,
-        unstable_optimizeDeps: true,
-        unstable_routeConfig: true,
-      },
-      presets: [vercelPreset()],
-    }),
+    cloudflareDevProxy({ getLoadContext }),
+    reactRouter(),
+    sessionContextPlugin(),
     tsconfigPaths(),
   ],
 })

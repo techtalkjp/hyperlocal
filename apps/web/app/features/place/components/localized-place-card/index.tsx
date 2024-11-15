@@ -1,7 +1,7 @@
 import { UTCDate } from '@date-fns/utc'
 import { cities } from '@hyperlocal/consts'
 import type { LocalizedPlace } from '@hyperlocal/db'
-import { Link } from '@remix-run/react'
+import { Link } from 'react-router';
 import { FootprintsIcon, MapPinIcon } from 'lucide-react'
 import { HStack, Stack } from '~/components/ui'
 import { cn } from '~/libs/utils'

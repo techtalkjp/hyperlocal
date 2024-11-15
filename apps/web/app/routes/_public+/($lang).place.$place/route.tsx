@@ -1,6 +1,6 @@
 import { areas, categories } from '@hyperlocal/consts'
-import type { HeadersFunction, LoaderFunctionArgs } from '@remix-run/node'
-import { Link, type MetaFunction, useLoaderData } from '@remix-run/react'
+import type { HeadersFunction, LoaderFunctionArgs } from 'react-router';
+import { Link, type MetaFunction, useLoaderData } from 'react-router';
 import { ChevronLeft } from 'lucide-react'
 import { z } from 'zod'
 import { zx } from 'zodix'

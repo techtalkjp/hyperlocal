@@ -1,4 +1,4 @@
-import { NavLink } from '@remix-run/react'
+import { NavLink } from 'react-router';
 import { twc } from 'react-twc'
 
 export const CategoryNav = twc.div`flex flex-nowrap overflow-auto gap-2`

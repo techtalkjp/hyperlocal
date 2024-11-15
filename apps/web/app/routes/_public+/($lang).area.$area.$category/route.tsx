@@ -1,12 +1,6 @@
 import { categories } from '@hyperlocal/consts'
-import type { LoaderFunctionArgs } from '@remix-run/node'
-import {
-  Link,
-  Outlet,
-  redirect,
-  useLoaderData,
-  type MetaFunction,
-} from '@remix-run/react'
+import type { LoaderFunctionArgs } from 'react-router';
+import { Link, Outlet, redirect, useLoaderData, type MetaFunction } from 'react-router';
 import { Badge, Stack } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { generateAreaCategoryMetaDescription } from '~/features/seo/meta-area-category'

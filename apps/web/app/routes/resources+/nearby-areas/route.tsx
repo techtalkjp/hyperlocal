@@ -4,7 +4,7 @@ import {
   type LanguageId,
   type i18nRecord,
 } from '@hyperlocal/consts'
-import { Link, useFetcher, type ClientLoaderFunction } from '@remix-run/react'
+import { Link, useFetcher, type ClientLoaderFunction } from 'react-router';
 import { FootprintsIcon, LoaderIcon, MapPinIcon } from 'lucide-react'
 import React from 'react'
 import {

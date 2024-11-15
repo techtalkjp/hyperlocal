@@ -1,4 +1,4 @@
-import { useNavigation } from '@remix-run/react'
+import { useNavigation } from 'react-router';
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { useEffect } from 'react'
