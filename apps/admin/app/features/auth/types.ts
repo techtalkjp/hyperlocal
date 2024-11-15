@@ -1,4 +1,4 @@
-import type { DB, Selectable } from '~/services/db.server'
+import type { DB, Selectable } from '@hyperlocal/db'
 
 export type SessionUser = {
   id: Selectable<DB['adminUsers']>['id']

@@ -14,7 +14,6 @@
   "license": "ISC",
   "devDependencies": {
     "@biomejs/biome": "catalog:",
-    "@types/debug": "catalog:",
     "@types/node": "catalog:",
     "prettier": "catalog:",
     "prettier-plugin-organize-imports": "catalog:",
@@ -26,7 +25,7 @@
   "dependencies": {
     "@hyperlocal/google-place-api": "workspace:*",
     "@libsql/kysely-libsql": "catalog:",
-    "debug": "catalog:",
-    "kysely": "catalog:"
+    "kysely": "catalog:",
+    "session-context": "0.0.6"
   }
 }
