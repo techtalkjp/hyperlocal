@@ -45,7 +45,7 @@
     "react-twc": "catalog:",
     "remix-flat-routes": "catalog:",
     "remix-utils": "catalog:",
-    "session-context": "0.0.6",
+    "session-context": "catalog:",
     "tailwind-merge": "catalog:",
     "ts-pattern": "catalog:",
     "zod": "catalog:",
@@ -53,7 +53,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
-    "@cloudflare/workers-types": "4.20241106.0",
+    "@cloudflare/workers-types": "catalog:",
     "@react-router/dev": "catalog:",
     "@types/node": "catalog:",
     "@types/nprogress": "catalog:",
@@ -75,7 +75,7 @@
     "vite": "catalog:",
     "vite-tsconfig-paths": "catalog:",
     "vitest": "catalog:",
-    "wrangler": "3.86.1"
+    "wrangler": "catalog:"
   },
   "engines": {
     "node": ">=20.0.0"

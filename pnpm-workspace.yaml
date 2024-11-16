@@ -4,6 +4,7 @@ packages:
 catalog:
   '@ai-sdk/google': 0.0.55
   '@biomejs/biome': 1.9.4
+  '@cloudflare/workers-types': 4.20241112.0
   '@coji/remix-auth-google': 3.0.3
   '@conform-to/react': 1.2.2
   '@conform-to/zod': 1.2.2
@@ -22,9 +23,9 @@ catalog:
   '@radix-ui/react-slider': 1.2.1
   '@radix-ui/react-slot': 1.1.0
   '@radix-ui/react-tabs': 1.1.1
-  '@react-router/node': 7.0.0-pre.5
-  '@react-router/dev': 7.0.0-pre.5
   '@react-router/cloudflare': 7.0.0-pre.5
+  '@react-router/dev': 7.0.0-pre.5
+  '@react-router/node': 7.0.0-pre.5
   '@react-router/remix-routes-option-adapter': 7.0.0-pre.5
   '@react-router/serve': 7.0.0-pre.5
   '@types/node': 22.9.0
@@ -45,7 +46,7 @@ catalog:
   embla-carousel-react: 8.3.1
   kysely: 0.27.4
   kysely-duckdb: 0.1.0
-  lucide-react: 0.456.0
+  lucide-react: 0.460.0
   nanoid: 5.0.8
   next-themes: 0.4.3
   npm-run-all: 4.1.5
@@ -65,16 +66,18 @@ catalog:
   remix-flat-routes: 0.6.5
   remix-toast: 1.2.2
   remix-utils: 7.7.0
+  session-context: 0.0.6
   sonner: 1.7.0
   tailwind-merge: 2.5.4
-  tailwindcss: 3.4.14
+  tailwindcss: 3.4.15
   tailwindcss-animate: 1.0.7
   ts-pattern: 5.5.0
   tsx: 4.19.2
-  turbo: 2.2.3
+  turbo: 2.3.0
   typescript: 5.6.3
   vite: 5.4.11
   vite-tsconfig-paths: 5.1.2
   vitest: 2.1.5
+  wrangler: 3.87.0
   zod: 3.23.8
   zodix: 0.4.4

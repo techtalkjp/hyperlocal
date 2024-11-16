@@ -26,6 +26,6 @@
     "@hyperlocal/google-place-api": "workspace:*",
     "@libsql/kysely-libsql": "catalog:",
     "kysely": "catalog:",
-    "session-context": "0.0.6"
+    "session-context": "catalog:"
   }
 }
