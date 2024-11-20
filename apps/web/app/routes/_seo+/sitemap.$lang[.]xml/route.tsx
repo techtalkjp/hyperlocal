@@ -44,7 +44,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     ])
     .where('cityId', '==', city.cityId)
     .where('language', '==', lang.id)
-    .groupBy(['areaId', 'categoryId', 'rankingType'])
+    .groupBy(['areaId', 'categoryId'])
     .execute()
   for (const areaCategory of nearMeAreaCategories) {
     urls.push({
