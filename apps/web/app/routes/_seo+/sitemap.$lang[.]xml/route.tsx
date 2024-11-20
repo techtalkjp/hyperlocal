@@ -1,4 +1,4 @@
-import { areas, categories, languages } from '@hyperlocal/consts'
+import { languages } from '@hyperlocal/consts'
 import { db, sql } from '@hyperlocal/db'
 import type { LoaderFunctionArgs } from 'react-router'
 import { getPathParams } from '~/features/city-area/utils'
@@ -13,46 +13,44 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   }
 
   const urls = []
-  for (const area of areas.filter((a) => a.cityId === city.cityId)) {
-    const { lastmod } = await db
-      .selectFrom('localizedPlaces')
-      .select(sql<string>`strftime('%Y-%m-%d', max(updated_at))`.as('lastmod'))
-      .where('cityId', '==', city.cityId)
-      .where('language', '==', lang.id)
-      .where('areaId', '==', area.areaId)
-      .executeTakeFirstOrThrow()
+
+  // rating, review
+  const areaCategories = await db
+    .selectFrom('localizedPlaces')
+    .select([
+      'areaId',
+      'categoryId',
+      'rankingType',
+      sql<string>`strftime('%Y-%m-%d', max(updated_at))`.as('lastmod'),
+    ])
+    .where('cityId', '==', city.cityId)
+    .where('language', '==', lang.id)
+    .groupBy(['areaId', 'categoryId', 'rankingType'])
+    .execute()
+  for (const areaCategory of areaCategories) {
     urls.push({
-      loc: `${origin}/${lang.id}/${city.cityId}/${area.areaId}`,
-      lastmod,
+      loc: `${origin}/${lang.id === 'en' ? '' : `${lang.id}/`}area/${areaCategory.areaId}/${areaCategory.categoryId}/${areaCategory.rankingType}`,
+      lastmod: areaCategory.lastmod,
     })
+  }
 
-    for (const category of categories) {
-      const { lastmod } = await db
-        .selectFrom('localizedPlaces')
-        .select(
-          sql<string>`strftime('%Y-%m-%d', max(updated_at))`.as('lastmod'),
-        )
-        .where('cityId', '==', city.cityId)
-        .where('language', '==', lang.id)
-        .where('areaId', '==', area.areaId)
-        .where('categoryId', '==', category.id)
-        .executeTakeFirstOrThrow()
-
-      urls.push({
-        loc: `${origin}/${lang.id === 'en' ? '' : `${lang.id}/`}area/${area.areaId}/${category.id}/rating`,
-        lastmod,
-      })
-      if (category.id === 'lunch' || category.id === 'dinner') {
-        urls.push({
-          loc: `${origin}/${lang.id === 'en' ? '' : `${lang.id}/`}area/${area.areaId}/${category.id}/review`,
-          lastmod,
-        })
-      }
-      urls.push({
-        loc: `${origin}/${lang.id === 'en' ? '' : `${lang.id}/`}area/${area.areaId}/${category.id}/nearme`,
-        lastmod,
-      })
-    }
+  // near me
+  const nearMeAreaCategories = await db
+    .selectFrom('localizedPlaces')
+    .select([
+      'areaId',
+      'categoryId',
+      sql<string>`strftime('%Y-%m-%d', max(updated_at))`.as('lastmod'),
+    ])
+    .where('cityId', '==', city.cityId)
+    .where('language', '==', lang.id)
+    .groupBy(['areaId', 'categoryId', 'rankingType'])
+    .execute()
+  for (const areaCategory of nearMeAreaCategories) {
+    urls.push({
+      loc: `${origin}/${lang.id === 'en' ? '' : `${lang.id}/`}area/${areaCategory.areaId}/${areaCategory.categoryId}/nearme`,
+      lastmod: areaCategory.lastmod,
+    })
   }
 
   const sitemap = `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
