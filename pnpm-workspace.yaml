@@ -23,11 +23,11 @@ catalog:
   '@radix-ui/react-slider': 1.2.1
   '@radix-ui/react-slot': 1.1.0
   '@radix-ui/react-tabs': 1.1.1
-  '@react-router/cloudflare': 7.0.0-pre.5
-  '@react-router/dev': 7.0.0-pre.5
-  '@react-router/node': 7.0.0-pre.5
-  '@react-router/remix-routes-option-adapter': 7.0.0-pre.5
-  '@react-router/serve': 7.0.0-pre.5
+  '@react-router/cloudflare': 7.0.0-pre.6
+  '@react-router/dev': 7.0.0-pre.6
+  '@react-router/node': 7.0.0-pre.6
+  '@react-router/remix-routes-option-adapter': 7.0.0-pre.6
+  '@react-router/serve': 7.0.0-pre.6
   '@types/node': 22.9.0
   '@types/nprogress': 0.2.3
   '@types/react': 18.3.12
@@ -58,8 +58,8 @@ catalog:
   prisma: 5.22.0
   prisma-kysely: 1.8.0
   react: 18.3.1
-  react-router: 7.0.0-pre.5
-  react-router-dom: 7.0.0-pre.5
+  react-router: 7.0.0-pre.6
+  react-router-dom: 7.0.0-pre.6
   react-twc: 1.4.2
   remix-auth: 3.7.0
   remix-auth-oauth2: 2.4.0

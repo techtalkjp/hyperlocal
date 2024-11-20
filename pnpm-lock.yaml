@@ -70,20 +70,20 @@ catalogs:
       specifier: 1.1.1
       version: 1.1.1
     '@react-router/cloudflare':
-      specifier: 7.0.0-pre.5
-      version: 7.0.0-pre.5
+      specifier: 7.0.0-pre.6
+      version: 7.0.0-pre.6
     '@react-router/dev':
-      specifier: 7.0.0-pre.5
-      version: 7.0.0-pre.5
+      specifier: 7.0.0-pre.6
+      version: 7.0.0-pre.6
     '@react-router/node':
-      specifier: 7.0.0-pre.5
-      version: 7.0.0-pre.5
+      specifier: 7.0.0-pre.6
+      version: 7.0.0-pre.6
     '@react-router/remix-routes-option-adapter':
-      specifier: 7.0.0-pre.5
-      version: 7.0.0-pre.5
+      specifier: 7.0.0-pre.6
+      version: 7.0.0-pre.6
     '@react-router/serve':
-      specifier: 7.0.0-pre.5
-      version: 7.0.0-pre.5
+      specifier: 7.0.0-pre.6
+      version: 7.0.0-pre.6
     '@types/node':
       specifier: 22.9.0
       version: 22.9.0
@@ -175,11 +175,11 @@ catalogs:
       specifier: 18.3.1
       version: 18.3.1
     react-router:
-      specifier: 7.0.0-pre.5
-      version: 7.0.0-pre.5
+      specifier: 7.0.0-pre.6
+      version: 7.0.0-pre.6
     react-router-dom:
-      specifier: 7.0.0-pre.5
-      version: 7.0.0-pre.5
+      specifier: 7.0.0-pre.6
+      version: 7.0.0-pre.6
     react-twc:
       specifier: 1.4.2
       version: 1.4.2
@@ -322,13 +322,13 @@ importers:
         version: 1.1.1(@types/react-dom@18.3.1)(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@react-router/cloudflare':
         specifier: 'catalog:'
-        version: 7.0.0-pre.5(@cloudflare/workers-types@4.20241112.0)(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(tsup@8.3.5(jiti@1.21.6)(postcss@8.4.49)(tsx@4.19.2)(typescript@5.6.3)(yaml@2.6.0))(typescript@5.6.3)
+        version: 7.0.0-pre.6(@cloudflare/workers-types@4.20241112.0)(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(tsup@8.3.5(jiti@1.21.6)(postcss@8.4.49)(tsx@4.19.2)(typescript@5.6.3)(yaml@2.6.0))(typescript@5.6.3)
       '@react-router/remix-routes-option-adapter':
         specifier: 'catalog:'
-        version: 7.0.0-pre.5(@react-router/dev@7.0.0-pre.5(@react-router/serve@7.0.0-pre.5(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3))(@types/node@22.9.0)(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0))(wrangler@3.87.0(@cloudflare/workers-types@4.20241112.0)))(typescript@5.6.3)
+        version: 7.0.0-pre.6(@react-router/dev@7.0.0-pre.6(@react-router/serve@7.0.0-pre.6(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3))(@types/node@22.9.0)(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0))(wrangler@3.87.0(@cloudflare/workers-types@4.20241112.0)))(typescript@5.6.3)
       '@react-router/serve':
         specifier: 'catalog:'
-        version: 7.0.0-pre.5(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)
+        version: 7.0.0-pre.6(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)
       accept-language:
         specifier: 'catalog:'
         version: 3.0.20
@@ -370,10 +370,10 @@ importers:
         version: 18.3.1(react@18.3.1)
       react-router:
         specifier: 'catalog:'
-        version: 7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-router-dom:
         specifier: 'catalog:'
-        version: 7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-twc:
         specifier: 'catalog:'
         version: 1.4.2(@types/react@18.3.12)(react@18.3.1)
@@ -419,7 +419,7 @@ importers:
         version: 4.20241112.0
       '@react-router/dev':
         specifier: 'catalog:'
-        version: 7.0.0-pre.5(@react-router/serve@7.0.0-pre.5(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3))(@types/node@22.9.0)(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0))(wrangler@3.87.0(@cloudflare/workers-types@4.20241112.0))
+        version: 7.0.0-pre.6(@react-router/serve@7.0.0-pre.6(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3))(@types/node@22.9.0)(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0))(wrangler@3.87.0(@cloudflare/workers-types@4.20241112.0))
       '@types/react':
         specifier: 'catalog:'
         version: 18.3.12
@@ -567,16 +567,16 @@ importers:
         version: 1.1.1(@types/react-dom@18.3.1)(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@react-router/cloudflare':
         specifier: 'catalog:'
-        version: 7.0.0-pre.5(@cloudflare/workers-types@4.20241112.0)(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(tsup@8.3.5(jiti@1.21.6)(postcss@8.4.49)(tsx@4.19.2)(typescript@5.6.3)(yaml@2.6.0))(typescript@5.6.3)
+        version: 7.0.0-pre.6(@cloudflare/workers-types@4.20241112.0)(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(tsup@8.3.5(jiti@1.21.6)(postcss@8.4.49)(tsx@4.19.2)(typescript@5.6.3)(yaml@2.6.0))(typescript@5.6.3)
       '@react-router/node':
         specifier: 'catalog:'
-        version: 7.0.0-pre.5(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)
+        version: 7.0.0-pre.6(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)
       '@react-router/remix-routes-option-adapter':
         specifier: 'catalog:'
-        version: 7.0.0-pre.5(@react-router/dev@7.0.0-pre.5(@react-router/serve@7.0.0-pre.5(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3))(@types/node@22.9.0)(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0))(wrangler@3.87.0(@cloudflare/workers-types@4.20241112.0)))(typescript@5.6.3)
+        version: 7.0.0-pre.6(@react-router/dev@7.0.0-pre.6(@react-router/serve@7.0.0-pre.6(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3))(@types/node@22.9.0)(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0))(wrangler@3.87.0(@cloudflare/workers-types@4.20241112.0)))(typescript@5.6.3)
       '@react-router/serve':
         specifier: 'catalog:'
-        version: 7.0.0-pre.5(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)
+        version: 7.0.0-pre.6(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)
       class-variance-authority:
         specifier: 'catalog:'
         version: 0.7.0
@@ -615,7 +615,7 @@ importers:
         version: 18.3.1(react@18.3.1)
       react-router:
         specifier: 'catalog:'
-        version: 7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-twc:
         specifier: 'catalog:'
         version: 1.4.2(@types/react@18.3.12)(react@18.3.1)
@@ -649,7 +649,7 @@ importers:
         version: 4.20241112.0
       '@react-router/dev':
         specifier: 'catalog:'
-        version: 7.0.0-pre.5(@react-router/serve@7.0.0-pre.5(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3))(@types/node@22.9.0)(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0))(wrangler@3.87.0(@cloudflare/workers-types@4.20241112.0))
+        version: 7.0.0-pre.6(@react-router/serve@7.0.0-pre.6(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3))(@types/node@22.9.0)(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0))(wrangler@3.87.0(@cloudflare/workers-types@4.20241112.0))
       '@types/node':
         specifier: 'catalog:'
         version: 22.9.0
@@ -2139,6 +2139,9 @@ packages:
   '@mdx-js/mdx@2.3.0':
     resolution: {integrity: sha512-jLuwRlz8DQfQNiUCJR50Y09CGPq3fLtmtUQfVrj79E0JWu3dvsVcxVIcfhR5h0iXu+/z++zDrYeiJqifRynJkA==}
 
+  '@mjackson/node-fetch-server@0.2.0':
+    resolution: {integrity: sha512-EMlH1e30yzmTpGLQjlFmaDAjyOeZhng1/XCd7DExR8PNAnG/G1tyruZxEoUe11ClnwGhGrtsdnyyUx1frSzjng==}
+
   '@mrleebo/prisma-ast@0.7.0':
     resolution: {integrity: sha512-GTPkYf1meO2UXXIrz/SIDFWz+P4kXo2PTt36LYh/oNxV1PieYi7ZgenQk4IV0ut71Je3Z8ZoNZ8Tr7v2c1X1pg==}
     engines: {node: '>=16'}
@@ -2654,25 +2657,25 @@ packages:
   '@radix-ui/rect@1.1.0':
     resolution: {integrity: sha512-A9+lCBZoaMJlVKcRBz2YByCG+Cp2t6nAnMnNba+XiWxnj6r4JUFqfsgwocMBZU9LPtdxC6wB56ySYpc7LQIoJg==}
 
-  '@react-router/cloudflare@7.0.0-pre.5':
-    resolution: {integrity: sha512-qTe5yiaPJgdmTTmmzCaPDYp4lZScE5TYeaOPM/wbe+hZ/Y9r3/PYnHvZ80jbdVwwbi5/A9ioBQcps1uEYHjrcw==}
+  '@react-router/cloudflare@7.0.0-pre.6':
+    resolution: {integrity: sha512-UjwsLqNgRDNsqN7pgi//mvDrWVDQlzMOZnlS+ZAdxPhDfWs+5CYP2iMvsmpL3eJjXePj61YEQ2yIIoGaBaqvnA==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       '@cloudflare/workers-types': ^4.0.0
-      react-router: ^7.0.0-pre.5
+      react-router: ^7.0.0-pre.6
       tsup: ^8.3.0
       typescript: ^5.1.0
     peerDependenciesMeta:
       typescript:
         optional: true
 
-  '@react-router/dev@7.0.0-pre.5':
-    resolution: {integrity: sha512-U7mYFLwd+Gt/QikANHLZ5hnnUq731iW+gh+sfOFDZiDSvq2RGIqtvS6/WT2bEcC/G/tvjmrx2kVP30eSKOdCzw==}
+  '@react-router/dev@7.0.0-pre.6':
+    resolution: {integrity: sha512-BhyxC+ku90IErL4lIuE6MvDw5irHLS4w0n+3VPGCOTemF3SVTMUG00Q2H5wbnMeM27zhn1XuCUWxvHJQwI+lrQ==}
     engines: {node: '>=20.0.0'}
     hasBin: true
     peerDependencies:
-      '@react-router/serve': ^7.0.0-pre.5
-      react-router: ^7.0.0-pre.5
+      '@react-router/serve': ^7.0.0-pre.6
+      react-router: ^7.0.0-pre.6
       typescript: ^5.1.0
       vite: ^5.1.0
       wrangler: ^3.28.2
@@ -2684,43 +2687,43 @@ packages:
       wrangler:
         optional: true
 
-  '@react-router/express@7.0.0-pre.5':
-    resolution: {integrity: sha512-aIZmk1lJhVhOwO0rtpVs7uq1BXRYy3lfVaCgAtnQo26lW7eom6NnTX01joe39LYqf0K61V5eZHUAIsrI8qoWhQ==}
+  '@react-router/express@7.0.0-pre.6':
+    resolution: {integrity: sha512-GTq7E+yDAhSfHY8xbAscUVg9vAgwPSJzHPdcJpYYciMzT/FVjZEjS3cFVgP8MZnwB0Ac0d5pbaap+lxBiay7Vg==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       express: ^4.17.1
-      react-router: 7.0.0-pre.5
+      react-router: 7.0.0-pre.6
       typescript: ^5.1.0
     peerDependenciesMeta:
       typescript:
         optional: true
 
-  '@react-router/node@7.0.0-pre.5':
-    resolution: {integrity: sha512-meYaoDNs2F31v6BRGFikPCtoJ0VZfi7MTdlooc1wgxD/uO+GcV2i3RPLrvt2hXyDE59guz62Q73h+SiUlFMfeA==}
+  '@react-router/node@7.0.0-pre.6':
+    resolution: {integrity: sha512-9x0Tftl3SXBDev2s8SvK6tBtNPllgOHbFaIuFuID2XxcVcb4qJh6eYtCgBKgBOcj01/9NfwsQmfxzQEJVVUw0Q==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
-      react-router: 7.0.0-pre.5
+      react-router: 7.0.0-pre.6
       typescript: ^5.1.0
     peerDependenciesMeta:
       typescript:
         optional: true
 
-  '@react-router/remix-routes-option-adapter@7.0.0-pre.5':
-    resolution: {integrity: sha512-jT0X56C8QjHgE2UMNNoTUrtQxsjAc95EPd2FIwavSEzAO5V5IkVbI7gxm1IX4H4Kapq0TQdgl8R1UW0qyLXtfA==}
+  '@react-router/remix-routes-option-adapter@7.0.0-pre.6':
+    resolution: {integrity: sha512-ENlxHsq8m+iIXavVg8WS2ZSiTS0v+eBFYTpLK0A8Vm3fZU4yp+VhMS98jAxTMYv1cJPY1bXY/AW+PCHVL3uryw==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
-      '@react-router/dev': ^7.0.0-pre.5
+      '@react-router/dev': ^7.0.0-pre.6
       typescript: ^5.1.0
     peerDependenciesMeta:
       typescript:
         optional: true
 
-  '@react-router/serve@7.0.0-pre.5':
-    resolution: {integrity: sha512-LkA7sg6ZDSbbTtHFaPM0MV9hdAS++QDbF5lPzgP4cqpyJzxHFymqxWfQmzc3XWgX4QFkLaSnFXfH57k+gJjWdA==}
+  '@react-router/serve@7.0.0-pre.6':
+    resolution: {integrity: sha512-gOtenjFBrgkir/LS33w1rHlv3/IXMK9g5WMY9oHNjFKSSgBZPXNqwQjQe05O2uNyyVYxyZnZ4vkNi29If5bLkw==}
     engines: {node: '>=20.0.0'}
     hasBin: true
     peerDependencies:
-      react-router: 7.0.0-pre.5
+      react-router: 7.0.0-pre.6
 
   '@remix-run/dev@2.14.0':
     resolution: {integrity: sha512-WMun4fy0ANh92WecufUNb3IV/R02uyfBslM7g7nCO1/lzDII+XmfEkZY5CWPaLmnkoAc1DR2G60+eTHRo480Ug==}
@@ -6048,8 +6051,8 @@ packages:
       react: '>=16.8'
       react-dom: '>=16.8'
 
-  react-router-dom@7.0.0-pre.5:
-    resolution: {integrity: sha512-GhJ0NFtDqK5WM26WQ5PzPmD3dVamEE/CDGI3PVCzNlrk9xK/23zbMFxZHTX5PU+S5n46oEPwhUAanBd1grh42w==}
+  react-router-dom@7.0.0-pre.6:
+    resolution: {integrity: sha512-jOGmQRAS5tPCbghJc96v5lhhs1Qzfh6rTyxkDz/ylxQ4qmlRR3yEx3x0Rv3m7Yu1gPmWvkAL6lTBAfpnsZ5zsA==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       react: '>=18'
@@ -6061,8 +6064,8 @@ packages:
     peerDependencies:
       react: '>=16.8'
 
-  react-router@7.0.0-pre.5:
-    resolution: {integrity: sha512-UGrqwmlTubhrtUzIu1WYb1z9FVeCqGi9RdywwjFrSQqIDTPjn7g5PPuFAS6pbVuj81VRI7HVzaljpzKXPDnfEQ==}
+  react-router@7.0.0-pre.6:
+    resolution: {integrity: sha512-ln9gXs3ilZLGdggPetKYWzxrmMNykTipWxSXHUcB0qSJECkPTe3NcKo8fJx6dQfS4gS1zhCXGpHWRVasinnxOw==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       react: '>=18'
@@ -8597,6 +8600,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@mjackson/node-fetch-server@0.2.0': {}
+
   '@mrleebo/prisma-ast@0.7.0':
     dependencies:
       chevrotain: 10.5.0
@@ -9232,15 +9237,15 @@ snapshots:
 
   '@radix-ui/rect@1.1.0': {}
 
-  '@react-router/cloudflare@7.0.0-pre.5(@cloudflare/workers-types@4.20241112.0)(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(tsup@8.3.5(jiti@1.21.6)(postcss@8.4.49)(tsx@4.19.2)(typescript@5.6.3)(yaml@2.6.0))(typescript@5.6.3)':
+  '@react-router/cloudflare@7.0.0-pre.6(@cloudflare/workers-types@4.20241112.0)(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(tsup@8.3.5(jiti@1.21.6)(postcss@8.4.49)(tsx@4.19.2)(typescript@5.6.3)(yaml@2.6.0))(typescript@5.6.3)':
     dependencies:
       '@cloudflare/workers-types': 4.20241112.0
-      react-router: 7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-router: 7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       tsup: 8.3.5(jiti@1.21.6)(postcss@8.4.49)(tsx@4.19.2)(typescript@5.6.3)(yaml@2.6.0)
     optionalDependencies:
       typescript: 5.6.3
 
-  '@react-router/dev@7.0.0-pre.5(@react-router/serve@7.0.0-pre.5(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3))(@types/node@22.9.0)(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0))(wrangler@3.87.0(@cloudflare/workers-types@4.20241112.0))':
+  '@react-router/dev@7.0.0-pre.6(@react-router/serve@7.0.0-pre.6(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3))(@types/node@22.9.0)(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0))(wrangler@3.87.0(@cloudflare/workers-types@4.20241112.0))':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/generator': 7.26.2
@@ -9251,7 +9256,7 @@ snapshots:
       '@babel/traverse': 7.25.9
       '@babel/types': 7.26.0
       '@npmcli/package-json': 4.0.1
-      '@react-router/node': 7.0.0-pre.5(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)
+      '@react-router/node': 7.0.0-pre.6(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)
       arg: 5.0.2
       babel-dead-code-elimination: 1.0.6
       chokidar: 4.0.1
@@ -9267,14 +9272,14 @@ snapshots:
       picomatch: 2.3.1
       prettier: 2.8.8
       react-refresh: 0.14.2
-      react-router: 7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-router: 7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       semver: 7.6.3
       set-cookie-parser: 2.7.1
       valibot: 0.41.0(typescript@5.6.3)
       vite: 5.4.11(@types/node@22.9.0)
       vite-node: 1.6.0(@types/node@22.9.0)
     optionalDependencies:
-      '@react-router/serve': 7.0.0-pre.5(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)
+      '@react-router/serve': 7.0.0-pre.6(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)
       typescript: 5.6.3
       wrangler: 3.87.0(@cloudflare/workers-types@4.20241112.0)
     transitivePeerDependencies:
@@ -9290,39 +9295,39 @@ snapshots:
       - supports-color
       - terser
 
-  '@react-router/express@7.0.0-pre.5(express@4.21.1)(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)':
+  '@react-router/express@7.0.0-pre.6(express@4.21.1)(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)':
     dependencies:
-      '@react-router/node': 7.0.0-pre.5(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)
+      '@react-router/node': 7.0.0-pre.6(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)
       express: 4.21.1
-      react-router: 7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-router: 7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     optionalDependencies:
       typescript: 5.6.3
 
-  '@react-router/node@7.0.0-pre.5(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)':
+  '@react-router/node@7.0.0-pre.6(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)':
     dependencies:
-      '@web3-storage/multipart-parser': 1.0.0
-      react-router: 7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@mjackson/node-fetch-server': 0.2.0
+      react-router: 7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       source-map-support: 0.5.21
       stream-slice: 0.1.2
       undici: 6.20.1
     optionalDependencies:
       typescript: 5.6.3
 
-  '@react-router/remix-routes-option-adapter@7.0.0-pre.5(@react-router/dev@7.0.0-pre.5(@react-router/serve@7.0.0-pre.5(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3))(@types/node@22.9.0)(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0))(wrangler@3.87.0(@cloudflare/workers-types@4.20241112.0)))(typescript@5.6.3)':
+  '@react-router/remix-routes-option-adapter@7.0.0-pre.6(@react-router/dev@7.0.0-pre.6(@react-router/serve@7.0.0-pre.6(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3))(@types/node@22.9.0)(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0))(wrangler@3.87.0(@cloudflare/workers-types@4.20241112.0)))(typescript@5.6.3)':
     dependencies:
-      '@react-router/dev': 7.0.0-pre.5(@react-router/serve@7.0.0-pre.5(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3))(@types/node@22.9.0)(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0))(wrangler@3.87.0(@cloudflare/workers-types@4.20241112.0))
+      '@react-router/dev': 7.0.0-pre.6(@react-router/serve@7.0.0-pre.6(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3))(@types/node@22.9.0)(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0))(wrangler@3.87.0(@cloudflare/workers-types@4.20241112.0))
     optionalDependencies:
       typescript: 5.6.3
 
-  '@react-router/serve@7.0.0-pre.5(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)':
+  '@react-router/serve@7.0.0-pre.6(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)':
     dependencies:
-      '@react-router/express': 7.0.0-pre.5(express@4.21.1)(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)
-      '@react-router/node': 7.0.0-pre.5(react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)
+      '@react-router/express': 7.0.0-pre.6(express@4.21.1)(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)
+      '@react-router/node': 7.0.0-pre.6(react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.6.3)
       compression: 1.7.5
       express: 4.21.1
       get-port: 5.1.1
       morgan: 1.10.0
-      react-router: 7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-router: 7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       source-map-support: 0.5.21
     transitivePeerDependencies:
       - supports-color
@@ -13198,25 +13203,23 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       react-router: 6.28.0(react@18.3.1)
 
-  react-router-dom@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-router-dom@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      react-router: 7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-router: 7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
   react-router@6.28.0(react@18.3.1):
     dependencies:
       '@remix-run/router': 1.21.0
       react: 18.3.1
 
-  react-router@7.0.0-pre.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-router@7.0.0-pre.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@types/cookie': 0.6.0
-      '@web3-storage/multipart-parser': 1.0.0
       cookie: 1.0.1
       react: 18.3.1
       set-cookie-parser: 2.7.1
-      source-map: 0.7.4
       turbo-stream: 2.4.0
     optionalDependencies:
       react-dom: 18.3.1(react@18.3.1)
