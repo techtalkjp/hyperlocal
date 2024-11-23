@@ -13,10 +13,5 @@
   "devDependencies": {
     "turbo": "catalog:"
   },
-  "pnpm": {
-    "overrides": {
-      "@libsql/isomorphic-fetch": "0.2.3"
-    }
-  },
-  "packageManager": "pnpm@9.11.0"
+  "packageManager": "pnpm@9.14.1"
 }

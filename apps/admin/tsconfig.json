@@ -33,7 +33,6 @@
       "@hyperlocal/google-place-api/*": ["../../packages/goolge-place-api/*"]
     },
     "noEmit": true,
-    "rootDirs": [".", "./.react-router/types"],
-    "plugins": [{ "name": "@react-router/dev" }]
+    "rootDirs": [".", "./.react-router/types"]
   }
 }

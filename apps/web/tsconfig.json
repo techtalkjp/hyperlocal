@@ -6,7 +6,7 @@
     "**/.server/**/*.tsx",
     "**/.client/**/*.ts",
     "**/.client/**/*.tsx",
-    "../admin/app/services/auth.server.ts"
+    ".react-router/types/**/*"
   ],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022", "DOM.AsyncIterable"],
@@ -32,6 +32,7 @@
       "@hyperlocal/db/*": ["../../packages/db/*"],
       "@hyperlocal/google-place-api/*": ["../../packages/goolge-place-api/*"]
     },
-    "noEmit": true
+    "noEmit": true,
+    "rootDirs": [".", "./.react-router/types"]
   }
 }
