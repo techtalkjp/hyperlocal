@@ -1,0 +1,33 @@
+app = 'hyperlocal-web'
+primary_region = 'nrt'
+kill_timeout = 10
+
+[build]
+
+[deploy]
+  strategy = "rolling"
+
+[env]
+  GA_TRACKING_ID = "G-6L2968NBHH"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = 'suspend'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+  [http_service.concurrency]
+    type = "requests"
+    soft_limit = 20
+
+[[http_service.checks]]
+  grace_period = "10s"
+  interval = "30s"
+  method = "GET"
+  timeout = "5s"
+  path = "/healthcheck"
+
+[[vm]]
+  size = 'shared-cpu-1x'
+  memory = '256mb'

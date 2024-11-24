@@ -1,7 +1,12 @@
 import { areas, categories } from '@hyperlocal/consts'
 import { ChevronLeft } from 'lucide-react'
 import type { HeadersFunction, LoaderFunctionArgs } from 'react-router'
-import { Link, type MetaFunction, useLoaderData } from 'react-router'
+import {
+  Link,
+  type MetaFunction,
+  useLoaderData,
+  useSearchParams,
+} from 'react-router'
 import { z } from 'zod'
 import { zx } from 'zodix'
 import {
@@ -33,38 +38,30 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const { place: placeId } = zx.parseParams(params, {
     place: z.string(),
   })
-
-  const {
-    area: areaId,
-    category: categoryId,
-    rank: rankingType,
-  } = zx.parseQuery(request, {
-    area: z.string().optional(),
-    category: z.string().optional(),
-    rank: z.string().optional(),
-  })
-
   const { city, lang } = getPathParams(request, params)
-  const area = areas.find((a) => a.areaId === areaId)
-  const category = categories.find((c) => c.id === categoryId)
-  const rank = rankingType ?? 'review'
 
   const place = await getLocalizedPlace({ placeId, language: lang.id })
   if (!place) {
     throw new Response('Not Found', { status: 404 })
   }
 
-  return { placeId, city, lang, area, category, rank, place }
+  return { placeId, city, lang, place }
 }
 
 export default function SpotDetail() {
-  const { lang, city, area, category, rank, place } =
-    useLoaderData<typeof loader>()
+  const { lang, place } = useLoaderData<typeof loader>()
+
+  const [searchParams] = useSearchParams()
+  const areaId = searchParams.get('area')
+  const categoryId = searchParams.get('category')
+  const rankType = searchParams.get('rank')
+  const area = areas.find((a) => a.areaId === areaId)
+  const category = categories.find((c) => c.id === categoryId)
+  const rank = rankType ?? 'rating'
 
   const getBackToListUrl = () => {
     return `${lang.path}area/${area?.areaId}/${category?.id}/${rank}`
   }
-
   const isLinkedFromList = !!area && !!category
 
   return (
@@ -76,10 +73,10 @@ export default function SpotDetail() {
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
                   <Link
-                    to={`${lang.path}area/${area?.areaId}`}
+                    to={`${lang.path}area/${area.areaId}`}
                     viewTransition
                     style={{
-                      viewTransitionName: `area-title-${area?.areaId}`,
+                      viewTransitionName: `area-title-${area.areaId}`,
                     }}
                   >
                     {area?.i18n[lang.id]}
