@@ -1,0 +1,26 @@
+# 全てを無視
+**
+
+# 必要なファイルのみ許可
+!apps/**
+!packages/**
+!pnpm-lock.yaml
+!pnpm-workspace.yaml
+!package.json
+!.npmrc
+!turbo.json
+
+
+# 不要なディレクトリやファイルを無視
+node_modules
+**/node_modules
+**/build
+**/dist
+**/coverage
+**/.react-router
+**/*.log
+**/*.tmp
+**/*.DS_Store
+**/.vscode
+**/.git
+**/.gitignore

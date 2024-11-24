@@ -39,7 +39,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <PageLoadingProgress />
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >

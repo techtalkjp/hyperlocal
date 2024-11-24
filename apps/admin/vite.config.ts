@@ -1,18 +1,21 @@
 import { reactRouter } from '@react-router/dev/vite'
-import { cloudflareDevProxy } from '@react-router/dev/vite/cloudflare'
-import { sessionContextPlugin } from 'session-context/vite'
+import autoprefixer from 'autoprefixer'
+import tailwindcss from 'tailwindcss'
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
-import { getLoadContext } from './load-context'
 
 export default defineConfig({
-  plugins: [
-    cloudflareDevProxy({ getLoadContext }),
-    reactRouter(),
-    sessionContextPlugin(),
-    tsconfigPaths(),
-  ],
-  server: {
-    port: 5175,
+  css: { postcss: { plugins: [tailwindcss, autoprefixer] } },
+  plugins: [reactRouter(), tsconfigPaths()],
+  server: { port: 5175 },
+  optimizeDeps: {
+    include: [
+      'react',
+      'react/jsx-runtime',
+      'react/jsx-dev-runtime',
+      'react-dom',
+      'react-dom/server',
+      'react-router',
+    ],
   },
 })
