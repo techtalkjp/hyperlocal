@@ -175,6 +175,6 @@ jobs:
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: superfly/flyctl-actions@1.5
         with:
-          args: 'deploy --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}'
+          args: 'deploy -c flyio/web/fly.toml --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}'
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
