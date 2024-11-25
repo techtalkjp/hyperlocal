@@ -4,7 +4,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "dev": "dotenv -e .env react-router dev",
+    "dev": "dotenv -e .env react-router dev -- --host",
     "build": "react-router build",
     "start": "react-router-serve ./build/server/index.js",
     "lint": "biome lint .",
