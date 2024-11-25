@@ -1,5 +1,5 @@
 import { areas as allAreas, cities } from '@hyperlocal/consts'
-import type { LoaderFunctionArgs } from 'react-router'
+import type { HeadersFunction, LoaderFunctionArgs } from 'react-router'
 import { Link, useLoaderData } from 'react-router'
 import {
   Button,
@@ -12,6 +12,12 @@ import {
 } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { getCityDomain } from '~/features/city-area/utils/get-city-domain'
+
+export const headers: HeadersFunction = () => ({
+  // cache for 30 days
+  'Cache-Control':
+    'public, max-age=60, s-maxage=2592000, stale-while-revalidate=2592000',
+})
 
 export const loader = ({ request, params }: LoaderFunctionArgs) => {
   const { city, lang } = getPathParams(request, params)

@@ -1,9 +1,15 @@
 import { areas, categories } from '@hyperlocal/consts'
-import type { LoaderFunctionArgs } from 'react-router'
+import type { HeadersFunction, LoaderFunctionArgs } from 'react-router'
 import { Link, useLoaderData } from 'react-router'
 import { Badge, Card, CardHeader, CardTitle, Stack } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { sortAreasByDistance } from '~/services/distance'
+
+export const headers: HeadersFunction = () => ({
+  // cache for 30 days
+  'Cache-Control':
+    'public, max-age=60, s-maxage=2592000, stale-while-revalidate=2592000',
+})
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const { lang, area } = await getPathParams(request, params)

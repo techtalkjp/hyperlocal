@@ -15,7 +15,8 @@ import { listLocalizedPlaces } from './queries.server'
 
 export const headers: HeadersFunction = () => ({
   // cache for 30 days
-  'Cache-Control': 'public, s-maxage=2592000, stale-while-revalidate=2592000',
+  'Cache-Control':
+    'public, max-age=60, s-maxage=2592000, stale-while-revalidate=2592000',
 })
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {

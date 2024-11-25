@@ -1,9 +1,15 @@
-import type { LoaderFunctionArgs } from 'react-router'
+import type { HeadersFunction, LoaderFunctionArgs } from 'react-router'
 import { type MetaFunction, Outlet, useLoaderData } from 'react-router'
 import { HStack } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { NearbyAreasSelector } from '~/routes/resources+/nearby-areas/route'
 import { AreaTitle, LanguageSelect } from './components'
+
+export const headers: HeadersFunction = () => ({
+  // cache for 30 days
+  'Cache-Control':
+    'public, max-age=60, s-maxage=2592000, stale-while-revalidate=2592000',
+})
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
   {
