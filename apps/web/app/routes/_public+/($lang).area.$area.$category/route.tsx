@@ -5,6 +5,7 @@ import {
   Outlet,
   redirect,
   useLoaderData,
+  useLocation,
   useParams,
   type MetaFunction,
 } from 'react-router'
@@ -60,8 +61,10 @@ export const loader = ({ request, params }: LoaderFunctionArgs) => {
 
 export default function AreaCategory() {
   const { lang, area } = useLoaderData<typeof loader>()
+  const location = useLocation()
+
   const params = useParams()
-  const rank = params.rank
+  const rank = location.pathname.endsWith('/nearme') ? 'nearme' : params.rank
 
   return (
     <Stack>
