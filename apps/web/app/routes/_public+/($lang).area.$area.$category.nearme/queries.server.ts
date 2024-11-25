@@ -32,7 +32,7 @@ export const listLocalizedPlaces = async ({
       'sourceUri',
       'priceLevel',
       'regularOpeningHours',
-      'reviews',
+      () => sql`JSON_ARRAY(JSON_EXTRACT(reviews, '$[0]'))`.as('reviews'), // 最初のレビューだけ取得
       () => sql`JSON_ARRAY(JSON_EXTRACT(photos, '$[0]'))`.as('photos'), // 最初の写真だけ取得
     ])
     .distinct()
