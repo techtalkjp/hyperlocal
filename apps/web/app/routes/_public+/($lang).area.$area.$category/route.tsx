@@ -5,6 +5,7 @@ import {
   Outlet,
   redirect,
   useLoaderData,
+  useParams,
   type MetaFunction,
 } from 'react-router'
 import { Badge, Stack } from '~/components/ui'
@@ -59,6 +60,8 @@ export const loader = ({ request, params }: LoaderFunctionArgs) => {
 
 export default function AreaCategory() {
   const { lang, area } = useLoaderData<typeof loader>()
+  const params = useParams()
+  const rank = params.rank
 
   return (
     <Stack>
@@ -88,7 +91,7 @@ export default function AreaCategory() {
         {categories.map((category) => (
           <CategoryNavItem
             key={category.id}
-            to={`${lang.path}area/${area.areaId}/${category.id}`}
+            to={`${lang.path}area/${area.areaId}/${category.id}${rank ? `/${rank}` : ''}`}
             viewTransition
             style={{ viewTransitionName: `nav-category-${category.id}` }}
           >
