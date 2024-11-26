@@ -1,5 +1,5 @@
 import { categories } from '@hyperlocal/consts'
-import type { HeadersFunction, LoaderFunctionArgs } from 'react-router'
+import type { LoaderFunctionArgs } from 'react-router'
 import {
   Link,
   Outlet,
@@ -13,12 +13,6 @@ import { Badge, Stack } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { generateAreaCategoryMetaDescription } from '~/features/seo/meta-area-category'
 import { CategoryNav, CategoryNavItem } from './components/category-nav-item'
-
-export const headers: HeadersFunction = () => ({
-  // cache for 30 days
-  'Cache-Control':
-    'public, max-age=60, s-maxage=2592000, stale-while-revalidate=2592000',
-})
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
   {

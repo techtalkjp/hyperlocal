@@ -71,7 +71,7 @@ ${urls
       'xml-version': '1.0',
       encoding: 'UTF-8',
       'Cache-Control':
-        'public, max-age=60, s-maxage=2592000, stale-while-revalidate=2592000',
+        'public, max-age=14400, s-maxage=2592000, stale-while-revalidate=2592000',
     },
   })
 }
