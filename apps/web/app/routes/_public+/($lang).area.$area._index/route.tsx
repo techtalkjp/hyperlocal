@@ -53,7 +53,7 @@ export default function AreaIndexPage() {
         <h4 className="font-semibold">Places</h4>
         <div className="grid grid-cols-2 gap-2">
           {categories.map((category) => (
-            <Link to={`${category.id}`} key={category.id} viewTransition>
+            <Link to={`${category.id}/rating`} key={category.id} viewTransition>
               <Card className="hover:bg-secondary">
                 <CardHeader>
                   <CardTitle
@@ -70,6 +70,7 @@ export default function AreaIndexPage() {
         </div>
       </div>
 
+      {/* Nearby Areas */}
       {nearbyAreas.length > 0 && (
         <div className="mt-8">
           <h4 className="font-semibold">Nearby Areas</h4>
