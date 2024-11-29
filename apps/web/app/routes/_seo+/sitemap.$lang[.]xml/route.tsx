@@ -1,5 +1,7 @@
+import { UTCDate } from '@date-fns/utc'
 import { languages } from '@hyperlocal/consts'
 import { db, sql } from '@hyperlocal/db'
+import { format, isAfter } from 'date-fns'
 import type { LoaderFunctionArgs } from 'react-router'
 import { getPathParams } from '~/features/city-area/utils'
 
@@ -53,15 +55,21 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     })
   }
 
+  const now = new UTCDate()
   const sitemap = `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls
-  .map(
-    (url) => `  <url>
+  .map((url) => {
+    // 2024-11-29 か、最終更新日のいずれか新しい方を lastmod にする
+    const lastmod = isAfter(now, new UTCDate(url.lastmod))
+      ? format(now, 'yyyy-MM-dd')
+      : url.lastmod
+
+    return `  <url>
     <loc>${url.loc}</loc>
-    ${url.lastmod ? `<lastmod>${url.lastmod}</lastmod>` : ''}
+    ${url.lastmod ? `<lastmod>${lastmod}</lastmod>` : ''}
   </url>
-`,
-  )
+`
+  })
   .join('')}</urlset>`
 
   return new Response(sitemap, {
