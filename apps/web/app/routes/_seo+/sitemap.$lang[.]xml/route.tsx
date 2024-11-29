@@ -55,11 +55,10 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     })
   }
 
-  const now = new UTCDate()
+  const now = new UTCDate('2024-11-29') // google bot 用に更新された日付を設定
   const sitemap = `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls
   .map((url) => {
-    // 2024-11-29 か、最終更新日のいずれか新しい方を lastmod にする
     const lastmod = isAfter(now, new UTCDate(url.lastmod))
       ? format(now, 'yyyy-MM-dd')
       : url.lastmod
