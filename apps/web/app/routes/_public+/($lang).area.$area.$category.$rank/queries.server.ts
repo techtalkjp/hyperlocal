@@ -32,7 +32,20 @@ export const listLocalizedPlaces = async ({
       'sourceUri',
       'priceLevel',
       'regularOpeningHours',
-      () => sql`JSON_ARRAY(JSON_EXTRACT(reviews, '$[0]'))`.as('reviews'), // 最初のレビューだけ取得
+      () =>
+        sql`
+          JSON_ARRAY
+          (
+            JSON_SET(
+              JSON_EXTRACT(reviews, '$[0]'),
+              '$.text',
+              SUBSTRING(
+                JSON_EXTRACT(reviews, '$[0].text'),
+                1,
+                350
+              )
+            )
+          )`.as('reviews'), // 最初のレビューを取得し、内容を350文字に制限
       () => sql`JSON_ARRAY(JSON_EXTRACT(photos, '$[0]'))`.as('photos'), // 最初の写真だけ取得
     ])
     .distinct()
