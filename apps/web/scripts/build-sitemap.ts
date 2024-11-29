@@ -4,6 +4,7 @@ import { db, sql } from '@hyperlocal/db'
 import { format, isAfter } from 'date-fns'
 import fs from 'node:fs'
 import path from 'node:path'
+import zlib from 'node:zlib'
 
 const __filename = new URL(import.meta.url).pathname
 const __dirname = path.dirname(__filename)
@@ -23,7 +24,7 @@ if (!fs.existsSync(sitemapDir)) {
 }
 
 // Function to generate sitemap content
-const generateSitemap = async (cityId: string, langId: string) => {
+const generateRankSitemap = async (cityId: string, langId: string) => {
   const urls = []
 
   // rating, review
@@ -84,25 +85,73 @@ ${urls
   return sitemap
 }
 
+const generatePlaceSitemap = async (cityId: string, langId: string) => {
+  const urls = []
+
+  // rating, review
+  const places = await db
+    .selectFrom('localizedPlaces')
+    .select([
+      'placeId',
+      sql<string>`strftime('%Y-%m-%d', updated_at)`.as('lastmod'),
+    ])
+    .where('cityId', '==', cityId)
+    .where('language', '==', langId)
+    .execute()
+
+  for (const place of places) {
+    urls.push({
+      loc: `${origin}/${langId === 'en' ? '' : `${langId}/`}place/${place.placeId}`,
+      lastmod: place.lastmod,
+    })
+  }
+
+  const sitemap = `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls
+  .map((url) => {
+    return `  <url>
+    <loc>${url.loc}</loc>
+    ${url.lastmod ? `<lastmod>${url.lastmod}</lastmod>` : ''}
+  </url>
+`
+  })
+  .join('')}</urlset>`
+
+  return sitemap
+}
+
+const gzip = (content: string): Buffer => {
+  return zlib.gzipSync(content)
+}
+
 const main = async () => {
-  // Generate and write sitemap.xml
+  // Generate and write sitemap.xml.gz
   const sitemapIndex = `<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${languages
   .map(
-    (lang) => `  <sitemap>
-    <loc>${origin}/sitemap/${lang.id}.xml</loc>
-  </sitemap>`,
+    (lang) =>
+      `<sitemap><loc>${origin}/sitemap/rank-${lang.id}.xml.gz</loc></sitemap><sitemap><loc>${origin}/sitemap/place-${lang.id}.xml.gz</loc></sitemap>`,
   )
   .join('\n')}</sitemapindex>`
-  fs.writeFileSync(path.join(outputDir, 'sitemap.xml'), sitemapIndex, 'utf8')
+  fs.writeFileSync(path.join(outputDir, 'sitemap.xml.gz'), gzip(sitemapIndex))
 
-  // Generate and write sitemap/en.xml
+  // Generate and write sitemap/en.xml.gz
   for (const lang of languages) {
-    const sitemapLangContent = await generateSitemap('tokyo', lang.id)
+    // area category ranks
+    const sitemapAreaCategoryRankContent = await generateRankSitemap(
+      'tokyo',
+      lang.id,
+    )
     fs.writeFileSync(
-      path.join(outputDir, `sitemap/${lang.id}.xml`),
-      sitemapLangContent,
-      'utf8',
+      path.join(outputDir, `sitemap/rank-${lang.id}.xml.gz`),
+      gzip(sitemapAreaCategoryRankContent),
+    )
+
+    // places
+    const sitemapPlaceContent = await generatePlaceSitemap('tokyo', lang.id)
+    fs.writeFileSync(
+      path.join(outputDir, `sitemap/place-${lang.id}.xml.gz`),
+      gzip(sitemapPlaceContent),
     )
   }
 

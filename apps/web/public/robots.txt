@@ -1,0 +1,7 @@
+User-agent: *
+
+# Host
+Host: https://tokyo.hyper-local.app
+
+# Sitemaps
+Sitemap: https://tokyo.hyper-local.app/sitemap.xml.gz
