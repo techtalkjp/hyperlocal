@@ -23,6 +23,24 @@ if (!fs.existsSync(sitemapDir)) {
   fs.mkdirSync(sitemapDir, { recursive: true })
 }
 
+const generateSitemapIndex = () => {
+  const now = format(new UTCDate(), "yyyy-MM-dd'T'HH:mm:ssXXX")
+  const sitemapIndex = `<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${languages
+  .map(
+    (lang) => `<sitemap>
+  <loc>${origin}/sitemap/rank-${lang.id}.xml.gz</loc>
+  <lastmod>${now}</lastmod>
+</sitemap>
+<sitemap>
+  <loc>${origin}/sitemap/place-${lang.id}.xml.gz</loc>
+  <lastmod>${now}</lastmod>
+</sitemap>`,
+  )
+  .join('\n')}</sitemapindex>`
+  return sitemapIndex
+}
+
 // Function to generate sitemap content
 const generateRankSitemap = async (cityId: string, langId: string) => {
   const urls = []
@@ -34,7 +52,7 @@ const generateRankSitemap = async (cityId: string, langId: string) => {
       'areaId',
       'categoryId',
       'rankingType',
-      sql<string>`strftime('%Y-%m-%d', max(updated_at))`.as('lastmod'),
+      sql<string>`strftime('%Y-%m-%dT%H:%M:%SZ', updated_at)`.as('lastmod'),
     ])
     .where('cityId', '==', cityId)
     .where('language', '==', langId)
@@ -53,7 +71,7 @@ const generateRankSitemap = async (cityId: string, langId: string) => {
     .select([
       'areaId',
       'categoryId',
-      sql<string>`strftime('%Y-%m-%d', max(updated_at))`.as('lastmod'),
+      sql<string>`strftime('%Y-%m-%dT%H:%M:%SZ', updated_at)`.as('lastmod'),
     ])
     .where('cityId', '==', cityId)
     .where('language', '==', langId)
@@ -71,13 +89,13 @@ const generateRankSitemap = async (cityId: string, langId: string) => {
 ${urls
   .map((url) => {
     const lastmod = isAfter(now, new UTCDate(url.lastmod))
-      ? format(now, 'yyyy-MM-dd')
+      ? format(now, "yyyy-MM-dd'T'HH:mm:ssXXX")
       : url.lastmod
 
-    return `  <url>
-    <loc>${url.loc}</loc>
-    ${url.lastmod ? `<lastmod>${lastmod}</lastmod>` : ''}
-  </url>
+    return `<url>
+  <loc>${url.loc}</loc>
+  <lastmod>${lastmod}</lastmod>
+</url>
 `
   })
   .join('')}</urlset>`
@@ -93,7 +111,7 @@ const generatePlaceSitemap = async (cityId: string, langId: string) => {
     .selectFrom('localizedPlaces')
     .select([
       'placeId',
-      sql<string>`strftime('%Y-%m-%d', updated_at)`.as('lastmod'),
+      sql<string>`strftime('%Y-%m-%dT%H:%M:%SZ', updated_at)`.as('lastmod'),
     ])
     .where('cityId', '==', cityId)
     .where('language', '==', langId)
@@ -109,10 +127,10 @@ const generatePlaceSitemap = async (cityId: string, langId: string) => {
   const sitemap = `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls
   .map((url) => {
-    return `  <url>
-    <loc>${url.loc}</loc>
-    ${url.lastmod ? `<lastmod>${url.lastmod}</lastmod>` : ''}
-  </url>
+    return `<url>
+  <loc>${url.loc}</loc>
+  <lastmod>${url.lastmod}</lastmod>
+</url>
 `
   })
   .join('')}</urlset>`
@@ -126,13 +144,7 @@ const gzip = (content: string): Buffer => {
 
 const main = async () => {
   // Generate and write sitemap.xml.gz
-  const sitemapIndex = `<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${languages
-  .map(
-    (lang) =>
-      `<sitemap><loc>${origin}/sitemap/rank-${lang.id}.xml.gz</loc></sitemap><sitemap><loc>${origin}/sitemap/place-${lang.id}.xml.gz</loc></sitemap>`,
-  )
-  .join('\n')}</sitemapindex>`
+  const sitemapIndex = generateSitemapIndex()
   fs.writeFileSync(path.join(outputDir, 'sitemap.xml.gz'), gzip(sitemapIndex))
 
   // Generate and write sitemap/en.xml.gz
@@ -158,4 +170,4 @@ ${languages
   console.log('Sitemaps generated successfully.')
 }
 
-main()
+await main()
