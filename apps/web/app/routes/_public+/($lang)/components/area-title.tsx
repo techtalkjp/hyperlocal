@@ -1,6 +1,7 @@
 import type { City, LanguageId } from '@hyperlocal/consts'
 import { languages } from '@hyperlocal/consts'
 import type React from 'react'
+import type { JSX } from 'react'
 import { Link, type UIMatch } from 'react-router'
 
 type AreaMatch = UIMatch<
