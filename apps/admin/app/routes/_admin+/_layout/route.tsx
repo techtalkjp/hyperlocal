@@ -1,9 +1,11 @@
+import { UserButton } from '@clerk/react-router'
 import { useEffect } from 'react'
 import type { LoaderFunctionArgs, MetaFunction } from 'react-router'
 import { data, Link, Outlet, useLoaderData } from 'react-router'
 import { getToast } from 'remix-toast'
 import { toast } from 'sonner'
 import { Toaster } from '~/components/ui'
+import { requireAdminUser } from '~/services/auth.server'
 
 export const meta: MetaFunction = () => {
   return [
@@ -12,8 +14,9 @@ export const meta: MetaFunction = () => {
   ]
 }
 
-export const loader = async (args: LoaderFunctionArgs) => {
-  const { toast, headers } = await getToast(args.request)
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  await requireAdminUser(request)
+  const { toast, headers } = await getToast(request)
   return data({ toastData: toast }, { headers: headers })
 }
 
@@ -42,7 +45,9 @@ const AdminLayout = () => {
         <div className="flex-1 text-2xl font-bold">
           <Link to="/">Hyperlocal Admin</Link>
         </div>
-        <div>user</div>
+        <div>
+          <UserButton />
+        </div>
       </header>
 
       <main className="px-2">

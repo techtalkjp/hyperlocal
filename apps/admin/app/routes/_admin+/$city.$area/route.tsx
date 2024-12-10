@@ -3,7 +3,7 @@ import type { LoaderFunctionArgs, MetaFunction } from 'react-router'
 import { Link, Outlet, useLoaderData } from 'react-router'
 import { Card, CardContent, HStack, Stack } from '~/components/ui'
 import { getPathParams } from '~/features/admin/get-path-params'
-import { requireAdminUser } from '~/features/auth/services/user-session.server'
+import { requireAdminUser } from '~/services/auth.server'
 import { CategoryNav, CategoryNavItem } from './components/category-nav-item'
 import { GoogleMapPopover } from './components/google-map-popover'
 

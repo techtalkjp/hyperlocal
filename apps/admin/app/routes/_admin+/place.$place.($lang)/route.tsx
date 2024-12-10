@@ -4,8 +4,8 @@ import { Link, redirect, useLoaderData } from 'react-router'
 import { z } from 'zod'
 import { zx } from 'zodix'
 import { HStack, Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
-import { requireAdminUser } from '~/features/auth/services/user-session.server'
 import { PlaceCard, Rating } from '~/features/place/components'
+import { requireAdminUser } from '~/services/auth.server'
 import { getLocalizedPlace, getPlace } from './queries.server'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {

@@ -26,7 +26,7 @@
   "dependencies": {
     "@hyperlocal/google-place-api": "workspace:*",
     "@libsql/kysely-libsql": "catalog:",
-    "debug": "4.3.7",
+    "debug": "4.4.0",
     "kysely": "catalog:"
   }
 }

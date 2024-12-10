@@ -3,8 +3,8 @@ import type { LoaderFunctionArgs } from 'react-router'
 import { Link, useLoaderData } from 'react-router'
 import { Button, Stack } from '~/components/ui'
 import { getPathParams } from '~/features/admin/get-path-params'
-import { requireAdminUser } from '~/features/auth/services/user-session.server'
 import { PlaceCard } from '~/features/place/components'
+import { requireAdminUser } from '~/services/auth.server'
 import { listAreaPlaces } from './queries.server'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {

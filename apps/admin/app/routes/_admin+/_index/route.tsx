@@ -2,7 +2,7 @@ import { areas, cities } from '@hyperlocal/consts'
 import type { LoaderFunctionArgs } from 'react-router'
 import { Link, useLoaderData } from 'react-router'
 import { Button, HStack } from '~/components/ui'
-import { requireAdminUser } from '~/features/auth/services/user-session.server'
+import { requireAdminUser } from '~/services/auth.server'
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   await requireAdminUser(request)

@@ -2,7 +2,7 @@ import type { LoaderFunctionArgs } from 'react-router'
 import { Link, Outlet, replace, useLoaderData } from 'react-router'
 import { Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { getPathParams } from '~/features/admin/get-path-params'
-import { requireAdminUser } from '~/features/auth/services/user-session.server'
+import { requireAdminUser } from '~/services/auth.server'
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   await requireAdminUser(request)

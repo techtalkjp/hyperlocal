@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@ai-sdk/google": "catalog:",
-    "@coji/remix-auth-google": "catalog:",
+    "@clerk/react-router": "0.0.1",
     "@conform-to/react": "catalog:",
     "@conform-to/zod": "catalog:",
     "@date-fns/tz": "catalog:",
@@ -53,8 +53,6 @@
     "react-dom": "catalog:",
     "react-router": "catalog:",
     "react-twc": "catalog:",
-    "remix-auth": "catalog:",
-    "remix-auth-oauth2": "catalog:",
     "remix-flat-routes": "catalog:",
     "remix-toast": "catalog:",
     "remix-utils": "catalog:",
