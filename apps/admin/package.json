@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@ai-sdk/google": "catalog:",
-    "@clerk/react-router": "0.0.1",
+    "@clerk/react-router": "catalog:",
     "@conform-to/react": "catalog:",
     "@conform-to/zod": "catalog:",
     "@date-fns/tz": "catalog:",

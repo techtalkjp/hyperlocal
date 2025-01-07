@@ -58,7 +58,7 @@
     "@types/react-dom": "catalog:",
     "autoprefixer": "catalog:",
     "concurrently": "catalog:",
-    "dotenv-cli": "7.4.4",
+    "dotenv-cli": "catalog:",
     "npm-run-all": "catalog:",
     "postcss": "catalog:",
     "prettier": "catalog:",
