@@ -15,8 +15,8 @@ export const cities = [
     i18n: {
       en: 'Tokyo',
       ja: '東京',
-      'zh-CN': '东京',
-      'zh-TW': '東京',
+      'zh-cn': '东京',
+      'zh-tw': '東京',
       ko: '도쿄',
     },
     language: 'ja',

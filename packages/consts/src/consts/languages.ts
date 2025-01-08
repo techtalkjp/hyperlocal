@@ -2,8 +2,8 @@ import { z } from 'zod'
 
 export const LanguageIdSchema = z.union([
   z.literal('en'),
-  z.literal('zh-CN'),
-  z.literal('zh-TW'),
+  z.literal('zh-cn'),
+  z.literal('zh-tw'),
   z.literal('ko'),
   z.literal('ja'),
 ])
@@ -21,14 +21,14 @@ export interface Language {
 export const languages = [
   { id: 'en', path: '/', displayName: 'English', name: 'English' },
   {
-    id: 'zh-CN',
-    path: '/zh-CN/',
+    id: 'zh-cn',
+    path: '/zh-cn/',
     displayName: '中文簡体',
     name: 'Simplified Chinese',
   },
   {
-    id: 'zh-TW',
-    path: '/zh-TW/',
+    id: 'zh-tw',
+    path: '/zh-tw/',
     displayName: '中文繁体',
     name: 'Traditional Chinese',
   },
