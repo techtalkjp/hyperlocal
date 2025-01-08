@@ -76,7 +76,7 @@ const localeStrings: Record<LanguageId, LocaleStrings> = {
     helps_find: 'で、',
     without_hassle: 'をサクッと見つけよう',
   },
-  'zh-CN': {
+  'zh-cn': {
     instant_guide: '速览',
     best: {
       cafe: '最佳咖啡馆',
@@ -102,7 +102,7 @@ const localeStrings: Record<LanguageId, LocaleStrings> = {
     helps_find: '助您轻松找到',
     without_hassle: '的完美去处',
   },
-  'zh-TW': {
+  'zh-tw': {
     instant_guide: '速覽',
     best: {
       cafe: '頂級咖啡廳',
@@ -188,8 +188,8 @@ export function generateAreaCategoryMetaDescription(
         `${cityName}${areaName}の${categoryName}${l.instant_guide}。${l.faster_than_map}、${l.real_time_status}、${l.ratings}。Hyperlocal${cityName}で${areaName}の${categoryName}${l.without_hassle}。`,
     )
     .with(
-      'zh-CN',
-      'zh-TW',
+      'zh-cn',
+      'zh-tw',
       () =>
         `${cityName}${areaName}${categoryName}${l.instant_guide}。${l.faster_than_map}，${l.real_time_status}，${l.ratings}。Hyperlocal${cityName}${l.helps_find}${areaName}${l.without_hassle}。`,
     )

@@ -23,8 +23,8 @@ const ButtonLabels: i18nRecord = {
   en: 'Nearby Areas',
   ja: '近くのエリア',
   ko: '근처 지역',
-  'zh-CN': '附近地区',
-  'zh-TW': '附近地區',
+  'zh-cn': '附近地区',
+  'zh-tw': '附近地區',
 }
 
 export const clientLoader = async (args: ClientLoaderFunction) => {

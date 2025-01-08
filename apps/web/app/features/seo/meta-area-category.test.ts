@@ -19,13 +19,13 @@ describe('generateMetaDescription', () => {
       cityId: 'tokyo',
       areaId: 'ningyocho',
       categoryId: 'breakfast' as const,
-      languageId: 'zh-CN' as const,
+      languageId: 'zh-cn' as const,
     },
     {
       cityId: 'tokyo',
       areaId: 'ningyocho',
       categoryId: 'nightlife' as const,
-      languageId: 'zh-TW' as const,
+      languageId: 'zh-tw' as const,
     },
     {
       cityId: 'tokyo',
@@ -49,7 +49,7 @@ describe('generateMetaDescription', () => {
       cityId: 'tokyo',
       areaId: 'ningyocho',
       categoryId: 'drugstore' as const,
-      languageId: 'zh-CN' as const,
+      languageId: 'zh-cn' as const,
     },
   ]
 
