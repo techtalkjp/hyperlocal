@@ -16,6 +16,7 @@ import { CategoryNav, CategoryNavItem } from './components/category-nav-item'
 
 export const meta: Route.MetaFunction = ({ data }) => {
   if (!data) return []
+
   return [
     {
       title: `${data.area.i18n[data.lang.id]} ${data.category.i18n[data.lang.id]} - Hyperlocal ${data?.city.i18n[data.lang.id]}`,
@@ -31,14 +32,20 @@ export const meta: Route.MetaFunction = ({ data }) => {
     },
     ...languages.map((lang) => ({
       rel: 'alternate',
-      hrefLang: lang.id,
-      href: `${lang.path}area/${data.area.areaId}/${data.category.id}/${data.rankingType}`,
+      hrefLang: lang.hreflang,
+      href: new URL(
+        `${lang.path}area/${data.area.areaId}/${data.category.id}/${data.rankingType}`,
+        data.url,
+      ).toString(),
       tagName: 'link',
     })),
     {
       rel: 'alternate',
       hrefLang: 'x-default',
-      href: `/area/${data.area.areaId}/${data.category.id}/${data.rankingType}`,
+      href: new URL(
+        `/area/${data.area.areaId}/${data.category.id}/${data.rankingType}`,
+        data.url,
+      ).toString(),
       tagName: 'link',
     },
     {
@@ -52,7 +59,10 @@ export const meta: Route.MetaFunction = ({ data }) => {
           data.category.id,
           data.lang.id,
         ),
-        url: `${data.lang.path}area/${data.area.areaId}/${data.category.id}/${data.rankingType}`,
+        url: new URL(
+          `${data.lang.path}area/${data.area.areaId}/${data.category.id}/${data.rankingType}`,
+          data.url,
+        ).toString(),
       },
     },
   ]
@@ -76,7 +86,7 @@ export const loader = ({ request, params }: LoaderFunctionArgs) => {
     )
   }
 
-  return { lang, city, area, category, rankingType }
+  return { url: request.url, lang, city, area, category, rankingType }
 }
 
 export default function AreaCategory() {

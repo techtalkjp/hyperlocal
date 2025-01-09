@@ -16,22 +16,43 @@ export interface Language {
   path: string // root path for the language
   displayName: string
   name: string
+  hreflang: string
 }
 
 export const languages = [
-  { id: 'en', path: '/', displayName: 'English', name: 'English' },
+  {
+    id: 'en',
+    path: '/',
+    displayName: 'English',
+    name: 'English',
+    hreflang: 'en',
+  },
   {
     id: 'zh-cn',
     path: '/zh-cn/',
     displayName: '中文簡体',
     name: 'Simplified Chinese',
+    hreflang: 'zh-Hans',
   },
   {
     id: 'zh-tw',
     path: '/zh-tw/',
     displayName: '中文繁体',
     name: 'Traditional Chinese',
+    hreflang: 'zh-Hant',
   },
-  { id: 'ko', path: '/ko/', displayName: '한국어', name: 'Korean' },
-  { id: 'ja', path: '/ja/', displayName: '日本語', name: 'Japanese' },
+  {
+    id: 'ko',
+    path: '/ko/',
+    displayName: '한국어',
+    name: 'Korean',
+    hreflang: 'ko',
+  },
+  {
+    id: 'ja',
+    path: '/ja/',
+    displayName: '日本語',
+    name: 'Japanese',
+    hreflang: 'ja',
+  },
 ] as const satisfies Language[]
