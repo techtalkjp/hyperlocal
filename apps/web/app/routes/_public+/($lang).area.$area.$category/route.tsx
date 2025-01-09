@@ -7,14 +7,14 @@ import {
   useLoaderData,
   useLocation,
   useParams,
-  type MetaFunction,
 } from 'react-router'
 import { Badge, Stack } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { generateAreaCategoryMetaDescription } from '~/features/seo/meta-area-category'
+import type { Route } from './+types/route'
 import { CategoryNav, CategoryNavItem } from './components/category-nav-item'
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
+export const meta: Route.MetaFunction = ({ data }) => {
   if (!data) return []
   return [
     {
@@ -33,11 +33,13 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
       rel: 'alternate',
       hrefLang: lang.id,
       href: `${lang.path}area/${data.area.areaId}/${data.category.id}/${data.rankingType}`,
+      tagName: 'link',
     })),
     {
       rel: 'alternate',
       hrefLang: 'x-default',
       href: `/area/${data.area.areaId}/${data.category.id}/${data.rankingType}`,
+      tagName: 'link',
     },
     {
       'script:ld+json': {
