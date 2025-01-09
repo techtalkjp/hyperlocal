@@ -16,6 +16,7 @@ export interface Language {
   path: string // root path for the language
   displayName: string
   name: string
+  htmllang: string
   hreflang: string
 }
 
@@ -25,6 +26,7 @@ export const languages = [
     path: '/',
     displayName: 'English',
     name: 'English',
+    htmllang: 'en',
     hreflang: 'en',
   },
   {
@@ -32,6 +34,7 @@ export const languages = [
     path: '/zh-cn/',
     displayName: '中文簡体',
     name: 'Simplified Chinese',
+    htmllang: 'zh-cmn-Hans',
     hreflang: 'zh-Hans',
   },
   {
@@ -39,6 +42,7 @@ export const languages = [
     path: '/zh-tw/',
     displayName: '中文繁体',
     name: 'Traditional Chinese',
+    htmllang: 'zh-cmn-Hant',
     hreflang: 'zh-Hant',
   },
   {
@@ -46,6 +50,7 @@ export const languages = [
     path: '/ko/',
     displayName: '한국어',
     name: 'Korean',
+    htmllang: 'ko',
     hreflang: 'ko',
   },
   {
@@ -53,6 +58,7 @@ export const languages = [
     path: '/ja/',
     displayName: '日本語',
     name: 'Japanese',
+    htmllang: 'ja',
     hreflang: 'ja',
   },
 ] as const satisfies Language[]

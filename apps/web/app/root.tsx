@@ -1,4 +1,4 @@
-import type { MetaFunction } from 'react-router'
+import { languages } from '@hyperlocal/consts'
 import {
   Links,
   Meta,
@@ -7,28 +7,37 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from 'react-router'
+import type { Route } from './+types/root'
 import { PageLoadingProgress } from './components/page-loading-progress'
 import { ThemeProvider } from './components/theme-provider'
 import globalStyles from './styles/globals.css?url'
 
-export const meta: MetaFunction = () => [
+export const meta: Route.MetaFunction = () => [
   { name: 'description', content: 'Hyperlocal' },
   { name: 'viewport', content: 'width=device-width, initial-scale=1' },
 ]
 
-export const links = () => [{ rel: 'stylesheet', href: globalStyles }]
+export const links: Route.LinksFunction = () => [
+  { rel: 'stylesheet', href: globalStyles },
+]
 
-export const loader = () => {
+export const shouldRevalidate = () => true
+
+export const loader = ({ params }: Route.LoaderArgs) => {
+  const { lang: langId } = params
+  const lang = languages.find((lang) => lang.id === langId) ?? languages[0]
   const env = {
     GA_TRACKING_ID: process.env.GA_TRACKING_ID,
     NODE_ENV: process.env.NODE_ENV,
   }
-  return { env }
+  return { lang, env }
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const { lang } = useLoaderData<typeof loader>()
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={lang.htmllang} suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
