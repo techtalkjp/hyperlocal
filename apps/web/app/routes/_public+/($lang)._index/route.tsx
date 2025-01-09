@@ -12,6 +12,8 @@ import {
 } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { getCityDomain } from '~/features/city-area/utils/get-city-domain'
+import { generateAlternateLinks } from '~/features/seo/alternate-links'
+import type { Route } from './+types/route'
 
 export const headers: HeadersFunction = () => ({
   // cache for 30 days
@@ -19,11 +21,23 @@ export const headers: HeadersFunction = () => ({
     'public, max-age=14400, s-maxage=2592000, stale-while-revalidate=2592000',
 })
 
+export const meta: Route.MetaFunction = ({ data }) => {
+  if (!data || !data.url) return []
+  return [
+    {
+      title: `Hyperlocal ${data?.city.i18n[data.lang.id]}`,
+    },
+    ...generateAlternateLinks({
+      url: data.url,
+    }),
+  ]
+}
+
 export const loader = ({ request, params }: LoaderFunctionArgs) => {
   const { city, lang } = getPathParams(request, params)
   const areas = allAreas.filter((area) => area.cityId === city.cityId)
 
-  return { cities, areas, city, lang, url: request.url }
+  return { url: request.url, cities, city, areas, lang }
 }
 
 export default function IndexPage() {
