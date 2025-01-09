@@ -1,23 +1,75 @@
-import { categories } from '@hyperlocal/consts/src'
+import { categories } from '@hyperlocal/consts'
 import { LoaderIcon } from 'lucide-react'
-import type { HeadersFunction, LoaderFunctionArgs } from 'react-router'
+import type { LoaderFunctionArgs } from 'react-router'
 import {
   type ClientLoaderFunctionArgs,
   NavLink,
   useLoaderData,
   useParams,
 } from 'react-router'
+import { match } from 'ts-pattern'
 import { Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { LocalizedPlaceCard } from '~/features/place/components/localized-place-card'
-import { sortLocalizedPlaceByDistance } from '../../../services/distance'
+import { generateAlternateLinks } from '~/features/seo/alternate-links'
+import { generateAreaCategoryMetaDescription } from '~/features/seo/meta-area-category'
+import { sortLocalizedPlaceByDistance } from '~/services/distance'
+import type { Route } from './+types/route'
 import { listLocalizedPlaces } from './queries.server'
 
-export const headers: HeadersFunction = () => ({
+export const headers: Route.HeadersFunction = () => ({
   // cache for 30 days
   'Cache-Control':
     'public, max-age=14400, s-maxage=2592000, stale-while-revalidate=2592000',
 })
+
+export const meta: Route.MetaFunction = ({ data }) => {
+  if (!data || !data.url) return []
+
+  const rankingTitle = match(data.rankingType)
+    .with('review', () => 'Most Popular')
+    .with('rating', () => 'Top Rated')
+    .with('nearme', () => 'Near Me')
+    .otherwise(() => '')
+
+  return [
+    {
+      title: `${rankingTitle} ${data.area.i18n[data.lang.id]} ${data.category.i18n[data.lang.id]} - Hyperlocal ${data?.city.i18n[data.lang.id]}`,
+    },
+    {
+      name: 'description',
+      content: generateAreaCategoryMetaDescription(
+        data.city.cityId,
+        data.area.areaId,
+        data.category.id,
+        data.lang.id,
+      ),
+    },
+    ...generateAlternateLinks({
+      url: data.url,
+      areaId: data.area.areaId,
+      categoryId: data.category.id,
+      rankingType: data.rankingType,
+    }),
+    {
+      'script:ld+json': {
+        '@context': 'http://schema.org',
+        '@type': 'LocalBusiness',
+        name: `${data.city.i18n[data.lang.id]} ${data.area.i18n[data.lang.id]} ${data.category.i18n[data.lang.id]}`,
+        description: generateAreaCategoryMetaDescription(
+          data.city.cityId,
+          data.area.areaId,
+          data.category.id,
+          data.lang.id,
+        ),
+        url: new URL(
+          `${data.lang.path}area/${data.area.areaId}/${data.category.id}/${data.rankingType}`,
+          data.url,
+        ).toString(),
+      },
+    },
+  ]
+}
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const { city, area, lang, category } = getPathParams(request, params)
@@ -40,7 +92,15 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     rankingType: 'nearme',
   })
 
-  return { places, city, area, category, lang }
+  return {
+    url: request.url,
+    places,
+    city,
+    area,
+    category,
+    lang,
+    rankingType: 'nearme',
+  }
 }
 
 export const clientLoader = async ({

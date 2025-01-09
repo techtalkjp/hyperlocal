@@ -3,13 +3,28 @@ import type { HeadersFunction, LoaderFunctionArgs } from 'react-router'
 import { Link, useLoaderData } from 'react-router'
 import { Badge, Card, CardHeader, CardTitle, Stack } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
+import { generateAlternateLinks } from '~/features/seo/alternate-links'
 import { sortAreasByDistance } from '~/services/distance'
+import type { Route } from './+types/route'
 
 export const headers: HeadersFunction = () => ({
   // cache for 30 days
   'Cache-Control':
     'public, max-age=14400, s-maxage=2592000, stale-while-revalidate=2592000',
 })
+
+export const meta: Route.MetaFunction = ({ data }) => {
+  if (!data || !data.url) return []
+  return [
+    {
+      title: `${data?.area.i18n[data.lang.id]} - Hyperlocal Tokyo`,
+    },
+    ...generateAlternateLinks({
+      url: data.url,
+      areaId: data.area.areaId,
+    }),
+  ]
+}
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const { lang, area } = await getPathParams(request, params)
@@ -21,7 +36,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     .slice(0, 4)
     .filter((a) => a.distance < 3000)
     .filter((a) => a.areaId !== area.areaId)
-  return { lang, area, nearbyAreas }
+  return { url: request.url, lang, area, nearbyAreas }
 }
 
 export default function AreaIndexPage() {

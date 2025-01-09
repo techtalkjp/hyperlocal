@@ -1,4 +1,4 @@
-import { categories, languages } from '@hyperlocal/consts'
+import { categories } from '@hyperlocal/consts'
 import type { LoaderFunctionArgs } from 'react-router'
 import {
   Link,
@@ -10,63 +10,7 @@ import {
 } from 'react-router'
 import { Badge, Stack } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
-import { generateAreaCategoryMetaDescription } from '~/features/seo/meta-area-category'
-import type { Route } from './+types/route'
 import { CategoryNav, CategoryNavItem } from './components/category-nav-item'
-
-export const meta: Route.MetaFunction = ({ data }) => {
-  if (!data) return []
-
-  return [
-    {
-      title: `${data.area.i18n[data.lang.id]} ${data.category.i18n[data.lang.id]} - Hyperlocal ${data?.city.i18n[data.lang.id]}`,
-    },
-    {
-      name: 'description',
-      content: generateAreaCategoryMetaDescription(
-        data.city.cityId,
-        data.area.areaId,
-        data.category.id,
-        data.lang.id,
-      ),
-    },
-    ...languages.map((lang) => ({
-      rel: 'alternate',
-      hrefLang: lang.hreflang,
-      href: new URL(
-        `${lang.path}area/${data.area.areaId}/${data.category.id}/${data.rankingType}`,
-        data.url,
-      ).toString(),
-      tagName: 'link',
-    })),
-    {
-      rel: 'alternate',
-      hrefLang: 'x-default',
-      href: new URL(
-        `/area/${data.area.areaId}/${data.category.id}/${data.rankingType}`,
-        data.url,
-      ).toString(),
-      tagName: 'link',
-    },
-    {
-      'script:ld+json': {
-        '@context': 'http://schema.org',
-        '@type': 'LocalBusiness',
-        name: `${data.city.i18n[data.lang.id]} ${data.area.i18n[data.lang.id]} ${data.category.i18n[data.lang.id]}`,
-        description: generateAreaCategoryMetaDescription(
-          data.city.cityId,
-          data.area.areaId,
-          data.category.id,
-          data.lang.id,
-        ),
-        url: new URL(
-          `${data.lang.path}area/${data.area.areaId}/${data.category.id}/${data.rankingType}`,
-          data.url,
-        ).toString(),
-      },
-    },
-  ]
-}
 
 export const loader = ({ request, params }: LoaderFunctionArgs) => {
   const { lang, city, area, category, rankingType } = getPathParams(
@@ -86,7 +30,7 @@ export const loader = ({ request, params }: LoaderFunctionArgs) => {
     )
   }
 
-  return { url: request.url, lang, city, area, category, rankingType }
+  return { lang, city, area, category, rankingType }
 }
 
 export default function AreaCategory() {
