@@ -65,7 +65,7 @@ export default function IndexPage() {
             prefetch="intent"
             viewTransition
           >
-            <Card className="h-full hover:bg-secondary">
+            <Card className="hover:bg-secondary h-full">
               <CardHeader className="h-full">
                 <CardTitle
                   style={{ viewTransitionName: `area-title-${area.areaId}` }}

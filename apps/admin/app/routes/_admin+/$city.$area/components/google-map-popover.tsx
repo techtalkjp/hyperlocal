@@ -40,7 +40,7 @@ export const GoogleMapPopover = ({
 
         <div className="text-center">
           <a
-            className="text-xs text-muted-foreground hover:text-foreground hover:underline"
+            className="text-muted-foreground hover:text-foreground text-xs hover:underline"
             target="_blank"
             rel="noreferrer"
             href={`https://www.google.com/maps/@${area.latitude},${area.longitude},16z`}

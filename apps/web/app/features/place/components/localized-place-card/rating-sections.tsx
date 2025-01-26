@@ -11,7 +11,7 @@ export const RatingSection: React.FC<RatingSectionProps> = React.memo(
   ({ place }) => (
     <HStack>
       <Rating star={place.rating} withLabel size={16} />
-      <div className="whitespace-nowrap text-xs text-muted-foreground">
+      <div className="text-muted-foreground whitespace-nowrap text-xs">
         ({place.userRatingCount} reviews)
       </div>
     </HStack>

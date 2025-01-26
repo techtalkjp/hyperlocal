@@ -159,7 +159,7 @@ export default function CategoryIndexPage() {
       </Tabs>
 
       {places.length === 0 && (
-        <div className="text-sm text-muted-foreground">No Places</div>
+        <div className="text-muted-foreground text-sm">No Places</div>
       )}
       {places.map((place, idx) => (
         <LocalizedPlaceCard

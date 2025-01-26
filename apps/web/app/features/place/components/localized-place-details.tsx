@@ -118,7 +118,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
               <div className="flex-1" />
 
               {place.priceLevel && (
-                <div className="flex-shrink-0 text-muted-foreground">
+                <div className="text-muted-foreground shrink-0">
                   {priceLevelLabel(place.priceLevel)}
                 </div>
               )}
@@ -176,7 +176,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
           {place.reviews.map((review) => (
             <Stack
               key={review.text}
-              className="rounded-lg bg-secondary p-2 md:p-4"
+              className="bg-secondary rounded-lg p-2 md:p-4"
             >
               <div className="flex items-center">
                 <Star className="h-5 w-5 fill-current text-yellow-400" />
@@ -184,7 +184,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
                   {review.rating.toFixed(1)}
                 </span>
               </div>
-              <p className="whitespace-pre-wrap break-words text-muted-foreground">
+              <p className="text-muted-foreground whitespace-pre-wrap break-words">
                 {review.text}
               </p>
             </Stack>

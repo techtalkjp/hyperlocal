@@ -18,14 +18,14 @@ export const BusinessStatusBadge = ({
     .with(BusinessStatus.OPEN_24_HOURS, () => (
       <div className="text-green-600">
         <span className="font-semibold">Open</span>
-        <span className="mx-0.5 text-muted-foreground">⋅</span>
+        <span className="text-muted-foreground mx-0.5">⋅</span>
         <span>24 hours</span>
       </div>
     ))
     .with(BusinessStatus.OPEN, () => (
       <div>
         <span className="font-semibold text-green-600">Open</span>
-        <span className="mx-0.5 text-muted-foreground">⋅</span>
+        <span className="text-muted-foreground mx-0.5">⋅</span>
         <span className="text-muted-foreground">
           until {weekday[statusResult.details.closingDay ?? 0]}{' '}
           {statusResult.details.closingTime}
@@ -35,7 +35,7 @@ export const BusinessStatusBadge = ({
     .with(BusinessStatus.OPEN_CLOSING_SOON, () => (
       <div>
         <span className="font-semibold text-orange-600">Closing Soon</span>
-        <span className="mx-0.5 text-muted-foreground">⋅</span>
+        <span className="text-muted-foreground mx-0.5">⋅</span>
         <span className="text-muted-foreground">
           at {weekday[statusResult.details.closingDay ?? 0]}{' '}
           {statusResult.details.closingTime}
@@ -45,7 +45,7 @@ export const BusinessStatusBadge = ({
     .with(BusinessStatus.CLOSED, () => (
       <div>
         <span className="font-semibold text-red-600">Closed</span>
-        <span className="mx-0.5 text-muted-foreground">⋅</span>
+        <span className="text-muted-foreground mx-0.5">⋅</span>
         <span className="text-muted-foreground">
           open at {weekday[statusResult.details.nextOpenDay ?? 0]}{' '}
           {statusResult.details.nextOpenTime}
@@ -55,7 +55,7 @@ export const BusinessStatusBadge = ({
     .with(BusinessStatus.CLOSED_OPENING_SOON, () => (
       <div>
         <span className="font-semibold text-orange-500">Opening Soon</span>
-        <span className="mx-0.5 text-muted-foreground">⋅</span>
+        <span className="text-muted-foreground mx-0.5">⋅</span>
         <span className="text-muted-foreground">
           at {statusResult.details.nextOpenTime}
         </span>
@@ -64,5 +64,5 @@ export const BusinessStatusBadge = ({
     .with(BusinessStatus.UNKNOWN, () => <span />)
     .exhaustive()
 
-  return <div className={cn('flex-shrink-0', className)}>{statusLabel}</div>
+  return <div className={cn('shrink-0', className)}>{statusLabel}</div>
 }
