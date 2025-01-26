@@ -8,7 +8,7 @@ export const generateIndexSitemap = (origin: string) => {
 ${languages
   .map(
     (lang) => `<sitemap>
-  <loc>${origin}/sitemap/rank-${lang.id}.xml.gz</loc>
+  <loc>${origin}/sitemap/rank-${lang.id}.xml</loc>
   <lastmod>${now}</lastmod>
 </sitemap>`,
     // <sitemap>

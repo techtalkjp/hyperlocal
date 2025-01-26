@@ -16,6 +16,6 @@ export const db = new Kysely<DB>({
   }),
   plugins: [new CamelCasePlugin(), new ParseJSONResultsPlugin()],
   log: (event) => {
-    debug(event.query.sql, event.query.parameters)
+    debug({ sql: event.query.sql, parameters: event.query.parameters })
   },
 })
