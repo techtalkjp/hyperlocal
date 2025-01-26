@@ -29,7 +29,7 @@ const gzip = (content: string): Buffer => {
 const main = async () => {
   // Generate and write sitemap.xml.gz
   const sitemapIndex = generateIndexSitemap(origin)
-  fs.writeFileSync(path.join(outputDir, 'sitemap.xml.gz'), gzip(sitemapIndex))
+  fs.writeFileSync(path.join(outputDir, 'sitemap.xml'), sitemapIndex)
 
   // Generate and write sitemap/en.xml.gz
   for (const lang of languages) {
@@ -40,8 +40,8 @@ const main = async () => {
       lang.id,
     )
     fs.writeFileSync(
-      path.join(outputDir, `sitemap/rank-${lang.id}.xml.gz`),
-      gzip(sitemapAreaCategoryRankContent),
+      path.join(outputDir, `sitemap/rank-${lang.id}.xml`),
+      sitemapAreaCategoryRankContent,
     )
 
     // places

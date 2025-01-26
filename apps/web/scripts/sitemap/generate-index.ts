@@ -10,11 +10,11 @@ ${languages
     (lang) => `<sitemap>
   <loc>${origin}/sitemap/rank-${lang.id}.xml.gz</loc>
   <lastmod>${now}</lastmod>
-</sitemap>
-<sitemap>
-  <loc>${origin}/sitemap/place-${lang.id}.xml.gz</loc>
-  <lastmod>${now}</lastmod>
 </sitemap>`,
+    // <sitemap>
+    //   <loc>${origin}/sitemap/place-${lang.id}.xml.gz</loc>
+    //   <lastmod>${now}</lastmod>
+    // </sitemap>`,
   )
   .join('\n')}</sitemapindex>`
   return sitemapIndex
