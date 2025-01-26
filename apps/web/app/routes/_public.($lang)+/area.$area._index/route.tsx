@@ -57,7 +57,7 @@ export default function AreaIndexPage() {
         </Stack>
 
         <p
-          className="mx-2 mt-8 max-w-96 text-sm text-muted-foreground"
+          className="text-muted-foreground mx-2 mt-8 max-w-96 text-sm"
           style={{ viewTransitionName: `area-description-${area.areaId}` }}
         >
           {area.description[lang.id]}
@@ -97,7 +97,7 @@ export default function AreaIndexPage() {
                 key={area.areaId}
                 viewTransition
               >
-                <div className="flex rounded-md border p-2 hover:bg-secondary">
+                <div className="hover:bg-secondary flex rounded-md border p-2">
                   <div className="flex-1">
                     <div
                       className="font-semibold"
@@ -108,7 +108,7 @@ export default function AreaIndexPage() {
                       {area.i18n[lang.id]}
                     </div>
                     <div
-                      className="text-xs text-muted-foreground"
+                      className="text-muted-foreground text-xs"
                       style={{
                         viewTransitionName: `area-description-${area.areaId}`,
                       }}

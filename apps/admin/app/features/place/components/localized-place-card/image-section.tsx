@@ -8,7 +8,7 @@ interface ImageSectionProps {
 
 export const ImageSection: React.FC<ImageSectionProps> = React.memo(
   ({ place, loading }) => (
-    <div className="h-36 w-36 flex-shrink-0 place-content-center place-items-center bg-muted text-muted-foreground sm:h-48 sm:w-48 md:h-64 md:w-64">
+    <div className="bg-muted text-muted-foreground h-36 w-36 shrink-0 place-content-center place-items-center sm:h-48 sm:w-48 md:h-64 md:w-64">
       {place.photos.length > 0 ? (
         <img
           width={400}

@@ -65,11 +65,11 @@
   "devDependencies": {
     "@biomejs/biome": "catalog:",
     "@react-router/dev": "catalog:",
+    "@tailwindcss/vite": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "autoprefixer": "catalog:",
     "npm-run-all": "catalog:",
-    "postcss": "catalog:",
     "prettier": "catalog:",
     "prettier-plugin-organize-imports": "catalog:",
     "tailwindcss": "catalog:",

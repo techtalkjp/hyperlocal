@@ -30,7 +30,7 @@ export const StatusPriceSection: React.FC<StatusPriceSectionProps> = ({
     </ClientOnly>
     <div className="flex-1" />
     {priceLevel && (
-      <div className="flex-shrink-0 text-muted-foreground">
+      <div className="text-muted-foreground shrink-0">
         {priceLevelLabel(priceLevel)}
       </div>
     )}

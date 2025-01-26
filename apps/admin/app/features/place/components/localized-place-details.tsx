@@ -112,7 +112,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
               <div className="flex-1" />
 
               {place.priceLevel && (
-                <div className="flex-shrink-0 text-muted-foreground">
+                <div className="text-muted-foreground shrink-0">
                   {priceLevelLabel(place.priceLevel)}
                 </div>
               )}

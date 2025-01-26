@@ -38,7 +38,7 @@ export const LocalizedPlaceCard = ({
   return (
     <div
       className={cn(
-        'relative grid grid-cols-1 rounded-md border p-0 text-sm text-card-foreground hover:bg-secondary hover:shadow-md sm:text-base md:text-lg',
+        'text-card-foreground hover:bg-secondary relative grid grid-cols-1 rounded-md border p-0 text-sm hover:shadow-md sm:text-base md:text-lg',
         className,
       )}
     >

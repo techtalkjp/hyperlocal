@@ -62,7 +62,7 @@ export default function AdminPlaceLayout() {
                 star={review.rating}
                 size={14}
                 withLabel
-                className="flex-shrink-0"
+                className="shrink-0"
               />
               <div>{review.originalText?.text}</div>
             </div>

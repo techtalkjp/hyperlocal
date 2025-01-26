@@ -43,7 +43,7 @@ export default function AdminCreategoryIndex() {
       {places.length > 0 ? (
         <div>{places.length} places found.</div>
       ) : (
-        <p className="grid h-32 place-content-center text-muted-foreground">
+        <p className="text-muted-foreground grid h-32 place-content-center">
           No places found
         </p>
       )}

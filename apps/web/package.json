@@ -52,6 +52,7 @@
   "devDependencies": {
     "@biomejs/biome": "catalog:",
     "@react-router/dev": "catalog:",
+    "@tailwindcss/vite": "catalog:",
     "@types/node": "catalog:",
     "@types/nprogress": "catalog:",
     "@types/react": "catalog:",

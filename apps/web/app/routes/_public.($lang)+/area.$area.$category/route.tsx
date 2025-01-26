@@ -43,7 +43,7 @@ export default function AreaCategory() {
   return (
     <Stack>
       <Link to={`${lang.path}area/${area.areaId}`} viewTransition>
-        <div className="flex rounded-md border p-2 hover:bg-secondary">
+        <div className="hover:bg-secondary flex rounded-md border p-2">
           <div className="flex-1">
             <div
               className="font-semibold"
@@ -52,7 +52,7 @@ export default function AreaCategory() {
               {area.i18n[lang.id]}
             </div>
             <div
-              className="text-xs text-muted-foreground"
+              className="text-muted-foreground text-xs"
               style={{ viewTransitionName: `area-description-${area.areaId}` }}
             >
               {area.description[lang.id]}
