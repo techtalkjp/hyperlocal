@@ -10,15 +10,11 @@ import {
 import type { Route } from './+types/root'
 import { PageLoadingProgress } from './components/page-loading-progress'
 import { ThemeProvider } from './components/theme-provider'
-import globalStyles from './styles/globals.css?url'
+import './styles/globals.css'
 
 export const meta: Route.MetaFunction = () => [
   { name: 'description', content: 'Hyperlocal' },
   { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-]
-
-export const links: Route.LinksFunction = () => [
-  { rel: 'stylesheet', href: globalStyles },
 ]
 
 export const shouldRevalidate = () => true
