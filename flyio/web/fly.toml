@@ -19,7 +19,7 @@ kill_timeout = 10
   processes = ['app']
   [http_service.concurrency]
     type = "requests"
-    soft_limit = 20
+    soft_limit = 100
 
 [[http_service.checks]]
   grace_period = "10s"
