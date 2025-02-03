@@ -38,8 +38,8 @@ RUN pnpm run build --filter=@hyperlocal/web \
 FROM base as runner
 ENV NODE_ENV=production
 
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y openssl
+RUN apt-get update -qq \
+  && apt-get install --no-install-recommends -y openssl openssh-client sqlite3 procps curl ca-certificates unzip vim
 
 WORKDIR /app
 COPY --from=build /app .
