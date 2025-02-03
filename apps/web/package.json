@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "dotenv -e .env react-router dev -- --host",
+    "make:replica": "tsx scripts/make-local-replica.ts",
     "build": "react-router build",
     "build:sitemap": "tsx --env-file=.env scripts/build-sitemap.ts",
     "start": "react-router-serve ./build/server/index.js",
