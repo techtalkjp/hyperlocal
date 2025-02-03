@@ -19,13 +19,6 @@ export default function handleRequest(
   let statusCode = responseStatusCode
   return new Promise((resolve, reject) => {
     const userAgent = request.headers.get('user-agent')
-    // Added check: Return empty response if bot is not Googlebot
-    if (userAgent && isbot(userAgent) && !userAgent.includes('Googlebot')) {
-      console.log('Not Googlebot', userAgent)
-      return resolve(
-        new Response('', { headers: responseHeaders, status: statusCode }),
-      )
-    }
     let shellRendered = false
     // Ensure requests from bots and SPA Mode renders wait for all content to load before responding
     // https://react.dev/reference/react-dom/server/renderToPipeableStream#waiting-for-all-content-to-load-for-crawlers-and-static-generation
