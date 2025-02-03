@@ -21,6 +21,7 @@ export default function handleRequest(
     const userAgent = request.headers.get('user-agent')
     // Added check: Return empty response if bot is not Googlebot
     if (userAgent && isbot(userAgent) && !userAgent.includes('Googlebot')) {
+      console.log('Not Googlebot', userAgent)
       return resolve(
         new Response('', { headers: responseHeaders, status: statusCode }),
       )
