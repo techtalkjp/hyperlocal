@@ -13,6 +13,8 @@ export const db = new Kysely<DB>({
   dialect: new LibsqlDialect({
     url: process.env.DATABASE_URL ?? '',
     authToken: process.env.TURSO_AUTH_TOKEN ?? '',
+    concurrency: 0,
+    fetch: fetch,
   }),
   plugins: [new CamelCasePlugin(), new ParseJSONResultsPlugin()],
   log: (event) => {
