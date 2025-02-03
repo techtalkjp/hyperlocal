@@ -46,4 +46,4 @@ COPY --from=build /app .
 WORKDIR /app/apps/web
 
 EXPOSE 3000
-CMD [ "pnpm", "run", "start", "--filter", "@hyperlocal/web" ]
+ENTRYPOINT [ "./start.sh" ]
