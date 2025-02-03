@@ -1,8 +1,7 @@
 import { createClient } from '@libsql/client'
-import dotenv from 'dotenv'
 import fs from 'node:fs/promises'
+import '~/services/env.server'
 
-dotenv.config()
 const config = {
   url: process.env.DATABASE_URL,
   authToken: process.env.TURSO_AUTH_TOKEN,

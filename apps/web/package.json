@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "dotenv -e .env react-router dev -- --host",
-    "make:replica": "tsx scripts/make-local-replica.ts",
+    "make:replica": "tsx --env-file .env scripts/make-local-replica.ts",
+    "upload:db": "tsx --env-file .env scripts/upload-db.ts",
     "build": "react-router build",
     "build:sitemap": "tsx --env-file=.env scripts/build-sitemap.ts",
     "start": "react-router-serve ./build/server/index.js",
@@ -37,6 +38,7 @@
     "isbot": "catalog:",
     "kysely": "catalog:",
     "lucide-react": "catalog:",
+    "minio": "8.0.4",
     "next-themes": "catalog:",
     "nprogress": "catalog:",
     "react": "catalog:",
