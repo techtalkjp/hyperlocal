@@ -4,13 +4,13 @@ ARG NODE_VERSION=22.11.0
 ARG PNPM_VERSION=9.14.1
 
 # base
-FROM node:${NODE_VERSION}-slim as base
+FROM node:${NODE_VERSION}-slim AS base
 
 RUN npm i -g "pnpm@${PNPM_VERSION}" turbo && pnpm config set store-dir ~/.pnpm-store
 
 
 # setup
-FROM base as setup
+FROM base AS setup
 
 WORKDIR /app
 COPY . .
@@ -18,7 +18,7 @@ RUN pnpm turbo prune --scope=@hyperlocal/web --docker
 
 
 # build
-FROM base as build
+FROM base AS build
 
 WORKDIR /app
 
@@ -35,7 +35,7 @@ RUN pnpm run build --filter=@hyperlocal/web \
 
 
 # runner
-FROM base as runner
+FROM base AS runner
 ENV NODE_ENV=production
 
 RUN apt-get update -qq \
