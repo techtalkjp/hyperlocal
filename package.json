@@ -13,5 +13,5 @@
   "devDependencies": {
     "turbo": "catalog:"
   },
-  "packageManager": "pnpm@9.14.1"
+  "packageManager": "pnpm@10.2.1"
 }
