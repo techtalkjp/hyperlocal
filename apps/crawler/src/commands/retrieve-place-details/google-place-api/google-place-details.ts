@@ -1,3 +1,4 @@
+import consola from 'consola'
 import type { GooglePlace } from './types'
 
 const fieldMask = [
@@ -42,6 +43,7 @@ export const googlePlaceDetails = async ({
   )
   const json = await ret.json()
   if (json.displayName?.text === undefined) {
+    consola.warn('place details not found', { placeId, json })
     return null
   }
   return json
