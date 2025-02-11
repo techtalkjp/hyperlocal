@@ -1,5 +1,18 @@
+import { defineCommand } from 'citty'
+import consola from 'consola'
 import { sql } from 'kysely'
 import { db } from '~/services/duckdb.server'
+
+export default defineCommand({
+  meta: {
+    name: 'transform',
+    description:
+      '食べログのデータをリスティング用のデータに変換する。ランキング外のデータは除外される',
+  },
+  run: async () => {
+    await transform()
+  },
+})
 
 export const transform = async () => {
   // ジャンル/カテゴリ変換用のテーブルを作成 (INNER JOIN で使うのに必須)
@@ -28,8 +41,8 @@ export const transform = async () => {
     .addColumn('placeId', 'varchar')
     .execute()
 
-  // Step 1: Extract genres from crawled_restaurants
-  console.log('step 1: Extract genres from crawled_restaurants')
+  // Step 1: ジャンルを抽出してテーブルに保存
+  consola.info('step 1: ジャンルを抽出してテーブルに保存')
   await db.schema
     .dropTable('tr_tabelog_restaurants_genres')
     .ifExists()
@@ -48,8 +61,8 @@ export const transform = async () => {
     )
     .execute()
 
-  // Step 2: Join with genres table and assign categories
-  console.log('step 2: Join with genres table and assign categories')
+  // Step 2: レストランデータをジャンル/カテゴリ付きで生成
+  consola.info('step 2: レストランデータをジャンル/カテゴリ付きで生成')
   await db.schema
     .dropTable('tr_restaurants_with_genre_categories')
     .ifExists()
@@ -83,8 +96,8 @@ export const transform = async () => {
     )
     .execute()
 
-  // Step 2.1: Unnest categories to create multiple rows
-  console.log('step 2.1: Unnest categories to create multiple rows')
+  // Step 2-1: カテゴリを展開してテーブルに保存
+  consola.info('step 2-1: カテゴリを展開してテーブルに保存')
   await db.schema.dropTable('tr_expanded_restaurants').ifExists().execute()
   await db.schema
     .createTable('tr_expanded_restaurants')
@@ -107,8 +120,8 @@ export const transform = async () => {
     )
     .execute()
 
-  // Step 3: Aggregate data into restaurants table
-  console.log('step 3: Aggregate data into restaurants table')
+  // Step 3: レストランデータを生成
+  consola.info('step 3: レストランデータを生成')
   await db
     .insertInto('restaurants')
     .columns([
@@ -167,13 +180,13 @@ export const transform = async () => {
         budgetDinner: (eb) => eb.ref('excluded.budgetDinner'),
         closedDay: (eb) => eb.ref('excluded.closedDay'),
         address: (eb) => eb.ref('excluded.address'),
-        // 'placeId' remains unchanged
+        // 'placeId' は更新しない
       }),
     )
     .execute()
 
-  // Step 4: Generate rankings per area and category
-  console.log('step 4: Generate rankings per area and category')
+  // Step 4: ランキングテーブルを生成
+  consola.info('step 4: ランキングテーブルを生成')
   await db.schema.dropTable('tr_restaurants_by_category').ifExists().execute()
   await db.schema
     .createTable('tr_restaurants_by_category')
@@ -196,7 +209,6 @@ export const transform = async () => {
         ]),
     )
     .execute()
-
   await db.schema.dropTable('tr_rating_rank').ifExists().execute()
   await db.schema
     .createTable('tr_rating_rank')
@@ -251,8 +263,8 @@ export const transform = async () => {
     )
     .execute()
 
-  // Ensure 'ranked_restaurants' table exists
-  console.log('Ensure ranked_restaurants table exists')
+  // step 5: ランキングテーブルを生成
+  consola.info('step 5: ランキングテーブルを生成')
   await db.schema.dropTable('ranked_restaurants').ifExists().execute()
   await db.schema
     .createTable('ranked_restaurants')
@@ -271,9 +283,6 @@ export const transform = async () => {
     .addColumn('url', 'varchar')
     .addColumn('placeId', 'varchar')
     .execute()
-
-  // insert data into 'ranked_restaurants'
-  console.log('insert data into ranked_restaurants')
   await db
     .insertInto('ranked_restaurants')
     .columns([
@@ -301,12 +310,12 @@ export const transform = async () => {
     )
     .execute()
 
-  // Remove entries beyond rank 20
-  console.log('Remove entries beyond rank 20')
+  // step6: 20位より下のレストランをランキングから削除
+  consola.info('step 6: 20位より下のレストランをランキングから削除')
   await db.deleteFrom('ranked_restaurants').where('rank', '>', 20).execute()
 
-  // Remove restaurants not in the rankings
-  console.log('Remove restaurants not in the rankings')
+  // step7: ランキング外のレストランを削除
+  consola.info('step 7: ランキング外のレストランを削除')
   await sql`
     DELETE FROM restaurants
     WHERE url NOT IN (
@@ -319,5 +328,5 @@ export const transform = async () => {
     .selectFrom('restaurants')
     .select((eb) => eb.fn.countAll().as('cnt'))
     .executeTakeFirstOrThrow()
-  console.log(`${cnt} restaurants transformed`)
+  consola.info(`${cnt} restaurants transformed`)
 }

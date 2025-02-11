@@ -1,5 +1,6 @@
 import { languages } from '@hyperlocal/consts'
 import type { Place } from '@hyperlocal/db'
+import consola from 'consola'
 import { translateSentences } from './translate-sentences'
 
 export const translatePlace = async (
@@ -38,7 +39,7 @@ export const translatePlace = async (
     })
   } catch (error) {
     if (error instanceof Error) {
-      console.log(place.id, 'displayName', error.message)
+      consola.error(place.id, 'displayName', error.message)
     }
   }
 
@@ -63,7 +64,7 @@ export const translatePlace = async (
       })
     } catch (error) {
       if (error instanceof Error) {
-        console.log(place.id, 'review', error.message)
+        consola.error(place.id, 'review', error.message)
       }
     }
   }

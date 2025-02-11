@@ -1,6 +1,19 @@
+import { defineCommand } from 'citty'
+import consola from 'consola'
 import { sql } from 'kysely'
 import { db } from '~/services/duckdb.server'
 import { textSearch } from '~/services/google-places-ids'
+
+export default defineCommand({
+  meta: {
+    name: 'lookup-google-place-ids',
+    description:
+      'Google Places APIを使ってリスティング用のデータにGoogle Place IDを付与する',
+  },
+  async run() {
+    await lookupGooglePlaceIds()
+  },
+})
 
 // google places ID をマッピング
 export const lookupGooglePlaceIds = async () => {
@@ -15,7 +28,7 @@ export const lookupGooglePlaceIds = async () => {
     .where('placeId', 'is', null)
     .execute()
 
-  console.log(`${restaurants.length} restaurants to lookup`)
+  consola.info(`${restaurants.length} restaurants to lookup`)
 
   let n = 0
   for (const restaurant of restaurants) {
@@ -24,7 +37,7 @@ export const lookupGooglePlaceIds = async () => {
     })
     const placeId = place.places?.map((p) => p.id)[0]
     if (placeId === undefined) {
-      console.log('Not found:', { restaurant, place })
+      consola.warn('Not found:', { restaurant, place })
       continue
     }
 
@@ -46,9 +59,9 @@ export const lookupGooglePlaceIds = async () => {
 
     n++
     if (n % 100 === 0) {
-      console.log(`${n} restaurants updated`)
+      consola.info(`${n} restaurants updated`)
     }
   }
 
-  console.log('Done. ${n} restaurants updated.')
+  consola.info('Done. ${n} restaurants updated.')
 }

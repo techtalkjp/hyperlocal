@@ -1,9 +1,34 @@
-import { differenceInDays } from 'date-fns'
+import { defineCommand } from 'citty'
+import consola from 'consola'
+import { differenceInDays, format } from 'date-fns'
 import { db as duckdb } from '~/services/duckdb.server'
 import { googlePlaceDetails } from './google-place-api'
 import { getGooglePlacePhotoUri } from './google-place-api/google-place-photo'
 import { upsertPlace } from './mutations'
 import { getPlace } from './queries'
+
+export default defineCommand({
+  meta: {
+    name: 'retrieve-place-details',
+    description: 'Google Place API で詳細情報を取得',
+  },
+  args: {
+    count: {
+      type: 'string',
+      description: '処理する件数',
+      default: '1',
+    },
+  },
+  run: async ({ args }) => {
+    const count = Number.parseInt(args.count, 10)
+    if (Number.isNaN(count)) {
+      throw new Error('Invalid count')
+    }
+    await retrievePlaceDetails({
+      count: count,
+    })
+  },
+})
 
 interface RetrievePlaceDetailsOptions {
   count: number
@@ -20,7 +45,7 @@ export const retrievePlaceDetails = async (
   let n = 0
   for (const restaurant of restaurants) {
     if (!restaurant.placeId) {
-      console.log('Place ID not found', restaurant)
+      consola.warn('Place ID not found', restaurant)
       continue
     }
 
@@ -30,11 +55,11 @@ export const retrievePlaceDetails = async (
       existPlace &&
       differenceInDays(new Date(), new Date(existPlace.updatedAt)) < 90
     ) {
-      // console.log(
-      //   'Skip',
-      //   restaurant.placeId,
-      //   format(new Date(existPlace.updatedAt), 'yyyy-MM-dd HH:mm:ss'),
-      // )
+      consola.info(
+        'Skip',
+        restaurant.placeId,
+        format(new Date(existPlace.updatedAt), 'yyyy-MM-dd HH:mm:ss'),
+      )
       continue
     }
 
@@ -43,11 +68,11 @@ export const retrievePlaceDetails = async (
       placeId: restaurant.placeId,
     })
     if (!googlePlace) {
-      console.log('Place not found', restaurant)
+      consola.warn('Place not found', restaurant)
       continue
     }
     if (!googlePlace.reviews) {
-      console.log('Place reviews not found', restaurant)
+      console.warn('Place reviews not found', restaurant)
       continue
     }
 
@@ -63,8 +88,7 @@ export const retrievePlaceDetails = async (
       }
     }
 
-    // ログ
-    console.log(
+    consola.info(
       `upsertPlace: ${n + 1}`,
       restaurant.placeId,
       googlePlace.displayName.text,
@@ -94,7 +118,7 @@ export const retrievePlaceDetails = async (
     }
 
     if (n % 100 === 0) {
-      console.log('Processing', n)
+      consola.info('Processing', n)
     }
   }
 }

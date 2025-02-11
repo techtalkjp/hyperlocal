@@ -1,5 +1,6 @@
 import { languages } from '@hyperlocal/consts'
 import { db } from '@hyperlocal/db'
+import consola from 'consola'
 import { db as duckdb } from '~/services/duckdb.server'
 import { translatePlaceToLangTask } from './translate-place-to-lang'
 
@@ -22,6 +23,7 @@ export const translatePlaceTask = async ({ placeId }: { placeId: string }) => {
 
   // 各言語に翻訳
   for (const lang of languages) {
+    consola.info(`translate ${place.id} to ${lang.id}`)
     await translatePlaceToLangTask({
       placeId: place.id,
       from: 'ja',

@@ -1,10 +1,38 @@
 import { areas } from '@hyperlocal/consts'
+import { defineCommand } from 'citty'
+import consola from 'consola'
 import { CheerioCrawler, Dataset, log } from 'crawlee'
 import { HandlerLabel, router } from './handlers'
 
-log.setLevel(log.LEVELS.INFO)
+export default defineCommand({
+  meta: {
+    name: 'crawl-tabelog',
+    description: '食べログのデータをクロールする',
+  },
+  args: {
+    delay: {
+      type: 'string',
+      description: 'リクエスト間の遅延（秒）',
+      default: undefined,
+    },
+    max: {
+      type: 'string',
+      description: '最大リクエスト数',
+      default: undefined,
+    },
+    all: {
+      type: 'boolean',
+      description: '全てのエリアをクロールする',
+    },
+  },
+  run: async ({ args }) => {
+    const delay = args.delay ? Number.parseInt(args.delay) : undefined
+    const maxRequest = args.max ? Number.parseInt(args.max) : undefined
+    await crawlTabelog({ delay, maxRequest, all: args.all }, [])
+  },
+})
 
-export const crawlTabelog = async (
+const crawlTabelog = async (
   opts: {
     delay?: number
     maxRequest?: number
@@ -12,11 +40,12 @@ export const crawlTabelog = async (
   },
   areaIds: string[],
 ) => {
+  log.setLevel(log.LEVELS.INFO)
   if (!opts.all && areaIds.length === 0) {
-    console.log('No area ids specified')
-    console.log('Available area ids:')
+    consola.error('No area ids specified')
+    consola.info('Available area ids:')
     for (const area of areas) {
-      console.log(`- ${area.areaId}`)
+      consola.info(`- ${area.areaId}`)
     }
     return
   }

@@ -1,6 +1,8 @@
 import { languages } from '@hyperlocal/consts'
 import { db } from '@hyperlocal/db'
+import consola from 'consola'
 import { db as duckdb } from '~/services/duckdb.server'
+
 /**
  * localizedPlaces に存在しないカテゴリがある場合は、localizedPlaces に追加する
  */
@@ -22,7 +24,7 @@ export const fixMultiCategories = async () => {
         .where('language', '==', lang.id)
         .executeTakeFirst()
       if (!translated) {
-        console.log('not found translated', place)
+        consola.error('not found translated', place)
         continue
       }
 
@@ -51,13 +53,13 @@ export const fixMultiCategories = async () => {
             .execute()
           n++
 
-          console.log('inserted:', inserted)
+          consola.info('inserted:', inserted)
           return
         }
       }
     }
     processed++
-    console.log(`processed: ${processed}/${allPlaces.length}`)
+    consola.info(`processed: ${processed}/${allPlaces.length}`)
   }
 }
 
@@ -68,7 +70,7 @@ const test = async () => {
     .where('placeId', '==', 'ChIJvcRQHESLGGARSZaZn_rHFFI')
     .execute()
 
-  console.log(place)
+  consola.debug(place)
   if (!place) {
     return
   }

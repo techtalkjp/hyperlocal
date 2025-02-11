@@ -1,4 +1,5 @@
 import { db } from '@hyperlocal/db'
+import consola from 'consola'
 import { db as duckdb } from '~/services/duckdb.server'
 
 /**
@@ -6,7 +7,7 @@ import { db as duckdb } from '~/services/duckdb.server'
  */
 export const cleanup = async () => {
   const allPlaces = await db.selectFrom('places').select('places.id').execute()
-  console.log(allPlaces.length)
+  consola.info(allPlaces.length)
 
   let processed = 0
   let n = 0
@@ -28,7 +29,7 @@ export const cleanup = async () => {
         .where('placeId', '==', place.id)
         .execute()
       await db.deleteFrom('places').where('id', '==', place.id).execute()
-      console.log(`deleted place: ${n}/${processed}`, place.id)
+      consola.info(`deleted place: ${n}/${processed}`, place.id)
     }
     processed++
   }

@@ -1,5 +1,6 @@
 import { areas } from '@hyperlocal/consts/src'
 import { db, type Place } from '@hyperlocal/db'
+import consola from 'consola'
 import { upsertLocalizedPlace } from '~/features/localize/mutations.server'
 import { translatePlace } from '~/features/localize/translate-place'
 import { db as duckdb } from '~/services/duckdb.server'
@@ -26,19 +27,19 @@ export const translatePlaceToLangTask = async ({
     .execute()
 
   if (!ranked) {
-    console.error('no area found for place', place)
+    consola.error('no area found for place', place)
     return
   }
 
   // 翻訳
-  //  console.log(`translate ${place.id} from ${from} to ${to}`)
+  consola.info(`translate ${place.id} from ${from} to ${to}`)
   const translated = await translatePlace(place as unknown as Place, from, to)
 
   // localized place 保存
   for (const areaCategory of ranked) {
     const area = areas.find((a) => a.areaId === areaCategory.area)
     if (!area) {
-      console.error('no area found for areaId', areaCategory.area)
+      consola.error('no area found for areaId', areaCategory.area)
       continue
     }
 
