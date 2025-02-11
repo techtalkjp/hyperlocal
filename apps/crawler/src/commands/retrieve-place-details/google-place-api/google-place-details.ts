@@ -41,8 +41,7 @@ export const googlePlaceDetails = async ({
     },
   )
   const json = await ret.json()
-
-  if (json.displayName.text === undefined) {
+  if (json.displayName?.text === undefined) {
     return null
   }
   return json

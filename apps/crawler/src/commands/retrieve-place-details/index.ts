@@ -1,6 +1,6 @@
 import { defineCommand } from 'citty'
 import consola from 'consola'
-import { differenceInDays, format } from 'date-fns'
+import { differenceInDays } from 'date-fns'
 import { db as duckdb } from '~/services/duckdb.server'
 import { googlePlaceDetails } from './google-place-api'
 import { getGooglePlacePhotoUri } from './google-place-api/google-place-photo'
@@ -55,11 +55,11 @@ export const retrievePlaceDetails = async (
       existPlace &&
       differenceInDays(new Date(), new Date(existPlace.updatedAt)) < 90
     ) {
-      consola.info(
-        'Skip',
-        restaurant.placeId,
-        format(new Date(existPlace.updatedAt), 'yyyy-MM-dd HH:mm:ss'),
-      )
+      // consola.info(
+      //   'Skip',
+      //   restaurant.placeId,
+      //   format(new Date(existPlace.updatedAt), 'yyyy-MM-dd HH:mm:ss'),
+      // )
       continue
     }
 
