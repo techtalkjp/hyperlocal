@@ -32,7 +32,6 @@ export const translatePlaceToLangTask = async ({
   }
 
   // 翻訳
-  consola.info(`translate ${place.id} from ${from} to ${to}`)
   const translated = await translatePlace(place as unknown as Place, from, to)
 
   // localized place 保存
