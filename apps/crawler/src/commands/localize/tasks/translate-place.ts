@@ -23,6 +23,9 @@ export const translatePlaceTask = async ({ placeId }: { placeId: string }) => {
 
   // 各言語に翻訳
   for (const lang of languages) {
+    if (lang.id === 'ja') {
+      continue
+    }
     consola.info(`translate ${place.id} to ${lang.id}`)
     await translatePlaceToLangTask({
       placeId: place.id,
