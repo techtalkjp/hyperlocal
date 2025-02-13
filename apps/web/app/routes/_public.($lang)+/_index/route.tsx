@@ -35,6 +35,9 @@ export const meta: Route.MetaFunction = ({ data }) => {
 
 export const loader = ({ request, params }: LoaderFunctionArgs) => {
   const { city, lang } = getPathParams(request, params)
+  if (lang === null) {
+    throw new Response(null, { status: 404, statusText: 'Not Found' })
+  }
   const areas = allAreas.filter((area) => area.cityId === city.cityId)
 
   return { url: request.url, cities, city, areas, lang }

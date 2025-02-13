@@ -38,7 +38,10 @@ export const getPathParams = (request: Request, params: Params) => {
 
   const area = areas.find((area) => area.areaId === areaId)
   const category = categories.find((category) => category.id === categoryId)
-  const lang = languages.find((lang) => lang.id === langId) ?? languages[0]
+  const lang =
+    (languages.find((lang) => lang.id === langId) ?? langId === undefined)
+      ? languages[0]
+      : null
   const rankingType = match(rankingTypeId)
     .returnType<'review' | 'rating' | undefined>()
     .with('review', () => 'review')
