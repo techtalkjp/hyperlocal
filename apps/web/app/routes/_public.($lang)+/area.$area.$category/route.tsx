@@ -19,6 +19,7 @@ export const loader = ({ request, params }: LoaderFunctionArgs) => {
     { require: { area: true, category: true } },
   )
 
+  // Redirect to rating if no ranking type is specified
   if (!rankingType && !request.url.endsWith('nearme')) {
     throw redirect(
       `/${lang.id === 'en' ? '' : `${lang.id}/`}area/${area.areaId}/${category.id}/rating`,
