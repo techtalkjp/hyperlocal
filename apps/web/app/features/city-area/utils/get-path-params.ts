@@ -60,17 +60,13 @@ export const getPathParams = <R extends RequireOptions>(
     rank: rankingTypeId,
   } = params
 
-  const result: PathParamsResult<R> = {
-    city: cities[0],
-    lang: languages[0],
-  }
-
   // リクエストURLのドメイン名から、都市を判定する
   const url = new URL(request.url)
   const host = url.host.split('.')[0]
-  const city = cities.find((city) => city.cityId === host)
-  if (!city) {
-    throw new Response(null, { status: 404, statusText: 'Not Found' })
+
+  const result: PathParamsResult<R> = {
+    city: cities.find((city) => city.cityId === host) ?? cities[0],
+    lang: languages[0],
   }
 
   const lang =

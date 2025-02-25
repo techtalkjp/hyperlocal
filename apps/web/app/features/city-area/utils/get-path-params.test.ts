@@ -14,12 +14,12 @@ describe('getPathParams', () => {
   describe('language parameter tests', () => {
     it('should return English (default) when no language specified', () => {
       const result = getPathParams(createRequest('/'), {})
-      expect(result.lang?.id).toBe('en')
+      expect(result.lang.id).toBe('en')
     })
 
     it('should return specified language when valid', () => {
       const result = getPathParams(createRequest('/ja'), { lang: 'ja' })
-      expect(result.lang?.id).toBe('ja')
+      expect(result.lang.id).toBe('ja')
     })
 
     it('should throw 404 when invalid language specified', () => {
