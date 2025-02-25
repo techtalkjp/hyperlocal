@@ -29,9 +29,9 @@ type UndefinedOrDefined<
 type PathParamsResult<R extends RequireOptions = Record<string, never>> = {
   city: City // 常に必須
   lang: Language // 常に必須
-  area?: UndefinedOrDefined<Area, R['area']>
-  category?: UndefinedOrDefined<Category, R['category']>
-  rankingType?: UndefinedOrDefined<RankingType, R['rank']>
+  area: UndefinedOrDefined<Area, R['area']>
+  category: UndefinedOrDefined<Category, R['category']>
+  rankingType: UndefinedOrDefined<RankingType, R['rank']>
 }
 
 /**
@@ -64,7 +64,8 @@ export const getPathParams = <R extends RequireOptions>(
   const url = new URL(request.url)
   const host = url.host.split('.')[0]
 
-  const result: PathParamsResult<R> = {
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  const result: any = {
     city: cities.find((city) => city.cityId === host) ?? cities[0],
     lang: languages[0],
   }

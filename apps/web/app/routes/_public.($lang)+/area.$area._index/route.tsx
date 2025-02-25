@@ -27,10 +27,9 @@ export const meta: Route.MetaFunction = ({ data }) => {
 }
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
-  const { lang, area } = await getPathParams(request, params)
-  if (!area) {
-    throw new Response('Not Found', { status: 404 })
-  }
+  const { lang, area } = await getPathParams(request, params, {
+    require: { area: true },
+  })
 
   const nearbyAreas = sortAreasByDistance(areas, area.latitude, area.longitude)
     .slice(0, 4)
@@ -46,7 +45,7 @@ export default function AreaIndexPage() {
       <div className="mx-auto my-8 gap-8">
         <Stack>
           <h3
-            className="text-center text-4xl font-semibold leading-none tracking-tight"
+            className="text-center text-4xl leading-none font-semibold tracking-tight"
             style={{ viewTransitionName: `area-title-${area.areaId}` }}
           >
             {area.i18n[lang.id]}
