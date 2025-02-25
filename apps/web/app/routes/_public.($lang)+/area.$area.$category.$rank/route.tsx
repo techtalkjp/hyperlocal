@@ -64,20 +64,11 @@ export const meta: Route.MetaFunction = ({ data }) => {
 }
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
-  const { city, area, lang, category, rankingType } = getPathParams(
+  const { city, lang, area, category, rankingType } = getPathParams(
     request,
     params,
+    { require: { area: true, category: true, rank: true } },
   )
-
-  if (!area) {
-    throw new Response(null, { status: 404, statusText: 'Not Found' })
-  }
-  if (!category) {
-    throw new Response(null, { status: 404, statusText: 'Not Found' })
-  }
-  if (!lang) {
-    throw new Response(null, { status: 404, statusText: 'Not Found' })
-  }
 
   const places = await listLocalizedPlaces({
     cityId: city.cityId,

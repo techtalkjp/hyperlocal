@@ -16,14 +16,10 @@ export const loader = ({ request, params }: LoaderFunctionArgs) => {
   const { lang, city, area, category, rankingType } = getPathParams(
     request,
     params,
+    { require: { area: true, category: true } },
   )
-  if (!area) {
-    throw new Response(null, { status: 404, statusText: 'Not Found' })
-  }
-  if (!category) {
-    throw new Response(null, { status: 404, statusText: 'Not Found' })
-  }
 
+  // Redirect to rating if no ranking type is specified
   if (!rankingType && !request.url.endsWith('nearme')) {
     throw redirect(
       `/${lang.id === 'en' ? '' : `${lang.id}/`}area/${area.areaId}/${category.id}/rating`,
