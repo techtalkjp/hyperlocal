@@ -1,13 +1,7 @@
-import { areas, cities, languages } from '@hyperlocal/consts'
 import { describe, expect, it } from 'vitest'
 import { getPathParams } from './get-path-params'
 
 describe('getPathParams', () => {
-  const cityTokyo = cities.find((c) => c.cityId === 'tokyo')
-  const langEn = languages.find((l) => l.id === 'en')
-  const langJa = languages.find((l) => l.id === 'ja')
-  const areaShinjuku = areas.find((a) => a.areaId === 'shinjuku')
-
   const createRequest = (path: string) =>
     new Request(`http://tokyo.example.com${path}`)
 
