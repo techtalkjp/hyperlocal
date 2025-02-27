@@ -79,3 +79,11 @@ catalog:
   vitest: 3.0.5
   zod: 3.24.1
   zodix: 0.4.4
+onlyBuiltDependencies:
+  - '@biomejs/biome'
+  - '@clerk/shared'
+  - '@prisma/engines'
+  - duckdb
+  - esbuild
+  - prisma
+  - workerd
