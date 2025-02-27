@@ -67,16 +67,16 @@ export const LocalizedPlaceCard = ({
           {distance && (
             <HStack>
               {/* 距離 */}
-              <div className="whitespace-nowrap text-sm font-semibold text-blue-500">
-                <MapPinIcon className="mb-1 mr-1 inline h-4 w-4" />
+              <div className="text-sm font-semibold whitespace-nowrap text-blue-500">
+                <MapPinIcon className="mr-1 mb-1 inline h-4 w-4" />
                 {distance > 1000
                   ? `${(distance / 1000).toFixed(1)} km`
                   : `${distance.toFixed(0)} m`}
               </div>
 
               {/* 徒歩何分か。10キロ未満のときだけ表示 */}
-              <div className="whitespace-nowrap text-sm font-semibold text-blue-500">
-                <FootprintsIcon className="mb-1 mr-1 inline h-4 w-4" />
+              <div className="text-sm font-semibold whitespace-nowrap text-blue-500">
+                <FootprintsIcon className="mr-1 mb-1 inline h-4 w-4" />
                 <span>
                   {distance > 10000 ? '' : `${(distance / 80).toFixed(0)} min`}
                 </span>

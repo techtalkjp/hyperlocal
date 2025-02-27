@@ -18,7 +18,7 @@ export const Rating = ({
 
   return (
     <div className={cn('flex items-center gap-2', className)} {...rest}>
-      <div className="relative inline-block cursor-auto select-none items-center">
+      <div className="relative inline-block cursor-auto items-center select-none">
         <div
           className="flex overflow-hidden whitespace-nowrap text-[#e6e6e6]"
           style={{
@@ -35,7 +35,7 @@ export const Rating = ({
         </div>
         {star && (
           <div
-            className="absolute left-0 top-0 flex overflow-hidden whitespace-nowrap text-yellow-400"
+            className="absolute top-0 left-0 flex overflow-hidden whitespace-nowrap text-yellow-400"
             style={{
               fontSize: `${size}px`,
               width: `${star * 2 * 10}%`,
