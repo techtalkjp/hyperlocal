@@ -1,14 +1,14 @@
 import { LanguageIdSchema, languages } from '@hyperlocal/consts'
-import type { LoaderFunctionArgs } from 'react-router'
-import { Link, redirect, useLoaderData } from 'react-router'
+import { Link, redirect } from 'react-router'
 import { z } from 'zod'
 import { zx } from 'zodix'
 import { HStack, Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { PlaceCard, Rating } from '~/features/place/components'
 import { requireAdminUser } from '~/services/auth.server'
+import type { Route } from './+types/route'
 import { getLocalizedPlace, getPlace } from './queries.server'
 
-export const loader = async ({ request, params }: LoaderFunctionArgs) => {
+export const loader = async ({ request, params }: Route.LoaderArgs) => {
   await requireAdminUser(request)
 
   const { place: placeId, lang: languageId } = zx.parseParams(params, {
@@ -35,9 +35,9 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   }
 }
 
-export default function AdminPlaceLayout() {
-  const { place, languageId, localizedPlace } = useLoaderData<typeof loader>()
-
+export default function AdminPlaceLayout({
+  loaderData: { place, languageId, localizedPlace },
+}: Route.ComponentProps) {
   return (
     <div className="grid grid-cols-2 gap-4">
       <Stack>
