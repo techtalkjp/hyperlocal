@@ -1,5 +1,5 @@
 import { LoaderIcon } from 'lucide-react'
-import { NavLink } from 'react-router'
+import { href, NavLink } from 'react-router'
 import { match } from 'ts-pattern'
 import { Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
@@ -121,7 +121,7 @@ export default function CategoryIndexPage({
           place={place}
           no={idx + 1}
           loading={idx <= 5 ? 'eager' : 'lazy'}
-          to={`${lang.path}place/${place.placeId}?area=${area.areaId}&category=${category.id}&rank=${rankingType}`}
+          to={`${href('/:lang?/place/:place', { lang: lang.id !== 'en' ? lang.id : undefined, place: place.placeId })}?area=${area.areaId}&category=${category.id}&rank=${rankingType}`}
         />
       ))}
     </Stack>
