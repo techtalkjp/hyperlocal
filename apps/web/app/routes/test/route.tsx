@@ -1,13 +1,13 @@
-// app/routes/area.$id.jsx
-
 import { getMDXComponent } from 'mdx-bundler/client'
 import { useMemo } from 'react'
-import { mdxComponents } from '~/components/mdx'
+import { mdxComponents } from '~/routes/test/mdx'
 import { compileMDX } from '~/services/mdx.server'
-import type { Route } from './+types/test'
+import type { Route } from './+types/route'
+import { listPlaces } from './queries.server'
 
 // ローダー関数（サーバーサイド）
 export async function loader() {
+  const places = await listPlaces()
   // MDXのコンパイル
   const mdxResult = await compileMDX(`
 # 渋谷エリア
@@ -16,7 +16,19 @@ export async function loader() {
 
 ## 主要スポット
 
+<Place id="0" />
+
 <SpotHighlight id="shibuya-crossing" />
+
+<Place id="1" />
+
+<Place id="2" />
+
+<Place id="3" />
+
+<Place id="4" />
+
+
 
 スクランブル交差点では最大3,000人が一度に交差することもあります。特に夕方から夜にかけての光景は圧巻です。
 
@@ -33,6 +45,7 @@ export async function loader() {
   }
 
   return {
+    places,
     title: mdxResult.frontmatter.title,
     code: mdxResult.code,
     frontmatter: mdxResult.frontmatter,

@@ -1,5 +1,8 @@
+import { Place } from './Place'
+
 export const mdxComponents = {
   SpotHighlight,
+  Place,
 }
 
 // SpotHighlight.jsx の例
