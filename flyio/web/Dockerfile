@@ -41,6 +41,7 @@ RUN apt-get update -qq && apt-get install --no-install-recommends -y curl ca-cer
  && curl -f -o "/app/db/hyperlocal.db" "${R2_PUBLIC_URL}/db/hyperlocal.db"
 ENV DATABASE_URL="file:/app/db/hyperlocal.db"
 
+RUN echo "DATABASE_URL=${DATABASE_URL}" > apps/web/.env
 RUN pnpm run build --filter=@hyperlocal/web \
   && pnpm prune --prod --no-optional
 
