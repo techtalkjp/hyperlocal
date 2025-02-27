@@ -1,13 +1,13 @@
 import React from 'react'
-import type { LoaderFunctionArgs } from 'react-router'
-import { Link, useLoaderData } from 'react-router'
+import { Link } from 'react-router'
 import { Button, Stack } from '~/components/ui'
 import { getPathParams } from '~/features/admin/get-path-params'
 import { PlaceCard } from '~/features/place/components'
 import { requireAdminUser } from '~/services/auth.server'
+import type { Route } from './+types/route'
 import { listAreaPlaces } from './queries.server'
 
-export const loader = async ({ request, params }: LoaderFunctionArgs) => {
+export const loader = async ({ request, params }: Route.LoaderArgs) => {
   await requireAdminUser(request)
   const { city, area, category, rankType } = getPathParams(params)
   if (!area) {
@@ -34,10 +34,9 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   }
 }
 
-export default function AdminCreategoryIndex() {
-  const { city, area, category, rankType, places } =
-    useLoaderData<typeof loader>()
-
+export default function AdminCreategoryIndex({
+  loaderData: { city, area, category, rankType, places },
+}: Route.ComponentProps) {
   return (
     <Stack>
       {places.length > 0 ? (

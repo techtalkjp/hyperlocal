@@ -1,6 +1,5 @@
 import { categories } from '@hyperlocal/consts'
 import { LoaderIcon } from 'lucide-react'
-import type { LoaderFunctionArgs } from 'react-router'
 import {
   type ClientLoaderFunctionArgs,
   NavLink,
@@ -71,7 +70,7 @@ export const meta: Route.MetaFunction = ({ data }) => {
   ]
 }
 
-export const loader = async ({ request, params }: LoaderFunctionArgs) => {
+export const loader = async ({ request, params }: Route.LoaderArgs) => {
   const { city, lang, area, category } = getPathParams(request, params, {
     require: {
       area: true,

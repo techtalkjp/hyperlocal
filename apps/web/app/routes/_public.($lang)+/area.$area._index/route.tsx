@@ -1,6 +1,6 @@
 import { areas, categories } from '@hyperlocal/consts'
-import type { HeadersFunction, LoaderFunctionArgs } from 'react-router'
-import { Link, useLoaderData } from 'react-router'
+import type { HeadersFunction } from 'react-router'
+import { Link } from 'react-router'
 import { Badge, Card, CardHeader, CardTitle, Stack } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { generateAlternateLinks } from '~/features/seo/alternate-links'
@@ -26,7 +26,7 @@ export const meta: Route.MetaFunction = ({ data }) => {
   ]
 }
 
-export const loader = async ({ request, params }: LoaderFunctionArgs) => {
+export const loader = async ({ request, params }: Route.LoaderArgs) => {
   const { lang, area } = await getPathParams(request, params, {
     require: { area: true },
   })
@@ -38,8 +38,9 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   return { url: request.url, lang, area, nearbyAreas }
 }
 
-export default function AreaIndexPage() {
-  const { lang, area, nearbyAreas } = useLoaderData<typeof loader>()
+export default function AreaIndexPage({
+  loaderData: { lang, area, nearbyAreas },
+}: Route.ComponentProps) {
   return (
     <Stack>
       <div className="mx-auto my-8 gap-8">

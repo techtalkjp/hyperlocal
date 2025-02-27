@@ -1,28 +1,26 @@
 import { UserButton } from '@clerk/react-router'
 import { useEffect } from 'react'
-import type { LoaderFunctionArgs, MetaFunction } from 'react-router'
-import { data, Link, Outlet, useLoaderData } from 'react-router'
+import { data, Link, Outlet } from 'react-router'
 import { getToast } from 'remix-toast'
 import { toast } from 'sonner'
 import { Toaster } from '~/components/ui'
 import { requireAdminUser } from '~/services/auth.server'
+import type { Route } from './+types/route'
 
-export const meta: MetaFunction = () => {
+export const meta: Route.MetaFunction = () => {
   return [
     { title: 'Hyperlocal Admin' },
     { name: 'description', content: 'hyperlocal' },
   ]
 }
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ request }: Route.LoaderArgs) => {
   await requireAdminUser(request)
   const { toast, headers } = await getToast(request)
   return data({ toastData: toast }, { headers: headers })
 }
 
-const AdminLayout = () => {
-  const { toastData } = useLoaderData<typeof loader>()
-
+const AdminLayout = ({ loaderData: { toastData } }: Route.ComponentProps) => {
   useEffect(() => {
     if (!toastData) {
       return

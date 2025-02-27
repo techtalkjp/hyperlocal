@@ -1,12 +1,7 @@
 import { areas, categories } from '@hyperlocal/consts'
 import { ChevronLeft } from 'lucide-react'
-import type { HeadersFunction, LoaderFunctionArgs } from 'react-router'
-import {
-  Link,
-  type MetaFunction,
-  useLoaderData,
-  useSearchParams,
-} from 'react-router'
+import type { HeadersFunction } from 'react-router'
+import { Link, useSearchParams } from 'react-router'
 import { z } from 'zod'
 import { zx } from 'zodix'
 import {
@@ -19,6 +14,7 @@ import {
 } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { LocalizedPlaceDetails } from '~/features/place/components/localized-place-details'
+import type { Route } from './+types/route'
 import { getLocalizedPlace } from './queries.server'
 
 export const headers: HeadersFunction = () => ({
@@ -27,7 +23,7 @@ export const headers: HeadersFunction = () => ({
     'public, max-age=14400, s-maxage=2592000, stale-while-revalidate=2592000',
 })
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
+export const meta: Route.MetaFunction = ({ data }) => {
   return [
     {
       title: `${data?.place.displayName}  - Hyperlocal ${data?.city.i18n[data.lang.id]}`,
@@ -35,7 +31,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   ]
 }
 
-export const loader = async ({ request, params }: LoaderFunctionArgs) => {
+export const loader = async ({ request, params }: Route.LoaderArgs) => {
   const { place: placeId } = zx.parseParams(params, {
     place: z.string(),
   })
@@ -49,9 +45,9 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   return { placeId, city, lang, place }
 }
 
-export default function SpotDetail() {
-  const { lang, place } = useLoaderData<typeof loader>()
-
+export default function SpotDetail({
+  loaderData: { lang, place },
+}: Route.ComponentProps) {
   const [searchParams] = useSearchParams()
   const areaId = searchParams.get('area')
   const categoryId = searchParams.get('category')

@@ -6,7 +6,7 @@ import {
 } from '@hyperlocal/consts'
 import { FootprintsIcon, LoaderIcon, MapPinIcon } from 'lucide-react'
 import React from 'react'
-import { Link, useFetcher, type ClientLoaderFunction } from 'react-router'
+import { Link, useFetcher } from 'react-router'
 import {
   Button,
   DropdownMenu,
@@ -18,6 +18,7 @@ import {
   HStack,
 } from '~/components/ui'
 import { sortAreasByDistance } from '~/services/distance'
+import type { Route } from './+types/route'
 
 const ButtonLabels: i18nRecord = {
   en: 'Nearby Areas',
@@ -27,7 +28,7 @@ const ButtonLabels: i18nRecord = {
   'zh-tw': '附近地區',
 }
 
-export const clientLoader = async (args: ClientLoaderFunction) => {
+export const clientLoader = async (args: Route.ClientLoaderArgs) => {
   const position = await new Promise<GeolocationPosition>((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(resolve, reject)
   }).catch((e) => {

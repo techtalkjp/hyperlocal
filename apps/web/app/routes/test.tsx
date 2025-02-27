@@ -2,9 +2,9 @@
 
 import { getMDXComponent } from 'mdx-bundler/client'
 import { useMemo } from 'react'
-import { useLoaderData } from 'react-router'
 import { mdxComponents } from '~/components/mdx'
 import { compileMDX } from '~/services/mdx.server'
+import type { Route } from './+types/test'
 
 // ローダー関数（サーバーサイド）
 export async function loader() {
@@ -33,15 +33,16 @@ export async function loader() {
   }
 
   return {
+    title: mdxResult.frontmatter.title,
     code: mdxResult.code,
     frontmatter: mdxResult.frontmatter,
   }
 }
 
 // クライアントサイドのコンポーネント
-export default function AreaRoute() {
-  const { title, code, frontmatter } = useLoaderData()
-
+export default function AreaRoute({
+  loaderData: { title, code, frontmatter },
+}: Route.ComponentProps) {
   // MDXコンポーネントの作成（クライアントサイド）
   const MDXContent = useMemo(() => {
     if (!code) return null

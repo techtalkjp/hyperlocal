@@ -1,6 +1,5 @@
 import { areas as allAreas, cities } from '@hyperlocal/consts'
-import type { HeadersFunction, LoaderFunctionArgs } from 'react-router'
-import { Link, useLoaderData } from 'react-router'
+import { Link } from 'react-router'
 import {
   Button,
   Card,
@@ -15,7 +14,7 @@ import { getCityDomain } from '~/features/city-area/utils/get-city-domain'
 import { generateAlternateLinks } from '~/features/seo/alternate-links'
 import type { Route } from './+types/route'
 
-export const headers: HeadersFunction = () => ({
+export const headers: Route.HeadersFunction = () => ({
   // cache for 30 days
   'Cache-Control':
     'public, max-age=14400, s-maxage=2592000, stale-while-revalidate=2592000',
@@ -33,15 +32,16 @@ export const meta: Route.MetaFunction = ({ data }) => {
   ]
 }
 
-export const loader = ({ request, params }: LoaderFunctionArgs) => {
+export const loader = ({ request, params }: Route.LoaderArgs) => {
   const { city, lang } = getPathParams(request, params)
   const areas = allAreas.filter((area) => area.cityId === city.cityId)
 
   return { url: request.url, cities, city, areas, lang }
 }
 
-export default function IndexPage() {
-  const { areas, city, lang, url } = useLoaderData<typeof loader>()
+export default function IndexPage({
+  loaderData: { areas, city, lang, url },
+}: Route.ComponentProps) {
   return (
     <Stack>
       <HStack className="mx-auto my-8 gap-8">

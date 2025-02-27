@@ -1,18 +1,11 @@
 import { categories } from '@hyperlocal/consts'
-import type { LoaderFunctionArgs } from 'react-router'
-import {
-  Link,
-  Outlet,
-  redirect,
-  useLoaderData,
-  useLocation,
-  useParams,
-} from 'react-router'
+import { Link, Outlet, redirect, useLocation, useParams } from 'react-router'
 import { Badge, Stack } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
+import type { Route } from './+types/route'
 import { CategoryNav, CategoryNavItem } from './components/category-nav-item'
 
-export const loader = ({ request, params }: LoaderFunctionArgs) => {
+export const loader = ({ request, params }: Route.LoaderArgs) => {
   const { lang, city, area, category, rankingType } = getPathParams(
     request,
     params,
@@ -29,8 +22,9 @@ export const loader = ({ request, params }: LoaderFunctionArgs) => {
   return { lang, city, area, category, rankingType }
 }
 
-export default function AreaCategory() {
-  const { lang, area } = useLoaderData<typeof loader>()
+export default function AreaCategory({
+  loaderData: { lang, area },
+}: Route.ComponentProps) {
   const location = useLocation()
 
   const params = useParams()

@@ -1,19 +1,19 @@
 import { categories } from '@hyperlocal/consts'
-import type { LoaderFunctionArgs, MetaFunction } from 'react-router'
-import { Link, Outlet, useLoaderData } from 'react-router'
+import { Link, Outlet } from 'react-router'
 import { Card, CardContent, HStack, Stack } from '~/components/ui'
 import { getPathParams } from '~/features/admin/get-path-params'
 import { requireAdminUser } from '~/services/auth.server'
+import type { Route } from './+types/route'
 import { CategoryNav, CategoryNavItem } from './components/category-nav-item'
 import { GoogleMapPopover } from './components/google-map-popover'
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => [
+export const meta: Route.MetaFunction = ({ data }) => [
   {
     title: `${data?.area.i18n.en} - Hyperlocal Admin`,
   },
 ]
 
-export const loader = async ({ request, params }: LoaderFunctionArgs) => {
+export const loader = async ({ request, params }: Route.LoaderArgs) => {
   await requireAdminUser(request)
   const googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY
   const { city, area } = getPathParams(params)
@@ -24,9 +24,9 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   return { city, area, googleMapsApiKey }
 }
 
-export default function AdminCityAreaLayout() {
-  const { city, area, googleMapsApiKey } = useLoaderData<typeof loader>()
-
+export default function AdminCityAreaLayout({
+  loaderData: { city, area, googleMapsApiKey },
+}: Route.ComponentProps) {
   return (
     <Card className="mb-6">
       <CardContent className="p-4">
