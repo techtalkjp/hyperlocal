@@ -2,6 +2,7 @@ import { categories } from '@hyperlocal/consts'
 import { LoaderIcon } from 'lucide-react'
 import {
   type ClientLoaderFunctionArgs,
+  href,
   NavLink,
   useLoaderData,
   useParams,
@@ -131,12 +132,30 @@ export default function CategoryIndexPage() {
       <Tabs value="nearme">
         <TabsList>
           <TabsTrigger value="rating">
-            <NavLink to={'../rating'} prefetch="viewport" viewTransition>
+            <NavLink
+              to={href('/:lang?/area/:area/:category/:rank', {
+                lang: lang.id !== 'en' ? lang.id : undefined,
+                area: area.areaId,
+                category: category.id,
+                rank: 'rating',
+              })}
+              prefetch="viewport"
+              viewTransition
+            >
               Top Rated
             </NavLink>
           </TabsTrigger>
           <TabsTrigger value="review" asChild>
-            <NavLink to={'../review'} prefetch="viewport" viewTransition>
+            <NavLink
+              to={href('/:lang?/area/:area/:category/:rank', {
+                lang: lang.id !== 'en' ? lang.id : undefined,
+                area: area.areaId,
+                category: category.id,
+                rank: 'review',
+              })}
+              prefetch="viewport"
+              viewTransition
+            >
               Most Popular
             </NavLink>
           </TabsTrigger>
@@ -145,7 +164,16 @@ export default function CategoryIndexPage() {
             className="border data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
             asChild
           >
-            <NavLink to={'../nearme'} prefetch="viewport" viewTransition>
+            <NavLink
+              to={href('/:lang?/area/:area/:category/:rank', {
+                lang: lang.id !== 'en' ? lang.id : undefined,
+                area: area.areaId,
+                category: category.id,
+                rank: 'nearme',
+              })}
+              prefetch="viewport"
+              viewTransition
+            >
               Near Me
             </NavLink>
           </TabsTrigger>
