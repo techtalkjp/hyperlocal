@@ -88,17 +88,44 @@ export default function CategoryIndexPage({
       <Tabs value={rankingType}>
         <TabsList>
           <TabsTrigger value="rating">
-            <NavLink to={'../rating'} prefetch="viewport" viewTransition>
+            <NavLink
+              to={href('/:lang?/area/:area/:category/:rank', {
+                lang: lang.id !== 'en' ? lang.id : undefined,
+                area: area.areaId,
+                category: category.id,
+                rank: 'rating',
+              })}
+              prefetch="viewport"
+              viewTransition
+            >
               Top Rated
             </NavLink>
           </TabsTrigger>
           <TabsTrigger value="review" asChild>
-            <NavLink to={'../review'} prefetch="viewport" viewTransition>
+            <NavLink
+              to={href('/:lang?/area/:area/:category/:rank', {
+                lang: lang.id !== 'en' ? lang.id : undefined,
+                area: area.areaId,
+                category: category.id,
+                rank: 'review',
+              })}
+              prefetch="viewport"
+              viewTransition
+            >
               Most Popular
             </NavLink>
           </TabsTrigger>
           <TabsTrigger value="nearme" asChild>
-            <NavLink to={'../nearme'} prefetch="viewport" viewTransition>
+            <NavLink
+              to={href('/:lang?/area/:area/:category/:rank', {
+                lang: lang.id !== 'en' ? lang.id : undefined,
+                area: area.areaId,
+                category: category.id,
+                rank: 'nearme',
+              })}
+              prefetch="viewport"
+              viewTransition
+            >
               {({ isPending }) => (
                 <span>
                   Near Me
