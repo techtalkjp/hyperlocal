@@ -1,7 +1,7 @@
 # syntax = docker/dockerfile:1
 
 ARG NODE_VERSION=22.11.0
-ARG PNPM_VERSION=9.14.1
+ARG PNPM_VERSION=10.4.1
 
 # base
 FROM node:${NODE_VERSION}-slim AS base
@@ -22,6 +22,11 @@ FROM base AS build
 
 WORKDIR /app
 
+# Add R2_PUBLIC_URL as build argument with a default value
+ARG R2_PUBLIC_URL=""
+# Set it as an environment variable so it's available during build
+ENV R2_PUBLIC_URL=${R2_PUBLIC_URL}
+
 COPY --from=setup /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY --from=setup /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
 COPY --from=setup /app/out/json/ .
@@ -29,6 +34,12 @@ COPY --from=setup /app/out/json/ .
 RUN pnpm install --frozen-lockfile
 
 COPY --from=setup /app/out/full/ .
+
+# Download database file from R2 before building
+RUN apt-get update -qq && apt-get install --no-install-recommends -y curl ca-certificates \
+ && mkdir -p /app/db \
+ && curl -f -o "/app/db/hyperlocal.db" "${R2_PUBLIC_URL}/db/hyperlocal.db"
+ENV DATABASE_URL="file:/app/db/hyperlocal.db"
 
 RUN pnpm run build --filter=@hyperlocal/web \
   && pnpm prune --prod --no-optional
@@ -43,6 +54,10 @@ RUN apt-get update -qq \
 
 WORKDIR /app
 COPY --from=build /app .
+# Copy the database file from build stage
+COPY --from=build /app/db/hyperlocal.db /app/db/hyperlocal.db
+ENV DATABASE_URL="file:/app/db/hyperlocal.db"
+
 WORKDIR /app/apps/web
 
 EXPOSE 3000
