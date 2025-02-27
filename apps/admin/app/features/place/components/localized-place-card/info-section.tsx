@@ -21,7 +21,7 @@ export const InfoSection: React.FC<InfoSectionProps> = ({
 }) => (
   <Stack className="gap-1 overflow-hidden">
     <div
-      className="text-base font-semibold leading-none sm:text-xl md:text-2xl"
+      className="text-base leading-none font-semibold sm:text-xl md:text-2xl"
       style={{ viewTransitionName: `displayName-${place.placeId}` }}
     >
       {no && `${no}.`} {place.displayName}

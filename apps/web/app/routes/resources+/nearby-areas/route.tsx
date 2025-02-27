@@ -108,7 +108,7 @@ export const NearbyAreasSelector = ({
                   <HStack className="text-xs text-blue-500">
                     {/* 距離 */}
                     <div className="whitespace-nowrap">
-                      <MapPinIcon className="mb-1 mr-1 inline h-4 w-4" />
+                      <MapPinIcon className="mr-1 mb-1 inline h-4 w-4" />
                       {area.distance > 1000
                         ? `${(area.distance / 1000).toFixed(1)} km`
                         : `${area.distance.toFixed(0)} m`}
@@ -117,7 +117,7 @@ export const NearbyAreasSelector = ({
                     {/* 徒歩何分か。2キロ未満のときだけ表示 */}
                     {area.distance < 3000 && (
                       <div className="whitespace-nowrap">
-                        <FootprintsIcon className="mb-1 mr-1 inline h-4 w-4" />
+                        <FootprintsIcon className="mr-1 mb-1 inline h-4 w-4" />
                         <span>{(area.distance / 80).toFixed(0)} min</span>
                       </div>
                     )}

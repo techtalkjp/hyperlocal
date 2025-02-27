@@ -172,7 +172,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
               <Star className="h-5 w-5 fill-current text-yellow-400" />
               <span className="ml-2 font-bold">{review.rating.toFixed(1)}</span>
             </div>
-            <p className="whitespace-pre-wrap break-words text-gray-700">
+            <p className="break-words whitespace-pre-wrap text-gray-700">
               {review.text}
             </p>
           </Stack>

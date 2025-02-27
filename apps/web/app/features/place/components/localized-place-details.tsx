@@ -184,7 +184,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
                   {review.rating.toFixed(1)}
                 </span>
               </div>
-              <p className="text-muted-foreground whitespace-pre-wrap break-words">
+              <p className="text-muted-foreground break-words whitespace-pre-wrap">
                 {review.text}
               </p>
             </Stack>
