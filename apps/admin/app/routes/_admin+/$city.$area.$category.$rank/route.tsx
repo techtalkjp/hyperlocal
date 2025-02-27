@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router'
+import { Link, href } from 'react-router'
 import { Button, Stack } from '~/components/ui'
 import { getPathParams } from '~/features/admin/get-path-params'
 import { PlaceCard } from '~/features/place/components'
@@ -9,7 +9,7 @@ import { listAreaPlaces } from './queries.server'
 
 export const loader = async ({ request, params }: Route.LoaderArgs) => {
   await requireAdminUser(request)
-  const { city, area, category, rankType } = getPathParams(params)
+  const { city, area, lang, category, rankType } = getPathParams(params)
   if (!area) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
@@ -27,6 +27,7 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
 
   return {
     city,
+    lang,
     area,
     category,
     rankType,
@@ -35,7 +36,7 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
 }
 
 export default function AdminCreategoryIndex({
-  loaderData: { city, area, category, rankType, places },
+  loaderData: { city, lang, area, category, rankType, places },
 }: Route.ComponentProps) {
   return (
     <Stack>
@@ -55,7 +56,10 @@ export default function AdminCreategoryIndex({
                 <Stack>
                   <Button asChild>
                     <Link
-                      to={`/place/${place.id}?city=${city.cityId}&area=${area.areaId}&category=${category.id}`}
+                      to={`${href('/place/:place/:lang?', {
+                        place: place.id,
+                        lang: lang?.id,
+                      })}?city=${city.cityId}&area=${area.areaId}&category=${category.id}`}
                     >
                       Details
                     </Link>
