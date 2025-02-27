@@ -36,9 +36,9 @@ RUN pnpm install --frozen-lockfile
 COPY --from=setup /app/out/full/ .
 
 # Download database file from R2 before building
-RUN apt-get update -qq && apt-get install --no-install-recommends -y curl ca-certificates
-RUN mkdir -p /app/db
-RUN curl -o "/app/db/hyperlocal.db" "${R2_PUBLIC_URL}/db/hyperlocal.db"
+RUN apt-get update -qq && apt-get install --no-install-recommends -y curl ca-certificates \
+ && mkdir -p /app/db \
+ && curl -f -o "/app/db/hyperlocal.db" "${R2_PUBLIC_URL}/db/hyperlocal.db"
 ENV DATABASE_URL="file:/app/db/hyperlocal.db"
 
 RUN pnpm run build --filter=@hyperlocal/web \
