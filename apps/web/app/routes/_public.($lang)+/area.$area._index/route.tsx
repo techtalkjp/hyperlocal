@@ -68,7 +68,12 @@ export default function AreaIndexPage({
         <h4 className="font-semibold">Places</h4>
         <div className="grid grid-cols-2 gap-2">
           {categories.map((category) => (
-            <Link to={`${category.id}/rating`} key={category.id} viewTransition>
+            <Link
+              to={`${category.id}/rating`}
+              key={category.id}
+              prefetch="viewport"
+              viewTransition
+            >
               <Card className="hover:bg-secondary">
                 <CardHeader>
                   <CardTitle
