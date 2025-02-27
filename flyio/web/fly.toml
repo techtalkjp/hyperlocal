@@ -1,6 +1,7 @@
 app = 'hyperlocal-web'
 primary_region = 'nrt'
 kill_timeout = 10
+swap_size_mb = 512
 
 [build]
 
