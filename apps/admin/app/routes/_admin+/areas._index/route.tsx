@@ -1,5 +1,5 @@
 import { areas } from '@hyperlocal/consts'
-import { Link, useLoaderData } from 'react-router'
+import { Link } from 'react-router'
 import {
   Button,
   Card,
@@ -15,13 +15,15 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui'
+import type { Route} from './+types/route'
 
 export const loader = () => {
   return { areas }
 }
 
-export default function AdminAreasIndexPage() {
-  const { areas } = useLoaderData<typeof loader>()
+export default function AdminAreasIndexPage({
+  loaderData: {areas}
+}: Route.ComponentProps) {
   return (
     <Card>
       <CardHeader>
