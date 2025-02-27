@@ -2,15 +2,9 @@
 
 set -e
 
-# 環境変数から R2 認証情報を取得
-R2_PUBLIC_URL="$R2_PUBLIC_URL"
-# ダウンロードするオブジェクト
-OBJECT_PATH="/db/hyperlocal.db"
-DEST_PATH="/app/hyperlocal.db"
+# Database file has already been downloaded during build
+# and the DATABASE_URL environment variable is already set
 
-curl -o "$DEST_PATH" \
-    "${R2_PUBLIC_URL}${OBJECT_PATH}"
-
-echo "SQLite DB downloaded to $DEST_PATH"
+echo "Using pre-downloaded SQLite DB at ${DATABASE_URL}"
 
 pnpm run start --filter @hyperlocal/web
