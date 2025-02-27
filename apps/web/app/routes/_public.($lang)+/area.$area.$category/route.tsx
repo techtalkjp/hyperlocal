@@ -32,7 +32,11 @@ export default function AreaCategory({
 
   return (
     <Stack>
-      <Link to={`${lang.path}area/${area.areaId}`} viewTransition>
+      <Link
+        to={`${lang.path}area/${area.areaId}`}
+        prefetch="viewport"
+        viewTransition
+      >
         <div className="hover:bg-secondary flex rounded-md border p-2">
           <div className="flex-1">
             <div

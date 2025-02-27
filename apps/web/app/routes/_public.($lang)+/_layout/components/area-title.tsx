@@ -18,7 +18,7 @@ export const AreaTitle = ({ city, languageId, ...props }: AreaTitleProps) => {
 
   return (
     <h1 className="flex flex-wrap items-end gap-x-2 text-xl font-bold">
-      <Link to={`${language.path}`} prefetch="intent" viewTransition>
+      <Link to={`${language.path}`} prefetch="viewport" viewTransition>
         Hyperlocal {city.i18n[languageId]}
       </Link>
     </h1>

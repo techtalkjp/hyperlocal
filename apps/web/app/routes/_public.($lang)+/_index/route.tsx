@@ -62,7 +62,7 @@ export default function IndexPage({
           <Link
             key={area.areaId}
             to={`area/${area.areaId}`}
-            prefetch="intent"
+            prefetch="viewport"
             viewTransition
           >
             <Card className="hover:bg-secondary h-full">

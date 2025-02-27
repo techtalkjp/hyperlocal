@@ -131,12 +131,12 @@ export default function CategoryIndexPage() {
       <Tabs value="nearme">
         <TabsList>
           <TabsTrigger value="rating">
-            <NavLink to={'../rating'} viewTransition>
+            <NavLink to={'../rating'} prefetch="viewport" viewTransition>
               Top Rated
             </NavLink>
           </TabsTrigger>
           <TabsTrigger value="review" asChild>
-            <NavLink to={'../review'} viewTransition>
+            <NavLink to={'../review'} prefetch="viewport" viewTransition>
               Most Popular
             </NavLink>
           </TabsTrigger>
@@ -145,7 +145,7 @@ export default function CategoryIndexPage() {
             className="border data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
             asChild
           >
-            <NavLink to={'../nearme'} viewTransition>
+            <NavLink to={'../nearme'} prefetch="viewport" viewTransition>
               Near Me
             </NavLink>
           </TabsTrigger>
@@ -178,12 +178,12 @@ export const HydrateFallback = () => {
       <Tabs value="nearme">
         <TabsList>
           <TabsTrigger value="rating">
-            <NavLink to={'../rating'} viewTransition>
+            <NavLink to={'../rating'} prefetch="viewport" viewTransition>
               Top Rated
             </NavLink>
           </TabsTrigger>
           <TabsTrigger value="review" asChild>
-            <NavLink to={'../review'} viewTransition>
+            <NavLink to={'../review'} prefetch="viewport" viewTransition>
               Most Popular
             </NavLink>
           </TabsTrigger>
@@ -192,7 +192,7 @@ export const HydrateFallback = () => {
             className="border data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
             asChild
           >
-            <NavLink to={'../nearme'} viewTransition>
+            <NavLink to={'../nearme'} prefetch="viewport" viewTransition>
               Near Me
               <LoaderIcon className="ml-2 inline h-4 w-4 animate-spin text-blue-500" />
             </NavLink>

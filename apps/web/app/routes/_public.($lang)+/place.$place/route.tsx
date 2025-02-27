@@ -71,6 +71,7 @@ export default function SpotDetail({
                 <BreadcrumbLink asChild>
                   <Link
                     to={`${lang.path}area/${area.areaId}`}
+                    prefetch="viewport"
                     viewTransition
                     style={{
                       viewTransitionName: `area-title-${area.areaId}`,
@@ -85,6 +86,7 @@ export default function SpotDetail({
                 <BreadcrumbLink asChild>
                   <Link
                     to={`${lang.path}area/${area?.areaId}/${category?.id}/${rank}`}
+                    prefetch="viewport"
                     viewTransition
                     style={{
                       viewTransitionName: `nav-category-${category?.id}`,
@@ -99,7 +101,7 @@ export default function SpotDetail({
 
           <div>
             <Button variant="ghost" asChild>
-              <Link to={getBackToListUrl()} viewTransition>
+              <Link to={getBackToListUrl()} prefetch="viewport" viewTransition>
                 <ChevronLeft className="mr-2 h-4 w-4" />
                 Back to List
               </Link>
