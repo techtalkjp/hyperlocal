@@ -1,6 +1,6 @@
 import { UserButton } from '@clerk/react-router'
 import { useEffect } from 'react'
-import { data, Link, Outlet } from 'react-router'
+import { data, href, Link, Outlet } from 'react-router'
 import { getToast } from 'remix-toast'
 import { toast } from 'sonner'
 import { Toaster } from '~/components/ui'
@@ -41,7 +41,7 @@ const AdminLayout = ({ loaderData: { toastData } }: Route.ComponentProps) => {
     <div>
       <header className="flex gap-4 px-4 py-2">
         <div className="flex-1 text-2xl font-bold">
-          <Link to="/">Hyperlocal Admin</Link>
+          <Link to={href('/')}>Hyperlocal Admin</Link>
         </div>
         <div>
           <UserButton />
