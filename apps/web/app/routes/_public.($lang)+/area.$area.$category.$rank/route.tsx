@@ -1,5 +1,5 @@
 import { LoaderIcon } from 'lucide-react'
-import { NavLink, useLoaderData } from 'react-router'
+import { NavLink } from 'react-router'
 import { match } from 'ts-pattern'
 import { Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
@@ -83,8 +83,6 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
 export default function CategoryIndexPage({
   loaderData: { places, city, area, category, lang, rankingType },
 }: Route.ComponentProps) {
-  useLoaderData<typeof loader>()
-
   return (
     <Stack className="gap-2">
       <Tabs value={rankingType}>
