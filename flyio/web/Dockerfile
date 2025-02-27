@@ -40,8 +40,11 @@ RUN apt-get update -qq && apt-get install --no-install-recommends -y curl ca-cer
  && mkdir -p /app/db \
  && curl -f -o "/app/db/hyperlocal.db" "${R2_PUBLIC_URL}/db/hyperlocal.db"
 ENV DATABASE_URL="file:/app/db/hyperlocal.db"
+ENV GA_TRACKING_ID="G-6L2968NBHH"
 
-RUN echo "DATABASE_URL=${DATABASE_URL}" > apps/web/.env
+RUN echo "DATABASE_URL=${DATABASE_URL}" >> apps/web/.env \
+ && echo "GA_TRACKING_ID=${GA_TRACKING_ID}" >> apps/web/.env
+
 RUN pnpm run build --filter=@hyperlocal/web \
   && pnpm prune --prod --no-optional
 
@@ -58,6 +61,7 @@ COPY --from=build /app .
 # Copy the database file from build stage
 COPY --from=build /app/db/hyperlocal.db /app/db/hyperlocal.db
 ENV DATABASE_URL="file:/app/db/hyperlocal.db"
+ENV GA_TRACKING_ID="G-6L2968NBHH"
 
 WORKDIR /app/apps/web
 

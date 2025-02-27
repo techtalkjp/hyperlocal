@@ -8,9 +8,6 @@ swap_size_mb = 512
 [deploy]
   strategy = "rolling"
 
-[env]
-  GA_TRACKING_ID = "G-6L2968NBHH"
-
 [http_service]
   internal_port = 3000
   force_https = true
