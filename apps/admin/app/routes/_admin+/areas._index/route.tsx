@@ -15,14 +15,14 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui'
-import type { Route} from './+types/route'
+import type { Route } from './+types/route'
 
 export const loader = () => {
   return { areas }
 }
 
 export default function AdminAreasIndexPage({
-  loaderData: {areas}
+  loaderData: { areas },
 }: Route.ComponentProps) {
   return (
     <Card>

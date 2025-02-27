@@ -1,9 +1,8 @@
 import { areas, cities } from '@hyperlocal/consts'
-import type { LoaderFunctionArgs } from 'react-router'
-import { Link, useLoaderData } from 'react-router'
+import { Link } from 'react-router'
 import { Button, HStack } from '~/components/ui'
 import { requireAdminUser } from '~/services/auth.server'
-import type {Route} from './+types/route'
+import type { Route } from './+types/route'
 
 export const loader = async ({ request }: Route.LoaderArgs) => {
   await requireAdminUser(request)
@@ -11,7 +10,7 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
 }
 
 export default function AdminIndex({
-  loaderData: { cities, areas}
+  loaderData: { cities, areas },
 }: Route.ComponentProps) {
   return (
     <div>
