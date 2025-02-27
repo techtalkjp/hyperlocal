@@ -3,14 +3,16 @@ import type { LoaderFunctionArgs } from 'react-router'
 import { Link, useLoaderData } from 'react-router'
 import { Button, HStack } from '~/components/ui'
 import { requireAdminUser } from '~/services/auth.server'
+import type {Route} from './+types/route'
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ request }: Route.LoaderArgs) => {
   await requireAdminUser(request)
   return { cities, areas }
 }
 
-export default function AdminIndex() {
-  const { cities, areas } = useLoaderData<typeof loader>()
+export default function AdminIndex({
+  loaderData: { cities, areas}
+}: Route.ComponentProps) {
   return (
     <div>
       <HStack>
