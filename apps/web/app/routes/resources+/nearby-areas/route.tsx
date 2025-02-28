@@ -1,12 +1,12 @@
 import {
   areas,
   languages,
-  type LanguageId,
   type i18nRecord,
+  type LanguageId,
 } from '@hyperlocal/consts'
 import { FootprintsIcon, LoaderIcon, MapPinIcon } from 'lucide-react'
 import React from 'react'
-import { Link, useFetcher } from 'react-router'
+import { href, Link, useFetcher } from 'react-router'
 import {
   Button,
   DropdownMenu,
@@ -130,7 +130,7 @@ export const NearbyAreasSelector = ({
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer" asChild>
-          <Link to="/" onClick={handleClickLink}>
+          <Link to={href('/')} onClick={handleClickLink}>
             See all areas
           </Link>
         </DropdownMenuItem>

@@ -1,5 +1,5 @@
 import { LoaderIcon } from 'lucide-react'
-import { NavLink } from 'react-router'
+import { href, NavLink } from 'react-router'
 import { match } from 'ts-pattern'
 import { Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
@@ -88,17 +88,44 @@ export default function CategoryIndexPage({
       <Tabs value={rankingType}>
         <TabsList>
           <TabsTrigger value="rating">
-            <NavLink to={'../rating'} prefetch="viewport" viewTransition>
+            <NavLink
+              to={href('/:lang?/area/:area/:category/:rank', {
+                lang: lang.id !== 'en' ? lang.id : undefined,
+                area: area.areaId,
+                category: category.id,
+                rank: 'rating',
+              })}
+              prefetch="viewport"
+              viewTransition
+            >
               Top Rated
             </NavLink>
           </TabsTrigger>
           <TabsTrigger value="review" asChild>
-            <NavLink to={'../review'} prefetch="viewport" viewTransition>
+            <NavLink
+              to={href('/:lang?/area/:area/:category/:rank', {
+                lang: lang.id !== 'en' ? lang.id : undefined,
+                area: area.areaId,
+                category: category.id,
+                rank: 'review',
+              })}
+              prefetch="viewport"
+              viewTransition
+            >
               Most Popular
             </NavLink>
           </TabsTrigger>
           <TabsTrigger value="nearme" asChild>
-            <NavLink to={'../nearme'} prefetch="viewport" viewTransition>
+            <NavLink
+              to={href('/:lang?/area/:area/:category/:rank', {
+                lang: lang.id !== 'en' ? lang.id : undefined,
+                area: area.areaId,
+                category: category.id,
+                rank: 'nearme',
+              })}
+              prefetch="viewport"
+              viewTransition
+            >
               {({ isPending }) => (
                 <span>
                   Near Me
@@ -121,7 +148,7 @@ export default function CategoryIndexPage({
           place={place}
           no={idx + 1}
           loading={idx <= 5 ? 'eager' : 'lazy'}
-          to={`${lang.path}place/${place.placeId}?area=${area.areaId}&category=${category.id}&rank=${rankingType}`}
+          to={`${href('/:lang?/place/:place', { lang: lang.id !== 'en' ? lang.id : undefined, place: place.placeId })}?area=${area.areaId}&category=${category.id}&rank=${rankingType}`}
         />
       ))}
     </Stack>

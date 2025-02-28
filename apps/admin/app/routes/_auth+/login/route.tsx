@@ -4,7 +4,7 @@ import { redirect } from 'react-router'
 import type { Route } from './+types/route'
 
 export const loader = async (args: Route.LoaderArgs) => {
-  const userId = await getAuth(args)
+  const { userId } = await getAuth(args)
   if (userId) {
     return redirect('/')
   }
