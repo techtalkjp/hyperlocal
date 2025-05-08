@@ -11,7 +11,7 @@
     "validate": "turbo validate"
   },
   "devDependencies": {
-    "turbo": "2.4.4"
+    "turbo": "catalog:"
   },
-  "packageManager": "pnpm@10.5.2"
+  "packageManager": "pnpm@10.10.0"
 }
