@@ -5,6 +5,7 @@
     "deploy": "fly deploy -c flyio/web/fly.toml --dockerfile flyio/web/Dockerfile",
     "dev": "turbo dev",
     "format": "turbo format",
+    "format:fix": "turbo format:fix",
     "lint": "turbo lint",
     "typecheck": "turbo typecheck",
     "test": "turbo test",

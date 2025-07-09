@@ -8,7 +8,8 @@
     "start:crawler": "npm run start:crawler:dev",
     "start:crawler:prod": "node dist/index.js",
     "start:crawler:dev": "tsx src/index.ts",
-    "format": "prettier --check .",
+    "format": "prettier --check . --experimental-cli",
+    "format:fix": "prettier --write . --experimental-cli",
     "lint": "biome lint .",
     "typecheck": "tsc"
   },
