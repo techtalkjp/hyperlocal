@@ -4,6 +4,7 @@ import { Link } from 'react-router'
 import { Badge, Card, CardHeader, CardTitle, Stack } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { generateAlternateLinks } from '~/features/seo/alternate-links'
+import { generateCanonicalLink } from '~/features/seo/canonical-url'
 import { sortAreasByDistance } from '~/services/distance'
 import type { Route } from './+types/route'
 
@@ -13,12 +14,13 @@ export const headers: HeadersFunction = () => ({
     'public, max-age=14400, s-maxage=2592000, stale-while-revalidate=2592000',
 })
 
-export const meta: Route.MetaFunction = ({ data }) => {
+export const meta: Route.MetaFunction = ({ data, location }) => {
   if (!data || !data.url) return []
   return [
     {
       title: `${data?.area.i18n[data.lang.id]} - Hyperlocal Tokyo`,
     },
+    generateCanonicalLink(location.pathname),
     ...generateAlternateLinks({
       url: data.url,
       areaId: data.area.areaId,

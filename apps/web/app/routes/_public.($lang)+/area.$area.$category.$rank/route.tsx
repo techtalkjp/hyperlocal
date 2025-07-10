@@ -5,6 +5,7 @@ import { Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { LocalizedPlaceCard } from '~/features/place/components/localized-place-card'
 import { generateAlternateLinks } from '~/features/seo/alternate-links'
+import { generateCanonicalLink } from '~/features/seo/canonical-url'
 import { generateAreaCategoryMetaDescription } from '~/features/seo/meta-area-category'
 import type { Route } from './+types/route'
 import { listLocalizedPlaces } from './queries.server'
@@ -15,7 +16,7 @@ export const headers: Route.HeadersFunction = () => ({
     'public, max-age=14400, s-maxage=2592000, stale-while-revalidate=2592000',
 })
 
-export const meta: Route.MetaFunction = ({ data }) => {
+export const meta: Route.MetaFunction = ({ data, location }) => {
   if (!data || !data.url) return []
 
   const rankingTitle = match(data.rankingType)
@@ -36,6 +37,7 @@ export const meta: Route.MetaFunction = ({ data }) => {
         data.lang.id,
       ),
     },
+    generateCanonicalLink(location.pathname),
     ...generateAlternateLinks({
       url: data.url,
       areaId: data.area.areaId,

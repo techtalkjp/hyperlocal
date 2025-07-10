@@ -12,6 +12,7 @@ import {
 import { getPathParams } from '~/features/city-area/utils'
 import { getCityDomain } from '~/features/city-area/utils/get-city-domain'
 import { generateAlternateLinks } from '~/features/seo/alternate-links'
+import { generateCanonicalLink } from '~/features/seo/canonical-url'
 import type { Route } from './+types/route'
 
 export const headers: Route.HeadersFunction = () => ({
@@ -20,12 +21,13 @@ export const headers: Route.HeadersFunction = () => ({
     'public, max-age=14400, s-maxage=2592000, stale-while-revalidate=2592000',
 })
 
-export const meta: Route.MetaFunction = ({ data }) => {
+export const meta: Route.MetaFunction = ({ data, location }) => {
   if (!data || !data.url) return []
   return [
     {
       title: `Hyperlocal ${data?.city.i18n[data.lang.id]}`,
     },
+    generateCanonicalLink(location.pathname),
     ...generateAlternateLinks({
       url: data.url,
     }),

@@ -14,6 +14,7 @@ import {
 } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { LocalizedPlaceDetails } from '~/features/place/components/localized-place-details'
+import { generateCanonicalLink } from '~/features/seo/canonical-url'
 import type { Route } from './+types/route'
 import { getLocalizedPlace } from './queries.server'
 
@@ -23,11 +24,12 @@ export const headers: HeadersFunction = () => ({
     'public, max-age=14400, s-maxage=2592000, stale-while-revalidate=2592000',
 })
 
-export const meta: Route.MetaFunction = ({ data }) => {
+export const meta: Route.MetaFunction = ({ data, location }) => {
   return [
     {
       title: `${data?.place.displayName}  - Hyperlocal ${data?.city.i18n[data.lang.id]}`,
     },
+    generateCanonicalLink(location.pathname),
   ]
 }
 

@@ -7,6 +7,8 @@ interface AlternateLinkData {
   rankingType?: string
 }
 
+const CANONICAL_BASE_URL = 'https://tokyo.hyper-local.app'
+
 export const generateAlternateLinks = (data: AlternateLinkData) => {
   const pathSegments: string[] = []
 
@@ -20,13 +22,13 @@ export const generateAlternateLinks = (data: AlternateLinkData) => {
     ...languages.map((lang) => ({
       rel: 'alternate',
       hrefLang: lang.hreflang,
-      href: new URL(`${lang.path}${path}`, data.url).toString(),
+      href: `${CANONICAL_BASE_URL}${lang.path}${path}`,
       tagName: 'link',
     })),
     {
       rel: 'alternate',
       hrefLang: 'x-default',
-      href: new URL(`/${path}`, data.url).toString(),
+      href: `${CANONICAL_BASE_URL}/${path}`,
       tagName: 'link',
     },
   ]

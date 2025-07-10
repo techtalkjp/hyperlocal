@@ -1,17 +1,19 @@
 import { Outlet } from 'react-router'
 import { HStack } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
+import { generateCanonicalLink } from '~/features/seo/canonical-url'
 import { NearbyAreasSelector } from '~/routes/resources+/nearby-areas/route'
 import type { Route } from './+types/route'
 import { AreaTitle, LanguageSelect } from './components'
 
-export const meta: Route.MetaFunction = ({ data }) => {
+export const meta: Route.MetaFunction = ({ data, location }) => {
   if (!data) return []
 
   return [
     {
       title: `Hyperlocal ${data.city.i18n[data.lang.id]}`,
     },
+    generateCanonicalLink(location.pathname),
   ]
 }
 

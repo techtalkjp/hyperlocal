@@ -3,11 +3,13 @@ import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router'
 import type { Route } from './+types/root'
 import { PageLoadingProgress } from './components/page-loading-progress'
 import { ThemeProvider } from './components/theme-provider'
+import { generateCanonicalLink } from './features/seo/canonical-url'
 import './styles/globals.css'
 
-export const meta: Route.MetaFunction = () => [
+export const meta: Route.MetaFunction = ({ location }) => [
   { name: 'description', content: 'Hyperlocal' },
   { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+  generateCanonicalLink(location.pathname),
 ]
 
 export const shouldRevalidate = () => true
