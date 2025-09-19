@@ -1,7 +1,7 @@
 # syntax = docker/dockerfile:1
 
-ARG NODE_VERSION=22.14.0
-ARG PNPM_VERSION=10.16.1
+ARG NODE_VERSION=22.19.0
+ARG PNPM_VERSION=10.17.1
 
 # base
 FROM node:${NODE_VERSION}-slim AS base
@@ -31,7 +31,8 @@ COPY --from=setup /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY --from=setup /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
 COPY --from=setup /app/out/json/ .
 
-RUN pnpm install --frozen-lockfile
+RUN pnpm fetch --filter=@hyperlocal/web... --prod --dev \
+  && pnpm install --offline --frozen-lockfile --filter=@hyperlocal/web...
 
 COPY --from=setup /app/out/full/ .
 
@@ -47,8 +48,8 @@ RUN echo "DATABASE_URL=${DATABASE_URL}" >> apps/web/.env \
  && echo "GA_TRACKING_ID=${GA_TRACKING_ID}" >> apps/web/.env
 
 RUN pnpm run build --filter=@hyperlocal/web \
-  && CI=true pnpm prune --prod --no-optional
-
+  && rm -Rf node_modules \ 
+  && pnpm install --prod --frozen-lockfile --filter=@hyperlocal/web
 
 # runner
 FROM base AS runner
