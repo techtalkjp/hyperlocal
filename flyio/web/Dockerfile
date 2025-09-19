@@ -31,8 +31,8 @@ COPY --from=setup /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY --from=setup /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
 COPY --from=setup /app/out/json/ .
 
-RUN pnpm fetch --filter=@hyperlocal/web... --prod --dev \
-  && pnpm install --offline --frozen-lockfile --filter=@hyperlocal/web...
+RUN CI=true pnpm fetch --filter=@hyperlocal/web... --prod --dev \
+  && CI=true pnpm install --offline --frozen-lockfile --filter=@hyperlocal/web...
 
 COPY --from=setup /app/out/full/ .
 
