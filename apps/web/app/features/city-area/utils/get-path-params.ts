@@ -64,12 +64,11 @@ export const getPathParams = <R extends RequireOptions>(
   const url = new URL(request.url)
   const host = url.host.split('.')[0]
 
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // biome-ignore lint/suspicious/noExplicitAny: 型ガードが複雑になるため
   const result: any = {
     city: cities.find((city) => city.cityId === host) ?? cities[0],
     lang: languages[0],
   }
-
   const lang =
     langId === undefined
       ? languages[0]

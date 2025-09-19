@@ -63,5 +63,5 @@ export const lookupGooglePlaceIds = async () => {
     }
   }
 
-  consola.info('Done. ${n} restaurants updated.')
+  consola.info(`Done. ${n} restaurants updated.`)
 }

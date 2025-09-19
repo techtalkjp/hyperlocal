@@ -18,6 +18,7 @@
     "validate": "run-s lint format typecheck test"
   },
   "dependencies": {
+    "@coji/zodix": "catalog:",
     "@date-fns/tz": "catalog:",
     "@date-fns/utc": "catalog:",
     "@hyperlocal/consts": "workspace:*",
@@ -51,8 +52,7 @@
     "remix-utils": "catalog:",
     "tailwind-merge": "catalog:",
     "ts-pattern": "catalog:",
-    "zod": "catalog:",
-    "zodix": "catalog:"
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",

@@ -1,8 +1,7 @@
 import { db } from '@hyperlocal/db'
 import { sql } from 'kysely'
-import type { Route } from './+types/healthcheck'
 
-export const loader = async ({ context }: Route.LoaderArgs) => {
+export const loader = async () => {
   const ret = await sql<{
     now: string
   }>`SELECT CURRENT_TIMESTAMP as now`.execute(db)

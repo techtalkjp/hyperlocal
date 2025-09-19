@@ -26,8 +26,8 @@ export default defineCommand({
     },
   },
   run: async ({ args }) => {
-    const delay = args.delay ? Number.parseInt(args.delay) : undefined
-    const maxRequest = args.max ? Number.parseInt(args.max) : undefined
+    const delay = args.delay ? Number.parseInt(args.delay, 10) : undefined
+    const maxRequest = args.max ? Number.parseInt(args.max, 10) : undefined
     await crawlTabelog({ delay, maxRequest, all: args.all }, [])
   },
 })

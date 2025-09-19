@@ -47,7 +47,7 @@ Ensure proper ${target} grammar and writing conventions.
   const prompt = `
 Original ${source}: ${sentence}`
 
-  const model = google('gemini-2.0-flash-lite-preview-02-05')
+  const model = google('gemini-2.5-flash-lite')
   const result = await generateObject({
     model,
     maxRetries: 3,

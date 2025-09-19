@@ -1,7 +1,7 @@
+import { zx } from '@coji/zodix/v4'
 import { LanguageIdSchema, languages } from '@hyperlocal/consts'
 import { Link, redirect } from 'react-router'
 import { z } from 'zod'
-import { zx } from 'zodix'
 import { HStack, Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { PlaceCard, Rating } from '~/features/place/components'
 import { requireAdminUser } from '~/services/auth.server'

@@ -13,7 +13,6 @@ export const fixMultiCategories = async () => {
     .execute()
 
   let processed = 0
-  let n = 0
   for (const place of allPlaces) {
     for (const lang of languages) {
       // 言語ごとの翻訳データを取得
@@ -51,7 +50,6 @@ export const fixMultiCategories = async () => {
             })
             .returningAll()
             .execute()
-          n++
 
           consola.info('inserted:', inserted)
           return

@@ -1,9 +1,9 @@
+import { zx } from '@coji/zodix/v4'
 import { areas, categories } from '@hyperlocal/consts'
 import { ChevronLeft } from 'lucide-react'
 import type { HeadersFunction } from 'react-router'
 import { Link, useSearchParams } from 'react-router'
 import { z } from 'zod'
-import { zx } from 'zodix'
 import {
   Breadcrumb,
   BreadcrumbItem,

@@ -17,6 +17,7 @@
   "dependencies": {
     "@ai-sdk/google": "catalog:",
     "@clerk/react-router": "catalog:",
+    "@coji/zodix": "catalog:",
     "@conform-to/react": "catalog:",
     "@conform-to/zod": "catalog:",
     "@date-fns/tz": "catalog:",
@@ -50,8 +51,7 @@
     "sonner": "catalog:",
     "tailwind-merge": "catalog:",
     "ts-pattern": "catalog:",
-    "zod": "catalog:",
-    "zodix": "catalog:"
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",

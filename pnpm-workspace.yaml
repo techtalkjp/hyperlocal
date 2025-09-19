@@ -1,78 +1,80 @@
 packages:
   - ./apps/*
   - ./packages/*
+
 catalog:
-  '@ai-sdk/google': 1.2.22
-  '@biomejs/biome': 1.9.4
-  '@clerk/react-router': 1.7.0
-  '@conform-to/react': 1.8.1
-  '@conform-to/zod': 1.8.1
-  '@date-fns/tz': 1.2.0
-  '@date-fns/utc': 2.1.0
-  '@libsql/client': 0.15.9
+  '@ai-sdk/google': 2.0.14
+  '@biomejs/biome': 2.2.4
+  '@clerk/react-router': 1.10.0
+  '@conform-to/react': 1.10.1
+  '@conform-to/zod': 1.10.1
+  '@coji/zodix': 0.5.0
+  '@date-fns/tz': 1.4.1
+  '@date-fns/utc': 2.1.1
+  '@libsql/client': 0.15.15
   '@libsql/kysely-libsql': 0.4.1
-  'radix-ui': 1.4.2
-  '@react-router/dev': 7.6.3
-  '@react-router/node': 7.6.3
-  '@react-router/remix-routes-option-adapter': 7.6.3
-  '@react-router/serve': 7.6.3
-  '@tailwindcss/vite': 4.1.11
+  '@react-router/dev': 7.9.1
+  '@react-router/node': 7.9.1
+  '@react-router/remix-routes-option-adapter': 7.9.1
+  '@react-router/serve': 7.9.1
+  '@tailwindcss/vite': 4.1.13
   '@types/debug': 4.1.12
-  '@types/node': 24.0.12
+  '@types/node': 24.5.2
   '@types/nprogress': 0.2.3
-  '@types/react': 19.1.8
-  '@types/react-dom': 19.1.6
+  '@types/react': 19.1.13
+  '@types/react-dom': 19.1.9
   accept-language: 3.0.20
-  ai: 4.3.17
+  ai: 5.0.47
   autoprefixer: 10.4.21
   class-variance-authority: 0.7.1
   clsx: 2.1.1
-  concurrently: 9.2.0
-  crawlee: 3.13.10
+  concurrently: 9.2.1
+  crawlee: 3.15.0
   date-fns: 4.1.0
-  debug: 4.4.0
-  dotenv: 17.1.0
-  dotenv-cli: 8.0.0
-  duckdb: 1.3.1
-  embla-carousel-react: 8.5.2
-  isbot: 5.1.28
-  kysely: 0.28.2
+  debug: 4.4.3
+  dotenv: 17.2.2
+  dotenv-cli: 10.0.0
+  duckdb: 1.4.0
+  embla-carousel-react: 8.6.0
+  isbot: 5.1.30
+  kysely: 0.28.7
   kysely-duckdb: 0.1.0
-  lucide-react: 0.525.0
+  lucide-react: 0.544.0
+  mdx-bundler: 10.1.1
+  minio: 8.0.6
   nanoid: 5.1.5
   next-themes: 0.4.6
   npm-run-all: 4.1.5
-  mdx-bundler: 10.1.1
-  minio: 8.0.5
   nprogress: 0.2.0
   postcss: 8.5.3
   prettier: 3.6.2
-  prettier-plugin-organize-imports: 4.1.0
-  prettier-plugin-tailwindcss: 0.6.13
-  prisma: 6.11.1
-  prisma-kysely: 1.8.0
-  react: 19.1.0
-  react-dom: 19.1.0
-  react-router: 7.6.3
-  react-twc: 1.5.0
+  prettier-plugin-organize-imports: 4.3.0
+  prettier-plugin-tailwindcss: 0.6.14
+  prisma: 6.16.2
+  prisma-kysely: 2.2.1
+  radix-ui: 1.4.3
+  react: 19.1.1
+  react-dom: 19.1.1
+  react-router: 7.9.1
+  react-twc: 1.5.1
   rehype-highlight: 7.0.2
   remark-gfm: 4.0.1
   remix-flat-routes: 0.8.5
-  remix-toast: 3.1.0
-  remix-utils: 8.7.0
-  sonner: 2.0.6
+  remix-toast: 3.2.0
+  remix-utils: 8.8.0
+  sonner: 2.0.7
   tailwind-merge: 3.3.1
-  tailwindcss: 4.1.11
+  tailwindcss: 4.1.13
   tailwindcss-animate: 1.0.7
-  ts-pattern: 5.6.2
-  tsx: 4.20.3
-  turbo: 2.5.4
-  typescript: 5.8.3
-  vite: 6.2.0
+  ts-pattern: 5.8.0
+  tsx: 4.20.5
+  turbo: 2.5.6
+  typescript: 5.9.2
+  vite: 7.1.6
   vite-tsconfig-paths: 5.1.4
   vitest: 3.2.4
-  zod: 3.25.76
-  zodix: 0.4.4
+  zod: 4.1.9
+
 onlyBuiltDependencies:
   - '@biomejs/biome'
   - '@clerk/shared'

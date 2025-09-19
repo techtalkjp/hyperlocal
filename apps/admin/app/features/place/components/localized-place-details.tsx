@@ -166,7 +166,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
         <h3 className="mt-4 text-2xl font-semibold" id="reviews">
           Recent Reviews
         </h3>
-        {place.reviews.map((review, index) => (
+        {place.reviews.map((review) => (
           <Stack key={review.text} className="rounded-lg bg-gray-50 p-2 md:p-4">
             <div className="flex items-center">
               <Star className="h-5 w-5 fill-current text-yellow-400" />

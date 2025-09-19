@@ -54,7 +54,7 @@ export async function loader() {
 
 // クライアントサイドのコンポーネント
 export default function AreaRoute({
-  loaderData: { title, code, frontmatter },
+  loaderData: { title, code },
 }: Route.ComponentProps) {
   // MDXコンポーネントの作成（クライアントサイド）
   const MDXContent = useMemo(() => {

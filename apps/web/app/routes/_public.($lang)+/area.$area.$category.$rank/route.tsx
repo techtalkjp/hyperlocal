@@ -83,7 +83,7 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
 }
 
 export default function CategoryIndexPage({
-  loaderData: { places, city, area, category, lang, rankingType },
+  loaderData: { places, area, category, lang, rankingType },
 }: Route.ComponentProps) {
   return (
     <Stack className="gap-2">
