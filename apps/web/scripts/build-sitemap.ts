@@ -1,7 +1,6 @@
 import { languages } from '@hyperlocal/consts'
 import fs from 'node:fs'
 import path from 'node:path'
-import zlib from 'node:zlib'
 import { generateIndexSitemap } from './sitemap/generate-index'
 import { generateRankSitemap } from './sitemap/generate-rank'
 
@@ -20,10 +19,6 @@ if (!fs.existsSync(outputDir)) {
 const sitemapDir = path.join(outputDir, 'sitemap')
 if (!fs.existsSync(sitemapDir)) {
   fs.mkdirSync(sitemapDir, { recursive: true })
-}
-
-const gzip = (content: string): Buffer => {
-  return zlib.gzipSync(content)
 }
 
 const main = async () => {

@@ -4,7 +4,6 @@ import type { Params } from 'react-router'
 export const getPathParams = (params: Params) => {
   const {
     lang: langId,
-    city: cityId,
     area: areaId,
     category: categoryId,
     rank: rankType,

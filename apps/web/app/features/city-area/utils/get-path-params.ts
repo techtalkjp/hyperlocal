@@ -14,25 +14,27 @@ type RankingType = 'review' | 'rating'
 
 // RequireOptionsの型定義
 type RequireOptions = {
-  area?: boolean
-  category?: boolean
-  rank?: boolean
+  lang?: true
+  area?: true
+  category?: true
+  rank?: true
 }
 
-// 返り値の型を条件に応じて変更するためのユーティリティ型
-type UndefinedOrDefined<
-  T,
-  Required extends boolean | undefined,
-> = Required extends true ? T : T | undefined
+type OptionalParams<R extends RequireOptions> = (R extends { area: true }
+  ? { area: Area }
+  : { area?: Area }) &
+  (R extends { category: true }
+    ? { category: Category }
+    : { category?: Category }) &
+  (R extends { rank: true }
+    ? { rankingType: RankingType }
+    : { rankingType?: RankingType })
 
 // getPathParamsの戻り値の型を定義
 type PathParamsResult<R extends RequireOptions = Record<string, never>> = {
   city: City // 常に必須
   lang: Language // 常に必須
-  area: UndefinedOrDefined<Area, R['area']>
-  category: UndefinedOrDefined<Category, R['category']>
-  rankingType: UndefinedOrDefined<RankingType, R['rank']>
-}
+} & OptionalParams<R>
 
 /**
  * Extracts and returns path parameters from the given request and params.
@@ -60,34 +62,33 @@ export const getPathParams = <R extends RequireOptions>(
     rank: rankingTypeId,
   } = params
 
-  // リクエストURLのドメイン名から、都市を判定する
+  // リクエストURLのサブドメインから、都市を判定する
   const url = new URL(request.url)
-  const host = url.host.split('.')[0]
-
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  const result: any = {
-    city: cities.find((city) => city.cityId === host) ?? cities[0],
-    lang: languages[0],
-  }
+  const subdomain = url.hostname.split('.')[0]
+  const city =
+    cities.find((candidate) => candidate.cityId === subdomain) ?? cities[0]
 
   const lang =
     langId === undefined
       ? languages[0]
-      : languages.find((lang) => lang.id === langId) || undefined
+      : languages.find((candidate) => candidate.id === langId) || undefined
+  if (options?.require.lang && langId === undefined)
+    throw new Response(null, { status: 404, statusText: 'Not Found' })
   if (lang === undefined)
     throw new Response(null, { status: 404, statusText: 'Not Found' })
-  result.lang = lang
 
   const area = areas.find((area) => area.areaId === areaId) || undefined
   if (options?.require.area && !area)
     throw new Response(null, { status: 404, statusText: 'Not Found' })
-  result.area = area
+  const resolvedArea = options?.require.area ? (area as Area) : area
 
   const category =
     categories.find((category) => category.id === categoryId) || undefined
   if (options?.require.category && !category)
     throw new Response(null, { status: 404, statusText: 'Not Found' })
-  result.category = category
+  const resolvedCategory = options?.require.category
+    ? (category as Category)
+    : category
 
   const rankingType = match(rankingTypeId)
     .returnType<RankingType | undefined>()
@@ -96,19 +97,24 @@ export const getPathParams = <R extends RequireOptions>(
     .otherwise(() => undefined)
   if (options?.require.rank && !rankingType)
     throw new Response(null, { status: 404, statusText: 'Not Found' })
-  result.rankingType = rankingType
+  const resolvedRankingType = options?.require.rank
+    ? (rankingType as RankingType)
+    : rankingType
 
-  // undefined を削除
-  for (const key of [
-    'lang',
-    'city',
-    'area',
-    'category',
-    'rankingType',
-  ] as const) {
-    if (result[key] === undefined) {
-      delete result[key]
-    }
+  const result = {
+    city,
+    lang,
+  } as PathParamsResult<R>
+
+  if (resolvedArea !== undefined) {
+    result.area = resolvedArea as PathParamsResult<R>['area']
+  }
+  if (resolvedCategory !== undefined) {
+    result.category = resolvedCategory as PathParamsResult<R>['category']
+  }
+  if (resolvedRankingType !== undefined) {
+    result.rankingType =
+      resolvedRankingType as PathParamsResult<R>['rankingType']
   }
 
   return result

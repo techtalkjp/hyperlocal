@@ -18,7 +18,6 @@ import {
   HStack,
 } from '~/components/ui'
 import { sortAreasByDistance } from '~/services/distance'
-import type { Route } from './+types/route'
 
 const ButtonLabels: i18nRecord = {
   en: 'Nearby Areas',
@@ -28,7 +27,7 @@ const ButtonLabels: i18nRecord = {
   'zh-tw': '附近地區',
 }
 
-export const clientLoader = async (args: Route.ClientLoaderArgs) => {
+export const clientLoader = async () => {
   const position = await new Promise<GeolocationPosition>((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(resolve, reject)
   }).catch((e) => {
@@ -62,7 +61,7 @@ export const NearbyAreasSelector = ({
     }
   }
 
-  const handleClickLink = (e: React.MouseEvent) => {
+  const handleClickLink = () => {
     setIsOpen(false)
   }
 

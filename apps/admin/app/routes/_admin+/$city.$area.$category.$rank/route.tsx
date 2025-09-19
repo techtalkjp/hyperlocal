@@ -36,7 +36,7 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
 }
 
 export default function AdminCreategoryIndex({
-  loaderData: { city, lang, area, category, rankType, places },
+  loaderData: { city, lang, area, category, places },
 }: Route.ComponentProps) {
   return (
     <Stack>

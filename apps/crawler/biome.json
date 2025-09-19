@@ -1,11 +1,8 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.0/schema.json",
-  "extends": ["../../biome.json"],
-  "linter": {
-    "rules": {
-      "complexity": {
-        "useLiteralKeys": "error"
-      }
-    }
+  "root": false,
+  "$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
+  "extends": "//",
+  "files": {
+    "includes": ["**", "!./dist", "!storage"]
   }
 }

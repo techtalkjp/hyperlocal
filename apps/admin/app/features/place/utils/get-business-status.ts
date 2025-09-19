@@ -102,8 +102,6 @@ function getBusinessStatus(
 
   for (let i = 0; i < normalizedHours.length; i++) {
     const period = normalizedHours[i]
-    const nextPeriod = normalizedHours[(i + 1) % normalizedHours.length]
-
     if (
       (period.start <= currentMinutes && currentMinutes < period.end) ||
       (period.start > period.end &&

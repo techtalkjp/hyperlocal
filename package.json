@@ -12,7 +12,8 @@
     "validate": "turbo validate"
   },
   "devDependencies": {
+    "@biomejs/biome": "catalog:",
     "turbo": "catalog:"
   },
-  "packageManager": "pnpm@10.10.0"
+  "packageManager": "pnpm@10.16.1"
 }

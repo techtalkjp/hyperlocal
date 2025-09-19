@@ -1,11 +1,9 @@
-import { categories } from '@hyperlocal/consts'
 import { LoaderIcon } from 'lucide-react'
 import {
   type ClientLoaderFunctionArgs,
   href,
   NavLink,
   useLoaderData,
-  useParams,
 } from 'react-router'
 import { match } from 'ts-pattern'
 import { Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
@@ -24,7 +22,7 @@ export const headers: Route.HeadersFunction = () => ({
     'public, max-age=14400, s-maxage=2592000, stale-while-revalidate=2592000',
 })
 
-export const meta: Route.MetaFunction = ({ data, location }) => {
+export const meta = ({ data, location }: Route.MetaArgs) => {
   if (!data || !data.url) return []
 
   const rankingTitle = match(data.rankingType)
@@ -126,8 +124,7 @@ export const clientLoader = async ({
 clientLoader.hydrate = true
 
 export default function CategoryIndexPage() {
-  const { places, city, area, category, lang } =
-    useLoaderData<typeof clientLoader>()
+  const { places, area, category, lang } = useLoaderData<typeof clientLoader>()
 
   return (
     <Stack className="gap-2">
@@ -200,9 +197,6 @@ export default function CategoryIndexPage() {
 }
 
 export const HydrateFallback = () => {
-  const params = useParams()
-  const category = categories.find((c) => c.id === params.category)
-
   return (
     <Stack className="gap-2">
       <Tabs value="nearme">

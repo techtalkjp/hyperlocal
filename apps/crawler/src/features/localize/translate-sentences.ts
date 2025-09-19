@@ -18,7 +18,7 @@ export const translateSentences = async ({
 }) => {
   const system = `
 Translate the following ${source} place names and review texts into ${target}.
-Preserve the original meaning and tone of the reviews while ensuring they sound natural in ${source}.
+Preserve the original meaning and tone of the reviews while ensuring they sound natural in ${target}.
 
 Pay special attention to:
 1. Accurate translation of place names, considering their cultural context
@@ -47,7 +47,7 @@ Ensure proper ${target} grammar and writing conventions.
   const prompt = `
 Original ${source}: ${sentence}`
 
-  const model = google('gemini-2.0-flash-lite-preview-02-05')
+  const model = google('gemini-2.5-flash-lite')
   const result = await generateObject({
     model,
     maxRetries: 3,

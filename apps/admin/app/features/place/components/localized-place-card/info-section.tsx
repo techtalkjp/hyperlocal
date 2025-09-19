@@ -16,7 +16,6 @@ interface InfoSectionProps {
 export const InfoSection: React.FC<InfoSectionProps> = ({
   place,
   no,
-  withOriginalName,
   businessStatusResult,
 }) => (
   <Stack className="gap-1 overflow-hidden">

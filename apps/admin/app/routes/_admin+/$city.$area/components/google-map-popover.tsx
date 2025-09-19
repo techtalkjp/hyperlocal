@@ -17,7 +17,6 @@ interface GoogleMapPopoverProps
 }
 export const GoogleMapPopover = ({
   children,
-  className,
   area,
   googleMapsApiKey,
 }: GoogleMapPopoverProps) => {
