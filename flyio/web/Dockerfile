@@ -37,6 +37,7 @@ COPY --from=setup /app/out/full/ .
 
 # Download database file from R2 before building
 RUN apt-get update -qq && apt-get install --no-install-recommends -y curl ca-certificates \
+ && rm -rf /var/lib/apt/lists/* \
  && mkdir -p /app/db \
  && curl -f -o "/app/db/hyperlocal.db" "${R2_PUBLIC_URL}/db/hyperlocal.db"
 ENV DATABASE_URL="file:/app/db/hyperlocal.db"
@@ -46,7 +47,7 @@ RUN echo "DATABASE_URL=${DATABASE_URL}" >> apps/web/.env \
  && echo "GA_TRACKING_ID=${GA_TRACKING_ID}" >> apps/web/.env
 
 RUN pnpm run build --filter=@hyperlocal/web \
-  && pnpm prune --prod --no-optional
+  && CI=true pnpm prune --prod --no-optional
 
 
 # runner
@@ -54,7 +55,8 @@ FROM base AS runner
 ENV NODE_ENV=production
 
 RUN apt-get update -qq \
-  && apt-get install --no-install-recommends -y openssl openssh-client sqlite3 procps curl ca-certificates unzip vim
+  && apt-get install --no-install-recommends -y openssl openssh-client sqlite3 procps curl ca-certificates unzip vim \
+  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 COPY --from=build /app .
