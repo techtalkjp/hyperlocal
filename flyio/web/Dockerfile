@@ -48,7 +48,8 @@ RUN echo "DATABASE_URL=${DATABASE_URL}" >> apps/web/.env \
  && echo "GA_TRACKING_ID=${GA_TRACKING_ID}" >> apps/web/.env
 
 RUN pnpm run build --filter=@hyperlocal/web \
-  && rm -Rf node_modules \ 
+  && pnpm run build:sitemap --filter=@hyperlocal/web \
+  && rm -Rf node_modules \
   && pnpm install --prod --frozen-lockfile --filter=@hyperlocal/web
 
 # runner
