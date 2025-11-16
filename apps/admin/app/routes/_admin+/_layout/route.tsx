@@ -21,16 +21,11 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
 }
 
 const AdminLayout = ({ loaderData: { toastData } }: Route.ComponentProps) => {
+  // Sync with Sonner toast library to display server-side toast messages
   useEffect(() => {
-    if (!toastData) {
-      return
-    }
-    let toastFn = toast.info
-    if (toastData.type === 'error') {
-      toastFn = toast.error
-    } else if (toastData.type === 'success') {
-      toastFn = toast.success
-    }
+    if (!toastData) return
+
+    const toastFn = toast[toastData.type] ?? toast.info
     toastFn(toastData.message, {
       description: toastData.description,
       position: 'top-right',
