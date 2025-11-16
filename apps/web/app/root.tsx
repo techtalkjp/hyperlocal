@@ -62,7 +62,6 @@ const App = ({ loaderData: { env } }: Route.ComponentProps) => {
           <script
             async
             id="gtag-init"
-            // biome-ignore lint/security/noDangerouslySetInnerHtml: google tag
             dangerouslySetInnerHTML={{
               __html: `
                 window.dataLayer = window.dataLayer || [];

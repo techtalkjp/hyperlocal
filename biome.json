@@ -1,24 +1,24 @@
 {
-  "root": true,
-  "$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
-  "assist": { "actions": { "source": { "organizeImports": "off" } } },
-  "vcs": {
-    "enabled": true,
-    "clientKind": "git",
-    "useIgnoreFile": true
-  },
-  "linter": {
-    "enabled": true,
-    "rules": {
-      "recommended": true,
-      "suspicious": {
-        "useAwait": "error",
-        "noRedeclare": "off"
-      },
-      "a11y": {
-        "useSemanticElements": "off",
-        "useFocusableInteractive": "off"
-      }
-    }
-  }
+	"root": true,
+	"$schema": "https://biomejs.dev/schemas/2.3.5/schema.json",
+	"assist": { "actions": { "source": { "organizeImports": "off" } } },
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"suspicious": {
+				"useAwait": "error",
+				"noRedeclare": "off"
+			},
+			"a11y": {
+				"useSemanticElements": "off",
+				"useFocusableInteractive": "off"
+			}
+		}
+	}
 }
