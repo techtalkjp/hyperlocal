@@ -9,19 +9,19 @@ describe('getCityDomain', () => {
     expected: string
   }> = [
     {
-      description: 'should add city to localhost',
+      description: 'should convert localhost to production domain with city',
       input: { url: 'https://localhost:5173/', cityId: 'tokyo' },
-      expected: 'https://tokyo.localhost:5173/',
+      expected: 'https://tokyo.hyper-local.app:5173/',
     },
     {
-      description: 'should not change localhost without cityId',
+      description: 'should convert localhost to production domain without city',
       input: { url: 'https://localhost:5173/' },
-      expected: 'https://localhost:5173/',
+      expected: 'https://hyper-local.app:5173/',
     },
     {
-      description: 'should remove city from localhost when cityId is undefined',
+      description: 'should keep tokyo.localhost as is when cityId is undefined',
       input: { url: 'https://tokyo.localhost:5173/' },
-      expected: 'https://localhost:5173/',
+      expected: 'https://tokyo.localhost:5173/',
     },
     {
       description: 'should add city to hyper-local.app',
