@@ -7,7 +7,7 @@
     "dev": "react-router dev --host",
     "make:replica": "tsx --env-file .env scripts/make-local-replica.ts",
     "upload:db": "tsx --env-file .env scripts/upload-db.ts",
-    "build": "react-router build",
+    "build": "react-router build && tsx --env-file=.env scripts/build-sitemap.ts",
     "build:sitemap": "tsx --env-file=.env scripts/build-sitemap.ts",
     "start": "node ./build/server/index.js",
     "lint": "biome lint .",
