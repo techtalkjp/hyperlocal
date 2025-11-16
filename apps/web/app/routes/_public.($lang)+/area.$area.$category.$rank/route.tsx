@@ -5,7 +5,10 @@ import { Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { LocalizedPlaceCard } from '~/features/place/components/localized-place-card'
 import { generateAlternateLinks } from '~/features/seo/alternate-links'
-import { generateCanonicalLink } from '~/features/seo/canonical-url'
+import {
+  generateCanonicalLink,
+  generateCanonicalUrl,
+} from '~/features/seo/canonical-url'
 import { generateAreaCategoryMetaDescription } from '~/features/seo/meta-area-category'
 import type { Route } from './+types/route'
 import { listLocalizedPlaces } from './queries.server'
@@ -55,10 +58,9 @@ export const meta: Route.MetaFunction = ({ data, location }) => {
           data.category.id,
           data.lang.id,
         ),
-        url: new URL(
+        url: generateCanonicalUrl(
           `${data.lang.path}area/${data.area.areaId}/${data.category.id}/${data.rankingType}`,
-          data.url,
-        ).toString(),
+        ),
       },
     },
   ]

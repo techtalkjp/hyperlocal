@@ -21,11 +21,25 @@ export const headers: Route.HeadersFunction = () => ({
     'public, max-age=14400, s-maxage=2592000, stale-while-revalidate=2592000',
 })
 
+const metaDescriptions: Record<string, string> = {
+  en: 'Discover top-rated restaurants and places across Tokyo. Explore 20 areas with real-time status, ratings, and instant guides for cafes, dining, and local spots.',
+  ja: '東京の厳選レストランとスポットを発見。20エリアのカフェ、グルメ、ローカルスポットをリアルタイムの営業状況と評価でチェック。',
+  'zh-cn':
+    '探索东京的顶级餐厅和场所。覆盖20个地区，提供咖啡馆、餐饮和本地景点的实时状态和评分。',
+  'zh-tw':
+    '探索東京的頂級餐廳和場所。覆蓋20個地區，提供咖啡廳、餐飲和本地景點的即時狀態和評分。',
+  ko: '도쿄의 최고 평점 레스토랑과 장소를 발견하세요. 20개 지역의 카페, 맛집, 로컬 명소를 실시간 영업 정보와 평점으로 확인하세요.',
+}
+
 export const meta: Route.MetaFunction = ({ data, location }) => {
   if (!data || !data.url) return []
   return [
     {
       title: `Hyperlocal ${data?.city.i18n[data.lang.id]}`,
+    },
+    {
+      name: 'description',
+      content: metaDescriptions[data.lang.id] || metaDescriptions.en,
     },
     generateCanonicalLink(location.pathname),
     ...generateAlternateLinks({

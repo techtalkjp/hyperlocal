@@ -7,7 +7,11 @@ import { generateCanonicalLink } from './features/seo/canonical-url'
 import './styles/globals.css'
 
 export const meta: Route.MetaFunction = ({ location }) => [
-  { name: 'description', content: 'Hyperlocal' },
+  {
+    name: 'description',
+    content:
+      'Discover top-rated restaurants and places in Tokyo. Real-time status, ratings, and instant guides for cafes, dining, and local spots across Tokyo.',
+  },
   { name: 'viewport', content: 'width=device-width, initial-scale=1' },
   generateCanonicalLink(location.pathname),
 ]

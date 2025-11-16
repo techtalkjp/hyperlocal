@@ -20,6 +20,10 @@ export const meta: Route.MetaFunction = ({ data, location }) => {
     {
       title: `${data?.area.i18n[data.lang.id]} - Hyperlocal Tokyo`,
     },
+    {
+      name: 'description',
+      content: `${data.area.description[data.lang.id]} Discover top-rated cafes, restaurants, and local spots in ${data.area.i18n[data.lang.id]}.`,
+    },
     generateCanonicalLink(location.pathname),
     ...generateAlternateLinks({
       url: data.url,
