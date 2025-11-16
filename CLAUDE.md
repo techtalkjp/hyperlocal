@@ -105,3 +105,13 @@ Core entities:
 - `apps/web/app/routes/`: Web app routes
 - `apps/admin/app/routes/`: Admin app routes
 - `apps/crawler/src/commands/`: Crawler command implementations
+
+## Documentation Policy
+
+When creating investigation reports or analysis documents, save them in `docs/journals/YYYY-MM-DD/` directory with descriptive filenames. Follow these guidelines:
+
+1. **Language**: Write in Japanese for this project
+2. **Structure**: Begin with executive summary that presents conclusions first for readers without technical context
+3. **Style**: Use natural prose with clear logical flow. Avoid tables, bullet lists, and emojis unless necessary
+4. **Clarity**: Write for non-technical stakeholders who lack domain expertise. Explain technical terms when used
+5. **Code Examples**: Include code only when absolutely necessary to illustrate a critical point. Prefer prose explanations over code snippets

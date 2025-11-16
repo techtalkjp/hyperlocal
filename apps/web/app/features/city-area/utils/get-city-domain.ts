@@ -20,7 +20,8 @@ export const getCityDomain = (url: string, cityId?: City['cityId']): URL => {
     const parts = newUrl.hostname.split('.')
 
     if (!cityId) {
-      newUrl.hostname = parts.length > 2 ? parts.slice(1).join('.') : newUrl.hostname
+      newUrl.hostname =
+        parts.length > 2 ? parts.slice(1).join('.') : newUrl.hostname
     } else if (parts.length > 2) {
       parts[0] = cityId
       newUrl.hostname = parts.join('.')
