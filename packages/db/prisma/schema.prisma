@@ -91,17 +91,18 @@ model LocalizedPlace {
 }
 
 model AreaArticle {
-  id        String   @id @default(cuid())
-  cityId    String   @map("city_id")
-  areaId    String   @map("area_id")
-  sceneId   String   @map("scene_id")
-  language  String
-  title     String
-  content   String // MDX content
-  status    String   @default("draft") // draft, published
-  metadata  String // JSON: { description, keywords, etc. }
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id           String   @id @default(cuid())
+  cityId       String   @map("city_id")
+  areaId       String   @map("area_id")
+  sceneId      String   @map("scene_id")
+  language     String
+  title        String
+  content      String // MDX content
+  compiledCode String   @map("compiled_code") // Pre-compiled MDX code for fast rendering
+  status       String   @default("draft") // draft, published
+  metadata     String // JSON: { description, keywords, etc. }
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
 
   @@unique([cityId, areaId, sceneId, language], map: "area_articles_unique")
   @@map("area_articles")

@@ -22,6 +22,7 @@ export type AreaArticle = {
     language: string;
     title: string;
     content: string;
+    compiledCode: string;
     status: Generated<string>;
     metadata: string;
     createdAt: Generated<string>;

@@ -1,13 +1,39 @@
 #!/usr/bin/env tsx
 import { db } from '@hyperlocal/db'
 import { createId } from '@paralleldrive/cuid2'
+import { bundleMDX } from 'mdx-bundler'
 import { readdir, readFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import rehypeHighlight from 'rehype-highlight'
+import remarkGfm from 'remark-gfm'
 import '../app/services/env.server'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ARTICLES_DIR = join(__dirname, '../../../content/articles')
+
+// Compile MDX to executable code
+async function compileMDX(source: string): Promise<string | null> {
+  if (!source) return null
+
+  try {
+    const result = await bundleMDX({
+      source,
+      mdxOptions(options) {
+        options.remarkPlugins = [...(options.remarkPlugins ?? []), remarkGfm]
+        options.rehypePlugins = [
+          ...(options.rehypePlugins ?? []),
+          rehypeHighlight,
+        ]
+        return options
+      },
+    })
+    return result.code
+  } catch (error) {
+    console.error('MDX compilation error:', error)
+    return null
+  }
+}
 
 type ArticleData = {
   area: string
@@ -43,6 +69,7 @@ const createArticle = async (data: {
   language: string
   title: string
   content: string
+  compiledCode: string
   metadata: string
   status: string
 }) => {
@@ -86,6 +113,16 @@ async function main() {
       console.log(`  Language: ${articleData.language}`)
       console.log(`  Title: ${articleData.title}`)
 
+      // Compile MDX
+      console.log('  🔨 Compiling MDX...')
+      const compiledCode = await compileMDX(articleData.content)
+      if (!compiledCode) {
+        console.error('  ✗ Failed to compile MDX')
+        errors++
+        continue
+      }
+      console.log('  ✓ MDX compiled')
+
       // Delete existing article
       const deleteResult = await deleteExistingArticle(
         cityId,
@@ -110,6 +147,7 @@ async function main() {
         language: articleData.language,
         title: articleData.title,
         content: articleData.content,
+        compiledCode,
         metadata: JSON.stringify({ description: articleData.description }),
         status: articleData.status,
       })
