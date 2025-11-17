@@ -27,6 +27,20 @@ export const getPlaceById = async (placeId: string) => {
   return place
 }
 
+export const getLocalizedPlaceById = async (
+  placeId: string,
+  language: string,
+) => {
+  // Get the first localized place record for this place ID and language
+  const place = await db
+    .selectFrom('localizedPlaces')
+    .selectAll()
+    .where('placeId', '=', placeId)
+    .where('language', '=', language)
+    .executeTakeFirst()
+  return place
+}
+
 export const getOtherArticlesForArea = async (
   cityId: string,
   areaId: string,

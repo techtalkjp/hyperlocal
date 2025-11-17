@@ -132,7 +132,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
               )}
             </ClientOnly>
 
-            <HStack>
+            <div className="grid grid-cols-2 gap-2">
               <Button
                 type="button"
                 variant="outline"
@@ -165,7 +165,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
                   </a>
                 </Button>
               )}
-            </HStack>
+            </div>
           </Stack>
         </div>
 

@@ -1,12 +1,25 @@
+import { UTCDate } from '@date-fns/utc'
 import { scenes } from '@hyperlocal/consts'
+import type { LocalizedPlace } from '@hyperlocal/db'
 import { getMDXComponent } from 'mdx-bundler/client/index.js'
 import { useMemo } from 'react'
 import { data, Link } from 'react-router'
-import { Card, CardHeader, CardTitle, Stack } from '~/components/ui'
+import { ClientOnly } from 'remix-utils/client-only'
+import { Badge, Card, CardHeader, CardTitle, HStack, Stack } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
+import { BusinessStatusBadge } from '~/features/place/components'
+import {
+  type BusinessHours,
+  getBusinessStatus,
+  priceLevelLabel,
+} from '~/features/place/utils'
 import { compileMDX } from '~/services/mdx.server'
 import type { Route } from './+types/route'
-import { getArticle, getOtherArticlesForArea } from './queries.server'
+import {
+  getArticle,
+  getLocalizedPlaceById,
+  getOtherArticlesForArea,
+} from './queries.server'
 
 export const meta = ({ data }: Route.MetaArgs) => {
   if (!data?.article) {
@@ -52,6 +65,22 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
     throw new Response('Failed to compile article', { status: 500 })
   }
 
+  // Extract place IDs from article content
+  const placeIdMatches = article.content.matchAll(/<Place\s+id="([^"]+)"\s*\/>/g)
+  const placeIds = Array.from(placeIdMatches, (match) => match[1])
+
+  // Fetch place data for all referenced places
+  const places = await Promise.all(
+    placeIds.map((placeId) => getLocalizedPlaceById(placeId, lang.id)),
+  )
+
+  // Create a map of place data
+  const placesMap = Object.fromEntries(
+    places
+      .filter((place): place is LocalizedPlace => place !== undefined)
+      .map((place) => [place.placeId, place]),
+  )
+
   // Get other articles for this area
   const otherArticles = await getOtherArticlesForArea(
     city.cityId,
@@ -67,30 +96,132 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
     scene,
     article,
     mdxCode: compiled.code,
+    placesMap,
     otherArticles,
   }
-}
-
-// Place component for use in MDX
-function Place({ id }: { id: string }) {
-  // This is a simplified version - in production you'd fetch the place data
-  // For now, we'll create a placeholder
-  return (
-    <div className="my-4 rounded border p-4">
-      <div className="text-muted-foreground text-sm">Place component: {id}</div>
-      <div className="text-muted-foreground text-xs">
-        (Place details would be loaded here)
-      </div>
-    </div>
-  )
 }
 
 export default function AreaGuideScenePage({
   loaderData,
 }: Route.ComponentProps) {
-  const { lang, area, scene, article, mdxCode, otherArticles } = loaderData
+  const { lang, area, scene, article, mdxCode, placesMap, otherArticles } =
+    loaderData
 
   const Component = useMemo(() => getMDXComponent(mdxCode), [mdxCode])
+
+  // Place component for use in MDX
+  const Place = ({ id }: { id: string }) => {
+    const place = placesMap[id]
+
+    if (!place) {
+      return (
+        <div className="my-6 rounded border p-4">
+          <div className="text-muted-foreground text-sm">
+            Place not found: {id}
+          </div>
+        </div>
+      )
+    }
+
+    const placePath =
+      lang.id === 'en' ? `/place/${id}` : `/${lang.id}/place/${id}`
+    const reviewText =
+      typeof place.reviews[0]?.text === 'string' ? place.reviews[0].text : null
+
+    return (
+      <Link
+        to={placePath}
+        className="hover:bg-secondary my-6 block rounded-lg border p-0 shadow-sm transition-all hover:shadow-md"
+        viewTransition
+      >
+        <div className="flex gap-4">
+          {/* Photo */}
+          <div className="bg-muted h-32 w-32 shrink-0 overflow-hidden rounded-l-lg sm:h-40 sm:w-40">
+            {place.photos.length > 0 ? (
+              <img
+                src={place.photos[0]}
+                alt={place.displayName}
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
+            ) : (
+              <div className="text-muted-foreground flex h-full items-center justify-center text-xs">
+                No Photo
+              </div>
+            )}
+          </div>
+
+          {/* Info */}
+          <Stack className="flex-1 gap-2 py-3 pr-4">
+            <div className="text-lg font-semibold leading-tight sm:text-xl">
+              {place.displayName}
+            </div>
+
+            {/* Rating */}
+            {place.rating && (
+              <div className="text-muted-foreground flex items-center gap-2 text-sm">
+                <span className="font-semibold text-yellow-600">
+                  ★ {place.rating.toFixed(1)}
+                </span>
+                <span className="text-xs">
+                  ({place.userRatingCount} reviews)
+                </span>
+              </div>
+            )}
+
+            {/* Business Status & Price */}
+            <HStack className="text-xs">
+              <ClientOnly
+                fallback={
+                  <span className="text-xs text-transparent">Status</span>
+                }
+              >
+                {() => {
+                  const date = new UTCDate()
+                  const businessStatusResult = getBusinessStatus(
+                    place.regularOpeningHours as BusinessHours | null,
+                    date,
+                    loaderData.city.timezone,
+                  )
+                  return <BusinessStatusBadge statusResult={businessStatusResult} />
+                }}
+              </ClientOnly>
+              {place.priceLevel && (
+                <>
+                  <span className="text-muted-foreground mx-1">⋅</span>
+                  <span className="text-muted-foreground">
+                    {priceLevelLabel(place.priceLevel)}
+                  </span>
+                </>
+              )}
+            </HStack>
+
+            {/* Review excerpt */}
+            {reviewText && (
+              <div className="text-muted-foreground line-clamp-2 text-sm italic">
+                "{reviewText}"
+              </div>
+            )}
+
+            {/* Genres */}
+            {place.genres.length > 0 && (
+              <div className="flex flex-wrap gap-x-2 gap-y-0.5">
+                {place.genres.slice(0, 3).map((genre) => (
+                  <Badge
+                    key={genre}
+                    variant="outline"
+                    className="bg-muted text-muted-foreground rounded border-none px-1 py-1 text-xs font-semibold capitalize"
+                  >
+                    {genre}
+                  </Badge>
+                ))}
+              </div>
+            )}
+          </Stack>
+        </div>
+      </Link>
+    )
+  }
 
   const areaPath =
     lang.id === 'en'
@@ -110,8 +241,10 @@ export default function AreaGuideScenePage({
 
       {/* Article */}
       <article className="mx-auto w-full max-w-3xl px-4">
-        <h1 className="mb-8 text-4xl font-bold">{article.title}</h1>
-        <div className="prose prose-slate dark:prose-invert max-w-none">
+        <h1 className="mb-8 text-4xl font-bold leading-tight tracking-tight">
+          {article.title}
+        </h1>
+        <div className="prose prose-lg prose-slate dark:prose-invert max-w-none [&_h1]:hidden [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-3xl [&_h2]:font-bold [&_h3]:mt-8 [&_h3]:mb-3 [&_h3]:text-2xl [&_h3]:font-bold [&_p]:my-4 [&_p]:leading-relaxed [&_p]:text-lg">
           <Component components={{ Place }} />
         </div>
       </article>
