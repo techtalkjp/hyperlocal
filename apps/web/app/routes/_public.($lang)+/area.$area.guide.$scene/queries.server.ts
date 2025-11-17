@@ -9,6 +9,7 @@ export type ParsedAreaArticle = {
   language: string
   title: string
   content: string
+  compiledCode: string
   status: string
   metadata: { description: string }
   createdAt: string

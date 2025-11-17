@@ -1,5 +1,6 @@
 import { db } from '@hyperlocal/db'
 import { createId } from '@paralleldrive/cuid2'
+import { compileMDX } from '~/services/mdx.server'
 
 export const createArticle = async (data: {
   cityId: string
@@ -11,11 +12,15 @@ export const createArticle = async (data: {
   metadata: string
   status: string
 }) => {
+  // Compile MDX
+  const compiledCode = await compileMDX(data.content)
+
   const article = await db
     .insertInto('areaArticles')
     .values({
       id: createId(),
       ...data,
+      compiledCode,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     })

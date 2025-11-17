@@ -5,6 +5,7 @@ import { readdir, readFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import '../app/services/env.server'
+import { compileMDX } from '../app/services/mdx.server'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ARTICLES_DIR = join(__dirname, '../../../content/articles')
@@ -43,6 +44,7 @@ const createArticle = async (data: {
   language: string
   title: string
   content: string
+  compiledCode: string
   metadata: string
   status: string
 }) => {
@@ -86,6 +88,16 @@ async function main() {
       console.log(`  Language: ${articleData.language}`)
       console.log(`  Title: ${articleData.title}`)
 
+      // Compile MDX
+      console.log('  🔨 Compiling MDX...')
+      if (!articleData.content) {
+        console.error('  ✗ No content to compile')
+        errors++
+        continue
+      }
+      const compiledCode = await compileMDX(articleData.content)
+      console.log('  ✓ MDX compiled')
+
       // Delete existing article
       const deleteResult = await deleteExistingArticle(
         cityId,
@@ -110,6 +122,7 @@ async function main() {
         language: articleData.language,
         title: articleData.title,
         content: articleData.content,
+        compiledCode,
         metadata: JSON.stringify({ description: articleData.description }),
         status: articleData.status,
       })

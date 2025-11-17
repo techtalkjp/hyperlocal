@@ -19,7 +19,6 @@ import {
   getBusinessStatus,
   priceLevelLabel,
 } from '~/features/place/utils'
-import { compileMDX } from '~/services/mdx.server'
 import type { Route } from './+types/route'
 import {
   type ParsedLocalizedPlace,
@@ -62,12 +61,6 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
     )
   }
 
-  // Compile MDX
-  const compiled = await compileMDX(article.content)
-  if (!compiled) {
-    throw new Response('Failed to compile article', { status: 500 })
-  }
-
   // Extract place IDs from article content
   const placeIdMatches = article.content.matchAll(
     /<Place\s+id="([^"]+)"\s*\/>/g,
@@ -100,7 +93,7 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
     area,
     scene,
     article,
-    mdxCode: compiled.code,
+    mdxCode: article.compiledCode,
     placesMap,
     otherArticles,
   }
