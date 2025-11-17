@@ -126,4 +126,21 @@ export const scenes = [
       ko: '현지인들이 사랑하는 인기 장소',
     },
   },
+  {
+    id: 'souvenir-shop',
+    i18n: {
+      en: 'Souvenir Shopping',
+      ja: 'お土産',
+      'zh-cn': '纪念品',
+      'zh-tw': '紀念品',
+      ko: '기념품',
+    },
+    description: {
+      en: 'Best places to buy souvenirs and gifts',
+      ja: 'お土産やギフトを買うのにおすすめの場所',
+      'zh-cn': '购买纪念品和礼物的最佳地点',
+      'zh-tw': '購買紀念品和禮物的最佳地點',
+      ko: '기념품과 선물을 사기 좋은 곳',
+    },
+  },
 ] as const satisfies Scene[]

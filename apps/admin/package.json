@@ -8,6 +8,7 @@
     "build": "react-router build",
     "start": "react-router-serve ./build/server/index.js",
     "generate:article": "tsx --env-file .env scripts/generate-article.ts",
+    "import:articles": "tsx --env-file .env scripts/import-articles.ts",
     "lint": "biome lint .",
     "format": "prettier --check . --experimental-cli",
     "format:fix": "prettier --write . --experimental-cli",

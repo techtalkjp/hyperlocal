@@ -46,12 +46,29 @@ pnpm build
 pnpm deploy
 ```
 
-### Database Operations (in apps/web)
+### Database Operations
 
 ```bash
-pnpm make:replica  # Create local database replica
-pnpm upload:db     # Upload database
+# Database sync (in apps/web)
+pnpm make:replica  # Create local database replica from production
+pnpm upload:db     # Upload database to production (R2)
 ```
+
+### Article Management (in apps/admin)
+
+```bash
+# Single article creation
+pnpm generate:article --area <area-id> --scene <scene-id> --title <title>
+pnpm generate:article --file <article.json>
+
+# Batch import from content/articles/
+pnpm import:articles
+
+# List available areas and scenes
+pnpm generate:article --list
+```
+
+See `docs/article-workflow.md` for detailed article management workflow.
 
 ### Crawler Operations (in apps/crawler)
 
