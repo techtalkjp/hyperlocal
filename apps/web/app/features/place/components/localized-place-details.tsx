@@ -16,7 +16,6 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-  HStack,
   Stack,
 } from '~/components/ui'
 import {

@@ -55,7 +55,7 @@ let articleData: {
   city?: string
 } = {}
 
-if (values.file && values.file.endsWith('.json')) {
+if (values.file?.endsWith('.json')) {
   const fs = await import('node:fs/promises')
   console.log(`\n📄 Loading article data from: ${values.file}`)
   const fileContent = await fs.readFile(values.file, 'utf-8')

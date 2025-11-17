@@ -50,10 +50,13 @@ Article Requirements:
 4. Use MDX format with embedded <Place id="PLACE_ID" /> components for restaurant recommendations
 5. Include 3-5 place recommendations with context about why they're good for this scene
 6. Write in ${targetLang} naturally (not a translation)
+7. **CRITICAL: Read the sample reviews carefully and accurately describe what kind of restaurant it is based on the reviews, not assumptions**
+8. **If a review mentions the cuisine type or specialty, use that exact information in your description**
+9. **Do not invent or assume details about restaurants - only use information from the provided data**
 
 Structure:
 - Opening paragraph: Set the scene and atmosphere of ${area.name}
-- Body: Introduce each place with <Place id="..." /> components and explain why it fits the scene
+- Body: Introduce each place with <Place id="..." /> components and explain why it fits the scene based on actual review content
 - Closing: Brief summary of what makes this area special for this scene
 
 Tone: Friendly, informative, authentic. Like a local sharing insider tips.
@@ -63,6 +66,8 @@ DO NOT:
 - Simply list features
 - Include pricing unless it's notably unique
 - Mention specific dates or limited-time offers
+- Make assumptions about cuisine type - always verify from reviews
+- Contradict information in the reviews
 `
 
   const placesInfo = places
@@ -72,7 +77,14 @@ DO NOT:
         `${idx + 1}. ${p.displayName} (ID: ${p.id})
    Rating: ${p.rating}/5.0 (${p.userRatingCount} reviews)
    ${p.priceLevel ? `Price: ${p.priceLevel}` : ''}
-   Sample review: ${p.reviews[0]?.text?.substring(0, 200) || 'No reviews'}`,
+   Sample reviews:
+   ${p.reviews
+     .slice(0, 2)
+     .map(
+       (r, i) =>
+         `   [Review ${i + 1}] ${r.text?.substring(0, 500) || 'No text'}`,
+     )
+     .join('\n')}`,
     )
     .join('\n\n')
 
@@ -86,6 +98,12 @@ Scene Description: ${scene.description[language as keyof typeof scene.descriptio
 
 Available Places:
 ${placesInfo}
+
+IMPORTANT REMINDERS:
+1. Read ALL reviews carefully before writing about each restaurant
+2. Use the exact cuisine type and specialties mentioned in the reviews
+3. Do NOT assume or invent details - only use what's in the reviews and data provided
+4. Information in reviews takes priority over restaurant names or categories
 
 Generate an engaging ${targetLang} article about experiencing ${area.name} for this ${scene.i18n[language as keyof typeof scene.i18n]} scene.
 Use <Place id="..." /> components to embed place cards in the article.

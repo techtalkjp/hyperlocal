@@ -1,11 +1,17 @@
 import { UTCDate } from '@date-fns/utc'
 import { scenes } from '@hyperlocal/consts'
-import type { LocalizedPlace } from '@hyperlocal/db'
 import { getMDXComponent } from 'mdx-bundler/client/index.js'
 import { useMemo } from 'react'
 import { data, Link } from 'react-router'
 import { ClientOnly } from 'remix-utils/client-only'
-import { Badge, Card, CardHeader, CardTitle, HStack, Stack } from '~/components/ui'
+import {
+  Badge,
+  Card,
+  CardHeader,
+  CardTitle,
+  HStack,
+  Stack,
+} from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { BusinessStatusBadge } from '~/features/place/components'
 import {
@@ -16,6 +22,7 @@ import {
 import { compileMDX } from '~/services/mdx.server'
 import type { Route } from './+types/route'
 import {
+  type ParsedLocalizedPlace,
   getArticle,
   getLocalizedPlaceById,
   getOtherArticlesForArea,
@@ -26,13 +33,9 @@ export const meta = ({ data }: Route.MetaArgs) => {
     return [{ title: 'Article Not Found' }]
   }
 
-  const metadata =
-    typeof data.article.metadata === 'string'
-      ? JSON.parse(data.article.metadata)
-      : data.article.metadata
   return [
     { title: data.article.title },
-    { name: 'description', content: metadata.description },
+    { name: 'description', content: data.article.metadata.description },
   ]
 }
 
@@ -66,7 +69,9 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
   }
 
   // Extract place IDs from article content
-  const placeIdMatches = article.content.matchAll(/<Place\s+id="([^"]+)"\s*\/>/g)
+  const placeIdMatches = article.content.matchAll(
+    /<Place\s+id="([^"]+)"\s*\/>/g,
+  )
   const placeIds = Array.from(placeIdMatches, (match) => match[1])
 
   // Fetch place data for all referenced places
@@ -77,7 +82,7 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
   // Create a map of place data
   const placesMap = Object.fromEntries(
     places
-      .filter((place): place is LocalizedPlace => place !== undefined)
+      .filter((place): place is ParsedLocalizedPlace => place !== null)
       .map((place) => [place.placeId, place]),
   )
 
@@ -153,7 +158,7 @@ export default function AreaGuideScenePage({
 
           {/* Info */}
           <Stack className="flex-1 gap-2 py-3 pr-4">
-            <div className="text-lg font-semibold leading-tight sm:text-xl">
+            <div className="text-lg leading-tight font-semibold sm:text-xl">
               {place.displayName}
             </div>
 
@@ -179,11 +184,13 @@ export default function AreaGuideScenePage({
                 {() => {
                   const date = new UTCDate()
                   const businessStatusResult = getBusinessStatus(
-                    place.regularOpeningHours as BusinessHours | null,
+                    place.regularOpeningHours as unknown as BusinessHours | null,
                     date,
                     loaderData.city.timezone,
                   )
-                  return <BusinessStatusBadge statusResult={businessStatusResult} />
+                  return (
+                    <BusinessStatusBadge statusResult={businessStatusResult} />
+                  )
                 }}
               </ClientOnly>
               {place.priceLevel && (
@@ -241,10 +248,10 @@ export default function AreaGuideScenePage({
 
       {/* Article */}
       <article className="mx-auto w-full max-w-3xl px-4">
-        <h1 className="mb-8 text-4xl font-bold leading-tight tracking-tight">
+        <h1 className="mb-8 text-4xl leading-tight font-bold tracking-tight">
           {article.title}
         </h1>
-        <div className="prose prose-lg prose-slate dark:prose-invert max-w-none [&_h1]:hidden [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-3xl [&_h2]:font-bold [&_h3]:mt-8 [&_h3]:mb-3 [&_h3]:text-2xl [&_h3]:font-bold [&_p]:my-4 [&_p]:leading-relaxed [&_p]:text-lg">
+        <div className="prose prose-lg prose-slate dark:prose-invert max-w-none [&_h1]:hidden [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-3xl [&_h2]:font-bold [&_h3]:mt-8 [&_h3]:mb-3 [&_h3]:text-2xl [&_h3]:font-bold [&_p]:my-4 [&_p]:text-lg [&_p]:leading-relaxed">
           <Component components={{ Place }} />
         </div>
       </article>
