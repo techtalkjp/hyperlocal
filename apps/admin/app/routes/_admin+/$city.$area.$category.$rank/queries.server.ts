@@ -9,11 +9,11 @@ export const listAreaPlaces = async (
     .selectFrom('places')
     .innerJoin('placeListings', 'places.id', 'placeListings.placeId')
     .selectAll('places')
-    .where('placeListings.areaId', '==', areaId)
-    .where('placeListings.categoryId', '==', categoryId)
-    .where('placeListings.rankingType', '==', rankingType)
-    .orderBy('places.rating desc')
-    .orderBy('places.userRatingCount desc')
+    .where('placeListings.areaId', '=', areaId)
+    .where('placeListings.categoryId', '=', categoryId)
+    .where('placeListings.rankingType', '=', rankingType)
+    .orderBy('places.rating', 'desc')
+    .orderBy('places.userRatingCount', 'desc')
     .execute()) as unknown as Array<Place>
   return places
 }

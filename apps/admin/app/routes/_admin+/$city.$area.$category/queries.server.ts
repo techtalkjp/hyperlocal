@@ -5,10 +5,10 @@ export const listAreaPlaces = async (areaId: string, categoryId: string) => {
     .selectFrom('places')
     .innerJoin('placeListings', 'places.id', 'placeListings.placeId')
     .selectAll('places')
-    .where('placeListings.areaId', '==', areaId)
-    .where('placeListings.categoryId', '==', categoryId)
-    .orderBy('places.rating desc')
-    .orderBy('places.userRatingCount desc')
+    .where('placeListings.areaId', '=', areaId)
+    .where('placeListings.categoryId', '=', categoryId)
+    .orderBy('places.rating', 'desc')
+    .orderBy('places.userRatingCount', 'desc')
     .execute()) as unknown as Array<Place>
   return places
 }

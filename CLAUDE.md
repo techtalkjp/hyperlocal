@@ -46,12 +46,29 @@ pnpm build
 pnpm deploy
 ```
 
-### Database Operations (in apps/web)
+### Database Operations
 
 ```bash
-pnpm make:replica  # Create local database replica
-pnpm upload:db     # Upload database
+# Database sync (in apps/web)
+pnpm make:replica  # Create local database replica from production
+pnpm upload:db     # Upload database to production (R2)
 ```
+
+### Article Management (in apps/admin)
+
+```bash
+# Single article creation
+pnpm generate:article --area <area-id> --scene <scene-id> --title <title>
+pnpm generate:article --file <article.json>
+
+# Batch import from content/articles/
+pnpm import:articles
+
+# List available areas and scenes
+pnpm generate:article --list
+```
+
+See `docs/article-workflow.md` for detailed article management workflow.
 
 ### Crawler Operations (in apps/crawler)
 
@@ -98,6 +115,7 @@ Core entities:
 4. **Localization**: Built-in support for 5 languages with content stored in LocalizedPlace table.
 5. **API Integration**: Google Places API for place data and photos.
 6. **useEffect Policy**: Only for external sync (API, WebSocket, browser APIs, timers). Never for derived state, props copying, user actions, or one-time init. Compute during render; handle actions in event handlers. Always add comment explaining what external resource it syncs.
+7. **Database JSON Handling**: Kysely is configured with `ParseJSONResultsPlugin` (`packages/db/src/index.ts`), which automatically parses JSON fields from the database. Fields like `genres`, `reviews`, `photos`, and `regularOpeningHours` are automatically converted from JSON strings to JavaScript objects/arrays. No manual `JSON.parse()` is needed in query results - simply cast to the appropriate type.
 
 ### Important Files
 

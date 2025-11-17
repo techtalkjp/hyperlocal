@@ -4,7 +4,6 @@ import { data, href, Link, Outlet } from 'react-router'
 import { getToast } from 'remix-toast'
 import { toast } from 'sonner'
 import { Toaster } from '~/components/ui'
-import { requireAdminUser } from '~/services/auth.server'
 import type { Route } from './+types/route'
 
 export const meta: Route.MetaFunction = () => {
@@ -15,7 +14,6 @@ export const meta: Route.MetaFunction = () => {
 }
 
 export const loader = async ({ request }: Route.LoaderArgs) => {
-  await requireAdminUser(request)
   const { toast, headers } = await getToast(request)
   return data({ toastData: toast }, { headers: headers })
 }
@@ -34,12 +32,22 @@ const AdminLayout = ({ loaderData: { toastData } }: Route.ComponentProps) => {
 
   return (
     <div>
-      <header className="flex gap-4 px-4 py-2">
-        <div className="flex-1 text-2xl font-bold">
-          <Link to={href('/')}>Hyperlocal Admin</Link>
-        </div>
-        <div>
-          <UserButton />
+      <header className="border-b">
+        <div className="flex items-center gap-4 px-4 py-2">
+          <div className="text-2xl font-bold">
+            <Link to={href('/')}>Hyperlocal Admin</Link>
+          </div>
+          <nav className="ml-6 flex flex-1 gap-4">
+            <Link to={href('/articles')} className="hover:underline">
+              Articles
+            </Link>
+            <Link to={href('/areas')} className="hover:underline">
+              Areas
+            </Link>
+          </nav>
+          <div>
+            <UserButton />
+          </div>
         </div>
       </header>
 
