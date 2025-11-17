@@ -18,5 +18,5 @@
       "@hyperlocal/types/*": ["../types/*"]
     }
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "./scripts/**/*"]
 }
