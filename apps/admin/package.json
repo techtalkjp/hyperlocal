@@ -9,6 +9,7 @@
     "start": "react-router-serve ./build/server/index.js",
     "generate:article": "tsx --env-file .env scripts/generate-article.ts",
     "import:articles": "tsx --env-file .env scripts/import-articles.ts",
+    "translate:articles": "tsx --env-file .env scripts/translate-articles.ts",
     "lint": "biome lint .",
     "format": "prettier --check . --experimental-cli",
     "format:fix": "prettier --write . --experimental-cli",
@@ -18,6 +19,7 @@
   },
   "dependencies": {
     "@ai-sdk/google": "catalog:",
+    "@anthropic-ai/sdk": "0.69.0",
     "@clerk/react-router": "catalog:",
     "@coji/zodix": "catalog:",
     "@conform-to/react": "catalog:",
