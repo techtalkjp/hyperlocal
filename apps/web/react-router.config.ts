@@ -4,9 +4,8 @@ import type { Config } from '@react-router/dev/config'
 export default {
   ssr: true,
   serverBuildFile: 'server/index.js',
-  // prerender: ['/test'],
   prerender: () => {
-    const routes = ['/test']
+    const routes: string[] = []
     // languages
     for (const lang of languages) {
       const langPath = lang.id === 'en' ? '/' : `/${lang.id}`
