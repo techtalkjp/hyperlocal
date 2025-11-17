@@ -7,6 +7,7 @@ catalog:
   '@biomejs/biome': 2.3.5
   '@clerk/react-router': 2.2.1
   '@coji/zodix': 0.7.0
+  '@hono/node-server': 1.19.6
   '@conform-to/react': 1.13.3
   '@conform-to/zod': 1.13.3
   '@date-fns/tz': 1.4.1
@@ -36,6 +37,7 @@ catalog:
   dotenv-cli: 11.0.0
   duckdb: 1.4.2
   embla-carousel-react: 8.6.0
+  hono: 4.10.6
   isbot: 5.1.32
   kysely: 0.28.8
   kysely-duckdb: 0.1.0
@@ -56,6 +58,7 @@ catalog:
   react: 19.2.0
   react-dom: 19.2.0
   react-router: 7.9.6
+  react-router-hono-server: 2.22.0
   react-twc: 1.5.1
   rehype-highlight: 7.0.2
   remark-gfm: 4.0.1
