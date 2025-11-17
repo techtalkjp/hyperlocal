@@ -1,5 +1,24 @@
 import { db } from '@hyperlocal/db'
 import { createId } from '@paralleldrive/cuid2'
+import { bundleMDX } from 'mdx-bundler'
+import rehypeHighlight from 'rehype-highlight'
+import remarkGfm from 'remark-gfm'
+
+// Compile MDX to executable code
+async function compileMDX(source: string): Promise<string> {
+  const result = await bundleMDX({
+    source,
+    mdxOptions(options) {
+      options.remarkPlugins = [...(options.remarkPlugins ?? []), remarkGfm]
+      options.rehypePlugins = [
+        ...(options.rehypePlugins ?? []),
+        rehypeHighlight,
+      ]
+      return options
+    },
+  })
+  return result.code
+}
 
 export const createArticle = async (data: {
   cityId: string
@@ -11,11 +30,15 @@ export const createArticle = async (data: {
   metadata: string
   status: string
 }) => {
+  // Compile MDX
+  const compiledCode = await compileMDX(data.content)
+
   const article = await db
     .insertInto('areaArticles')
     .values({
       id: createId(),
       ...data,
+      compiledCode,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     })
