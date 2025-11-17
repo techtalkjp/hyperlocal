@@ -7,7 +7,11 @@
   "types": "src/index.ts",
   "scripts": {
     "lint": "biome lint .",
-    "format": "prettier --check ."
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "typecheck": "tsc --noEmit",
+    "validate": "run-s lint format typecheck",
+    "migrate:production": "tsx scripts/push-to-production.ts"
   },
   "keywords": [],
   "author": "",
@@ -16,17 +20,21 @@
     "@biomejs/biome": "catalog:",
     "@types/debug": "catalog:",
     "@types/node": "catalog:",
+    "npm-run-all": "catalog:",
     "prettier": "catalog:",
     "prettier-plugin-organize-imports": "catalog:",
     "prettier-plugin-tailwindcss": "catalog:",
     "prisma": "catalog:",
     "prisma-kysely": "catalog:",
+    "tsx": "catalog:",
     "typescript": "catalog:"
   },
   "dependencies": {
     "@hyperlocal/google-place-api": "workspace:*",
+    "@libsql/client": "catalog:",
     "@libsql/kysely-libsql": "catalog:",
     "debug": "catalog:",
+    "dotenv": "catalog:",
     "kysely": "catalog:"
   }
 }
