@@ -1,4 +1,4 @@
-import { areas, categories } from '@hyperlocal/consts'
+import { areas, categories, scenes } from '@hyperlocal/consts'
 import type { HeadersFunction } from 'react-router'
 import { Link } from 'react-router'
 import { Badge, Card, CardHeader, CardTitle, Stack } from '~/components/ui'
@@ -7,11 +7,15 @@ import { generateAlternateLinks } from '~/features/seo/alternate-links'
 import { generateCanonicalLink } from '~/features/seo/canonical-url'
 import { sortAreasByDistance } from '~/services/distance'
 import type { Route } from './+types/route'
+import { getPublishedArticlesForArea } from './queries.server'
 
 export const headers: HeadersFunction = () => ({
-  // cache for 30 days
+  // Development: short cache for content updates
+  // Production: cache for 4 hours with stale-while-revalidate
   'Cache-Control':
-    'public, max-age=14400, s-maxage=2592000, stale-while-revalidate=2592000',
+    process.env.NODE_ENV === 'production'
+      ? 'public, max-age=14400, s-maxage=14400, stale-while-revalidate=86400'
+      : 'public, max-age=0, must-revalidate',
 })
 
 export const meta: Route.MetaFunction = ({ data, location }) => {
@@ -33,7 +37,7 @@ export const meta: Route.MetaFunction = ({ data, location }) => {
 }
 
 export const loader = async ({ request, params }: Route.LoaderArgs) => {
-  const { lang, area } = await getPathParams(request, params, {
+  const { lang, city, area } = await getPathParams(request, params, {
     require: { area: true },
   })
 
@@ -41,11 +45,19 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
     .slice(0, 4)
     .filter((a) => a.distance < 3000)
     .filter((a) => a.areaId !== area.areaId)
-  return { url: request.url, lang, area, nearbyAreas }
+
+  // Get published articles for this area
+  const articles = await getPublishedArticlesForArea(
+    city.cityId,
+    area.areaId,
+    lang.id,
+  )
+
+  return { url: request.url, lang, area, nearbyAreas, articles }
 }
 
 export default function AreaIndexPage({
-  loaderData: { lang, area, nearbyAreas },
+  loaderData: { lang, area, nearbyAreas, articles },
 }: Route.ComponentProps) {
   return (
     <Stack>
@@ -69,6 +81,39 @@ export default function AreaIndexPage({
           {area.description[lang.id]}
         </p>
       </div>
+
+      {/* Area Guides */}
+      {articles.length > 0 && (
+        <div>
+          <h4 className="font-semibold">Area Guides</h4>
+          <div className="grid gap-2">
+            {articles.map((article) => {
+              const scene = scenes.find((s) => s.id === article.sceneId)
+              return (
+                <Link
+                  to={`guide/${article.sceneId}`}
+                  key={article.sceneId}
+                  prefetch="viewport"
+                  viewTransition
+                >
+                  <Card className="hover:bg-secondary">
+                    <CardHeader>
+                      <CardTitle className="text-base">
+                        {article.title}
+                      </CardTitle>
+                      {scene && (
+                        <p className="text-muted-foreground text-sm">
+                          {scene.description[lang.id]}
+                        </p>
+                      )}
+                    </CardHeader>
+                  </Card>
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+      )}
 
       <div>
         <h4 className="font-semibold">Places</h4>

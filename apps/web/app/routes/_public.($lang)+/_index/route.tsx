@@ -16,9 +16,12 @@ import { generateCanonicalLink } from '~/features/seo/canonical-url'
 import type { Route } from './+types/route'
 
 export const headers: Route.HeadersFunction = () => ({
-  // cache for 30 days
+  // Development: short cache for content updates
+  // Production: cache for 4 hours with stale-while-revalidate
   'Cache-Control':
-    'public, max-age=14400, s-maxage=2592000, stale-while-revalidate=2592000',
+    process.env.NODE_ENV === 'production'
+      ? 'public, max-age=14400, s-maxage=14400, stale-while-revalidate=86400'
+      : 'public, max-age=0, must-revalidate',
 })
 
 const metaDescriptions: Record<string, string> = {

@@ -10,6 +10,10 @@ ${languages
     (lang) => `<sitemap>
   <loc>${origin}/sitemap/rank-${lang.id}.xml</loc>
   <lastmod>${now}</lastmod>
+</sitemap>
+<sitemap>
+  <loc>${origin}/sitemap/articles-${lang.id}.xml</loc>
+  <lastmod>${now}</lastmod>
 </sitemap>`,
     // <sitemap>
     //   <loc>${origin}/sitemap/place-${lang.id}.xml.gz</loc>

@@ -1,11 +1,9 @@
 import { areas, cities } from '@hyperlocal/consts'
 import { Link } from 'react-router'
 import { Button, HStack } from '~/components/ui'
-import { requireAdminUser } from '~/services/auth.server'
 import type { Route } from './+types/route'
 
-export const loader = async ({ request }: Route.LoaderArgs) => {
-  await requireAdminUser(request)
+export const loader = () => {
   return { cities, areas }
 }
 
@@ -13,7 +11,14 @@ export default function AdminIndex({
   loaderData: { cities, areas },
 }: Route.ComponentProps) {
   return (
-    <div>
+    <div className="space-y-6">
+      <HStack>
+        <h1 className="text-xl font-bold">Articles</h1>
+        <Button variant="outline" size="xs" asChild>
+          <Link to="/articles">manage articles</Link>
+        </Button>
+      </HStack>
+
       <HStack>
         <h1 className="text-xl font-bold">Areas</h1>
         <Button variant="outline" size="xs" asChild>

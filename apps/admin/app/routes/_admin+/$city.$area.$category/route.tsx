@@ -1,11 +1,9 @@
 import { href, Link, Outlet, replace } from 'react-router'
 import { Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { getPathParams } from '~/features/admin/get-path-params'
-import { requireAdminUser } from '~/services/auth.server'
 import type { Route } from './+types/route'
 
-export const loader = async ({ request, params }: Route.LoaderArgs) => {
-  await requireAdminUser(request)
+export const loader = ({ params }: Route.LoaderArgs) => {
   const { city, area, category, rankType } = getPathParams(params)
   if (!area) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })

@@ -14,6 +14,19 @@ export type AdminUser = {
     updatedAt: string;
     createdAt: Generated<string>;
 };
+export type AreaArticle = {
+    id: string;
+    cityId: string;
+    areaId: string;
+    sceneId: string;
+    language: string;
+    title: string;
+    content: string;
+    status: Generated<string>;
+    metadata: string;
+    createdAt: Generated<string>;
+    updatedAt: string;
+};
 export type LocalizedPlace = {
     cityId: string;
     areaId: string;
@@ -66,6 +79,7 @@ export type PlaceListing = {
 };
 export type DB = {
     adminUsers: AdminUser;
+    areaArticles: AreaArticle;
     localizedPlaces: LocalizedPlace;
     placeListings: PlaceListing;
     places: Place;

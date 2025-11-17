@@ -4,13 +4,10 @@ import { Link, redirect } from 'react-router'
 import { z } from 'zod'
 import { HStack, Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { PlaceCard, Rating } from '~/features/place/components'
-import { requireAdminUser } from '~/services/auth.server'
 import type { Route } from './+types/route'
 import { getLocalizedPlace, getPlace } from './queries.server'
 
-export const loader = async ({ request, params }: Route.LoaderArgs) => {
-  await requireAdminUser(request)
-
+export const loader = async ({ params }: Route.LoaderArgs) => {
   const { place: placeId, lang: languageId } = zx.parseParams(params, {
     place: z.string(),
     lang: LanguageIdSchema.optional(),

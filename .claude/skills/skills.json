@@ -1,0 +1,9 @@
+{
+  "skills": [
+    {
+      "name": "create-area-article",
+      "description": "エリアとシーンを指定して、DBの実際のPlaceデータを使った記事を作成・登録",
+      "path": "create-area-article.md"
+    }
+  ]
+}

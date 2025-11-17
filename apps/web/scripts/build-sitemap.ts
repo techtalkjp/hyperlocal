@@ -1,6 +1,7 @@
 import { languages } from '@hyperlocal/consts'
 import fs from 'node:fs'
 import path from 'node:path'
+import { generateArticlesSitemap } from './sitemap/generate-articles'
 import { generateIndexSitemap } from './sitemap/generate-index'
 import { generateRankSitemap } from './sitemap/generate-rank'
 
@@ -38,6 +39,19 @@ const main = async () => {
       path.join(outputDir, `sitemap/rank-${lang.id}.xml`),
       sitemapAreaCategoryRankContent,
     )
+
+    // articles
+    const sitemapArticlesContent = await generateArticlesSitemap(
+      origin,
+      'tokyo',
+      lang.id,
+    )
+    if (sitemapArticlesContent) {
+      fs.writeFileSync(
+        path.join(outputDir, `sitemap/articles-${lang.id}.xml`),
+        sitemapArticlesContent,
+      )
+    }
 
     // places
     // const sitemapPlaceContent = await generatePlaceSitemap(origin, 'tokyo', lang.id)
