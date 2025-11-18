@@ -132,7 +132,10 @@
 
   :lang(en) h1,
   :lang(en) h2,
-  :lang(en) h3 {
+  :lang(en) h3,
+  :lang(en) h4,
+  :lang(en) h5,
+  :lang(en) h6 {
     @apply font-heading tracking-tight;
   }
 }
