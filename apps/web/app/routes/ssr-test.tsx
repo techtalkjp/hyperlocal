@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import type { Route } from './+types/ssr-test'
 import { getMDXComponent } from 'mdx-bundler/client/index.js'
 import { db } from '@hyperlocal/db'
@@ -29,12 +28,15 @@ export const loader = async () => {
 
   // 3. Place data fetch timing
   const placesStart = Date.now()
-  const places = await db
-    .selectFrom('localizedPlaces')
-    .selectAll()
-    .where('placeId', 'in', placeIds)
-    .where('language', '=', 'ja')
-    .execute()
+  const places =
+    placeIds.length > 0
+      ? await db
+          .selectFrom('localizedPlaces')
+          .selectAll()
+          .where('placeId', 'in', placeIds)
+          .where('language', '=', 'ja')
+          .execute()
+      : []
   timings.fetchPlaces = Date.now() - placesStart
 
   const placesMap = Object.fromEntries(places.map((p) => [p.placeId, p]))
@@ -53,8 +55,9 @@ export default function SSRTestPage({ loaderData }: Route.ComponentProps) {
   const { article, mdxCode, placesMap, timings } = loaderData
 
   // MDX component creation timing (happens during render)
+  // Note: Not using useMemo to accurately measure getMDXComponent performance
   const componentStart = Date.now()
-  const Component = useMemo(() => getMDXComponent(mdxCode), [mdxCode])
+  const Component = getMDXComponent(mdxCode)
   const componentTime = Date.now() - componentStart
 
   const Place = ({ id }: { id: string }) => {

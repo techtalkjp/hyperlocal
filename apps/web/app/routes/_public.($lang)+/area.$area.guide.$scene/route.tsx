@@ -1,7 +1,6 @@
 import { UTCDate } from '@date-fns/utc'
 import { scenes } from '@hyperlocal/consts'
 import { getMDXComponent } from 'mdx-bundler/client/index.js'
-import { useMemo } from 'react'
 import { data, Link } from 'react-router'
 import { ClientOnly } from 'remix-utils/client-only'
 import {
@@ -23,7 +22,7 @@ import type { Route } from './+types/route'
 import {
   type ParsedLocalizedPlace,
   getArticle,
-  getLocalizedPlaceById,
+  getLocalizedPlacesByIds,
   getOtherArticlesForArea,
 } from './queries.server'
 
@@ -67,16 +66,12 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
   )
   const placeIds = Array.from(placeIdMatches, (match) => match[1])
 
-  // Fetch place data for all referenced places
-  const places = await Promise.all(
-    placeIds.map((placeId) => getLocalizedPlaceById(placeId, lang.id)),
-  )
+  // Fetch place data for all referenced places in a single query
+  const places = await getLocalizedPlacesByIds(placeIds, lang.id)
 
   // Create a map of place data
   const placesMap = Object.fromEntries(
-    places
-      .filter((place): place is ParsedLocalizedPlace => place !== null)
-      .map((place) => [place.placeId, place]),
+    places.map((place) => [place.placeId, place]),
   )
 
   // Get other articles for this area
@@ -105,7 +100,8 @@ export default function AreaGuideScenePage({
   const { lang, area, scene, article, mdxCode, placesMap, otherArticles } =
     loaderData
 
-  const Component = useMemo(() => getMDXComponent(mdxCode), [mdxCode])
+  // Note: Not using useMemo per CLAUDE.md guidelines - getMDXComponent is pure and fast
+  const Component = getMDXComponent(mdxCode)
 
   // Place component for use in MDX
   const Place = ({ id }: { id: string }) => {

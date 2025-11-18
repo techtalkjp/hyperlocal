@@ -48,7 +48,11 @@ export default {
           routes.push(guidePath)
         }
 
-        console.log(`✓ Prerendering ${articles.length} guide articles`)
+        if (articles.length === 0) {
+          console.warn('⚠ Warning: No published guide articles found for prerendering')
+        } else {
+          console.log(`✓ Prerendering ${articles.length} guide articles`)
+        }
       } catch (error) {
         console.error('Failed to fetch guide articles for prerendering:', error)
         console.error('Database URL:', process.env.DATABASE_URL)
