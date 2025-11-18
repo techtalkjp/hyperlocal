@@ -32,16 +32,27 @@ export default {
 
     // guide articles - only if DATABASE_URL is set
     if (process.env.DATABASE_URL) {
-      const articles = await db
-        .selectFrom('areaArticles')
-        .select(['cityId', 'areaId', 'sceneId', 'language'])
-        .where('status', '=', 'published')
-        .execute()
+      try {
+        const articles = await db
+          .selectFrom('areaArticles')
+          .select(['cityId', 'areaId', 'sceneId', 'language'])
+          .where('status', '=', 'published')
+          .execute()
 
-      for (const article of articles) {
-        const langPath = article.language === 'en' ? '' : `/${article.language}`
-        const guidePath = `${langPath}/area/${article.areaId}/guide/${article.sceneId}`
-        routes.push(guidePath)
+        for (const article of articles) {
+          const langPath = article.language === 'en' ? '' : `/${article.language}`
+          const guidePath = `${langPath}/area/${article.areaId}/guide/${article.sceneId}`
+          routes.push(guidePath)
+        }
+
+        console.log(`✓ Prerendering ${articles.length} guide articles`)
+      } catch (error) {
+        console.error('Failed to fetch guide articles for prerendering:', error)
+        console.error('Database URL:', process.env.DATABASE_URL)
+        throw new Error(
+          `Guide article prerendering failed: ${error instanceof Error ? error.message : String(error)}. ` +
+            'This will result in missing guide pages in production. Build aborted.'
+        )
       }
     }
 
