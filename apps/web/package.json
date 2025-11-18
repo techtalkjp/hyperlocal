@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "react-router dev --host",
     "make:replica": "tsx --env-file .env scripts/make-local-replica.ts",
+    "db:reset": "cp ../../data/production-replica.db ../../data/dev.db && echo '✅ dev.db reset from production data'",
     "upload:db": "tsx --env-file .env scripts/upload-db.ts",
     "build": "react-router build && tsx --env-file=.env scripts/build-sitemap.ts",
     "build:sitemap": "tsx --env-file=.env scripts/build-sitemap.ts",

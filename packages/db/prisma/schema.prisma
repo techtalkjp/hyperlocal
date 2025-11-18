@@ -87,6 +87,7 @@ model LocalizedPlace {
   place               Place    @relation(fields: [placeId], references: [id])
 
   @@id([cityId, areaId, categoryId, rankingType, placeId, language])
+  @@index([placeId, language], map: "localized_places_place_id_language_idx")
   @@map("localized_places")
 }
 
