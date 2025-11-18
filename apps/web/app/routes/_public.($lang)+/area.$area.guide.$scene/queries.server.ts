@@ -104,6 +104,34 @@ export const getLocalizedPlaceById = async (
   }
 }
 
+export const getLocalizedPlacesByIds = async (
+  placeIds: string[],
+  language: string,
+): Promise<ParsedLocalizedPlace[]> => {
+  if (placeIds.length === 0) return []
+
+  // Fetch all places in a single query
+  const places = await db
+    .selectFrom('localizedPlaces')
+    .selectAll()
+    .where('placeId', 'in', placeIds)
+    .where('language', '=', language)
+    .execute()
+
+  // ParseJSONResultsPlugin already parses JSON fields automatically
+  return places.map((place) => ({
+    ...place,
+    genres: place.genres as unknown as string[],
+    reviews: place.reviews as unknown as Array<{
+      rating: number
+      text?: string
+    }>,
+    photos: place.photos as unknown as string[],
+    priceLevel: place.priceLevel as GooglePlacePriceLevel | null,
+    regularOpeningHours: place.regularOpeningHours as unknown,
+  }))
+}
+
 export const getOtherArticlesForArea = async (
   cityId: string,
   areaId: string,
