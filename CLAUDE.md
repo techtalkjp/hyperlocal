@@ -46,6 +46,16 @@ pnpm build
 pnpm deploy
 ```
 
+### Pull Request Review
+
+```bash
+# View PR review comments
+gh api repos/techtalkjp/hyperlocal/issues/[PR_NUMBER]/comments --jq '.[] | select(.user.login == "claude[bot]") | .body' | tail -1
+
+# Example: View latest Claude review for PR #33
+gh api repos/techtalkjp/hyperlocal/issues/33/comments --jq '.[] | select(.user.login == "claude[bot]") | .body' | tail -1
+```
+
 ### Database Operations
 
 ```bash
