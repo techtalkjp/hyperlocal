@@ -58,7 +58,10 @@ export default {
         }
       } catch (error) {
         console.error('Failed to fetch guide articles for prerendering:', error)
-        console.error('Database URL:', process.env.DATABASE_URL)
+        console.error(
+          'Database configured:',
+          process.env.DATABASE_URL ? 'Yes' : 'No',
+        )
         throw new Error(
           `Guide article prerendering failed: ${error instanceof Error ? error.message : String(error)}. ` +
             'This will result in missing guide pages in production. Build aborted.',

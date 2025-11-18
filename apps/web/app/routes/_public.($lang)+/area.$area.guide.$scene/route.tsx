@@ -119,7 +119,9 @@ export default function AreaGuideScenePage({
     const placePath =
       lang.id === 'en' ? `/place/${id}` : `/${lang.id}/place/${id}`
     const reviewText =
-      typeof place.reviews[0]?.text === 'string' ? place.reviews[0].text : null
+      place.reviews?.length > 0 && typeof place.reviews[0].text === 'string'
+        ? place.reviews[0].text
+        : null
 
     return (
       <Link
