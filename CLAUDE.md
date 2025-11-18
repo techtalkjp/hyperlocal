@@ -59,9 +59,17 @@ gh api repos/techtalkjp/hyperlocal/issues/33/comments --jq '.[] | select(.user.l
 ### Database Operations
 
 ```bash
-# Database sync (in apps/web)
-pnpm make:replica  # Create local database replica from production
-pnpm upload:db     # Upload database to production (R2)
+# Local development
+pnpm db:migrate                    # Create and apply Prisma migration (to dev.db)
+pnpm db:replica                    # Download production data from Turso (to production-replica.db)
+pnpm db:reset                      # Copy production-replica.db → dev.db
+
+# Production deployment
+pnpm db:migrate:production         # Apply migrations to Turso
+pnpm db:fix:checksums              # Fix migration checksums in Turso
+pnpm db:upload                     # Upload dev.db to R2 for distribution
+
+# See docs/database-operations.md for detailed workflows
 ```
 
 ### Article Management (in apps/admin)

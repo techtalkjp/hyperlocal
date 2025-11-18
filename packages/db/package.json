@@ -11,7 +11,8 @@
     "format:fix": "prettier --write .",
     "typecheck": "tsc --noEmit",
     "validate": "run-s lint format typecheck",
-    "migrate:production": "tsx scripts/push-to-production.ts"
+    "migrate:production": "tsx scripts/push-to-production.ts",
+    "fix:checksums": "tsx scripts/fix-migration-checksums.ts"
   },
   "keywords": [],
   "author": "",
