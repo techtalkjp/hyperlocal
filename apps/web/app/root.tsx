@@ -1,5 +1,12 @@
 import { languages } from '@hyperlocal/consts'
-import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router'
+import {
+  Links,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  useRouteLoaderData,
+} from 'react-router'
 import type { Route } from './+types/root'
 import { PageLoadingProgress } from './components/page-loading-progress'
 import { ThemeProvider } from './components/theme-provider'
@@ -29,8 +36,11 @@ export const loader = ({ params }: Route.LoaderArgs) => {
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const data = useRouteLoaderData<typeof loader>('root')
+  const lang = data?.lang?.id ?? 'en'
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={lang} suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
