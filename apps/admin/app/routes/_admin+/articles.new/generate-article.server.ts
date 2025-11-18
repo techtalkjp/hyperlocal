@@ -68,6 +68,9 @@ DO NOT:
 - Mention specific dates or limited-time offers
 - Make assumptions about cuisine type - always verify from reviews
 - Contradict information in the reviews
+- Include links to other articles or guides (e.g., "check out our lunch guide")
+- Reference other content pages or create cross-references between articles
+- Add "See also" or "Related articles" sections - these are auto-generated
 `
 
   const placesInfo = places

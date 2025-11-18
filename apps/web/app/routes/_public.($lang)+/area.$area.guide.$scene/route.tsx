@@ -257,9 +257,13 @@ export default function AreaGuideScenePage({
               const otherScene = scenes.find(
                 (s) => s.id === otherArticle.sceneId,
               )
+              const otherGuidePath =
+                lang.id === 'en'
+                  ? `/area/${area.areaId}/guide/${otherArticle.sceneId}`
+                  : `/${lang.id}/area/${area.areaId}/guide/${otherArticle.sceneId}`
               return (
                 <Link
-                  to={`../${otherArticle.sceneId}`}
+                  to={otherGuidePath}
                   key={otherArticle.sceneId}
                   prefetch="viewport"
                   viewTransition
