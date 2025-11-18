@@ -76,6 +76,9 @@
 }
 
 @theme inline {
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "ヒラギノ角ゴ ProN W3", "Yu Gothic", "游ゴシック体", YuGothic, Meiryo, sans-serif;
+  --font-heading: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -118,7 +121,21 @@
   * {
     @apply border-border outline-ring/50;
   }
+
+  html {
+    @apply font-sans antialiased;
+  }
+
   body {
     @apply bg-background text-foreground;
+  }
+
+  :lang(en) h1,
+  :lang(en) h2,
+  :lang(en) h3,
+  :lang(en) h4,
+  :lang(en) h5,
+  :lang(en) h6 {
+    @apply font-heading tracking-tight;
   }
 }
