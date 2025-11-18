@@ -35,8 +35,11 @@ export default {
       try {
         const articles = await db
           .selectFrom('areaArticles')
-          .select(['cityId', 'areaId', 'sceneId', 'language'])
+          .select(['areaId', 'sceneId', 'language'])
           .where('status', '=', 'published')
+          .where('areaId', 'is not', null)
+          .where('sceneId', 'is not', null)
+          .where('language', 'is not', null)
           .execute()
 
         for (const article of articles) {
