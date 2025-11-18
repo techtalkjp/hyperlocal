@@ -3,8 +3,7 @@ import type { Route } from './+types/ssr-test'
 import { getMDXComponent } from 'mdx-bundler/client/index.js'
 import { db } from '@hyperlocal/db'
 
-export const loader = async ({ request }: Route.LoaderArgs) => {
-  const url = new URL(request.url)
+export const loader = async () => {
   const startTime = Date.now()
   const timings: Record<string, number> = {}
 
@@ -64,7 +63,6 @@ export default function SSRTestPage({ loaderData }: Route.ComponentProps) {
     return (
       <div className="my-6 rounded border p-4">
         <h3 className="font-bold">{place.displayName}</h3>
-        <p className="text-sm text-muted-foreground">{place.formattedAddress}</p>
       </div>
     )
   }
