@@ -143,6 +143,21 @@ Core entities:
 - `apps/admin/app/routes/`: Admin app routes
 - `apps/crawler/src/commands/`: Crawler command implementations
 
+## Git Workflow
+
+### CRITICAL: Never Commit Directly to Main
+
+**ALWAYS create a feature branch and pull request. NEVER commit directly to the main branch.**
+
+Workflow:
+1. Create a new branch: `git checkout -b feature/description`
+2. Make your changes and commit to the feature branch
+3. Push the branch: `git push -u origin feature/description`
+4. Create a pull request using `gh pr create`
+5. After review and approval, merge via GitHub UI or `gh pr merge`
+
+This rule applies to ALL changes, no matter how small. Direct commits to main are strictly prohibited.
+
 ## Documentation Policy
 
 When creating investigation reports or analysis documents, save them in `docs/journals/YYYY-MM-DD/` directory with descriptive filenames. Follow these guidelines:
