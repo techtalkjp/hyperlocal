@@ -1,6 +1,6 @@
-import type { Route } from './+types/ssr-test'
-import { getMDXComponent } from 'mdx-bundler/client/index.js'
 import { db } from '@hyperlocal/db'
+import { getMDXComponent } from 'mdx-bundler/client/index.js'
+import type { Route } from './+types/ssr-test'
 
 export const loader = async () => {
   const startTime = Date.now()
@@ -22,7 +22,9 @@ export const loader = async () => {
 
   // 2. Place extraction timing
   const extractStart = Date.now()
-  const placeIdMatches = article.content.matchAll(/<Place\s+id="([^"]+)"\s*\/>/g)
+  const placeIdMatches = article.content.matchAll(
+    /<Place\s+id="([^"]+)"\s*\/>/g,
+  )
   const placeIds = Array.from(placeIdMatches, (match) => match[1])
   timings.extractPlaces = Date.now() - extractStart
 

@@ -43,13 +43,16 @@ export default {
           .execute()
 
         for (const article of articles) {
-          const langPath = article.language === 'en' ? '' : `/${article.language}`
+          const langPath =
+            article.language === 'en' ? '' : `/${article.language}`
           const guidePath = `${langPath}/area/${article.areaId}/guide/${article.sceneId}`
           routes.push(guidePath)
         }
 
         if (articles.length === 0) {
-          console.warn('⚠ Warning: No published guide articles found for prerendering')
+          console.warn(
+            '⚠ Warning: No published guide articles found for prerendering',
+          )
         } else {
           console.log(`✓ Prerendering ${articles.length} guide articles`)
         }
@@ -58,7 +61,7 @@ export default {
         console.error('Database URL:', process.env.DATABASE_URL)
         throw new Error(
           `Guide article prerendering failed: ${error instanceof Error ? error.message : String(error)}. ` +
-            'This will result in missing guide pages in production. Build aborted.'
+            'This will result in missing guide pages in production. Build aborted.',
         )
       }
     }

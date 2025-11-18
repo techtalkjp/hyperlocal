@@ -116,6 +116,7 @@ Core entities:
 5. **API Integration**: Google Places API for place data and photos.
 6. **useEffect Policy**: Only for external sync (API, WebSocket, browser APIs, timers). Never for derived state, props copying, user actions, or one-time init. Compute during render; handle actions in event handlers. Always add comment explaining what external resource it syncs.
 7. **Database JSON Handling**: Kysely is configured with `ParseJSONResultsPlugin` (`packages/db/src/index.ts`), which automatically parses JSON fields from the database. Fields like `genres`, `reviews`, `photos`, and `regularOpeningHours` are automatically converted from JSON strings to JavaScript objects/arrays. No manual `JSON.parse()` is needed in query results - simply cast to the appropriate type.
+8. **Pre-commit Validation**: **ALWAYS run `pnpm validate` before creating git commits**. This runs all quality checks (format, lint, typecheck, test). Never rely on typecheck alone - always use the full validate command.
 
 ### Important Files
 

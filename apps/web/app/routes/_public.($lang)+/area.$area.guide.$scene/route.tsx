@@ -20,7 +20,6 @@ import {
 } from '~/features/place/utils'
 import type { Route } from './+types/route'
 import {
-  type ParsedLocalizedPlace,
   getArticle,
   getLocalizedPlacesByIds,
   getOtherArticlesForArea,
