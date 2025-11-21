@@ -13,6 +13,7 @@ import {
   Button,
 } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
+import { RouteErrorBoundary } from '~/features/error/components/route-error-boundary'
 import { LocalizedPlaceDetails } from '~/features/place/components/localized-place-details'
 import { generateCanonicalLink } from '~/features/seo/canonical-url'
 import type { Route } from './+types/route'
@@ -118,4 +119,8 @@ export default function SpotDetail({
       <LocalizedPlaceDetails place={place} />
     </div>
   )
+}
+
+export const ErrorBoundary = () => {
+  return <RouteErrorBoundary languageId="en" />
 }
