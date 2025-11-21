@@ -75,7 +75,7 @@ export const ErrorDisplay = ({
   const { icon: Icon, badgeVariant, badgeText } = getErrorConfig()
 
   return (
-    <div className="mx-auto max-w-2xl p-4">
+    <div className="w-full space-y-4">
       <Card>
         <CardHeader>
           <div className="flex items-start gap-4">
@@ -91,7 +91,7 @@ export const ErrorDisplay = ({
         </CardHeader>
       </Card>
 
-      <div className="mt-4 flex gap-2">
+      <div className="flex gap-2">
         {errorType === 'not-found' ? (
           <Button asChild>
             <Link to="/">
