@@ -67,7 +67,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
         >
           {children}
         </ThemeProvider>
-        <ScrollRestoration />
+        <ScrollRestoration
+          getKey={(location) => {
+            // リストページには location.pathname + location.search をキーとして使用
+            // これにより、詳細ページから戻った時に同じキーとして認識され、スクロール位置が復元される
+            return location.pathname + location.search
+          }}
+        />
         <Scripts />
       </body>
     </html>

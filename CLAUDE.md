@@ -134,7 +134,8 @@ Core entities:
 5. **API Integration**: Google Places API for place data and photos.
 6. **useEffect Policy**: Only for external sync (API, WebSocket, browser APIs, timers). Never for derived state, props copying, user actions, or one-time init. Compute during render; handle actions in event handlers. Always add comment explaining what external resource it syncs.
 7. **Database JSON Handling**: Kysely is configured with `ParseJSONResultsPlugin` (`packages/db/src/index.ts`), which automatically parses JSON fields from the database. Fields like `genres`, `reviews`, `photos`, and `regularOpeningHours` are automatically converted from JSON strings to JavaScript objects/arrays. No manual `JSON.parse()` is needed in query results - simply cast to the appropriate type.
-8. **Pre-commit Validation**: **ALWAYS run `pnpm validate` before creating git commits**. This runs all quality checks (format, lint, typecheck, test). Never rely on typecheck alone - always use the full validate command.
+8. **Pre-commit Validation**: **ALWAYS run `pnpm validate` before creating git commits**. This runs all quality checks (format, lint, typecheck, test). Never rely on typecheck alone - always use the full validate command. After implementing any changes, run `pnpm validate` to ensure code quality before committing.
+9. **UI/UX Design**: Follow the principles outlined in `docs/design-policy.md`. Prioritize usability over visual aesthetics: operations should not block users, provide immediate feedback, allow easy state recovery, and maintain predictable behavior.
 
 ### Important Files
 
@@ -160,10 +161,10 @@ This rule applies to ALL changes, no matter how small. Direct commits to main ar
 
 ## Documentation Policy
 
-When creating investigation reports or analysis documents, save them in `docs/journals/YYYY-MM-DD/` directory with descriptive filenames. Follow these guidelines:
+When creating technical documents in `docs/`, save them in `docs/journals/YYYY-MM-DD/` directory with descriptive filenames.
 
-1. **Language**: Write in Japanese for this project
-2. **Structure**: Begin with executive summary that presents conclusions first for readers without technical context
-3. **Style**: Use natural prose with clear logical flow. Avoid tables, bullet lists, and emojis unless necessary
-4. **Clarity**: Write for non-technical stakeholders who lack domain expertise. Explain technical terms when used
-5. **Code Examples**: Include code only when absolutely necessary to illustrate a critical point. Prefer prose explanations over code snippets
+**Writing Style**: Write in natural Japanese prose focused on "why" and "what". Explain technical terms within the narrative. Build clear logical arguments. Start with context and motivation before technical details. Keep tone professional and straightforward (質実剛健).
+
+**Structure**: Begin with the problem or goal, explain reasoning behind decisions, describe the approach in complete sentences, use concrete examples, end with implications.
+
+**Avoid**: Excessive bullet points, large tables, decorative emojis, jargon without explanation, fragmented information lacking narrative flow. Include code only when absolutely necessary
