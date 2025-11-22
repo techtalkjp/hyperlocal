@@ -10,6 +10,7 @@ import {
 import type { Route } from './+types/root'
 import { PageLoadingProgress } from './components/page-loading-progress'
 import { ThemeProvider } from './components/theme-provider'
+import { RouteErrorBoundary } from './features/error/components/route-error-boundary'
 import { generateCanonicalLink } from './features/seo/canonical-url'
 import './styles/globals.css'
 
@@ -67,7 +68,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
         >
           {children}
         </ThemeProvider>
-        <ScrollRestoration />
+        <ScrollRestoration
+          getKey={(location) => {
+            // リストページには location.pathname + location.search をキーとして使用
+            // これにより、詳細ページから戻った時に同じキーとして認識され、スクロール位置が復元される
+            return location.pathname + location.search
+          }}
+        />
         <Scripts />
       </body>
     </html>
@@ -102,3 +109,31 @@ const App = ({ loaderData: { env } }: Route.ComponentProps) => {
   )
 }
 export default App
+
+export const ErrorBoundary = () => {
+  // Try to get language from route loader data, fallback to 'en'
+  const data = useRouteLoaderData<typeof loader>('root')
+  const languageId = data?.lang?.id ?? 'en'
+
+  return (
+    <html lang={languageId} suppressHydrationWarning>
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <RouteErrorBoundary languageId={languageId} />
+        </ThemeProvider>
+        <Scripts />
+      </body>
+    </html>
+  )
+}

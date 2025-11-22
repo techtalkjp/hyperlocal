@@ -3,6 +3,7 @@ import { href, NavLink } from 'react-router'
 import { match } from 'ts-pattern'
 import { Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
+import { RouteErrorBoundary } from '~/features/error/components/route-error-boundary'
 import { LocalizedPlaceCard } from '~/features/place/components/localized-place-card'
 import { generateAlternateLinks } from '~/features/seo/alternate-links'
 import {
@@ -160,4 +161,10 @@ export default function CategoryIndexPage({
       ))}
     </Stack>
   )
+}
+
+export const ErrorBoundary = () => {
+  // Note: languageId should ideally be extracted from route params/loader
+  // For now, using 'en' as default. This could be improved by accessing route context
+  return <RouteErrorBoundary languageId="en" />
 }
