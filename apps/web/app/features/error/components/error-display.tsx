@@ -102,7 +102,7 @@ export const ErrorDisplay = ({
         ) : (
           <Button onClick={handleRetry} disabled={isRetrying}>
             <RefreshCw
-              className={`mr-2 h-4 w-4 ${isRetrying ? 'animate-spin' : ''}`}
+              className={`mr-2 h-4 w-4 ${isRetrying ? 'animate-spin text-blue-500' : ''}`}
             />
             {messages.action}
           </Button>
