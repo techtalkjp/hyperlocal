@@ -17,3 +17,13 @@ export const getLocalizedPlace = async ({
 
   return place as unknown as LocalizedPlace
 }
+
+export const getPlaceListings = async ({ placeId }: { placeId: string }) => {
+  const listings = await db
+    .selectFrom('placeListings')
+    .select(['areaId', 'categoryId'])
+    .where('placeId', '==', placeId)
+    .execute()
+
+  return listings
+}
