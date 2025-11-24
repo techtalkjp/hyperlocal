@@ -2,7 +2,7 @@ import { zx } from '@coji/zodix/v4'
 import { areas, categories } from '@hyperlocal/consts'
 import { ChevronLeft } from 'lucide-react'
 import type { HeadersFunction } from 'react-router'
-import { Link, useSearchParams } from 'react-router'
+import { Link } from 'react-router'
 import { z } from 'zod'
 import {
   Breadcrumb,
@@ -13,10 +13,11 @@ import {
   Button,
 } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
+import { RouteErrorBoundary } from '~/features/error/components/route-error-boundary'
 import { LocalizedPlaceDetails } from '~/features/place/components/localized-place-details'
 import { generateCanonicalLink } from '~/features/seo/canonical-url'
 import type { Route } from './+types/route'
-import { getLocalizedPlace } from './queries.server'
+import { getLocalizedPlace, getPlaceListings } from './queries.server'
 
 export const headers: HeadersFunction = () => ({
   // Development: short cache for content updates
@@ -41,34 +42,46 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
     place: z.string(),
   })
   const { city, lang } = getPathParams(request, params)
+  const url = new URL(request.url)
+  const areaIdParam = url.searchParams.get('area')
+  const categoryIdParam = url.searchParams.get('category')
+  const rankType = url.searchParams.get('rank') ?? 'rating'
 
   const place = await getLocalizedPlace({ placeId, language: lang.id })
   if (!place) {
     throw new Response('Not Found', { status: 404 })
   }
 
-  return { placeId, city, lang, place }
+  // クエリパラメータからエリア・カテゴリーを取得。なければPlaceListingから取得
+  let areaId = areaIdParam
+  let categoryId = categoryIdParam
+
+  if (!areaId || !categoryId) {
+    const listings = await getPlaceListings({ placeId })
+    if (listings.length > 0) {
+      // 最初のリスティングを使用（複数ある場合は距離計算で最適なものを選ぶことも可能）
+      areaId = areaId ?? listings[0].areaId
+      categoryId = categoryId ?? listings[0].categoryId
+    }
+  }
+
+  const area = areas.find((a) => a.areaId === areaId)
+  const category = categories.find((c) => c.id === categoryId)
+
+  return { placeId, city, lang, place, area, category, rankType }
 }
 
 export default function SpotDetail({
-  loaderData: { lang, place },
+  loaderData: { lang, place, area, category, rankType },
 }: Route.ComponentProps) {
-  const [searchParams] = useSearchParams()
-  const areaId = searchParams.get('area')
-  const categoryId = searchParams.get('category')
-  const rankType = searchParams.get('rank')
-  const area = areas.find((a) => a.areaId === areaId)
-  const category = categories.find((c) => c.id === categoryId)
-  const rank = rankType ?? 'rating'
-
   const getBackToListUrl = () => {
-    return `${lang.path}area/${area?.areaId}/${category?.id}/${rank}`
+    if (!area || !category) return `${lang.path}`
+    return `${lang.path}area/${area.areaId}/${category.id}/${rankType}`
   }
-  const isLinkedFromList = !!area && !!category
 
   return (
     <div className="grid gap-2">
-      {isLinkedFromList && (
+      {area && category && (
         <div className="px-1.5 md:px-0">
           <Breadcrumb>
             <BreadcrumbList>
@@ -82,7 +95,7 @@ export default function SpotDetail({
                       viewTransitionName: `area-title-${area.areaId}`,
                     }}
                   >
-                    {area?.i18n[lang.id]}
+                    {area.i18n[lang.id]}
                   </Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
@@ -90,14 +103,14 @@ export default function SpotDetail({
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
                   <Link
-                    to={`${lang.path}area/${area?.areaId}/${category?.id}/${rank}`}
+                    to={`${lang.path}area/${area.areaId}/${category.id}/${rankType}`}
                     prefetch="viewport"
                     viewTransition
                     style={{
-                      viewTransitionName: `nav-category-${category?.id}`,
+                      viewTransitionName: `nav-category-${category.id}`,
                     }}
                   >
-                    {category?.i18n[lang.id]}
+                    {category.i18n[lang.id]}
                   </Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
@@ -105,7 +118,7 @@ export default function SpotDetail({
           </Breadcrumb>
 
           <div>
-            <Button variant="ghost" asChild>
+            <Button variant="outline" asChild>
               <Link to={getBackToListUrl()} prefetch="viewport" viewTransition>
                 <ChevronLeft className="mr-2 h-4 w-4" />
                 Back to List
@@ -118,4 +131,8 @@ export default function SpotDetail({
       <LocalizedPlaceDetails place={place} />
     </div>
   )
+}
+
+export const ErrorBoundary = () => {
+  return <RouteErrorBoundary languageId="en" />
 }

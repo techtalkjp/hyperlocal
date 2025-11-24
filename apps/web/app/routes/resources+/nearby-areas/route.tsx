@@ -83,7 +83,7 @@ export const NearbyAreasSelector = ({
       <DropdownMenuContent>
         {fetcher.state === 'loading' && (
           <DropdownMenuItem className="text-blue-500">
-            <LoaderIcon className="mr-2 inline h-4 w-4 animate-spin" />
+            <LoaderIcon className="mr-2 inline h-4 w-4 animate-spin text-blue-500" />
             Loading...
           </DropdownMenuItem>
         )}

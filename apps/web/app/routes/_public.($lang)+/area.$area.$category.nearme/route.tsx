@@ -1,4 +1,4 @@
-import { LoaderIcon } from 'lucide-react'
+import { AlertCircle, LoaderIcon, XCircle } from 'lucide-react'
 import {
   type ClientLoaderFunctionArgs,
   href,
@@ -6,7 +6,7 @@ import {
   useLoaderData,
 } from 'react-router'
 import { match } from 'ts-pattern'
-import { Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
+import { Button, Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { LocalizedPlaceCard } from '~/features/place/components/localized-place-card'
 import { generateAlternateLinks } from '~/features/seo/alternate-links'
@@ -106,14 +106,26 @@ export const clientLoader = async ({
 }: ClientLoaderFunctionArgs) => {
   const { places, ...loaderResponses } = await serverLoader<typeof loader>()
 
-  const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-    navigator.geolocation.getCurrentPosition(resolve, reject)
-  }).catch((e) => {
-    console.log(e)
+  // 位置情報取得を10秒でタイムアウト
+  const position = await Promise.race([
+    new Promise<GeolocationPosition>((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject, {
+        timeout: 10000,
+        maximumAge: 300000, // 5分間はキャッシュを使用
+        enableHighAccuracy: false, // 高精度は不要（速度優先）
+      })
+    }),
+    new Promise<null>((_, reject) =>
+      setTimeout(() => reject(new Error('Timeout')), 10000),
+    ),
+  ]).catch((e) => {
+    console.log('Geolocation error:', e)
     return null
   })
+
+  // 位置情報が取得できない場合は、rating順でソート
   if (!position) {
-    throw new Error('Geolocation not available')
+    return { places, ...loaderResponses, position: null }
   }
 
   const sortedPlaces = sortLocalizedPlaceByDistance(
@@ -127,7 +139,8 @@ export const clientLoader = async ({
 clientLoader.hydrate = true
 
 export default function CategoryIndexPage() {
-  const { places, area, category, lang } = useLoaderData<typeof clientLoader>()
+  const { places, area, category, lang, position } =
+    useLoaderData<typeof clientLoader>()
 
   return (
     <Stack className="gap-2">
@@ -182,6 +195,16 @@ export default function CategoryIndexPage() {
         </TabsList>
       </Tabs>
 
+      {!position && (
+        <div className="flex items-center gap-2 rounded-md border border-yellow-200 bg-yellow-50 p-3 text-sm text-yellow-800 dark:border-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-200">
+          <AlertCircle className="h-4 w-4 shrink-0" />
+          <p>
+            Unable to get your location. Showing places sorted by rating
+            instead.
+          </p>
+        </div>
+      )}
+
       {places.length === 0 && (
         <div className="text-muted-foreground text-sm">No Places</div>
       )}
@@ -189,7 +212,7 @@ export default function CategoryIndexPage() {
         <LocalizedPlaceCard
           key={place.placeId}
           place={place}
-          distance={place.distance}
+          distance={'distance' in place ? place.distance : undefined}
           no={idx + 1}
           loading={idx <= 5 ? 'eager' : 'lazy'}
           to={`${lang.path}place/${place.placeId}?area=${area.areaId}&category=${category.id}&rank=nearme`}
@@ -201,7 +224,7 @@ export default function CategoryIndexPage() {
 
 export const HydrateFallback = () => {
   return (
-    <Stack className="gap-2">
+    <Stack className="gap-4">
       <Tabs value="nearme">
         <TabsList>
           <TabsTrigger value="rating">
@@ -227,7 +250,23 @@ export const HydrateFallback = () => {
         </TabsList>
       </Tabs>
 
-      <div className="text-muted-foreground">Loading...</div>
+      <div className="bg-muted/50 flex items-center justify-between rounded-md border p-4">
+        <div className="flex items-center gap-3">
+          <LoaderIcon className="h-5 w-5 animate-spin text-blue-500" />
+          <div className="text-sm">
+            <div className="font-medium">Getting your location...</div>
+            <div className="text-muted-foreground text-xs">
+              This may take a few seconds
+            </div>
+          </div>
+        </div>
+        <Button variant="outline" size="sm" asChild>
+          <NavLink to={'../rating'} viewTransition>
+            <XCircle className="mr-2 h-4 w-4" />
+            Cancel
+          </NavLink>
+        </Button>
+      </div>
     </Stack>
   )
 }
