@@ -5,8 +5,7 @@ import { BusinessStatus, type BusinessStatusResult } from '../utils'
 
 const weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
-interface BusinessStatusBadgeProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+interface BusinessStatusBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   statusResult: BusinessStatusResult
 }
 

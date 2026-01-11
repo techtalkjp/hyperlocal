@@ -6,8 +6,9 @@ import {
   PopoverTrigger,
 } from '~/components/ui'
 
-interface GoogleMapPopoverProps
-  extends React.ComponentPropsWithoutRef<typeof PopoverTrigger> {
+interface GoogleMapPopoverProps extends React.ComponentPropsWithoutRef<
+  typeof PopoverTrigger
+> {
   area: {
     latitude: number
     longitude: number

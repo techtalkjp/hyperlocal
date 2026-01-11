@@ -42,8 +42,9 @@ function generateLanguageUrls(
   })
 }
 
-interface LanguageSelectProps
-  extends React.ComponentProps<typeof DropdownMenuTrigger> {
+interface LanguageSelectProps extends React.ComponentProps<
+  typeof DropdownMenuTrigger
+> {
   currentLanguageId: LanguageId
 }
 export const LanguageSelect = ({

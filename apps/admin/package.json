@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@ai-sdk/google": "catalog:",
-    "@anthropic-ai/sdk": "0.69.0",
+    "@anthropic-ai/sdk": "0.71.2",
     "@clerk/react-router": "catalog:",
     "@coji/zodix": "catalog:",
     "@conform-to/react": "catalog:",
@@ -30,7 +30,7 @@
     "@hyperlocal/db": "workspace:*",
     "@hyperlocal/google-place-api": "workspace:*",
     "@libsql/kysely-libsql": "catalog:",
-    "@paralleldrive/cuid2": "3.0.4",
+    "@paralleldrive/cuid2": "3.0.6",
     "@react-router/node": "catalog:",
     "@react-router/remix-routes-option-adapter": "catalog:",
     "@react-router/serve": "catalog:",

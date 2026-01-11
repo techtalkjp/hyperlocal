@@ -1,0 +1,49 @@
+# Code Style and Conventions
+
+## Formatting & Linting
+- **Formatter**: Prettier with plugins (organize-imports, tailwindcss)
+- **Linter**: Biome with recommended rules
+- Always run `pnpm validate` before commits
+
+## TypeScript
+- All packages use TypeScript
+- Database types generated from Prisma schema via prisma-kysely
+- Use strict type checking
+
+## React/Component Patterns
+- Use React Router v7 for routing (file-based in `app/routes/`)
+- shadcn/ui components in `app/components/ui/` directory
+- Use `react-twc` for tailwind component wrappers
+- Use `ts-pattern` for exhaustive pattern matching
+
+## useEffect Policy
+Only use useEffect for external sync:
+- API calls
+- WebSocket connections
+- Browser APIs
+- Timers
+
+NEVER use useEffect for:
+- Derived state
+- Copying props to state
+- User actions
+- One-time initialization
+
+Always add comment explaining what external resource it syncs.
+
+## Database JSON Handling
+Kysely is configured with `ParseJSONResultsPlugin` which auto-parses JSON fields.
+No manual `JSON.parse()` needed - just cast to appropriate type.
+
+JSON fields: `genres`, `reviews`, `photos`, `regularOpeningHours`
+
+## File Organization
+- Routes: `apps/*/app/routes/` (file-based routing with remix-flat-routes)
+- Components: `apps/*/app/components/`
+- Services: `apps/*/app/services/`
+- Shared libs: `apps/*/app/libs/`
+
+## Naming Conventions
+- Use camelCase for variables and functions
+- Use PascalCase for components and types
+- Database columns use snake_case (mapped via Prisma)

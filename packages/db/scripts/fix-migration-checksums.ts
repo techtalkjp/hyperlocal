@@ -102,10 +102,7 @@ async function main() {
     // Calculate correct checksum
     const sqlPath = join(migrationsDir, migrationName, 'migration.sql')
     if (!existsSync(sqlPath)) {
-      log(
-        `   ⚠ ${migrationName} - migration.sql not found, skipping`,
-        'yellow',
-      )
+      log(`   ⚠ ${migrationName} - migration.sql not found, skipping`, 'yellow')
       continue
     }
 

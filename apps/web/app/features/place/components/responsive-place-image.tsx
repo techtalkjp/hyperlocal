@@ -32,8 +32,7 @@ export const getResponsiveImageUrls = (imageUrl: string) => {
   } as const
 }
 
-interface ResponsivePlacesImageProps
-  extends React.ImgHTMLAttributes<HTMLImageElement> {
+interface ResponsivePlacesImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   imageUrl: string
   alt: string
 }
