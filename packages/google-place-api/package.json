@@ -17,8 +17,6 @@
     "prettier": "catalog:",
     "prettier-plugin-organize-imports": "catalog:",
     "prettier-plugin-tailwindcss": "catalog:",
-    "prisma": "catalog:",
-    "prisma-kysely": "catalog:",
     "typescript": "catalog:"
   }
 }

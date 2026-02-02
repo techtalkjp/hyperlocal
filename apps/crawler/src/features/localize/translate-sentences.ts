@@ -1,5 +1,5 @@
 import { google } from '@ai-sdk/google'
-import { generateObject } from 'ai'
+import { generateText, Output } from 'ai'
 import { z } from 'zod'
 
 // 翻訳の出力
@@ -48,14 +48,13 @@ Ensure proper ${target} grammar and writing conventions.
 Original ${source}: ${sentence}`
 
   const model = google('gemini-2.5-flash-lite')
-  const result = await generateObject({
+  const result = await generateText({
     model,
     maxRetries: 3,
-    schema,
+    output: Output.object({ schema }),
     system,
     prompt,
-    mode: 'json',
   })
 
-  return result.object.translation
+  return result.output.translation
 }

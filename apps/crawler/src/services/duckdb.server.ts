@@ -1,13 +1,15 @@
-import duckdb from 'duckdb'
+import { DuckDBInstance } from '@duckdb/node-api'
 import { Kysely, ParseJSONResultsPlugin } from 'kysely'
 import { DuckDbDialect } from 'kysely-duckdb'
 import { type Database, tableMappings } from './database-schema'
 
+const instance = await DuckDBInstance.create(
+  process.env.CRAWL_DATABASE_PATH ?? ':memory:',
+)
+
 export const db = new Kysely<Database>({
   dialect: new DuckDbDialect({
-    database: new duckdb.Database(
-      process.env.CRAWL_DATABASE_PATH ?? ':memory:',
-    ),
+    database: instance,
     tableMappings,
   }),
   plugins: [new ParseJSONResultsPlugin()],

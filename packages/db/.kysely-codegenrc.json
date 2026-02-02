@@ -1,0 +1,7 @@
+{
+  "camelCase": true,
+  "dialect": "libsql",
+  "url": "file:../../data/dev.db",
+  "outFile": "./src/schema.ts",
+  "typeOnlyImports": true
+}

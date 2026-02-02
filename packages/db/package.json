@@ -11,8 +11,10 @@
     "format:fix": "prettier --write .",
     "typecheck": "tsc --noEmit",
     "validate": "run-s lint format typecheck",
-    "migrate:production": "tsx scripts/push-to-production.ts",
-    "fix:checksums": "tsx scripts/fix-migration-checksums.ts"
+    "db:generate": "kysely-codegen",
+    "db:diff": "atlas schema apply --env local --dry-run",
+    "db:apply": "atlas schema apply --env local --auto-approve",
+    "db:apply:production": "atlas schema apply --env production"
   },
   "keywords": [],
   "author": "",
@@ -21,12 +23,11 @@
     "@biomejs/biome": "catalog:",
     "@types/debug": "catalog:",
     "@types/node": "catalog:",
+    "kysely-codegen": "catalog:",
     "npm-run-all": "catalog:",
     "prettier": "catalog:",
     "prettier-plugin-organize-imports": "catalog:",
     "prettier-plugin-tailwindcss": "catalog:",
-    "prisma": "catalog:",
-    "prisma-kysely": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:"
   },

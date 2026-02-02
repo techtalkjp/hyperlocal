@@ -1,6 +1,6 @@
 import { google } from '@ai-sdk/google'
 import type { Area, Scene } from '@hyperlocal/consts'
-import { generateObject } from 'ai'
+import { generateText, Output } from 'ai'
 import { z } from 'zod'
 
 interface PlaceData {
@@ -113,20 +113,19 @@ Use <Place id="..." /> components to embed place cards in the article.
 `
 
   const model = google('gemini-2.5-flash-lite')
-  const result = await generateObject({
+  const result = await generateText({
     model,
     maxRetries: 3,
-    schema,
+    output: Output.object({ schema }),
     system,
     prompt,
-    mode: 'json',
   })
 
   return {
-    title: result.object.title,
-    content: result.object.content,
+    title: result.output.title,
+    content: result.output.content,
     metadata: {
-      description: result.object.description,
+      description: result.output.description,
     },
   }
 }
