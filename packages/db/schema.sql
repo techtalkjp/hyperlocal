@@ -45,9 +45,9 @@ CREATE TABLE `place_listings` (
   `place_id` text NOT NULL,
   `created_at` datetime NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `updated_at` datetime NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  PRIMARY KEY (`city_id`, `area_id`, `category_id`, `ranking_type`, `place_id`),
   CONSTRAINT `place_listings_place_id_fkey` FOREIGN KEY (`place_id`) REFERENCES `places` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION
 );
-CREATE UNIQUE INDEX `place_listings_unique` ON `place_listings` (`city_id`, `area_id`, `category_id`, `ranking_type`, `place_id`);
 
 -- Create "localized_places" table
 CREATE TABLE `localized_places` (

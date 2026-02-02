@@ -61,13 +61,13 @@ gh api repos/techtalkjp/hyperlocal/issues/33/comments --jq '.[] | select(.user.l
 ```bash
 # Local development
 pnpm db:diff                       # Preview schema changes (dry-run)
-pnpm db:migrate                    # Apply schema changes to dev.db (Atlas)
+pnpm db:apply                      # Apply schema changes to dev.db (Atlas)
 pnpm db:generate                   # Regenerate TypeScript types (kysely-codegen)
 pnpm db:replica                    # Download production data from Turso (to production-replica.db)
 pnpm db:reset                      # Copy production-replica.db → dev.db
 
 # Production deployment
-pnpm db:migrate:production         # Apply schema to Turso (Atlas)
+pnpm db:apply:production           # Apply schema to Turso (Atlas)
 pnpm db:upload                     # Upload dev.db to R2 for distribution
 ```
 

@@ -40,7 +40,7 @@ pnpm db:diff
 差分がある場合は適用：
 
 ```bash
-pnpm db:migrate
+pnpm db:apply
 ```
 
 ### 4. データ確認

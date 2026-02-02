@@ -27,13 +27,13 @@ pnpm deploy         # Deploy web app to Fly.io
 ```bash
 # Local development
 pnpm db:diff                       # Preview schema changes (dry-run)
-pnpm db:migrate                    # Apply schema changes to dev.db (Atlas)
+pnpm db:apply                      # Apply schema changes to dev.db (Atlas)
 pnpm db:generate                   # Regenerate TypeScript types (kysely-codegen)
 pnpm db:replica                    # Download production data from Turso
 pnpm db:reset                      # Copy production-replica.db → dev.db
 
 # Production
-pnpm db:migrate:production         # Apply schema to Turso (Atlas)
+pnpm db:apply:production           # Apply schema to Turso (Atlas)
 pnpm db:upload                     # Upload dev.db to R2
 ```
 

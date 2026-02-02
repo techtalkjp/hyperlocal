@@ -202,13 +202,13 @@ pnpm import:articles
 ```bash
 # ローカル開発
 pnpm db:diff                       # スキーマ差分を確認（dry-run）
-pnpm db:migrate                    # Atlasでスキーマ適用（dev.dbに対して）
+pnpm db:apply                      # Atlasでスキーマ適用（dev.dbに対して）
 pnpm db:generate                   # kysely-codegenで型生成
 pnpm db:replica                    # Tursoから本番データをダウンロード（production-replica.dbへ）
 pnpm db:reset                      # production-replica.db → dev.db にコピー
 
 # 本番環境への適用
-pnpm db:migrate:production         # Tursoにスキーマ適用（Atlas）
+pnpm db:apply:production           # Tursoにスキーマ適用（Atlas）
 pnpm db:upload                     # dev.db → R2へアップロード
 pnpm deploy                        # Fly.ioへデプロイ
 
@@ -237,7 +237,7 @@ vim packages/db/schema.sql
 pnpm db:diff
 
 # 3. ローカルで適用
-pnpm db:migrate
+pnpm db:apply
 
 # 4. 型再生成
 pnpm db:generate
@@ -246,7 +246,7 @@ pnpm db:generate
 pnpm dev
 
 # 6. 本番に適用
-pnpm db:migrate:production
+pnpm db:apply:production
 
 # 7. 配信用DB更新
 pnpm db:replica
