@@ -10,7 +10,8 @@ env "local" {
 }
 
 env "production" {
-  url = "libsql+wss://${getenv("TURSO_DATABASE_URL")}?authToken=${getenv("TURSO_AUTH_TOKEN")}"
+  # TURSO_DATABASE_URL format: "libsql://xxx.turso.io"
+  url = "${getenv("TURSO_DATABASE_URL")}?authToken=${getenv("TURSO_AUTH_TOKEN")}"
   dev = "sqlite://file?mode=memory&_fk=1"
   src = "file://schema.sql"
 }
