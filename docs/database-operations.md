@@ -9,8 +9,14 @@
 - **本番DB**: Turso (クラウドホスト型SQLite)
 - **配信DB**: Cloudflare R2 (Object Storage) に配置したSQLiteファイル
 - **ローカルDB**:
-  - `data/dev.db`: 開発用DB（Prismaマイグレーション管理）
+  - `data/dev.db`: 開発用DB（Atlas宣言的スキーマ管理）
   - `data/production-replica.db`: 本番データのコピー（読み取り専用）
+
+## ツール構成
+
+- **Atlas**: 宣言的スキーマ管理（マイグレーションファイル不要）
+- **Kysely**: タイプセーフなクエリビルダー（CamelCasePlugin + ParseJSONResultsPlugin）
+- **kysely-codegen**: 実データベースからTypeScript型を生成
 
 ## データフロー概要
 
@@ -46,49 +52,48 @@ Crawler → DuckDB → Turso (本番DB) → R2 (配信用) → Fly.io (本番ア
 pnpm --filter @hyperlocal/crawler crawl
 ```
 
-## 2. スキーマ変更とマイグレーション
+## 2. スキーマ変更
 
-### 2.1 ローカル開発でのマイグレーション
+### 2.1 ローカル開発でのスキーマ変更
 
-**新しい運用方針**: `dev.db` は通常のPrisma開発フローで管理し、`production-replica.db` は本番データの参照用として分離する。
+Atlas の宣言的スキーマ管理により、望ましい状態を `schema.sql` に定義するだけで良い。
 
 ```bash
 cd packages/db
 
 # 1. スキーマファイルを編集
-vim prisma/schema.prisma
+vim schema.sql
 
-# 2. Prismaの標準コマンドでマイグレーション作成・適用
-pnpm prisma migrate dev --name add_something
+# 2. 差分を確認（dry-run）
+pnpm db:diff
 
-# これで dev.db に対してマイグレーションが適用される
+# 3. ローカルDBに適用
+pnpm db:apply
+
+# 4. TypeScript型を再生成
+pnpm db:generate
+
+# 5. 型チェック
+pnpm typecheck
 ```
 
-### 2.2 本番DBへのマイグレーション適用
+### 2.2 本番DBへのスキーマ適用
 
-ローカルで動作確認後、本番DBにマイグレーションを適用する。
+ローカルで動作確認後、本番DBにスキーマを適用する。
 
 ```bash
 cd packages/db
 
 # .env.productionに本番Tursoの接続情報を設定（初回のみ）
-cp .env.production.example .env.production
 # TURSO_DATABASE_URL, TURSO_AUTH_TOKENを設定
 
-# 本番DBにマイグレーション適用
-pnpm migrate:production
+# 本番DBにスキーマ適用
+pnpm db:apply:production
 ```
-
-このスクリプト (`scripts/push-to-production.ts`) は以下を実行する:
-
-1. Tursoに接続
-2. 適用済みマイグレーション一覧を取得
-3. 未適用のマイグレーションを順次適用
-4. `_prisma_migrations` テーブルに記録
 
 ## 3. 配信用DBの更新
 
-マイグレーション適用後、配信用のDBファイルを更新する必要がある。
+スキーマ変更後、配信用のDBファイルを更新する必要がある。
 
 ```bash
 cd apps/web
@@ -106,7 +111,7 @@ pnpm upload:db
 
 - Tursoから `data/production-replica.db` にデータをダウンロード
 - 既存のレプリカDBは削除される
-- **注意**: `dev.db` は変更されない（開発中のマイグレーションを保持）
+- **注意**: `dev.db` は変更されない（開発中のスキーマを保持）
 
 **`upload:db`** (`apps/web/scripts/upload-db.ts`):
 
@@ -138,17 +143,23 @@ pnpm db:reset
 pnpm dev
 ```
 
-### 日常的な開発（Prisma標準フロー）
+### 日常的な開発
 
 ```bash
 # 1. スキーマ変更
 cd packages/db
-vim prisma/schema.prisma
+vim schema.sql
 
-# 2. マイグレーション作成・適用（dev.db に対して）
-pnpm prisma migrate dev --name add_something
+# 2. 差分確認
+pnpm db:diff
 
-# 3. 開発サーバーで動作確認
+# 3. 適用
+pnpm db:apply
+
+# 4. 型再生成
+pnpm db:generate
+
+# 5. 開発サーバーで動作確認
 cd ../../apps/web
 pnpm dev
 ```
@@ -184,54 +195,20 @@ pnpm import:articles
 
 詳細は `docs/article-workflow.md` を参照。
 
-## トラブルシューティング
-
-### Prisma migration devが失敗する
-
-ローカルDBの`_prisma_migrations`テーブルの履歴とマイグレーションファイルが不整合の場合に発生。
-
-**解決方法**:
-1. 新しいマイグレーションファイルを手動作成（前述の方法A）
-2. `pnpm migrate:production` で本番に直接適用
-3. `pnpm make:replica` で最新DBを取得
-
-### インデックス追加などの非破壊的変更
-
-データを失わないスキーマ変更（インデックス追加など）の場合:
-
-```bash
-# 1. schema.prismaを編集してインデックスを追加
-
-# 2. マイグレーションファイルを手動作成
-cd packages/db
-mkdir -p prisma/migrations/$(date +%Y%m%d%H%M%S)_add_index_name
-echo "CREATE INDEX IF NOT EXISTS index_name ON table_name(column1, column2);" > prisma/migrations/$(date +%Y%m%d%H%M%S)_add_index_name/migration.sql
-
-# 3. 本番DBに適用
-pnpm migrate:production
-
-# 4. ローカルDBに直接適用（開発中のデータを保持）
-sqlite3 ../../data/dev.db "CREATE INDEX IF NOT EXISTS index_name ON table_name(column1, column2);"
-
-# 5. R2に配信用DBをアップロード
-cd ../../apps/web
-pnpm make:replica
-pnpm upload:db
-```
-
 ## まとめ
 
 ### プロジェクトルートから実行できる主なコマンド
 
 ```bash
 # ローカル開発
-pnpm db:migrate                    # Prismaマイグレーション作成・適用（dev.dbに対して）
+pnpm db:diff                       # スキーマ差分を確認（dry-run）
+pnpm db:apply                      # Atlasでスキーマ適用（dev.dbに対して）
+pnpm db:generate                   # kysely-codegenで型生成
 pnpm db:replica                    # Tursoから本番データをダウンロード（production-replica.dbへ）
 pnpm db:reset                      # production-replica.db → dev.db にコピー
 
 # 本番環境への適用
-pnpm db:migrate:production         # Tursoにマイグレーション適用
-pnpm db:fix:checksums              # Tursoのマイグレーションchecksum修正
+pnpm db:apply:production           # Tursoにスキーマ適用（Atlas）
 pnpm db:upload                     # dev.db → R2へアップロード
 pnpm deploy                        # Fly.ioへデプロイ
 
@@ -254,21 +231,27 @@ pnpm dev           # 開発サーバー起動
 
 ```bash
 # 1. スキーマ編集
-vim packages/db/prisma/schema.prisma
+vim packages/db/schema.sql
 
-# 2. ローカルでマイグレーション適用
-pnpm db:migrate --name add_feature
+# 2. 差分確認
+pnpm db:diff
 
-# 3. 動作確認
+# 3. ローカルで適用
+pnpm db:apply
+
+# 4. 型再生成
+pnpm db:generate
+
+# 5. 動作確認
 pnpm dev
 
-# 4. 本番に適用
-pnpm db:migrate:production
+# 6. 本番に適用
+pnpm db:apply:production
 
-# 5. 配信用DB更新
+# 7. 配信用DB更新
 pnpm db:replica
 pnpm db:upload
 
-# 6. デプロイ
+# 8. デプロイ
 pnpm deploy
 ```

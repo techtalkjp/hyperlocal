@@ -26,13 +26,14 @@ pnpm deploy         # Deploy web app to Fly.io
 ## Database Operations
 ```bash
 # Local development
-pnpm db:migrate                    # Create and apply Prisma migration (to dev.db)
+pnpm db:diff                       # Preview schema changes (dry-run)
+pnpm db:apply                      # Apply schema changes to dev.db (Atlas)
+pnpm db:generate                   # Regenerate TypeScript types (kysely-codegen)
 pnpm db:replica                    # Download production data from Turso
 pnpm db:reset                      # Copy production-replica.db → dev.db
 
 # Production
-pnpm db:migrate:production         # Apply migrations to Turso
-pnpm db:fix:checksums              # Fix migration checksums in Turso
+pnpm db:apply:production           # Apply schema to Turso (Atlas)
 pnpm db:upload                     # Upload dev.db to R2
 ```
 

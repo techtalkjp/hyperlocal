@@ -20,28 +20,27 @@ pnpm make:replica
 ```
 
 このコマンドは以下を実行します：
-- 既存の `data/dev.db` を削除
+- 既存の `data/production-replica.db` を削除
 - Tursoからデータを同期してローカルレプリカを作成
 
-### 2. マイグレーション状態を確認
-
-マイグレーションエラーが発生した場合：
+### 2. dev.db にコピー
 
 ```bash
-cd packages/db
-pnpm prisma migrate resolve --applied <マイグレーション名>
+pnpm db:reset
 ```
 
-例：
+このコマンドは `production-replica.db` を `dev.db` にコピーします。
+
+### 3. スキーマ差分を確認
+
 ```bash
-pnpm prisma migrate resolve --applied 20241026055709_add_admin_user
+pnpm db:diff
 ```
 
-### 3. 最新のマイグレーションを適用
+差分がある場合は適用：
 
 ```bash
-cd packages/db
-pnpm prisma migrate deploy
+pnpm db:apply
 ```
 
 ### 4. データ確認
@@ -52,30 +51,22 @@ sqlite3 data/dev.db "SELECT COUNT(*) FROM places; SELECT COUNT(*) FROM area_arti
 
 ## トラブルシューティング
 
-### マイグレーションエラー: "table already exists"
-
-既にテーブルが存在する場合、そのマイグレーションを適用済みとしてマークします：
-
-```bash
-cd packages/db
-pnpm prisma migrate resolve --applied <マイグレーション名>
-pnpm prisma migrate deploy
-```
-
 ### データが空になった場合
 
 1. `pnpm make:replica` でTursoから再同期
-2. 必要に応じてマイグレーションを再適用
+2. `pnpm db:reset` で dev.db にコピー
 3. 記事データ（area_articles）は手動で再生成が必要
 
 ## 注意事項
 
-- `make:replica` は既存のローカルDBを**完全に削除**してから復元します
+- `make:replica` は既存の `production-replica.db` を**完全に削除**してから復元します
+- `db:reset` は `dev.db` を上書きします
 - 記事データ（area_articles）はローカルで生成したもので、Tursoに同期されていない場合は失われます
-- 重要な記事データは `upload:db` でTursoにアップロードしておくことを推奨します
+- 重要な記事データは `upload:db` でR2にアップロードしておくことを推奨します
 
-## 関連スクリプト
+## 関連ファイル
 
 - `apps/web/scripts/make-local-replica.ts`: Tursoから同期
-- `apps/web/scripts/upload-db.ts`: TursoへアップロードurlNode
-- `packages/db/prisma/migrations/`: マイグレーション履歴
+- `apps/web/scripts/upload-db.ts`: R2へアップロード
+- `packages/db/schema.sql`: スキーマ定義
+- `packages/db/atlas.hcl`: Atlas設定

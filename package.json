@@ -10,9 +10,10 @@
     "typecheck": "turbo typecheck",
     "test": "turbo test",
     "validate": "turbo validate",
-    "db:migrate": "pnpm --filter @hyperlocal/db prisma migrate dev",
-    "db:migrate:production": "pnpm --filter @hyperlocal/db migrate:production",
-    "db:fix:checksums": "pnpm --filter @hyperlocal/db fix:checksums",
+    "db:apply": "pnpm --filter @hyperlocal/db db:apply",
+    "db:apply:production": "pnpm --filter @hyperlocal/db db:apply:production",
+    "db:generate": "pnpm --filter @hyperlocal/db db:generate",
+    "db:diff": "pnpm --filter @hyperlocal/db db:diff",
     "db:replica": "pnpm --filter @hyperlocal/web make:replica",
     "db:reset": "pnpm --filter @hyperlocal/web db:reset",
     "db:upload": "pnpm --filter @hyperlocal/web upload:db"

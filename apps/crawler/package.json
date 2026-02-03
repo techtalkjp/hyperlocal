@@ -26,7 +26,7 @@
     "crawlee": "catalog:",
     "date-fns": "catalog:",
     "dotenv": "catalog:",
-    "duckdb": "catalog:",
+    "@duckdb/node-api": "catalog:",
     "kysely": "catalog:",
     "kysely-duckdb": "catalog:",
     "tsx": "catalog:",

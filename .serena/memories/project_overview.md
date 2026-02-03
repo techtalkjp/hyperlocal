@@ -13,7 +13,7 @@ This is a monorepo managed with pnpm workspaces and Turborepo.
 
 ### Packages
 - **packages/consts**: Areas, cities, categories, languages constants
-- **packages/db**: Database schema (Prisma + Kysely) with SQLite
+- **packages/db**: Database schema (Atlas + Kysely + kysely-codegen) with SQLite
 - **packages/google-place-api**: Google Places API client
 - **packages/gmap-scraper**: Google Maps scraping utilities
 
@@ -35,6 +35,7 @@ This is a monorepo managed with pnpm workspaces and Turborepo.
 - **AdminUser**: Admin users with Clerk authentication
 
 ## Database
-- Uses Prisma for schema definition and migrations
+- Uses Atlas for declarative schema management (no migration files)
 - Uses Kysely for type-safe SQL queries
+- Uses kysely-codegen to generate TypeScript types from database
 - `ParseJSONResultsPlugin` auto-parses JSON fields (genres, reviews, photos, regularOpeningHours)
