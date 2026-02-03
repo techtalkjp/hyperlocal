@@ -14,7 +14,7 @@
     "db:generate": "kysely-codegen",
     "db:diff": "atlas schema apply --env local --dry-run",
     "db:apply": "atlas schema apply --env local --auto-approve",
-    "db:apply:production": "atlas schema apply --env production"
+    "db:apply:production": "dotenv -e .env -- atlas schema apply --env production"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +23,7 @@
     "@biomejs/biome": "catalog:",
     "@types/debug": "catalog:",
     "@types/node": "catalog:",
+    "dotenv-cli": "catalog:",
     "kysely-codegen": "catalog:",
     "npm-run-all": "catalog:",
     "prettier": "catalog:",
