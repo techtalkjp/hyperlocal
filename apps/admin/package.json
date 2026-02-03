@@ -19,8 +19,7 @@
   },
   "dependencies": {
     "@ai-sdk/google": "catalog:",
-    "@anthropic-ai/sdk": "0.71.2",
-    "@clerk/react-router": "catalog:",
+    "better-auth": "catalog:",
     "@coji/zodix": "catalog:",
     "@conform-to/react": "catalog:",
     "@conform-to/zod": "catalog:",

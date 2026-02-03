@@ -1,19 +1,58 @@
 -- Hyperlocal Database Schema
 -- Managed by Atlas (declarative)
 
--- Create "admin_users" table
-CREATE TABLE `admin_users` (
-  `id` text NOT NULL,
-  `email` text NOT NULL,
-  `display_name` text NOT NULL,
-  `picture_url` text NULL,
-  `locale` text NOT NULL,
-  `role` text NOT NULL DEFAULT 'user',
-  `updated_at` datetime NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  PRIMARY KEY (`id`)
+-- better-auth core tables
+CREATE TABLE `user` (
+  `id` text PRIMARY KEY NOT NULL,
+  `name` text NOT NULL,
+  `email` text NOT NULL UNIQUE,
+  `email_verified` integer NOT NULL DEFAULT 0,
+  `image` text,
+  `role` text DEFAULT 'user',
+  `created_at` text NOT NULL DEFAULT (datetime('now')),
+  `updated_at` text NOT NULL DEFAULT (datetime('now'))
 );
-CREATE UNIQUE INDEX `admin_users_email_key` ON `admin_users` (`email`);
+
+CREATE TABLE `session` (
+  `id` text PRIMARY KEY NOT NULL,
+  `user_id` text NOT NULL REFERENCES `user`(`id`) ON DELETE CASCADE,
+  `token` text NOT NULL UNIQUE,
+  `expires_at` text NOT NULL,
+  `ip_address` text,
+  `user_agent` text,
+  `created_at` text NOT NULL DEFAULT (datetime('now')),
+  `updated_at` text NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE `account` (
+  `id` text PRIMARY KEY NOT NULL,
+  `user_id` text NOT NULL REFERENCES `user`(`id`) ON DELETE CASCADE,
+  `account_id` text NOT NULL,
+  `provider_id` text NOT NULL,
+  `access_token` text,
+  `refresh_token` text,
+  `access_token_expires_at` text,
+  `refresh_token_expires_at` text,
+  `scope` text,
+  `id_token` text,
+  `password` text,
+  `created_at` text NOT NULL DEFAULT (datetime('now')),
+  `updated_at` text NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE `verification` (
+  `id` text PRIMARY KEY NOT NULL,
+  `identifier` text NOT NULL,
+  `value` text NOT NULL,
+  `expires_at` text NOT NULL,
+  `created_at` text NOT NULL DEFAULT (datetime('now')),
+  `updated_at` text NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE INDEX `session_user_id_idx` ON `session`(`user_id`);
+CREATE INDEX `session_token_idx` ON `session`(`token`);
+CREATE INDEX `account_user_id_idx` ON `account`(`user_id`);
+CREATE INDEX `account_provider_idx` ON `account`(`provider_id`, `account_id`);
 
 -- Create "places" table
 CREATE TABLE `places` (

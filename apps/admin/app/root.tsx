@@ -1,9 +1,3 @@
-import { ClerkProvider } from '@clerk/react-router'
-import {
-  clerkMiddleware,
-  getAuth,
-  rootAuthLoader,
-} from '@clerk/react-router/server'
 import {
   Links,
   Meta,
@@ -13,6 +7,7 @@ import {
   redirect,
 } from 'react-router'
 import type { Route } from './+types/root'
+import { getSession } from './lib/auth-helpers.server'
 import globalStyles from './styles/globals.css?url'
 
 export const links: Route.LinksFunction = () => [
@@ -20,37 +15,30 @@ export const links: Route.LinksFunction = () => [
 ]
 
 // Public routes that don't require authentication
-const publicRoutes = ['/login', '/logout']
+const publicRoutes = ['/login', '/logout', '/signup']
 
 const authMiddleware: Route.MiddlewareFunction = async (args) => {
   const url = new URL(args.request.url)
   const pathname = url.pathname
 
-  // Skip auth check for public routes
-  if (publicRoutes.includes(pathname)) {
+  // Skip auth check for public routes and API auth routes
+  if (publicRoutes.includes(pathname) || pathname.startsWith('/api/auth')) {
     return
   }
 
   // Check authentication
-  const auth = await getAuth(args)
+  const session = await getSession(args.request)
 
-  if (!('userId' in auth) || !auth.userId) {
+  if (!session?.user) {
     return redirect('/login')
   }
 }
 
-export const middleware: Route.MiddlewareFunction[] = [
-  clerkMiddleware(),
-  authMiddleware,
-]
-
-export const loader = async (args: Route.LoaderArgs) => {
-  return await rootAuthLoader(args)
-}
+export const middleware: Route.MiddlewareFunction[] = [authMiddleware]
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="ja">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -76,10 +64,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
   )
 }
 
-export default function App({ loaderData }: Route.ComponentProps) {
-  return (
-    <ClerkProvider loaderData={loaderData}>
-      <Outlet />
-    </ClerkProvider>
-  )
+export default function App() {
+  return <Outlet />
 }

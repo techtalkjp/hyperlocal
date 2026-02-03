@@ -1,9 +1,9 @@
-import { UserButton } from '@clerk/react-router'
 import { useEffect } from 'react'
 import { data, href, Link, Outlet } from 'react-router'
 import { getToast } from 'remix-toast'
 import { toast } from 'sonner'
 import { Toaster } from '~/components/ui'
+import { UserMenu } from '~/components/user-menu'
 import type { Route } from './+types/route'
 
 export const meta: Route.MetaFunction = () => {
@@ -46,7 +46,7 @@ const AdminLayout = ({ loaderData: { toastData } }: Route.ComponentProps) => {
             </Link>
           </nav>
           <div>
-            <UserButton />
+            <UserMenu />
           </div>
         </div>
       </header>

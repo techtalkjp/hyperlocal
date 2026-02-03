@@ -9,15 +9,20 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   ? ColumnType<S, I | undefined, U>
   : ColumnType<T, T | undefined, T>;
 
-export interface AdminUsers {
+export interface Account {
+  accessToken: string | null;
+  accessTokenExpiresAt: string | null;
+  accountId: string;
   createdAt: Generated<string>;
-  displayName: string;
-  email: string;
   id: string;
-  locale: string;
-  pictureUrl: string | null;
-  role: Generated<string>;
-  updatedAt: string;
+  idToken: string | null;
+  password: string | null;
+  providerId: string;
+  refreshToken: string | null;
+  refreshTokenExpiresAt: string | null;
+  scope: string | null;
+  updatedAt: Generated<string>;
+  userId: string;
 }
 
 export interface AreaArticles {
@@ -88,10 +93,44 @@ export interface Places {
   userRatingCount: number;
 }
 
+export interface Session {
+  createdAt: Generated<string>;
+  expiresAt: string;
+  id: string;
+  ipAddress: string | null;
+  token: string;
+  updatedAt: Generated<string>;
+  userAgent: string | null;
+  userId: string;
+}
+
+export interface User {
+  createdAt: Generated<string>;
+  email: string;
+  emailVerified: Generated<number>;
+  id: string;
+  image: string | null;
+  name: string;
+  role: Generated<string | null>;
+  updatedAt: Generated<string>;
+}
+
+export interface Verification {
+  createdAt: Generated<string>;
+  expiresAt: string;
+  id: string;
+  identifier: string;
+  updatedAt: Generated<string>;
+  value: string;
+}
+
 export interface DB {
-  adminUsers: AdminUsers;
+  account: Account;
   areaArticles: AreaArticles;
   localizedPlaces: LocalizedPlaces;
   placeListings: PlaceListings;
   places: Places;
+  session: Session;
+  user: User;
+  verification: Verification;
 }
