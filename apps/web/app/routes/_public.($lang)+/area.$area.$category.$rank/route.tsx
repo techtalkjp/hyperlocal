@@ -134,7 +134,7 @@ export default function CategoryIndexPage({
               prefetch="viewport"
               viewTransition
             >
-              {({ isPending }) => (
+              {({ isPending }: { isPending: boolean }) => (
                 <span>
                   Near Me
                   {isPending && (

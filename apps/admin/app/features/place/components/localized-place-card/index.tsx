@@ -11,7 +11,7 @@ import { ImageSection } from './image-section'
 import { InfoSection } from './info-section'
 import { ReviewSection } from './review-section'
 
-interface PlaceCardProps extends React.ComponentProps<typeof HStack> {
+interface PlaceCardProps extends React.ComponentProps<'div'> {
   place: LocalizedPlace
   distance?: number
   no?: number
