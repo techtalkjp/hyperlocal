@@ -1,7 +1,6 @@
 import { zx } from '@coji/zodix/v4'
 import { areas, categories } from '@hyperlocal/consts'
 import { ChevronLeft } from 'lucide-react'
-import type { HeadersFunction } from 'react-router'
 import { Link } from 'react-router'
 import { z } from 'zod'
 import {
@@ -18,15 +17,6 @@ import { LocalizedPlaceDetails } from '~/features/place/components/localized-pla
 import { generateCanonicalLink } from '~/features/seo/canonical-url'
 import { getLocalizedPlace, getPlaceListings } from './+queries.server'
 import type { Route } from './+types/route'
-
-export const headers: HeadersFunction = () => ({
-  // Development: short cache for content updates
-  // Production: cache for 4 hours with stale-while-revalidate
-  'Cache-Control':
-    process.env.NODE_ENV === 'production'
-      ? 'public, max-age=14400, s-maxage=14400, stale-while-revalidate=86400'
-      : 'public, max-age=0, must-revalidate',
-})
 
 export const meta: Route.MetaFunction = ({ data, location }) => {
   return [
