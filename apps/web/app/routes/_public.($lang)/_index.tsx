@@ -13,7 +13,7 @@ import { getPathParams } from '~/features/city-area/utils'
 import { getCityDomain } from '~/features/city-area/utils/get-city-domain'
 import { generateAlternateLinks } from '~/features/seo/alternate-links'
 import { generateCanonicalLink } from '~/features/seo/canonical-url'
-import type { Route } from './+types/route'
+import type { Route } from './+types/_index'
 
 export const headers: Route.HeadersFunction = () => ({
   // Development: short cache for content updates

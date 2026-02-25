@@ -16,8 +16,8 @@ import { getPathParams } from '~/features/city-area/utils'
 import { RouteErrorBoundary } from '~/features/error/components/route-error-boundary'
 import { LocalizedPlaceDetails } from '~/features/place/components/localized-place-details'
 import { generateCanonicalLink } from '~/features/seo/canonical-url'
+import { getLocalizedPlace, getPlaceListings } from './+queries.server'
 import type { Route } from './+types/route'
-import { getLocalizedPlace, getPlaceListings } from './queries.server'
 
 export const headers: HeadersFunction = () => ({
   // Development: short cache for content updates

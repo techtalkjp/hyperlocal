@@ -2,8 +2,8 @@ import { categories } from '@hyperlocal/consts'
 import { Link, Outlet, redirect, useLocation, useParams } from 'react-router'
 import { Badge, Stack } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
+import { CategoryNav, CategoryNavItem } from './+components/category-nav-item'
 import type { Route } from './+types/route'
-import { CategoryNav, CategoryNavItem } from './components/category-nav-item'
 
 export const loader = ({ request, params }: Route.LoaderArgs) => {
   const { lang, city, area, category, rankingType } = getPathParams(

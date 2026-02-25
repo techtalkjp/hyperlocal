@@ -18,12 +18,12 @@ import {
   getBusinessStatus,
   priceLevelLabel,
 } from '~/features/place/utils'
-import type { Route } from './+types/route'
 import {
   getArticle,
   getLocalizedPlacesByIds,
   getOtherArticlesForArea,
-} from './queries.server'
+} from './+queries.server'
+import type { Route } from './+types/route'
 
 export const meta = ({ data }: Route.MetaArgs) => {
   if (!data?.article) {

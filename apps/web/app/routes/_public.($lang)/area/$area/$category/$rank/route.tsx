@@ -11,8 +11,8 @@ import {
   generateCanonicalUrl,
 } from '~/features/seo/canonical-url'
 import { generateAreaCategoryMetaDescription } from '~/features/seo/meta-area-category'
+import { listLocalizedPlaces } from './+queries.server'
 import type { Route } from './+types/route'
-import { listLocalizedPlaces } from './queries.server'
 
 export const headers: Route.HeadersFunction = () => ({
   // Development: short cache for content updates

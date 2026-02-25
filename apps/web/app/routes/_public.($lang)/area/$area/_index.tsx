@@ -6,8 +6,8 @@ import { getPathParams } from '~/features/city-area/utils'
 import { generateAlternateLinks } from '~/features/seo/alternate-links'
 import { generateCanonicalLink } from '~/features/seo/canonical-url'
 import { sortAreasByDistance } from '~/services/distance'
-import type { Route } from './+types/route'
-import { getPublishedArticlesForArea } from './queries.server'
+import { getPublishedArticlesForArea } from './+queries.server'
+import type { Route } from './+types/_index'
 
 export const headers: HeadersFunction = () => ({
   // Development: short cache for content updates

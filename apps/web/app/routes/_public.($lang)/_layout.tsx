@@ -2,9 +2,9 @@ import { Outlet } from 'react-router'
 import { HStack } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { generateCanonicalLink } from '~/features/seo/canonical-url'
-import { NearbyAreasSelector } from '~/routes/resources+/nearby-areas/route'
-import type { Route } from './+types/route'
-import { AreaTitle, LanguageSelect } from './components'
+import { NearbyAreasSelector } from '~/routes/resources/nearby-areas'
+import { AreaTitle, LanguageSelect } from './+components'
+import type { Route } from './+types/_layout'
 
 export const meta: Route.MetaFunction = ({ data, location }) => {
   if (!data) return []
