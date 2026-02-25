@@ -35,8 +35,8 @@ export default defineCommand({
     }
     await localize({
       count: count,
-      all: args.all,
-      refresh: args.refresh,
+      all: args.all ?? false,
+      refresh: args.refresh ?? false,
       placeId: args.placeId,
     })
   },
