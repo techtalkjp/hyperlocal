@@ -83,4 +83,5 @@ onlyBuiltDependencies:
   - '@duckdb/node-api'
   - '@tailwindcss/oxide'
   - esbuild
+  - sharp
   - workerd
