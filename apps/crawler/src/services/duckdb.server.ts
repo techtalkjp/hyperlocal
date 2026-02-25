@@ -5,7 +5,9 @@ import { type Database, tableMappings } from './database-schema'
 
 const dbPath = process.env.CRAWL_DATABASE_PATH ?? ':memory:'
 const instance = await DuckDBInstance.create(dbPath).catch((error) => {
-  throw new Error(`Failed to initialize DuckDB at "${dbPath}": ${error.message}`)
+  throw new Error(
+    `Failed to initialize DuckDB at "${dbPath}": ${error.message}`,
+  )
 })
 
 export const db = new Kysely<Database>({
