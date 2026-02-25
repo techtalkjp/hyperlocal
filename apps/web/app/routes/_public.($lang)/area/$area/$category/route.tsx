@@ -1,19 +1,32 @@
-import { categories } from '@hyperlocal/consts'
+import { areas, categories, cities, languages } from '@hyperlocal/consts'
 import { Link, Outlet, redirect, useLocation, useParams } from 'react-router'
 import { Badge, Stack } from '~/components/ui'
-import { getPathParams } from '~/features/city-area/utils'
 import { CategoryNav, CategoryNavItem } from './+components/category-nav-item'
 import type { Route } from './+types/route'
 
-export const loader = ({ request, params }: Route.LoaderArgs) => {
-  const { lang, city, area, category, rankingType } = getPathParams(
-    request,
-    params,
-    { require: { area: true, category: true } },
+export const clientLoader = ({ params, request }: Route.ClientLoaderArgs) => {
+  const lang =
+    params.lang === undefined
+      ? languages[0]
+      : (languages.find((l) => l.id === params.lang) ?? languages[0])
+  const city = cities[0]
+  const area = areas.find((a) => a.areaId === params.area)
+  const category = categories.find((c) => c.id === params.category)
+
+  if (!area || !category) {
+    throw new Response(null, { status: 404, statusText: 'Not Found' })
+  }
+
+  // Detect ranking type from URL path (rank is a child route param)
+  const url = new URL(request.url)
+  const pathSegments = url.pathname.split('/')
+  const lastSegment = pathSegments[pathSegments.length - 1]
+  const rankingType = (['rating', 'review'] as const).find(
+    (r) => r === lastSegment,
   )
 
   // Redirect to rating if no ranking type is specified
-  if (!rankingType && !request.url.endsWith('nearme')) {
+  if (!rankingType && lastSegment !== 'nearme') {
     throw redirect(
       `/${lang.id === 'en' ? '' : `${lang.id}/`}area/${area.areaId}/${category.id}/rating`,
     )

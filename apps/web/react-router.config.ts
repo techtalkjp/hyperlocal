@@ -1,74 +1,85 @@
 import { areas, categories, languages } from '@hyperlocal/consts'
 import type { Config } from '@react-router/dev/config'
 
-export default {
-  ssr: true,
-  serverBuildFile: 'server/index.js',
-  prerender: async () => {
-    // Dynamically import db to ensure env vars are loaded
-    const { db } = await import('@hyperlocal/db')
+const getPrerenderPaths = async () => {
+  // Dynamically import db to ensure env vars are loaded
+  const { db } = await import('@hyperlocal/db')
 
-    const routes: string[] = []
-    // languages
-    for (const lang of languages) {
-      const langPath = lang.id === 'en' ? '/' : `/${lang.id}`
-      routes.push(langPath)
+  const routes: string[] = []
+  // languages
+  for (const lang of languages) {
+    const langPrefix = lang.id === 'en' ? '' : `/${lang.id}`
+    routes.push(langPrefix || '/')
 
-      // area
-      for (const area of areas) {
-        const areaPath = `${lang.id === 'en' ? '/' : `/${lang.id}/`}area/${area.areaId}`
-        routes.push(areaPath)
+    // area
+    for (const area of areas) {
+      routes.push(`${langPrefix}/area/${area.areaId}`)
 
-        // category
-        for (const category of categories) {
-          // ranking
-          for (const rankType of ['rating', 'review', 'nearme']) {
-            const rankPath = `${lang.id === 'en' ? '/' : `/${lang.id}/`}area/${area.areaId}/${category.id}/${rankType}`
-            routes.push(rankPath)
-          }
-        }
-      }
-    }
-
-    // guide articles - only if DATABASE_URL is set
-    if (process.env.DATABASE_URL) {
-      try {
-        const articles = await db
-          .selectFrom('areaArticles')
-          .select(['areaId', 'sceneId', 'language'])
-          .where('status', '=', 'published')
-          .where('areaId', 'is not', null)
-          .where('sceneId', 'is not', null)
-          .where('language', 'is not', null)
-          .execute()
-
-        for (const article of articles) {
-          const langPath =
-            article.language === 'en' ? '' : `/${article.language}`
-          const guidePath = `${langPath}/area/${article.areaId}/guide/${article.sceneId}`
-          routes.push(guidePath)
-        }
-
-        if (articles.length === 0) {
-          console.warn(
-            '⚠ Warning: No published guide articles found for prerendering',
+      // category ranking
+      for (const category of categories) {
+        for (const rankType of ['rating', 'review', 'nearme']) {
+          routes.push(
+            `${langPrefix}/area/${area.areaId}/${category.id}/${rankType}`,
           )
-        } else {
-          console.log(`✓ Prerendering ${articles.length} guide articles`)
         }
-      } catch (error) {
-        console.error('Failed to fetch guide articles for prerendering:', error)
-        console.error(
-          'Database configured:',
-          process.env.DATABASE_URL ? 'Yes' : 'No',
-        )
-        throw new Error(
-          `Guide article prerendering failed: ${error instanceof Error ? error.message : String(error)}. ` +
-            'This will result in missing guide pages in production. Build aborted.',
-        )
       }
     }
+  }
 
-    return routes
+  // guide articles
+  if (process.env.DATABASE_URL) {
+    try {
+      const articles = await db
+        .selectFrom('areaArticles')
+        .select(['areaId', 'sceneId', 'language'])
+        .where('status', '=', 'published')
+        .where('areaId', 'is not', null)
+        .where('sceneId', 'is not', null)
+        .where('language', 'is not', null)
+        .execute()
+
+      for (const article of articles) {
+        const langPrefix =
+          article.language === 'en' ? '' : `/${article.language}`
+        routes.push(
+          `${langPrefix}/area/${article.areaId}/guide/${article.sceneId}`,
+        )
+      }
+
+      console.log(`✓ Prerendering ${articles.length} guide articles`)
+    } catch (error) {
+      throw new Error(
+        `Guide article prerendering failed: ${error instanceof Error ? error.message : String(error)}. Build aborted.`,
+      )
+    }
+
+    // place detail pages
+    try {
+      const places = await db
+        .selectFrom('localizedPlaces')
+        .select(['placeId', 'language'])
+        .execute()
+
+      for (const place of places) {
+        const langPrefix = place.language === 'en' ? '' : `/${place.language}`
+        routes.push(`${langPrefix}/place/${place.placeId}`)
+      }
+
+      console.log(`✓ Prerendering ${places.length} place detail pages`)
+    } catch (error) {
+      throw new Error(
+        `Place prerendering failed: ${error instanceof Error ? error.message : String(error)}. Build aborted.`,
+      )
+    }
+  }
+
+  return routes
+}
+
+export default {
+  ssr: false,
+  prerender: {
+    paths: getPrerenderPaths,
+    unstable_concurrency: 10,
   },
 } satisfies Config

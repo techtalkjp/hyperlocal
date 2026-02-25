@@ -14,15 +14,6 @@ import { generateAreaCategoryMetaDescription } from '~/features/seo/meta-area-ca
 import { listLocalizedPlaces } from './+queries.server'
 import type { Route } from './+types/route'
 
-export const headers: Route.HeadersFunction = () => ({
-  // Development: short cache for content updates
-  // Production: cache for 4 hours with stale-while-revalidate
-  'Cache-Control':
-    process.env.NODE_ENV === 'production'
-      ? 'public, max-age=14400, s-maxage=14400, stale-while-revalidate=86400'
-      : 'public, max-age=0, must-revalidate',
-})
-
 export const meta: Route.MetaFunction = ({ data, location }) => {
   if (!data || !data.url) return []
 

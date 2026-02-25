@@ -1,6 +1,6 @@
+import { cities, languages } from '@hyperlocal/consts'
 import { Outlet } from 'react-router'
 import { HStack } from '~/components/ui'
-import { getPathParams } from '~/features/city-area/utils'
 import { generateCanonicalLink } from '~/features/seo/canonical-url'
 import { NearbyAreasSelector } from '~/routes/resources/nearby-areas'
 import { AreaTitle, LanguageSelect } from './+components'
@@ -19,8 +19,12 @@ export const meta: Route.MetaFunction = ({ data, location }) => {
 
 export const shouldRevalidate = () => true
 
-export const loader = ({ request, params }: Route.LoaderArgs) => {
-  const { city, lang } = getPathParams(request, params)
+export const clientLoader = ({ params }: Route.ClientLoaderArgs) => {
+  const lang =
+    params.lang === undefined
+      ? languages[0]
+      : (languages.find((l) => l.id === params.lang) ?? languages[0])
+  const city = cities[0]
   return { city, lang }
 }
 
