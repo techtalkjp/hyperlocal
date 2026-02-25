@@ -92,15 +92,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: 📥 Download database
-        run: |
-          mkdir -p data
-          curl -f -o data/dev.db "${{ secrets.R2_PUBLIC_URL }}/db/hyperlocal.db"
-
       - name: 🔨 Build web
         run: pnpm --filter @hyperlocal/web build
         env:
-          DATABASE_URL: file:${{ github.workspace }}/data/dev.db
+          DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
           GA_TRACKING_ID: ${{ secrets.GA_TRACKING_ID }}
 
       - name: 📦 Upload build artifacts
