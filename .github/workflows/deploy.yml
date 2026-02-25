@@ -1,4 +1,4 @@
-name: 🚀 Deploy
+name: CI
 on:
   - push
   - pull_request
@@ -19,7 +19,6 @@ jobs:
 
       - uses: pnpm/action-setup@v3
         name: Install pnpm
-        id: pnpm-install
         with:
           version: 10
           run_install: false
@@ -48,7 +47,6 @@ jobs:
 
       - uses: pnpm/action-setup@v3
         name: Install pnpm
-        id: pnpm-install
         with:
           version: 10
           run_install: false
@@ -64,83 +62,3 @@ jobs:
 
       - name: 🔎 Type check
         run: pnpm run typecheck
-
-  build:
-    name: 🔨 Build
-    # only build/deploy main branch on pushes
-    if: ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev') && github.event_name == 'push' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: 🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-
-      - name: ⬇️ Checkout repo
-        uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v3
-        name: Install pnpm
-        with:
-          version: 10
-          run_install: false
-
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: 🔨 Build web
-        run: pnpm --filter @hyperlocal/web build
-        env:
-          DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
-          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
-          GA_TRACKING_ID: ${{ secrets.GA_TRACKING_ID }}
-
-      - name: 📦 Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: web-build
-          path: apps/web/build/client
-          retention-days: 1
-
-  deploy:
-    name: 🚀 Deploy
-    runs-on: ubuntu-latest
-    needs: [lint, typecheck, build]
-    # only deploy main branch on pushes
-    if: ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev') && github.event_name == 'push' }}
-
-    steps:
-      - name: ⬇️ Checkout repo
-        uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v3
-        name: Install pnpm
-        with:
-          version: 10
-          run_install: false
-
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: 📥 Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: web-build
-          path: apps/web/build/client
-
-      - name: 🚀 Deploy to Cloudflare Workers
-        run: npx wrangler deploy
-        working-directory: apps/web
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
