@@ -23,7 +23,10 @@ export const clientLoader = ({ params }: Route.ClientLoaderArgs) => {
   const lang =
     params.lang === undefined
       ? languages[0]
-      : (languages.find((l) => l.id === params.lang) ?? languages[0])
+      : languages.find((l) => l.id === params.lang)
+  if (!lang) {
+    throw new Response(null, { status: 404, statusText: 'Not Found' })
+  }
   const city = cities[0]
   return { city, lang }
 }

@@ -26,50 +26,54 @@ const getPrerenderPaths = async () => {
     }
   }
 
-  // guide articles
+  // guide articles and place detail pages
   if (process.env.DATABASE_URL) {
     try {
-      const articles = await db
-        .selectFrom('areaArticles')
-        .select(['areaId', 'sceneId', 'language'])
-        .where('status', '=', 'published')
-        .where('areaId', 'is not', null)
-        .where('sceneId', 'is not', null)
-        .where('language', 'is not', null)
-        .execute()
+      try {
+        const articles = await db
+          .selectFrom('areaArticles')
+          .select(['areaId', 'sceneId', 'language'])
+          .where('status', '=', 'published')
+          .where('areaId', 'is not', null)
+          .where('sceneId', 'is not', null)
+          .where('language', 'is not', null)
+          .execute()
 
-      for (const article of articles) {
-        const langPrefix =
-          article.language === 'en' ? '' : `/${article.language}`
-        routes.push(
-          `${langPrefix}/area/${article.areaId}/guide/${article.sceneId}`,
+        for (const article of articles) {
+          const langPrefix =
+            article.language === 'en' ? '' : `/${article.language}`
+          routes.push(
+            `${langPrefix}/area/${article.areaId}/guide/${article.sceneId}`,
+          )
+        }
+
+        console.log(`✓ Prerendering ${articles.length} guide articles`)
+      } catch (error) {
+        throw new Error(
+          `Guide article prerendering failed: ${error instanceof Error ? error.message : String(error)}. Build aborted.`,
         )
       }
 
-      console.log(`✓ Prerendering ${articles.length} guide articles`)
-    } catch (error) {
-      throw new Error(
-        `Guide article prerendering failed: ${error instanceof Error ? error.message : String(error)}. Build aborted.`,
-      )
-    }
+      // place detail pages
+      try {
+        const places = await db
+          .selectFrom('localizedPlaces')
+          .select(['placeId', 'language'])
+          .execute()
 
-    // place detail pages
-    try {
-      const places = await db
-        .selectFrom('localizedPlaces')
-        .select(['placeId', 'language'])
-        .execute()
+        for (const place of places) {
+          const langPrefix = place.language === 'en' ? '' : `/${place.language}`
+          routes.push(`${langPrefix}/place/${place.placeId}`)
+        }
 
-      for (const place of places) {
-        const langPrefix = place.language === 'en' ? '' : `/${place.language}`
-        routes.push(`${langPrefix}/place/${place.placeId}`)
+        console.log(`✓ Prerendering ${places.length} place detail pages`)
+      } catch (error) {
+        throw new Error(
+          `Place prerendering failed: ${error instanceof Error ? error.message : String(error)}. Build aborted.`,
+        )
       }
-
-      console.log(`✓ Prerendering ${places.length} place detail pages`)
-    } catch (error) {
-      throw new Error(
-        `Place prerendering failed: ${error instanceof Error ? error.message : String(error)}. Build aborted.`,
-      )
+    } finally {
+      await db.destroy()
     }
   }
 

@@ -8,7 +8,10 @@ export const clientLoader = ({ params, request }: Route.ClientLoaderArgs) => {
   const lang =
     params.lang === undefined
       ? languages[0]
-      : (languages.find((l) => l.id === params.lang) ?? languages[0])
+      : languages.find((l) => l.id === params.lang)
+  if (!lang) {
+    throw new Response(null, { status: 404, statusText: 'Not Found' })
+  }
   const city = cities[0]
   const area = areas.find((a) => a.areaId === params.area)
   const category = categories.find((c) => c.id === params.category)
@@ -19,8 +22,8 @@ export const clientLoader = ({ params, request }: Route.ClientLoaderArgs) => {
 
   // Detect ranking type from URL path (rank is a child route param)
   const url = new URL(request.url)
-  const pathSegments = url.pathname.split('/')
-  const lastSegment = pathSegments[pathSegments.length - 1]
+  const pathSegments = url.pathname.split('/').filter(Boolean)
+  const lastSegment = pathSegments[pathSegments.length - 1] ?? ''
   const rankingType = (['rating', 'review'] as const).find(
     (r) => r === lastSegment,
   )
