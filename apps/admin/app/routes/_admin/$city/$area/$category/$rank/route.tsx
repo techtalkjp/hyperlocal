@@ -3,8 +3,8 @@ import { Link, href } from 'react-router'
 import { Button, Stack } from '~/components/ui'
 import { getPathParams } from '~/features/admin/get-path-params'
 import { PlaceCard } from '~/features/place/components'
+import { listAreaPlaces } from './+queries.server'
 import type { Route } from './+types/route'
-import { listAreaPlaces } from './queries.server'
 
 export const loader = async ({ params }: Route.LoaderArgs) => {
   const { city, area, lang, category, rankType } = getPathParams(params)

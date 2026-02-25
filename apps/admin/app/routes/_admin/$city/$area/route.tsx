@@ -2,9 +2,9 @@ import { categories } from '@hyperlocal/consts'
 import { Link, Outlet } from 'react-router'
 import { Card, CardContent, HStack, Stack } from '~/components/ui'
 import { getPathParams } from '~/features/admin/get-path-params'
+import { CategoryNav, CategoryNavItem } from './+components/category-nav-item'
+import { GoogleMapPopover } from './+components/google-map-popover'
 import type { Route } from './+types/route'
-import { CategoryNav, CategoryNavItem } from './components/category-nav-item'
-import { GoogleMapPopover } from './components/google-map-popover'
 
 export const meta: Route.MetaFunction = ({ data }) => [
   {

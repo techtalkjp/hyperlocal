@@ -4,8 +4,8 @@ import { Link, redirect } from 'react-router'
 import { z } from 'zod'
 import { HStack, Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
 import { PlaceCard, Rating } from '~/features/place/components'
+import { getLocalizedPlace, getPlace } from './+queries.server'
 import type { Route } from './+types/route'
-import { getLocalizedPlace, getPlace } from './queries.server'
 
 export const loader = async ({ params }: Route.LoaderArgs) => {
   const { place: placeId, lang: languageId } = zx.parseParams(params, {

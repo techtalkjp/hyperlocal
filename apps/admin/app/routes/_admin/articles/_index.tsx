@@ -16,8 +16,8 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui'
-import type { Route } from './+types/route'
-import { listAreaArticles } from './queries.server'
+import { listAreaArticles } from './+queries.server'
+import type { Route } from './+types/_index'
 
 export const loader = async () => {
   const articles = await listAreaArticles()

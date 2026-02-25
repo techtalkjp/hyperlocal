@@ -20,9 +20,9 @@ import {
   Stack,
   Textarea,
 } from '~/components/ui'
+import { generateArticle } from './+generate-article.server'
+import { createArticle, getPlacesForArea } from './+queries.server'
 import type { Route } from './+types/route'
-import { generateArticle } from './generate-article.server'
-import { createArticle, getPlacesForArea } from './queries.server'
 
 const generateSchema = z.object({
   intent: z.literal('generate'),

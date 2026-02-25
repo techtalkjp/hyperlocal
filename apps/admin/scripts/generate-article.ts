@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 import { areas, languages, scenes } from '@hyperlocal/consts'
 import { parseArgs } from 'node:util'
-import { createArticle } from '../app/routes/_admin+/articles.new/queries.server'
+import { createArticle } from '../app/routes/_admin/articles/new/+queries.server'
 import '../app/services/env.server'
 
 const { values } = parseArgs({

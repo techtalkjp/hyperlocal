@@ -1,7 +1,7 @@
 import { areas, cities } from '@hyperlocal/consts'
 import { Link } from 'react-router'
 import { Button, HStack } from '~/components/ui'
-import type { Route } from './+types/route'
+import type { Route } from './+types/_index'
 
 export const loader = () => {
   return { cities, areas }

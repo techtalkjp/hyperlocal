@@ -18,8 +18,8 @@ import {
   Stack,
   Textarea,
 } from '~/components/ui'
+import { deleteArticle, getArticle, updateArticle } from './+queries.server'
 import type { Route } from './+types/route'
-import { deleteArticle, getArticle, updateArticle } from './queries.server'
 
 export const loader = async ({ params }: Route.LoaderArgs) => {
   if (!params.id) {

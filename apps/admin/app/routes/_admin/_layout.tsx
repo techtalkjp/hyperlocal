@@ -4,7 +4,7 @@ import { getToast } from 'remix-toast'
 import { toast } from 'sonner'
 import { Toaster } from '~/components/ui'
 import { UserMenu } from '~/components/user-menu'
-import type { Route } from './+types/route'
+import type { Route } from './+types/_layout'
 
 export const meta: Route.MetaFunction = () => {
   return [

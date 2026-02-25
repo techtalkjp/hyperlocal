@@ -15,7 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui'
-import type { Route } from './+types/route'
+import type { Route } from './+types/_index'
 
 export const loader = () => {
   return { areas }
