@@ -4,34 +4,26 @@ on:
     branches: [main]
   pull_request:
 permissions:
-  actions: write
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   lint:
     name: ⬣ ESLint
     runs-on: ubuntu-latest
     steps:
-      - name: 🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-
       - name: ⬇️ Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v3
-        name: Install pnpm
+      - name: Install pnpm and Node.js
+        # pnpm version comes from `packageManager` and Node.js version from
+        # `devEngines.runtime` in package.json. `pnpm install` runs automatically.
+        uses: pnpm/setup@v2
         with:
-          version: 10
-          run_install: false
-
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install
+          cache: true
 
       - name: 🔬 Lint
         run: pnpm run lint
@@ -40,26 +32,13 @@ jobs:
     name: ʦ TypeScript
     runs-on: ubuntu-latest
     steps:
-      - name: 🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-
       - name: ⬇️ Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v3
-        name: Install pnpm
+      - name: Install pnpm and Node.js
+        uses: pnpm/setup@v2
         with:
-          version: 10
-          run_install: false
-
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install
+          cache: true
 
       - name: 🔎 Type check
         run: pnpm run typecheck
@@ -68,26 +47,13 @@ jobs:
     name: 💅 Format
     runs-on: ubuntu-latest
     steps:
-      - name: 🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-
       - name: ⬇️ Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v3
-        name: Install pnpm
+      - name: Install pnpm and Node.js
+        uses: pnpm/setup@v2
         with:
-          version: 10
-          run_install: false
-
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install
+          cache: true
 
       - name: 💅 Format check
         run: pnpm run format

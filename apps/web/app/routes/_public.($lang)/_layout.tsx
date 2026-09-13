@@ -6,12 +6,12 @@ import { NearbyAreasSelector } from '~/routes/resources/nearby-areas'
 import { AreaTitle, LanguageSelect } from './+components'
 import type { Route } from './+types/_layout'
 
-export const meta: Route.MetaFunction = ({ data, location }) => {
-  if (!data) return []
+export const meta: Route.MetaFunction = ({ loaderData, location }) => {
+  if (!loaderData) return []
 
   return [
     {
-      title: `Hyperlocal ${data.city.i18n[data.lang.id]}`,
+      title: `Hyperlocal ${loaderData.city.i18n[loaderData.lang.id]}`,
     },
     generateCanonicalLink(location.pathname),
   ]

@@ -80,6 +80,6 @@ export default {
   ssr: false,
   prerender: {
     paths: getPrerenderPaths,
-    unstable_concurrency: 10,
+    concurrency: 10,
   },
 } satisfies Config

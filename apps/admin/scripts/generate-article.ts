@@ -70,8 +70,7 @@ const language = values.language || articleData.language || 'ja'
 const title = values.title || articleData.title
 const description = values.description || articleData.description
 const status = (values.status || articleData.status || 'published') as
-  | 'draft'
-  | 'published'
+  'draft' | 'published'
 const city = values.city || articleData.city || 'tokyo'
 
 // Validate required arguments

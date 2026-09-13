@@ -16,10 +16,10 @@ import { sortLocalizedPlaceByDistance } from '~/services/distance'
 import { listLocalizedPlaces } from './+queries.server'
 import type { Route } from './+types/route'
 
-export const meta = ({ data, location }: Route.MetaArgs) => {
-  if (!data || !data.url) return []
+export const meta = ({ loaderData, location }: Route.MetaArgs) => {
+  if (!loaderData?.url) return []
 
-  const rankingTitle = match(data.rankingType)
+  const rankingTitle = match(loaderData.rankingType)
     .with('review', () => 'Most Popular')
     .with('rating', () => 'Top Rated')
     .with('nearme', () => 'Near Me')
@@ -27,38 +27,38 @@ export const meta = ({ data, location }: Route.MetaArgs) => {
 
   return [
     {
-      title: `${rankingTitle} ${data.area.i18n[data.lang.id]} ${data.category.i18n[data.lang.id]} - Hyperlocal ${data?.city.i18n[data.lang.id]}`,
+      title: `${rankingTitle} ${loaderData.area.i18n[loaderData.lang.id]} ${loaderData.category.i18n[loaderData.lang.id]} - Hyperlocal ${loaderData?.city.i18n[loaderData.lang.id]}`,
     },
     {
       name: 'description',
       content: generateAreaCategoryMetaDescription(
-        data.city.cityId,
-        data.area.areaId,
-        data.category.id,
-        data.lang.id,
+        loaderData.city.cityId,
+        loaderData.area.areaId,
+        loaderData.category.id,
+        loaderData.lang.id,
       ),
     },
     generateCanonicalLink(location.pathname),
     ...generateAlternateLinks({
-      url: data.url,
-      areaId: data.area.areaId,
-      categoryId: data.category.id,
-      rankingType: data.rankingType,
+      url: loaderData.url,
+      areaId: loaderData.area.areaId,
+      categoryId: loaderData.category.id,
+      rankingType: loaderData.rankingType,
     }),
     {
       'script:ld+json': {
         '@context': 'http://schema.org',
         '@type': 'LocalBusiness',
-        name: `${data.city.i18n[data.lang.id]} ${data.area.i18n[data.lang.id]} ${data.category.i18n[data.lang.id]}`,
+        name: `${loaderData.city.i18n[loaderData.lang.id]} ${loaderData.area.i18n[loaderData.lang.id]} ${loaderData.category.i18n[loaderData.lang.id]}`,
         description: generateAreaCategoryMetaDescription(
-          data.city.cityId,
-          data.area.areaId,
-          data.category.id,
-          data.lang.id,
+          loaderData.city.cityId,
+          loaderData.area.areaId,
+          loaderData.category.id,
+          loaderData.lang.id,
         ),
         url: new URL(
-          `${data.lang.path}area/${data.area.areaId}/${data.category.id}/${data.rankingType}`,
-          data.url,
+          `${loaderData.lang.path}area/${loaderData.area.areaId}/${loaderData.category.id}/${loaderData.rankingType}`,
+          loaderData.url,
         ).toString(),
       },
     },
