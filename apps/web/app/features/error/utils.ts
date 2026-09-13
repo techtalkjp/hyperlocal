@@ -1,8 +1,5 @@
 export type ErrorType =
-  | 'network-error'
-  | 'server-error'
-  | 'not-found'
-  | 'unknown'
+  'network-error' | 'server-error' | 'not-found' | 'unknown'
 
 /**
  * エラーオブジェクトからエラーの種類を分類する

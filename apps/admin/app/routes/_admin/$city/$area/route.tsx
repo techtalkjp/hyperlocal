@@ -6,9 +6,9 @@ import { CategoryNav, CategoryNavItem } from './+components/category-nav-item'
 import { GoogleMapPopover } from './+components/google-map-popover'
 import type { Route } from './+types/route'
 
-export const meta: Route.MetaFunction = ({ data }) => [
+export const meta: Route.MetaFunction = ({ loaderData }) => [
   {
-    title: `${data?.area.i18n.en} - Hyperlocal Admin`,
+    title: `${loaderData?.area.i18n.en} - Hyperlocal Admin`,
   },
 ]
 

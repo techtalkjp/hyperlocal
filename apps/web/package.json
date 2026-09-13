@@ -64,17 +64,16 @@
     "prettier": "catalog:",
     "prettier-plugin-organize-imports": "catalog:",
     "prettier-plugin-tailwindcss": "catalog:",
-    "react-router-auto-routes": "0.8.2",
+    "react-router-auto-routes": "1.0.0",
     "tailwindcss": "catalog:",
     "tailwindcss-animate": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "vite-tsconfig-paths": "catalog:",
     "vitest": "catalog:",
     "wrangler": "catalog:"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=24.0.0"
   }
 }

@@ -25,19 +25,19 @@ const metaDescriptions: Record<string, string> = {
   ko: '도쿄의 최고 평점 레스토랑과 장소를 발견하세요. 20개 지역의 카페, 맛집, 로컬 명소를 실시간 영업 정보와 평점으로 확인하세요.',
 }
 
-export const meta: Route.MetaFunction = ({ data, location }) => {
-  if (!data || !data.url) return []
+export const meta: Route.MetaFunction = ({ loaderData, location }) => {
+  if (!loaderData?.url) return []
   return [
     {
-      title: `Hyperlocal ${data?.city.i18n[data.lang.id]}`,
+      title: `Hyperlocal ${loaderData?.city.i18n[loaderData.lang.id]}`,
     },
     {
       name: 'description',
-      content: metaDescriptions[data.lang.id] || metaDescriptions.en,
+      content: metaDescriptions[loaderData.lang.id] || metaDescriptions.en,
     },
     generateCanonicalLink(location.pathname),
     ...generateAlternateLinks({
-      url: data.url,
+      url: loaderData.url,
     }),
   ]
 }

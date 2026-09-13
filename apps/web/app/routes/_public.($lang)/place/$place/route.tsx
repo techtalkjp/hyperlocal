@@ -18,10 +18,10 @@ import { generateCanonicalLink } from '~/features/seo/canonical-url'
 import { getLocalizedPlace, getPlaceListings } from './+queries.server'
 import type { Route } from './+types/route'
 
-export const meta: Route.MetaFunction = ({ data, location }) => {
+export const meta: Route.MetaFunction = ({ loaderData, location }) => {
   return [
     {
-      title: `${data?.place.displayName}  - Hyperlocal ${data?.city.i18n[data.lang.id]}`,
+      title: `${loaderData?.place.displayName}  - Hyperlocal ${loaderData?.city.i18n[loaderData.lang.id]}`,
     },
     generateCanonicalLink(location.pathname),
   ]

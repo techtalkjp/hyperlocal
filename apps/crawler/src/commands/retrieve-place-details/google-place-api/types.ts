@@ -138,10 +138,7 @@ type PlaceType_Lodging =
   | 'resort_hotel'
   | 'rv_park'
 type PlaceType_PlacesOfWorship =
-  | 'church'
-  | 'hindu_temple'
-  | 'mosque'
-  | 'synagogue'
+  'church' | 'hindu_temple' | 'mosque' | 'synagogue'
 type PlaceType_Services =
   | 'barber_shop'
   | 'beauty_salon'
@@ -249,9 +246,7 @@ export interface GooglePlaceOpeningHours {
 }
 
 export type GooglePlaceBusinessStatus =
-  | 'OPERATIONAL'
-  | 'CLOSED_TEMPORARILY'
-  | 'CLOSED_PERMANENTLY'
+  'OPERATIONAL' | 'CLOSED_TEMPORARILY' | 'CLOSED_PERMANENTLY'
 export type GooglePlacePriceLevel =
   | 'PRICE_LEVEL_UNSPECIFIED'
   | 'PRICE_LEVEL_FREE'

@@ -8,20 +8,20 @@ import { sortAreasByDistance } from '~/services/distance'
 import { getPublishedArticlesForArea } from './+queries.server'
 import type { Route } from './+types/_index'
 
-export const meta: Route.MetaFunction = ({ data, location }) => {
-  if (!data || !data.url) return []
+export const meta: Route.MetaFunction = ({ loaderData, location }) => {
+  if (!loaderData?.url) return []
   return [
     {
-      title: `${data?.area.i18n[data.lang.id]} - Hyperlocal Tokyo`,
+      title: `${loaderData?.area.i18n[loaderData.lang.id]} - Hyperlocal Tokyo`,
     },
     {
       name: 'description',
-      content: `${data.area.description[data.lang.id]} Discover top-rated cafes, restaurants, and local spots in ${data.area.i18n[data.lang.id]}.`,
+      content: `${loaderData.area.description[loaderData.lang.id]} Discover top-rated cafes, restaurants, and local spots in ${loaderData.area.i18n[loaderData.lang.id]}.`,
     },
     generateCanonicalLink(location.pathname),
     ...generateAlternateLinks({
-      url: data.url,
-      areaId: data.area.areaId,
+      url: loaderData.url,
+      areaId: loaderData.area.areaId,
     }),
   ]
 }

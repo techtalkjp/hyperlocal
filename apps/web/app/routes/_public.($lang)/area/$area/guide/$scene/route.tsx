@@ -25,14 +25,14 @@ import {
 } from './+queries.server'
 import type { Route } from './+types/route'
 
-export const meta = ({ data }: Route.MetaArgs) => {
-  if (!data?.article) {
+export const meta = ({ loaderData }: Route.MetaArgs) => {
+  if (!loaderData?.article) {
     return [{ title: 'Article Not Found' }]
   }
 
   return [
-    { title: data.article.title },
-    { name: 'description', content: data.article.metadata.description },
+    { title: loaderData.article.title },
+    { name: 'description', content: loaderData.article.metadata.description },
   ]
 }
 
