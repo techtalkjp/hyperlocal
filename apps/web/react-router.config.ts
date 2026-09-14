@@ -80,6 +80,8 @@ export default {
   ssr: false,
   prerender: {
     paths: getPrerenderPaths,
-    concurrency: 10,
+    // 10k pages against a 4-core CI runner: higher values starve slow pages
+    // and trip the built-in 10s per-request timeout with empty errors.
+    concurrency: 4,
   },
 } satisfies Config
