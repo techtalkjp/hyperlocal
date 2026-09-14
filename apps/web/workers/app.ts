@@ -1,4 +1,5 @@
-import { createRequestHandler } from 'react-router'
+import { RouterContextProvider, createRequestHandler } from 'react-router'
+import { executionContext } from '../app/lib/worker-context'
 
 const requestHandler = createRequestHandler(
   () => import('virtual:react-router/server-build'),
@@ -27,8 +28,21 @@ function seedProcessEnv(env: Record<string, unknown>) {
 }
 
 export default {
-  fetch(request: Request, env: Record<string, unknown>) {
+  fetch(
+    request: Request,
+    env: Record<string, unknown>,
+    ctx: {
+      waitUntil(promise: Promise<unknown>): void
+      passThroughOnException(): void
+    },
+  ) {
     seedProcessEnv(env)
-    return requestHandler(request)
+    const provider = new RouterContextProvider()
+    provider.set(executionContext, {
+      waitUntil: ctx.waitUntil.bind(ctx),
+      passThroughOnException: ctx.passThroughOnException.bind(ctx),
+      cache: (ctx as Record<string, unknown>).cache as never,
+    })
+    return requestHandler(request, provider)
   },
 }

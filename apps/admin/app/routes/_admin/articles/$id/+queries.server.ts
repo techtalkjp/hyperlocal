@@ -1,3 +1,4 @@
+import { purgeWebCache } from '~/lib/cache-purge.server'
 import { getDb } from '~/lib/db'
 import type { AdminEnv } from '~/lib/request-context'
 import { compileMDX } from '~/services/mdx.server'
@@ -34,9 +35,11 @@ export const updateArticle = async (
     .where('id', '=', id)
     .returningAll()
     .executeTakeFirstOrThrow()
+  await purgeWebCache(env, ['guide'])
   return article
 }
 
 export const deleteArticle = async (env: AdminEnv, id: string) => {
   await getDb(env).deleteFrom('areaArticles').where('id', '=', id).execute()
+  await purgeWebCache(env, ['guide'])
 }
