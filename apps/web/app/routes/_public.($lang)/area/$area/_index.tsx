@@ -8,6 +8,16 @@ import { sortAreasByDistance } from '~/services/distance'
 import { getPublishedArticlesForArea } from './+queries.server'
 import type { Route } from './+types/_index'
 
+export const headers: Route.HeadersFunction = () => ({
+  // Browser caches briefly; edge keeps a day with background revalidation.
+  // NOTE: s-maxage/must-revalidate would disable stale-while-revalidate,
+  // so edge directives live in cloudflare-cdn-cache-control instead.
+  'Cache-Control': 'public, max-age=60, stale-while-revalidate=60',
+  'cloudflare-cdn-cache-control':
+    'public, max-age=86400, stale-while-revalidate=3600',
+  'Cache-Tag': 'area',
+})
+
 export const meta: Route.MetaFunction = ({ loaderData, location }) => {
   if (!loaderData?.url) return []
   return [
