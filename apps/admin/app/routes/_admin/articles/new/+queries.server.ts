@@ -1,4 +1,5 @@
 import { createId } from '@paralleldrive/cuid2'
+import { purgeWebCache } from '~/lib/cache-purge.server'
 import { getDb } from '~/lib/db'
 import type { AdminEnv } from '~/lib/request-context'
 import { compileMDX } from '~/services/mdx.server'
@@ -30,6 +31,7 @@ export const createArticle = async (
     })
     .returningAll()
     .executeTakeFirstOrThrow()
+  await purgeWebCache(env, ['guide'])
   return article
 }
 

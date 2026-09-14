@@ -15,6 +15,8 @@ export interface AdminEnv {
   GOOGLE_GENERATIVE_AI_API_KEY?: string
   GOOGLE_MAPS_API_KEY?: string
   ADMIN_EMAILS?: string
+  WEB_ORIGIN?: string
+  PURGE_SECRET?: string
   [key: string]: string | undefined
 }
 
