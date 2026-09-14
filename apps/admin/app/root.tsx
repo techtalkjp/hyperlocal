@@ -4,11 +4,10 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  redirect,
   useLoaderData,
 } from 'react-router'
 import type { Route } from './+types/root'
-import { getSession } from './lib/auth-helpers.server'
+import { requireAdmin } from './lib/auth-helpers.server'
 import { getEnv } from './lib/request-context'
 import globalStyles from './styles/globals.css?url'
 
@@ -37,12 +36,8 @@ const authMiddleware: Route.MiddlewareFunction = async (args) => {
     return
   }
 
-  // Check authentication
-  const session = await getSession(args.request, getEnv(args.context))
-
-  if (!session?.user) {
-    return redirect('/login')
-  }
+  // Check authentication (admin-only; creation is allowlisted in auth.ts)
+  await requireAdmin(args.request, getEnv(args.context))
 }
 
 export const middleware: Route.MiddlewareFunction[] = [authMiddleware]

@@ -3,6 +3,10 @@ import { getAuthDb } from './db'
 import type { AdminEnv } from './request-context'
 
 export function createAuth(env: AdminEnv) {
+  const adminEmails = (env.ADMIN_EMAILS ?? 'coji@techtalk.jp')
+    .split(',')
+    .map((email) => email.trim().toLowerCase())
+    .filter(Boolean)
   return betterAuth({
     baseURL: env.BETTER_AUTH_URL ?? 'http://localhost:5175',
     secret: env.BETTER_AUTH_SECRET,
@@ -23,6 +27,10 @@ export function createAuth(env: AdminEnv) {
       user: {
         create: {
           before: async (user) => {
+            // coji@techtalk.jp 以外は作らせない
+            if (!adminEmails.includes(user.email.toLowerCase())) {
+              return false
+            }
             // 最初のユーザーを管理者にする
             const existingUsers = await getAuthDb(env)
               .selectFrom('user')
