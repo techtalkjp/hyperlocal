@@ -20,11 +20,10 @@ import {
   Stack,
 } from '~/components/ui'
 import {
-  buildTabelogLink,
   type BusinessHours,
   getBusinessStatus,
-  priceLevelLabel,
-} from '../utils'
+} from '@hyperlocal/google-place-api'
+import { buildTabelogLink, priceLevelLabel } from '../utils'
 import { BusinessStatusBadge } from './business-status-badge'
 
 export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {

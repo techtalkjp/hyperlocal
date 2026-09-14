@@ -5,7 +5,10 @@ import { FootprintsIcon, MapPinIcon } from 'lucide-react'
 import { Link } from 'react-router'
 import { HStack, Stack } from '~/components/ui'
 import { cn } from '~/libs/utils'
-import { getBusinessStatus, type BusinessHours } from '../../utils'
+import {
+  getBusinessStatus,
+  type BusinessHours,
+} from '@hyperlocal/google-place-api'
 import { ActionButtons } from './action-button'
 import { ImageSection } from './image-section'
 import { InfoSection } from './info-section'

@@ -1,7 +1,7 @@
 import type { LocalizedPlace } from '@hyperlocal/db/src/types'
 import type React from 'react'
 import { Stack } from '~/components/ui'
-import type { getBusinessStatus } from '../../utils'
+import type { getBusinessStatus } from '@hyperlocal/google-place-api'
 import { GenresSection } from './genre-sections'
 import { RatingSection } from './rating-sections'
 import { StatusPriceSection } from './status-price-section'
