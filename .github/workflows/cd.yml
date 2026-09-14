@@ -94,8 +94,8 @@ jobs:
           TURSO_DATABASE_URL=${{ secrets.TURSO_DATABASE_URL }}
           TURSO_AUTH_TOKEN=${{ secrets.TURSO_AUTH_TOKEN }}
           GA_TRACKING_ID=${{ secrets.GA_TRACKING_ID }}
-          # Prerender reads Turso: the local file path in .env does not exist on runners.
-          DATABASE_URL=${{ secrets.TURSO_DATABASE_URL }}
+          # Placeholder: the build step overrides DATABASE_URL with the replica file below.
+          DATABASE_URL=file:./data/production-replica.db
           R2_ACCOUNT_ID=${{ secrets.R2_ACCOUNT_ID }}
           R2_BUCKET_NAME=${{ secrets.R2_BUCKET_NAME }}
           R2_ACCESS_KEY_ID=${{ secrets.R2_ACCESS_KEY_ID }}
@@ -103,8 +103,13 @@ jobs:
           R2_PUBLIC_URL=${{ secrets.R2_PUBLIC_URL }}
           EOF
 
+      - name: 📥 Sync production replica (fast bulk download)
+        run: pnpm --filter @hyperlocal/web make:replica
+
       - name: 🏗 Build web
         run: pnpm --filter @hyperlocal/web build
+        env:
+          DATABASE_URL: file:${{ github.workspace }}/data/production-replica.db
 
       - name: 🚀 Deploy web to Workers
         run: pnpm --filter @hyperlocal/web run deploy
