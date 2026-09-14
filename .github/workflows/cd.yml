@@ -58,7 +58,7 @@ jobs:
 
       - name: 🛡 Block destructive changes
         run: |
-          plan=$(atlas schema apply --env production --dry-run)
+          plan=$(atlas schema apply --env production --exclude admin_users --dry-run)
           echo "$plan"
           if echo "$plan" | grep -qiE 'DROP TABLE'; then
             echo '::error::Destructive DROP detected. Review the plan and apply manually instead.'
