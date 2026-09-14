@@ -16,8 +16,13 @@ import { generateCanonicalLink } from '~/features/seo/canonical-url'
 import type { Route } from './+types/_index'
 
 export const headers: Route.HeadersFunction = () => ({
-  'Cache-Control':
-    'public, max-age=60, s-maxage=86400, stale-while-revalidate=86400',
+  // Browser caches briefly; edge keeps a day with background revalidation.
+  // NOTE: s-maxage/must-revalidate would disable stale-while-revalidate,
+  // so edge directives live in cloudflare-cdn-cache-control instead.
+  'Cache-Control': 'public, max-age=60, stale-while-revalidate=60',
+  'cloudflare-cdn-cache-control':
+    'public, max-age=86400, stale-while-revalidate=3600',
+  'Cache-Tag': 'top',
 })
 
 const metaDescriptions: Record<string, string> = {
