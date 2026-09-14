@@ -1,7 +1,10 @@
 import type React from 'react'
 import { match } from 'ts-pattern'
 import { cn } from '~/libs/utils'
-import { BusinessStatus, type BusinessStatusResult } from '../utils'
+import {
+  BusinessStatus,
+  type BusinessStatusResult,
+} from '@hyperlocal/google-place-api'
 
 const weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
