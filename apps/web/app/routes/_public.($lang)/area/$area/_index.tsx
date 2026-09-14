@@ -8,6 +8,11 @@ import { sortAreasByDistance } from '~/services/distance'
 import { getPublishedArticlesForArea } from './+queries.server'
 import type { Route } from './+types/_index'
 
+export const headers: Route.HeadersFunction = () => ({
+  'Cache-Control':
+    'public, max-age=60, s-maxage=86400, stale-while-revalidate=86400',
+})
+
 export const meta: Route.MetaFunction = ({ loaderData, location }) => {
   if (!loaderData?.url) return []
   return [

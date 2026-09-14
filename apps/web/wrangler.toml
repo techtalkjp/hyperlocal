@@ -2,7 +2,7 @@
 name = "hyperlocal-web"
 account_id = "91ff95bcb91fbfa1b1c5c356262b1fe4"
 
-main = "./server.ts"
+main = "./workers/app.ts"
 compatibility_flags = ["nodejs_compat"]
 compatibility_date = "2025-04-01"
 

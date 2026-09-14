@@ -15,6 +15,11 @@ import { generateAlternateLinks } from '~/features/seo/alternate-links'
 import { generateCanonicalLink } from '~/features/seo/canonical-url'
 import type { Route } from './+types/_index'
 
+export const headers: Route.HeadersFunction = () => ({
+  'Cache-Control':
+    'public, max-age=60, s-maxage=86400, stale-while-revalidate=86400',
+})
+
 const metaDescriptions: Record<string, string> = {
   en: 'Discover top-rated restaurants and places across Tokyo. Explore 20 areas with real-time status, ratings, and instant guides for cafes, dining, and local spots.',
   ja: '東京の厳選レストランとスポットを発見。20エリアのカフェ、グルメ、ローカルスポットをリアルタイムの営業状況と評価でチェック。',

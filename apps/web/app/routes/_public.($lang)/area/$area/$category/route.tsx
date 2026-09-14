@@ -4,6 +4,11 @@ import { Badge, Stack } from '~/components/ui'
 import { CategoryNav, CategoryNavItem } from './+components/category-nav-item'
 import type { Route } from './+types/route'
 
+export const headers: Route.HeadersFunction = () => ({
+  'Cache-Control':
+    'public, max-age=60, s-maxage=86400, stale-while-revalidate=86400',
+})
+
 export const clientLoader = ({ params, request }: Route.ClientLoaderArgs) => {
   const lang =
     params.lang === undefined

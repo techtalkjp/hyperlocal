@@ -25,6 +25,11 @@ import {
 } from './+queries.server'
 import type { Route } from './+types/route'
 
+export const headers: Route.HeadersFunction = () => ({
+  'Cache-Control':
+    'public, max-age=60, s-maxage=86400, stale-while-revalidate=86400',
+})
+
 export const meta = ({ loaderData }: Route.MetaArgs) => {
   if (!loaderData?.article) {
     return [{ title: 'Article Not Found' }]

@@ -18,6 +18,11 @@ import { generateCanonicalLink } from '~/features/seo/canonical-url'
 import { getLocalizedPlace, getPlaceListings } from './+queries.server'
 import type { Route } from './+types/route'
 
+export const headers: Route.HeadersFunction = () => ({
+  'Cache-Control':
+    'public, max-age=60, s-maxage=86400, stale-while-revalidate=86400',
+})
+
 export const meta: Route.MetaFunction = ({ loaderData, location }) => {
   return [
     {
