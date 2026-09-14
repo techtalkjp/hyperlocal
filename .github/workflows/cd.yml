@@ -94,7 +94,8 @@ jobs:
           TURSO_DATABASE_URL=${{ secrets.TURSO_DATABASE_URL }}
           TURSO_AUTH_TOKEN=${{ secrets.TURSO_AUTH_TOKEN }}
           GA_TRACKING_ID=${{ secrets.GA_TRACKING_ID }}
-          DATABASE_URL=${{ secrets.DATABASE_URL }}
+          # Prerender reads Turso: the local file path in .env does not exist on runners.
+          DATABASE_URL=${{ secrets.TURSO_DATABASE_URL }}
           R2_ACCOUNT_ID=${{ secrets.R2_ACCOUNT_ID }}
           R2_BUCKET_NAME=${{ secrets.R2_BUCKET_NAME }}
           R2_ACCESS_KEY_ID=${{ secrets.R2_ACCESS_KEY_ID }}
