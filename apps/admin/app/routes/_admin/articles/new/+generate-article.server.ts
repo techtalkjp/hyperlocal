@@ -1,4 +1,4 @@
-import { google } from '@ai-sdk/google'
+import { createGoogleGenerativeAI } from '@ai-sdk/google'
 import type { Area, Scene } from '@hyperlocal/consts'
 import { generateText, Output } from 'ai'
 import { z } from 'zod'
@@ -23,11 +23,13 @@ export const generateArticle = async ({
   scene,
   language,
   places,
+  apiKey,
 }: {
   area: Area
   scene: Scene
   language: string
   places: PlaceData[]
+  apiKey: string
 }) => {
   const languageMap: Record<string, string> = {
     ja: '日本語',
@@ -112,7 +114,8 @@ Generate an engaging ${targetLang} article about experiencing ${area.name} for t
 Use <Place id="..." /> components to embed place cards in the article.
 `
 
-  const model = google('gemini-2.5-flash-lite')
+  const googleProvider = createGoogleGenerativeAI({ apiKey })
+  const model = googleProvider('gemini-2.5-flash-lite')
   const result = await generateText({
     model,
     maxRetries: 3,

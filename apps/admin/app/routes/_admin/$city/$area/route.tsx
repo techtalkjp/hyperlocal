@@ -1,6 +1,7 @@
 import { categories } from '@hyperlocal/consts'
 import { Link, Outlet } from 'react-router'
 import { Card, CardContent, HStack, Stack } from '~/components/ui'
+import { getEnv } from '~/lib/request-context'
 import { getPathParams } from '~/features/admin/get-path-params'
 import { CategoryNav, CategoryNavItem } from './+components/category-nav-item'
 import { GoogleMapPopover } from './+components/google-map-popover'
@@ -12,8 +13,8 @@ export const meta: Route.MetaFunction = ({ loaderData }) => [
   },
 ]
 
-export const loader = ({ params }: Route.LoaderArgs) => {
-  const googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY
+export const loader = ({ params, context }: Route.LoaderArgs) => {
+  const googleMapsApiKey = getEnv(context).GOOGLE_MAPS_API_KEY ?? ''
   const { city, area } = getPathParams(params)
   if (!area) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })

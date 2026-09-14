@@ -1,21 +1,25 @@
-import { db } from '@hyperlocal/db'
 import { createId } from '@paralleldrive/cuid2'
+import { getDb } from '~/lib/db'
+import type { AdminEnv } from '~/lib/request-context'
 import { compileMDX } from '~/services/mdx.server'
 
-export const createArticle = async (data: {
-  cityId: string
-  areaId: string
-  sceneId: string
-  language: string
-  title: string
-  content: string
-  metadata: string
-  status: string
-}) => {
+export const createArticle = async (
+  env: AdminEnv,
+  data: {
+    cityId: string
+    areaId: string
+    sceneId: string
+    language: string
+    title: string
+    content: string
+    metadata: string
+    status: string
+  },
+) => {
   // Compile MDX
   const compiledCode = await compileMDX(data.content)
 
-  const article = await db
+  const article = await getDb(env)
     .insertInto('areaArticles')
     .values({
       id: createId(),
@@ -30,11 +34,12 @@ export const createArticle = async (data: {
 }
 
 export const getPlacesForArea = async (
+  env: AdminEnv,
   areaId: string,
   categoryId: string,
   rankingType: 'rating' | 'review',
 ) => {
-  const places = await db
+  const places = await getDb(env)
     .selectFrom('places')
     .innerJoin('placeListings', 'places.id', 'placeListings.placeId')
     .selectAll('places')

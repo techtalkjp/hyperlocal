@@ -146,7 +146,7 @@ console.log(`  Status: ${status}`)
 
 // Save article
 console.log('\n💾 Saving article...')
-const article = await createArticle({
+const article = await createArticle(process.env, {
   cityId: city,
   areaId: areaObj.areaId,
   sceneId: sceneObj.id,

@@ -1,7 +1,8 @@
-import { db } from '@hyperlocal/db'
+import { getDb } from '~/lib/db'
+import type { AdminEnv } from '~/lib/request-context'
 
-export const getArticle = async (id: string) => {
-  const article = await db
+export const getArticle = async (env: AdminEnv, id: string) => {
+  const article = await getDb(env)
     .selectFrom('areaArticles')
     .selectAll()
     .where('id', '=', id)
@@ -10,6 +11,7 @@ export const getArticle = async (id: string) => {
 }
 
 export const updateArticle = async (
+  env: AdminEnv,
   id: string,
   data: {
     title: string
@@ -18,7 +20,7 @@ export const updateArticle = async (
     status: string
   },
 ) => {
-  const article = await db
+  const article = await getDb(env)
     .updateTable('areaArticles')
     .set({
       ...data,
@@ -30,6 +32,6 @@ export const updateArticle = async (
   return article
 }
 
-export const deleteArticle = async (id: string) => {
-  await db.deleteFrom('areaArticles').where('id', '=', id).execute()
+export const deleteArticle = async (env: AdminEnv, id: string) => {
+  await getDb(env).deleteFrom('areaArticles').where('id', '=', id).execute()
 }

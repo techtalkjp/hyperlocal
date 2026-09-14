@@ -1,7 +1,12 @@
-import { db, type Place } from '@hyperlocal/db'
+import type { Place } from '@hyperlocal/db'
+import { getDb } from '~/lib/db'
+import type { AdminEnv } from '~/lib/request-context'
 
-export const getPlace = async (placeId: string): Promise<Place | undefined> => {
-  const place = await db
+export const getPlace = async (
+  env: AdminEnv,
+  placeId: string,
+): Promise<Place | undefined> => {
+  const place = await getDb(env)
     .selectFrom('places')
     .selectAll()
     .where('places.id', '==', placeId)
@@ -10,8 +15,12 @@ export const getPlace = async (placeId: string): Promise<Place | undefined> => {
   return place as Place | undefined
 }
 
-export const getLocalizedPlace = async (placeId: string, lang: string) => {
-  return await db
+export const getLocalizedPlace = async (
+  env: AdminEnv,
+  placeId: string,
+  lang: string,
+) => {
+  return await getDb(env)
     .selectFrom('localizedPlaces')
     .distinct()
     .selectAll()
