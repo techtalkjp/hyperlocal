@@ -1,1 +1,4 @@
 worker-configuration.d.ts
+# Golden fixture for the MDX compiler pin: must stay byte-identical to the
+# real article it was extracted from.
+app/services/testdata/article.mdx

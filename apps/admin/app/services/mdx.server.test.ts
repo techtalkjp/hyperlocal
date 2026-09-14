@@ -41,6 +41,7 @@ describe('compileMDX contract', () => {
     const code = await compileMDX('# Hello\n\nSome *text*.\n')
     expect(code).not.toContain('arguments[0]')
     expect(code).toContain('} = _jsx_runtime;')
+    expect(renderHtml(code)).toContain('Hello')
   })
 
   it('renders the real fixture identically to the stored esbuild output', async () => {
