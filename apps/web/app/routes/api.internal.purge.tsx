@@ -34,19 +34,25 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
   try {
     ctx = context.get(executionContext)
   } catch {
-    return data({ error: 'Cache purge unavailable in this runtime' }, {
-      status: 500,
-    })
+    return data(
+      { error: 'Cache purge unavailable in this runtime' },
+      {
+        status: 500,
+      },
+    )
   }
   if (!ctx.cache) {
-    return data({ error: 'Cache purge unavailable in this runtime' }, {
-      status: 500,
-    })
+    return data(
+      { error: 'Cache purge unavailable in this runtime' },
+      {
+        status: 500,
+      },
+    )
   }
   await ctx.cache.purge({ tags })
   return data({ purged: tags })
 }
 
-export const loader = async () => {
+export const loader = () => {
   throw new Response('Method Not Allowed', { status: 405 })
 }
