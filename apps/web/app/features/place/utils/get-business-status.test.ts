@@ -3,7 +3,7 @@ import {
   type BusinessHours,
   BusinessStatus,
   getBusinessStatus,
-} from './get-business-status' // パスは実際のファイル構造に合わせて調整してください
+} from '@hyperlocal/google-place-api'
 
 describe('getBusinessStatus with timezone', () => {
   const businessHours: BusinessHours = {

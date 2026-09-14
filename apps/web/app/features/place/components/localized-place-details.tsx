@@ -19,11 +19,10 @@ import {
   Stack,
 } from '~/components/ui'
 import {
-  buildTabelogLink,
   type BusinessHours,
   getBusinessStatus,
-  priceLevelLabel,
-} from '../utils'
+} from '@hyperlocal/google-place-api'
+import { buildTabelogLink, priceLevelLabel } from '../utils'
 import { BusinessStatusBadge } from './business-status-badge'
 import { ResponsivePlacesImage } from './responsive-place-image'
 

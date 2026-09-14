@@ -1,9 +1,12 @@
-import type { GooglePlacePriceLevel } from '@hyperlocal/google-place-api'
+import type {
+  getBusinessStatus,
+  GooglePlacePriceLevel,
+} from '@hyperlocal/google-place-api'
 import type React from 'react'
 import { ClientOnly } from 'remix-utils/client-only'
 import { HStack } from '~/components/ui'
 import { BusinessStatusBadge } from '..'
-import { type getBusinessStatus, priceLevelLabel } from '../../utils'
+import { priceLevelLabel } from '../../utils'
 
 interface StatusPriceSectionProps {
   distance?: number

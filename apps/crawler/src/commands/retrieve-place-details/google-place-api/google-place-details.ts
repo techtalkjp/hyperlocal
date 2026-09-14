@@ -1,5 +1,5 @@
 import consola from 'consola'
-import type { GooglePlace } from './types'
+import type { GooglePlace } from '@hyperlocal/google-place-api'
 
 const fieldMask = [
   'id',

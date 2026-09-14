@@ -16,8 +16,8 @@ import { BusinessStatusBadge } from '~/features/place/components'
 import {
   type BusinessHours,
   getBusinessStatus,
-  priceLevelLabel,
-} from '~/features/place/utils'
+} from '@hyperlocal/google-place-api'
+import { priceLevelLabel } from '~/features/place/utils'
 import {
   getArticle,
   getLocalizedPlacesByIds,
