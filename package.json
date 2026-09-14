@@ -2,7 +2,6 @@
   "name": "hyperlocal",
   "scripts": {
     "build": "turbo build",
-    "deploy": "fly deploy -c flyio/web/fly.toml --dockerfile flyio/web/Dockerfile",
     "dev": "turbo dev",
     "format": "turbo format",
     "format:fix": "turbo format:fix",
