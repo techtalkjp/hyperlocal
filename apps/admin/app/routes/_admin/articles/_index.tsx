@@ -16,11 +16,12 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui'
+import { getEnv } from '~/lib/request-context'
 import { listAreaArticles } from './+queries.server'
 import type { Route } from './+types/_index'
 
-export const loader = async () => {
-  const articles = await listAreaArticles()
+export const loader = async ({ context }: Route.LoaderArgs) => {
+  const articles = await listAreaArticles(getEnv(context))
   return { articles }
 }
 

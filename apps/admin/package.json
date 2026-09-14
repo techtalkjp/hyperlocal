@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "react-router dev",
-    "build": "react-router build",
-    "start": "react-router-serve ./build/server/index.js",
+    "build": "vite build",
+    "deploy": "vite build && wrangler deploy --config build/server/wrangler.json",
     "generate:article": "tsx --env-file .env scripts/generate-article.ts",
     "import:articles": "tsx --env-file .env scripts/import-articles.ts",
     "translate:articles": "tsx --env-file .env scripts/translate-articles.ts",
@@ -28,9 +28,9 @@
     "@hyperlocal/db": "workspace:*",
     "@hyperlocal/google-place-api": "workspace:*",
     "@libsql/kysely-libsql": "catalog:",
+    "@mdx-js/mdx": "^3.1.1",
     "@paralleldrive/cuid2": "3.3.0",
     "@react-router/node": "catalog:",
-    "@react-router/serve": "catalog:",
     "accept-language": "catalog:",
     "ai": "catalog:",
     "better-auth": "catalog:",
@@ -41,7 +41,6 @@
     "isbot": "catalog:",
     "kysely": "catalog:",
     "lucide-react": "catalog:",
-    "mdx-bundler": "catalog:",
     "nanoid": "catalog:",
     "next-themes": "catalog:",
     "radix-ui": "catalog:",
@@ -60,6 +59,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
+    "@cloudflare/vite-plugin": "^1.54.8",
     "@react-router/dev": "catalog:",
     "@tailwindcss/vite": "catalog:",
     "@types/node": "catalog:",
@@ -75,7 +75,8 @@
     "tailwindcss-animate": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "vitest": "catalog:"
+    "vitest": "catalog:",
+    "wrangler": "^4.131.1"
   },
   "engines": {
     "node": ">=24.0.0"

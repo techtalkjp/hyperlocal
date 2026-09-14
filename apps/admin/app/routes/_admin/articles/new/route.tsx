@@ -22,6 +22,7 @@ import {
 } from '~/components/ui'
 import { generateArticle } from './+generate-article.server'
 import { createArticle, getPlacesForArea } from './+queries.server'
+import { getEnv } from '~/lib/request-context'
 import type { Route } from './+types/route'
 
 const generateSchema = z.object({
@@ -49,9 +50,10 @@ export const loader = () => {
   return { areas, scenes, languages, categories }
 }
 
-export const action = async ({ request }: Route.ActionArgs) => {
+export const action = async ({ request, context }: Route.ActionArgs) => {
   const formData = await request.formData()
   const intent = formData.get('intent')
+  const env = getEnv(context)
 
   if (intent === 'generate') {
     const submission = parseWithZod(formData, { schema: generateSchema })
@@ -70,7 +72,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
     }
 
     // Get places for the area
-    const places = await getPlacesForArea(areaId, categoryId, 'rating')
+    const places = await getPlacesForArea(env, areaId, categoryId, 'rating')
     const placesData = places.map((p) => ({
       id: p.id,
       displayName: p.displayName,
@@ -86,6 +88,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
       scene,
       language,
       places: placesData,
+      apiKey: env.GOOGLE_GENERATIVE_AI_API_KEY ?? '',
     })
 
     return data({
@@ -118,7 +121,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
       status,
     } = submission.value
 
-    const article = await createArticle({
+    const article = await createArticle(env, {
       cityId,
       areaId,
       sceneId,

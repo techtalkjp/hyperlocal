@@ -200,15 +200,9 @@ catalogs:
     '@react-router/node':
       specifier: 8.3.1
       version: 8.3.1
-    '@react-router/serve':
-      specifier: 8.3.1
-      version: 8.3.1
     '@tailwindcss/vite':
       specifier: 4.3.3
       version: 4.3.3
-    '@types/debug':
-      specifier: 4.1.13
-      version: 4.1.13
     '@types/node':
       specifier: 26.5.1
       version: 26.5.1
@@ -248,9 +242,6 @@ catalogs:
     date-fns:
       specifier: 4.4.0
       version: 4.4.0
-    debug:
-      specifier: 4.4.3
-      version: 4.4.3
     dotenv:
       specifier: 17.4.2
       version: 17.4.2
@@ -409,15 +400,15 @@ importers:
       '@libsql/kysely-libsql':
         specifier: 'catalog:'
         version: 0.4.1(kysely@0.29.5)
+      '@mdx-js/mdx':
+        specifier: ^3.1.1
+        version: 3.1.1(supports-color@10.2.2)
       '@paralleldrive/cuid2':
         specifier: 3.3.0
         version: 3.3.0
       '@react-router/node':
         specifier: 'catalog:'
         version: 8.3.1(react-router@8.3.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(typescript@7.0.2)
-      '@react-router/serve':
-        specifier: 'catalog:'
-        version: 8.3.1(react-router@8.3.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(supports-color@10.2.2)(typescript@7.0.2)
       accept-language:
         specifier: 'catalog:'
         version: 3.0.20
@@ -448,9 +439,6 @@ importers:
       lucide-react:
         specifier: 'catalog:'
         version: 1.45.0(react@19.3.0)
-      mdx-bundler:
-        specifier: 'catalog:'
-        version: 10.1.1(esbuild@0.28.2)(supports-color@10.2.2)
       nanoid:
         specifier: 'catalog:'
         version: 6.0.1
@@ -500,6 +488,9 @@ importers:
       '@biomejs/biome':
         specifier: 'catalog:'
         version: 2.5.13
+      '@cloudflare/vite-plugin':
+        specifier: ^1.54.8
+        version: 1.54.8(@types/node@26.5.1)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))(wrangler@4.131.1(@types/node@26.5.1))
       '@react-router/dev':
         specifier: 'catalog:'
         version: 8.3.1(@react-router/serve@8.3.1(react-router@8.3.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(supports-color@10.2.2)(typescript@7.0.2))(react-router@8.3.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(supports-color@10.2.2)(typescript@7.0.2)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))(wrangler@4.131.1(@types/node@26.5.1))
@@ -548,6 +539,9 @@ importers:
       vitest:
         specifier: 'catalog:'
         version: 5.0.0(@types/node@26.5.1)(jsdom@26.1.0(supports-color@10.2.2))(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))
+      wrangler:
+        specifier: ^4.131.1
+        version: 4.131.1(@types/node@26.5.1)
 
   apps/crawler:
     dependencies:
@@ -812,9 +806,6 @@ importers:
       '@libsql/kysely-libsql':
         specifier: 'catalog:'
         version: 0.4.1(kysely@0.29.5)
-      debug:
-        specifier: 'catalog:'
-        version: 4.4.3(supports-color@10.2.2)
       dotenv:
         specifier: 'catalog:'
         version: 17.4.2
@@ -825,9 +816,6 @@ importers:
       '@biomejs/biome':
         specifier: 'catalog:'
         version: 2.5.13
-      '@types/debug':
-        specifier: 'catalog:'
-        version: 4.1.13
       '@types/node':
         specifier: 'catalog:'
         version: 26.5.1
@@ -1156,6 +1144,13 @@ packages:
     peerDependenciesMeta:
       workerd:
         optional: true
+
+  '@cloudflare/vite-plugin@1.54.8':
+    resolution: {integrity: sha512-FuwhWzDg48bIKEj1fcNyS3K2aZeNhlVSPZueDVGrp2fOf+8c8rqaCj66+KUKHuMCqHMfwo2LRbJyGOz+NrKuYQ==}
+    hasBin: true
+    peerDependencies:
+      vite: ^6.1.0 || ^7.0.0 || ^8.0.0
+      wrangler: ^4.131.1
 
   '@cloudflare/workerd-darwin-64@1.20260911.1':
     resolution: {integrity: sha512-785eaY1bkR1cm4Z/PCUeteZYmTMe6lre2zz63/GdGGimsoMsKxgl4brFPRukim8iv28EyD1XoCB/VPYF20BERA==}
@@ -7154,6 +7149,20 @@ snapshots:
     optionalDependencies:
       workerd: 1.20260911.1
 
+  '@cloudflare/vite-plugin@1.54.8(@types/node@26.5.1)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))(wrangler@4.131.1(@types/node@26.5.1))':
+    dependencies:
+      '@cloudflare/unenv-preset': 2.16.1(unenv@2.0.0-rc.24)(workerd@1.20260911.1)
+      miniflare: 5.20260911.0-alpha(@types/node@26.5.1)
+      unenv: 2.0.0-rc.24
+      vite: 8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)
+      workerd: 1.20260911.1
+      wrangler: 4.131.1(@types/node@26.5.1)
+      ws: 8.21.0
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - utf-8-validate
+
   '@cloudflare/workerd-darwin-64@1.20260911.1':
     optional: true
 
@@ -8858,6 +8867,7 @@ snapshots:
       react-router: 8.3.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
     optionalDependencies:
       typescript: 7.0.2
+    optional: true
 
   '@react-router/node@8.3.1(react-router@8.3.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(typescript@7.0.2)':
     dependencies:
@@ -8879,6 +8889,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
       - typescript
+    optional: true
 
   '@remix-run/node-fetch-server@0.14.1': {}
 
@@ -9199,6 +9210,7 @@ snapshots:
     dependencies:
       mime-types: 3.0.2
       negotiator: 1.1.0
+    optional: true
 
   acorn-jsx@5.3.2(acorn@8.18.0):
     dependencies:
@@ -9305,6 +9317,7 @@ snapshots:
   basic-auth@2.0.1:
     dependencies:
       safe-buffer: 5.1.2
+    optional: true
 
   bcp47@1.1.2: {}
 
@@ -9367,6 +9380,7 @@ snapshots:
       type-is: 2.1.0
     transitivePeerDependencies:
       - supports-color
+    optional: true
 
   boolbase@1.0.0: {}
 
@@ -9393,7 +9407,8 @@ snapshots:
       node-releases: 2.0.55
       update-browserslist-db: 1.3.3(browserslist@4.28.9)
 
-  buffer-from@1.1.2: {}
+  buffer-from@1.1.2:
+    optional: true
 
   buffer@5.7.1:
     dependencies:
@@ -9402,7 +9417,8 @@ snapshots:
 
   byte-counter@0.1.0: {}
 
-  bytes@3.1.2: {}
+  bytes@3.1.2:
+    optional: true
 
   cacheable-lookup@7.0.0: {}
 
@@ -9550,6 +9566,7 @@ snapshots:
   compressible@2.0.18:
     dependencies:
       mime-db: 1.54.0
+    optional: true
 
   compression@1.8.2(supports-color@10.2.2):
     dependencies:
@@ -9563,6 +9580,7 @@ snapshots:
       vary: 1.1.2
     transitivePeerDependencies:
       - supports-color
+    optional: true
 
   concat-map@0.0.1: {}
 
@@ -9579,19 +9597,23 @@ snapshots:
 
   consola@3.4.2: {}
 
-  content-disposition@1.1.0: {}
+  content-disposition@1.1.0:
+    optional: true
 
   content-type@1.0.5: {}
 
-  content-type@2.1.0: {}
+  content-type@2.1.0:
+    optional: true
 
   convert-source-map@2.0.0: {}
 
   cookie-es@3.1.1: {}
 
-  cookie-signature@1.2.2: {}
+  cookie-signature@1.2.2:
+    optional: true
 
-  cookie@0.7.2: {}
+  cookie@0.7.2:
+    optional: true
 
   cookie@1.1.1: {}
 
@@ -9705,6 +9727,7 @@ snapshots:
       ms: 2.0.0
     optionalDependencies:
       supports-color: 10.2.2
+    optional: true
 
   debug@4.4.3(supports-color@10.2.2):
     dependencies:
@@ -9742,11 +9765,13 @@ snapshots:
 
   defu@6.1.7: {}
 
-  depd@2.0.0: {}
+  depd@2.0.0:
+    optional: true
 
   dequal@2.0.3: {}
 
-  destroy@1.2.0: {}
+  destroy@1.2.0:
+    optional: true
 
   detect-libc@2.0.2: {}
 
@@ -9829,7 +9854,8 @@ snapshots:
 
   duplexer@0.1.2: {}
 
-  ee-first@1.1.1: {}
+  ee-first@1.1.1:
+    optional: true
 
   electron-to-chromium@1.5.427: {}
 
@@ -9849,7 +9875,8 @@ snapshots:
 
   emoji-regex@8.0.0: {}
 
-  encodeurl@2.0.0: {}
+  encodeurl@2.0.0:
+    optional: true
 
   enhanced-resolve@5.24.5:
     dependencies:
@@ -10038,7 +10065,8 @@ snapshots:
 
   escalade@3.2.0: {}
 
-  escape-html@1.0.3: {}
+  escape-html@1.0.3:
+    optional: true
 
   escape-string-regexp@1.0.5: {}
 
@@ -10085,7 +10113,8 @@ snapshots:
     dependencies:
       '@types/estree': 1.0.9
 
-  etag@1.8.1: {}
+  etag@1.8.1:
+    optional: true
 
   event-stream@3.3.4:
     dependencies:
@@ -10135,6 +10164,7 @@ snapshots:
       vary: 1.1.2
     transitivePeerDependencies:
       - supports-color
+    optional: true
 
   exsolve@1.1.1: {}
 
@@ -10190,6 +10220,7 @@ snapshots:
       statuses: 2.0.2
     transitivePeerDependencies:
       - supports-color
+    optional: true
 
   find-up@4.1.0:
     dependencies:
@@ -10219,11 +10250,13 @@ snapshots:
     dependencies:
       fetch-blob: 3.2.0
 
-  forwarded@0.2.0: {}
+  forwarded@0.2.0:
+    optional: true
 
   fraction.js@5.3.4: {}
 
-  fresh@2.0.0: {}
+  fresh@2.0.0:
+    optional: true
 
   from@0.1.7: {}
 
@@ -10468,6 +10501,7 @@ snapshots:
       setprototypeof: 1.2.0
       statuses: 2.0.2
       toidentifier: 1.0.1
+    optional: true
 
   http-proxy-agent@7.0.2(supports-color@10.2.2):
     dependencies:
@@ -10557,7 +10591,8 @@ snapshots:
 
   ip-address@10.7.0: {}
 
-  ipaddr.js@1.9.1: {}
+  ipaddr.js@1.9.1:
+    optional: true
 
   is-alphabetical@2.0.1: {}
 
@@ -10653,7 +10688,8 @@ snapshots:
 
   is-potential-custom-element-name@1.0.1: {}
 
-  is-promise@4.0.0: {}
+  is-promise@4.0.0:
+    optional: true
 
   is-regex@1.2.1:
     dependencies:
@@ -11182,11 +11218,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  media-typer@1.1.1: {}
+  media-typer@1.1.1:
+    optional: true
 
   memorystream@0.3.1: {}
 
-  merge-descriptors@2.0.0: {}
+  merge-descriptors@2.0.0:
+    optional: true
 
   micromark-core-commonmark@2.0.3:
     dependencies:
@@ -11466,7 +11504,8 @@ snapshots:
 
   mime-db@1.52.0: {}
 
-  mime-db@1.54.0: {}
+  mime-db@1.54.0:
+    optional: true
 
   mime-types@2.1.35:
     dependencies:
@@ -11475,6 +11514,7 @@ snapshots:
   mime-types@3.0.2:
     dependencies:
       mime-db: 1.54.0
+    optional: true
 
   mimic-fn@2.1.0: {}
 
@@ -11535,8 +11575,10 @@ snapshots:
       on-headers: 1.1.0
     transitivePeerDependencies:
       - supports-color
+    optional: true
 
-  ms@2.0.0: {}
+  ms@2.0.0:
+    optional: true
 
   ms@2.1.3: {}
 
@@ -11550,11 +11592,13 @@ snapshots:
 
   nanostores@1.5.3: {}
 
-  negotiator@0.6.4: {}
+  negotiator@0.6.4:
+    optional: true
 
   negotiator@1.1.0:
     dependencies:
       content-type: 2.1.0
+    optional: true
 
   next-themes@0.4.6(react-dom@19.3.0(react@19.3.0))(react@19.3.0):
     dependencies:
@@ -11626,12 +11670,15 @@ snapshots:
   on-finished@2.4.1:
     dependencies:
       ee-first: 1.1.1
+    optional: true
 
-  on-headers@1.1.0: {}
+  on-headers@1.1.0:
+    optional: true
 
   once@1.4.0:
     dependencies:
       wrappy: 1.0.2
+    optional: true
 
   onetime@5.1.2:
     dependencies:
@@ -11751,7 +11798,8 @@ snapshots:
     dependencies:
       entities: 6.0.1
 
-  parseurl@1.3.3: {}
+  parseurl@1.3.3:
+    optional: true
 
   path-exists@4.0.0: {}
 
@@ -11763,7 +11811,8 @@ snapshots:
 
   path-to-regexp@6.3.0: {}
 
-  path-to-regexp@8.4.2: {}
+  path-to-regexp@8.4.2:
+    optional: true
 
   path-type@3.0.0:
     dependencies:
@@ -11834,6 +11883,7 @@ snapshots:
     dependencies:
       forwarded: 0.2.0
       ipaddr.js: 1.9.1
+    optional: true
 
   proxy-chain@2.7.1(supports-color@10.2.2):
     dependencies:
@@ -11849,6 +11899,7 @@ snapshots:
     dependencies:
       es-define-property: 1.0.1
       side-channel: 1.1.1
+    optional: true
 
   quick-lru@5.1.1: {}
 
@@ -11917,7 +11968,8 @@ snapshots:
       '@types/react': 19.3.0
       '@types/react-dom': 19.3.0(@types/react@19.3.0)
 
-  range-parser@1.3.0: {}
+  range-parser@1.3.0:
+    optional: true
 
   raw-body@3.0.2:
     dependencies:
@@ -11925,6 +11977,7 @@ snapshots:
       http-errors: 2.0.1
       iconv-lite: 0.7.3
       unpipe: 1.0.0
+    optional: true
 
   react-dom@19.3.0(react@19.3.0):
     dependencies:
@@ -12195,6 +12248,7 @@ snapshots:
       path-to-regexp: 8.4.2
     transitivePeerDependencies:
       - supports-color
+    optional: true
 
   rrweb-cssom@0.8.0: {}
 
@@ -12214,7 +12268,8 @@ snapshots:
       has-symbols: 1.1.0
       isarray: 2.0.5
 
-  safe-buffer@5.1.2: {}
+  safe-buffer@5.1.2:
+    optional: true
 
   safe-buffer@5.2.1: {}
 
@@ -12265,6 +12320,7 @@ snapshots:
       statuses: 2.0.2
     transitivePeerDependencies:
       - supports-color
+    optional: true
 
   serve-static@2.2.1(supports-color@10.2.2):
     dependencies:
@@ -12274,6 +12330,7 @@ snapshots:
       send: 1.2.1(supports-color@10.2.2)
     transitivePeerDependencies:
       - supports-color
+    optional: true
 
   set-cookie-parser@3.1.2: {}
 
@@ -12299,7 +12356,8 @@ snapshots:
       es-errors: 1.3.0
       es-object-atoms: 1.1.2
 
-  setprototypeof@1.2.0: {}
+  setprototypeof@1.2.0:
+    optional: true
 
   sharp@0.35.4(@types/node@26.5.1):
     dependencies:
@@ -12410,8 +12468,10 @@ snapshots:
     dependencies:
       buffer-from: 1.1.2
       source-map: 0.6.1
+    optional: true
 
-  source-map@0.6.1: {}
+  source-map@0.6.1:
+    optional: true
 
   source-map@0.7.6: {}
 
@@ -12439,7 +12499,8 @@ snapshots:
 
   stackback@0.0.2: {}
 
-  statuses@2.0.2: {}
+  statuses@2.0.2:
+    optional: true
 
   std-env@4.2.0: {}
 
@@ -12595,7 +12656,8 @@ snapshots:
     dependencies:
       is-number: 7.0.0
 
-  toidentifier@1.0.1: {}
+  toidentifier@1.0.1:
+    optional: true
 
   token-types@6.1.2:
     dependencies:
@@ -12653,6 +12715,7 @@ snapshots:
       content-type: 2.1.0
       media-typer: 1.1.1
       mime-types: 3.0.2
+    optional: true
 
   typed-array-buffer@1.0.3:
     dependencies:
@@ -12775,7 +12838,8 @@ snapshots:
 
   universalify@2.0.1: {}
 
-  unpipe@1.0.0: {}
+  unpipe@1.0.0:
+    optional: true
 
   update-browserslist-db@1.3.3(browserslist@4.28.9):
     dependencies:
@@ -12813,7 +12877,8 @@ snapshots:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
 
-  vary@1.1.2: {}
+  vary@1.1.2:
+    optional: true
 
   vfile-message@4.0.3:
     dependencies:
@@ -12982,7 +13047,8 @@ snapshots:
       string-width: 7.2.0
       strip-ansi: 7.2.0
 
-  wrappy@1.0.2: {}
+  wrappy@1.0.2:
+    optional: true
 
   ws@8.21.0: {}
 

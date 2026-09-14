@@ -1,0 +1,12 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "hyperlocal-admin"
+account_id = "91ff95bcb91fbfa1b1c5c356262b1fe4"
+
+main = "./workers/app.ts"
+compatibility_date = "2025-04-01"
+compatibility_flags = ["nodejs_compat"]
+
+assets = { directory = "./build/client", binding = "ASSETS", html_handling = "drop-trailing-slash" }
+
+[observability]
+enabled = true

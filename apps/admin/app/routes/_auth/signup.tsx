@@ -16,11 +16,12 @@ import {
 import { Input } from '~/components/ui/input'
 import { Label } from '~/components/ui/label'
 import { signUp } from '~/lib/auth-client'
+import { getEnv } from '~/lib/request-context'
 import { getSession } from '~/lib/auth-helpers.server'
 import type { Route } from './+types/signup'
 
-export const loader = async ({ request }: Route.LoaderArgs) => {
-  const session = await getSession(request)
+export const loader = async ({ request, context }: Route.LoaderArgs) => {
+  const session = await getSession(request, getEnv(context))
   if (session?.user) {
     return redirect('/')
   }

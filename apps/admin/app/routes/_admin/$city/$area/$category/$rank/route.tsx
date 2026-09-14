@@ -4,9 +4,10 @@ import { Button, Stack } from '~/components/ui'
 import { getPathParams } from '~/features/admin/get-path-params'
 import { PlaceCard } from '~/features/place/components'
 import { listAreaPlaces } from './+queries.server'
+import { getEnv } from '~/lib/request-context'
 import type { Route } from './+types/route'
 
-export const loader = async ({ params }: Route.LoaderArgs) => {
+export const loader = async ({ params, context }: Route.LoaderArgs) => {
   const { city, area, lang, category, rankType } = getPathParams(params)
   if (!area) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
@@ -21,7 +22,12 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
 
-  const places = await listAreaPlaces(area.areaId, category.id, rankType)
+  const places = await listAreaPlaces(
+    getEnv(context),
+    area.areaId,
+    category.id,
+    rankType,
+  )
 
   return {
     city,

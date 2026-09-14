@@ -4,15 +4,25 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  redirect,
+  useLoaderData,
 } from 'react-router'
 import type { Route } from './+types/root'
-import { getSession } from './lib/auth-helpers.server'
+import { requireAdmin } from './lib/auth-helpers.server'
+import { getEnv } from './lib/request-context'
 import globalStyles from './styles/globals.css?url'
 
 export const links: Route.LinksFunction = () => [
   { rel: 'stylesheet', href: globalStyles },
 ]
+
+export const loader = ({ context }: Route.LoaderArgs) => {
+  const env = getEnv(context)
+  return {
+    ENV: {
+      BETTER_AUTH_URL: env.BETTER_AUTH_URL ?? 'http://localhost:5175',
+    },
+  }
+}
 
 // Public routes that don't require authentication
 const publicRoutes = ['/login', '/logout', '/signup']
@@ -26,12 +36,8 @@ const authMiddleware: Route.MiddlewareFunction = async (args) => {
     return
   }
 
-  // Check authentication
-  const session = await getSession(args.request)
-
-  if (!session?.user) {
-    return redirect('/login')
-  }
+  // Check authentication (admin-only; creation is allowlisted in auth.ts)
+  await requireAdmin(args.request, getEnv(args.context))
 }
 
 export const middleware: Route.MiddlewareFunction[] = [authMiddleware]
@@ -65,5 +71,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />
+  const { ENV } = useLoaderData<typeof loader>()
+  return (
+    <>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `window.ENV = ${JSON.stringify(ENV)}`,
+        }}
+      />
+      <Outlet />
+    </>
+  )
 }

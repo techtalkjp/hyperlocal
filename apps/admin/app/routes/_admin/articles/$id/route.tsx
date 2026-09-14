@@ -18,25 +18,31 @@ import {
   Stack,
   Textarea,
 } from '~/components/ui'
+import { getEnv } from '~/lib/request-context'
 import { deleteArticle, getArticle, updateArticle } from './+queries.server'
 import type { Route } from './+types/route'
 
-export const loader = async ({ params }: Route.LoaderArgs) => {
+export const loader = async ({ params, context }: Route.LoaderArgs) => {
   if (!params.id) {
     throw new Response('Not Found', { status: 404 })
   }
-  const article = await getArticle(params.id)
+  const article = await getArticle(getEnv(context), params.id)
   if (!article) {
     throw new Response('Not Found', { status: 404 })
   }
   return { article }
 }
 
-export const action = async ({ request, params }: Route.ActionArgs) => {
+export const action = async ({
+  request,
+  params,
+  context,
+}: Route.ActionArgs) => {
   if (!params.id) {
     throw new Response('Not Found', { status: 404 })
   }
 
+  const env = getEnv(context)
   const formData = await request.formData()
   const intent = formData.get('intent')
 
@@ -46,7 +52,7 @@ export const action = async ({ request, params }: Route.ActionArgs) => {
     const metadata = formData.get('metadata') as string
     const status = formData.get('status') as string
 
-    await updateArticle(params.id, {
+    await updateArticle(env, params.id, {
       title,
       content,
       metadata,
@@ -57,7 +63,7 @@ export const action = async ({ request, params }: Route.ActionArgs) => {
   }
 
   if (intent === 'delete') {
-    await deleteArticle(params.id)
+    await deleteArticle(env, params.id)
     return redirect('/articles')
   }
 
