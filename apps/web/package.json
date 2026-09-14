@@ -10,7 +10,7 @@
     "build": "vite build && tsx --env-file=.env scripts/build-sitemap.ts",
     "build:sitemap": "tsx --env-file=.env scripts/build-sitemap.ts",
     "start": "wrangler dev",
-    "deploy": "pnpm run build && wrangler deploy --config build/server/wrangler.json",
+    "deploy": "wrangler deploy --config build/server/wrangler.json",
     "lint": "biome lint .",
     "format": "prettier --check . --experimental-cli",
     "format:fix": "prettier --write . --experimental-cli",
