@@ -2,7 +2,6 @@
   "name": "hyperlocal",
   "scripts": {
     "build": "turbo build",
-    "deploy": "fly deploy -c flyio/web/fly.toml --dockerfile flyio/web/Dockerfile",
     "dev": "turbo dev",
     "format": "turbo format",
     "format:fix": "turbo format:fix",
@@ -15,8 +14,7 @@
     "db:generate": "pnpm --filter @hyperlocal/db db:generate",
     "db:diff": "pnpm --filter @hyperlocal/db db:diff",
     "db:replica": "pnpm --filter @hyperlocal/web make:replica",
-    "db:reset": "pnpm --filter @hyperlocal/web db:reset",
-    "db:upload": "pnpm --filter @hyperlocal/web upload:db"
+    "db:reset": "pnpm --filter @hyperlocal/web db:reset"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
