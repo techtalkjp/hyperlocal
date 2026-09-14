@@ -1,0 +1,135 @@
+name: CD
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths: ['packages/db/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cd-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  migrate-plan:
+    name: 🗺 Migration plan
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/db
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v7
+
+      - name: 📦 Install Atlas
+        run: curl -sSf https://atlasgo.sh | sh
+
+      - name: 🗺 Show migration plan (dry run, no writes)
+        run: atlas schema apply --env production --dry-run
+        env:
+          TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
+
+  migrate:
+    name: 🗄 Migrate Turso
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/db
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v7
+
+      - name: 📦 Install Atlas
+        run: curl -sSf https://atlasgo.sh | sh
+
+      - name: 🗺 Show migration plan (dry run, no writes)
+        run: atlas schema apply --env production --dry-run
+        env:
+          TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
+
+      - name: 🛡 Block destructive changes
+        run: |
+          plan=$(atlas schema apply --env production --dry-run)
+          echo "$plan"
+          if echo "$plan" | grep -qiE 'DROP TABLE'; then
+            echo '::error::Destructive DROP detected. Review the plan and apply manually instead.'
+            exit 1
+          fi
+        env:
+          TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
+
+      - name: 🗄 Apply migration
+        run: atlas schema apply --env production --auto-approve
+        env:
+          TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
+
+  deploy-web:
+    name: 🚀 Deploy web
+    if: github.event_name != 'pull_request'
+    needs: [migrate]
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v7
+
+      - name: Install pnpm and Node.js
+        uses: pnpm/setup@v2
+        with:
+          cache: true
+
+      - name: 📝 Write apps/web/.env
+        run: |
+          cat > apps/web/.env <<'EOF'
+          TURSO_DATABASE_URL=${{ secrets.TURSO_DATABASE_URL }}
+          TURSO_AUTH_TOKEN=${{ secrets.TURSO_AUTH_TOKEN }}
+          GA_TRACKING_ID=${{ secrets.GA_TRACKING_ID }}
+          DATABASE_URL=${{ secrets.DATABASE_URL }}
+          R2_ACCOUNT_ID=${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET_NAME=${{ secrets.R2_BUCKET_NAME }}
+          R2_ACCESS_KEY_ID=${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY=${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_PUBLIC_URL=${{ secrets.R2_PUBLIC_URL }}
+          EOF
+
+      - name: 🏗 Build web
+        run: pnpm --filter @hyperlocal/web build
+
+      - name: 🚀 Deploy web to Workers
+        run: pnpm --filter @hyperlocal/web run deploy
+        working-directory: apps/web
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+  deploy-admin:
+    name: 🚀 Deploy admin
+    if: github.event_name != 'pull_request'
+    needs: [migrate]
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v7
+
+      - name: Install pnpm and Node.js
+        uses: pnpm/setup@v2
+        with:
+          cache: true
+
+      - name: 🏗 Build admin
+        run: pnpm --filter @hyperlocal/admin build
+        env:
+          VITE_BETTER_AUTH_URL: https://hyperlocal-admin.techtalkjp.workers.dev
+
+      - name: 🚀 Deploy admin to Workers
+        run: pnpm --filter @hyperlocal/admin exec wrangler deploy --config build/server/wrangler.json
+        working-directory: apps/admin
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
