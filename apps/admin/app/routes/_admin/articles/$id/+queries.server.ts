@@ -1,5 +1,6 @@
 import { getDb } from '~/lib/db'
 import type { AdminEnv } from '~/lib/request-context'
+import { compileMDX } from '~/services/mdx.server'
 
 export const getArticle = async (env: AdminEnv, id: string) => {
   const article = await getDb(env)
@@ -20,10 +21,14 @@ export const updateArticle = async (
     status: string
   },
 ) => {
+  // Recompile MDX so the public page reflects the edited content
+  const compiledCode = await compileMDX(data.content)
+
   const article = await getDb(env)
     .updateTable('areaArticles')
     .set({
       ...data,
+      compiledCode,
       updatedAt: new Date().toISOString(),
     })
     .where('id', '=', id)
