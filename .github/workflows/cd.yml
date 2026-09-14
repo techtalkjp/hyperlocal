@@ -29,9 +29,8 @@ jobs:
         run: curl -sSf https://atlasgo.sh | sh
 
       - name: 🗺 Show migration plan (dry run, no writes)
-        # admin_users is a legacy table with live data: manage everything else,
-          # never drop it. The DROP gate below is defense in depth.
-          run: atlas schema apply --env production --exclude admin_users --dry-run
+        # admin_users is legacy with live data: manage everything else, never drop it.
+        run: atlas schema apply --env production --exclude admin_users --dry-run
         env:
           TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
           TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
@@ -51,9 +50,8 @@ jobs:
         run: curl -sSf https://atlasgo.sh | sh
 
       - name: 🗺 Show migration plan (dry run, no writes)
-        # admin_users is a legacy table with live data: manage everything else,
-          # never drop it. The DROP gate below is defense in depth.
-          run: atlas schema apply --env production --exclude admin_users --dry-run
+        # admin_users is legacy with live data: manage everything else, never drop it.
+        run: atlas schema apply --env production --exclude admin_users --dry-run
         env:
           TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
           TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
