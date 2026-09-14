@@ -14,9 +14,6 @@ export function createAuth(env: AdminEnv) {
       db: getAuthDb(env),
       type: 'sqlite',
     },
-    emailAndPassword: {
-      enabled: true,
-    },
     socialProviders: {
       google: {
         clientId: env.GOOGLE_CLIENT_ID ?? '',
