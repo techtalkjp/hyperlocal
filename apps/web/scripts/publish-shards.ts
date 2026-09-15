@@ -1,4 +1,8 @@
-import { HeadObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import {
+  HeadObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from '@aws-sdk/client-s3'
 import { createHash } from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -22,7 +26,9 @@ if (!dir) {
   throw new Error('--dir <export-shards out dir> is required')
 }
 
-const manifestLocal = JSON.parse(fs.readFileSync(path.join(dir, 'manifest.json'), 'utf8')) as {
+const manifestLocal = JSON.parse(
+  fs.readFileSync(path.join(dir, 'manifest.json'), 'utf8'),
+) as {
   version: string
 }
 const version = manifestLocal.version
@@ -84,10 +90,15 @@ const queue = versionFiles.map((f) => ({
 for (let i = 0; i < queue.length; i += 10) {
   await Promise.all(
     queue.slice(i, i + 10).map(async ({ key, file }) => {
-      await putOne(key, fs.readFileSync(file), 'public, max-age=31536000, immutable')
+      await putOne(
+        key,
+        fs.readFileSync(file),
+        'public, max-age=31536000, immutable',
+      )
     }),
   )
-  if ((i / 10) % 20 === 0) console.log(`  ${Math.min(i + 10, queue.length)}/${queue.length}`)
+  if ((i / 10) % 20 === 0)
+    console.log(`  ${Math.min(i + 10, queue.length)}/${queue.length}`)
 }
 
 // manifestは最後に更新 (読者が未配置版を掴まないため)
@@ -99,7 +110,14 @@ await putOne(
 
 console.log(
   JSON.stringify(
-    { version, put, skipped, bytes, estUsd: ((put * 4.5) / 1e6).toFixed(4), dryRun },
+    {
+      version,
+      put,
+      skipped,
+      bytes,
+      estUsd: ((put * 4.5) / 1e6).toFixed(4),
+      dryRun,
+    },
     null,
     2,
   ),

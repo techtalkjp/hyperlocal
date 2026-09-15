@@ -21,7 +21,8 @@ const versionArg = args[args.indexOf('--version') + 1]
 if (!outDir) {
   throw new Error('--out <dir> is required')
 }
-const version = versionArg ?? new Date().toISOString().slice(0, 13).replace(/[-T:]/g, '')
+const version =
+  versionArg ?? new Date().toISOString().slice(0, 13).replace(/[-T:]/g, '')
 
 const files: Record<string, string> = {}
 const write = (logicalPath: string, data: unknown) => {
@@ -87,9 +88,9 @@ for (const lang of languages) {
 counts.geo = 0
 const areaIds = [
   ...new Set(
-    (await db.selectFrom('placeListings').select('areaId').distinct().execute()).map(
-      (r) => r.areaId,
-    ),
+    (
+      await db.selectFrom('placeListings').select('areaId').distinct().execute()
+    ).map((r) => r.areaId),
   ),
 ]
 for (const areaId of areaIds) {
@@ -103,7 +104,11 @@ for (const areaId of areaIds) {
     ).map((r) => r.placeId as string),
   )
   const geo = (
-    await db.selectFrom('places').selectAll().where('id', 'in', [...ids]).execute()
+    await db
+      .selectFrom('places')
+      .selectAll()
+      .where('id', 'in', [...ids])
+      .execute()
   ).map((p) => ({
     id: p.id,
     lat: (p as Record<string, unknown>).latitude,
@@ -125,7 +130,9 @@ counts.guide = 0
 for (const a of articles) {
   const row = a as unknown as Record<string, unknown>
   const content = String(row.content ?? '')
-  const placeIds = [...new Set([...content.matchAll(/<Place id="([^"]+)"/g)].map((m) => m[1]))]
+  const placeIds = [
+    ...new Set([...content.matchAll(/<Place id="([^"]+)"/g)].map((m) => m[1])),
+  ]
   bytes += write(
     `guide/${row.language}/${row.area_id ?? row.areaId}/${row.scene_id ?? row.sceneId}.json`,
     { ...row, placeIds },
@@ -140,6 +147,15 @@ const manifest = {
   bytes,
   files,
 }
-fs.writeFileSync(path.join(outDir, 'manifest.json'), JSON.stringify(manifest, null, 2))
-console.log(JSON.stringify({ version, counts, bytes, files: Object.keys(files).length }, null, 2))
+fs.writeFileSync(
+  path.join(outDir, 'manifest.json'),
+  JSON.stringify(manifest, null, 2),
+)
+console.log(
+  JSON.stringify(
+    { version, counts, bytes, files: Object.keys(files).length },
+    null,
+    2,
+  ),
+)
 process.exit(0)

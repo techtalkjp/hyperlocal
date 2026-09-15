@@ -17,7 +17,11 @@ import { RouteErrorBoundary } from '~/features/error/components/route-error-boun
 import { LocalizedPlaceDetails } from '~/features/place/components/localized-place-details'
 import { generateAlternateLinks } from '~/features/seo/alternate-links'
 import { generateCanonicalLink } from '~/features/seo/canonical-url'
-import { getLocalizedPlace, getPlaceIdByGoogleId, getPlaceListings } from './+queries.server'
+import {
+  getLocalizedPlace,
+  getPlaceIdByGoogleId,
+  getPlaceListings,
+} from './+queries.server'
 import { readShard } from '~/features/shards/reader'
 import type { Route } from './+types/route'
 

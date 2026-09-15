@@ -14,14 +14,21 @@ interface ShardManifest {
 const MANIFEST_TTL_MS = 60_000
 let manifestCache: { at: number; data: ShardManifest } | undefined
 
-type CfFetchInit = RequestInit & { cf?: { cacheEverything?: boolean; cacheTtl?: number } }
+type CfFetchInit = RequestInit & {
+  cf?: { cacheEverything?: boolean; cacheTtl?: number }
+}
 
 const baseUrl = () => (process.env.R2_PUBLIC_URL ?? '').replace(/\/+$/, '')
 
-const cachedFetch = async (url: string, ttl: number): Promise<unknown | null> => {
+const cachedFetch = async (
+  url: string,
+  ttl: number,
+): Promise<unknown | null> => {
   if (!baseUrl()) return null
   try {
-    const res = await fetch(url, { cf: { cacheEverything: true, cacheTtl: ttl } } as CfFetchInit)
+    const res = await fetch(url, {
+      cf: { cacheEverything: true, cacheTtl: ttl },
+    } as CfFetchInit)
     if (!res.ok) return null
     return (await res.json()) as unknown
   } catch {
@@ -33,7 +40,10 @@ export const getShardManifest = async (): Promise<ShardManifest | null> => {
   if (manifestCache && Date.now() - manifestCache.at < MANIFEST_TTL_MS) {
     return manifestCache.data
   }
-  const data = (await cachedFetch(`${baseUrl()}/shards/manifest.json`, 60)) as ShardManifest | null
+  const data = (await cachedFetch(
+    `${baseUrl()}/shards/manifest.json`,
+    60,
+  )) as ShardManifest | null
   if (data?.version) {
     manifestCache = { at: Date.now(), data }
     return data
