@@ -1,5 +1,6 @@
 import { zx } from '@coji/zodix/v4'
 import { areas, categories } from '@hyperlocal/consts'
+import type { LocalizedPlace } from '@hyperlocal/db'
 import { ChevronLeft } from 'lucide-react'
 import { Link, redirect } from 'react-router'
 import { z } from 'zod'
@@ -17,6 +18,7 @@ import { LocalizedPlaceDetails } from '~/features/place/components/localized-pla
 import { generateAlternateLinks } from '~/features/seo/alternate-links'
 import { generateCanonicalLink } from '~/features/seo/canonical-url'
 import { getLocalizedPlace, getPlaceIdByGoogleId, getPlaceListings } from './+queries.server'
+import { readShard } from '~/features/shards/reader'
 import type { Route } from './+types/route'
 
 export const headers: Route.HeadersFunction = () => ({
@@ -65,7 +67,12 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
   const categoryIdParam = url.searchParams.get('category')
   const rankType = url.searchParams.get('rank') ?? 'rating'
 
-  const place = await getLocalizedPlace({ placeId, language: lang.id })
+  // R2 shard優先 (カナリア: place路線のみ)。miss時はTurso。
+  const place =
+    ((await readShard(
+      `place/${lang.id}/${placeId}.json`,
+    )) as unknown as LocalizedPlace | null) ??
+    (await getLocalizedPlace({ placeId, language: lang.id }))
   if (!place) {
     // 旧Google Place IDでのアクセスは自社IDに301リダイレクト
     const newPlaceId = await getPlaceIdByGoogleId({ googlePlaceId: placeId })

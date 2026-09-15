@@ -20,13 +20,20 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
 
   const body = (await request.json().catch(() => null)) as {
     tags?: unknown
+    prefixes?: unknown
   } | null
   const tags = Array.isArray(body?.tags)
     ? body.tags.filter(
         (tag): tag is string => typeof tag === 'string' && VALID_TAGS.has(tag),
       )
     : []
-  if (tags.length === 0) {
+  // R2 shard配布物のprefix purge (shards/ 配下のみ許可)
+  const prefixes = Array.isArray(body?.prefixes)
+    ? body.prefixes.filter(
+        (p): p is string => typeof p === 'string' && p.startsWith('shards/'),
+      )
+    : []
+  if (tags.length === 0 && prefixes.length === 0) {
     return data({ error: 'No valid tags' }, { status: 400 })
   }
 
@@ -49,8 +56,13 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
       },
     )
   }
-  await ctx.cache.purge({ tags })
-  return data({ purged: tags })
+  if (tags.length > 0) {
+    await ctx.cache.purge({ tags })
+  }
+  if (prefixes.length > 0) {
+    await ctx.cache.purge({ prefixes })
+  }
+  return data({ purged: { tags, prefixes } })
 }
 
 export const loader = () => {

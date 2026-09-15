@@ -21,6 +21,7 @@
     "validate": "run-s lint format typecheck test"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1131.0",
     "@coji/zodix": "catalog:",
     "@date-fns/tz": "catalog:",
     "@date-fns/utc": "catalog:",
