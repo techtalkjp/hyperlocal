@@ -49,6 +49,10 @@ export const meta = ({ loaderData, location }: Route.MetaArgs) => {
       ),
     },
     generateCanonicalLink(location.pathname),
+    // 位置情報で並び替える個別化ページのため検索対象外とする。
+    // SSR時はclientLoader未実行でtitle等が空になる問題もあり、
+    // sitemapからも除外済み(scripts/sitemap/generate-rank.ts)。
+    { name: 'robots', content: 'noindex, follow' },
     ...generateAlternateLinks({
       url: loaderData.url,
       areaId: loaderData.area.areaId,
