@@ -1,4 +1,5 @@
 import { defineCommand } from 'citty'
+import { selfIdFromSourceUri } from '@hyperlocal/db'
 import consola from 'consola'
 import { differenceInDays } from 'date-fns'
 import { db as duckdb } from '~/services/duckdb.server'
@@ -94,9 +95,10 @@ export const retrievePlaceDetails = async (
       googlePlace.displayName.text,
     )
 
-    // データを保存
+    // データを保存 (主キーは自社ID。Google IDはgoogle_place_idに退避)
     await upsertPlace({
-      id: restaurant.placeId,
+      id: selfIdFromSourceUri(restaurant.url),
+      googlePlaceId: restaurant.placeId,
       displayName: googlePlace.displayName.text,
       googleMapsUri: googlePlace.googleMapsUri,
       sourceUri: restaurant.url,

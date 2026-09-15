@@ -1,7 +1,7 @@
 import { zx } from '@coji/zodix/v4'
 import { areas, categories } from '@hyperlocal/consts'
 import { ChevronLeft } from 'lucide-react'
-import { Link } from 'react-router'
+import { Link, redirect } from 'react-router'
 import { z } from 'zod'
 import {
   Breadcrumb,
@@ -16,7 +16,7 @@ import { RouteErrorBoundary } from '~/features/error/components/route-error-boun
 import { LocalizedPlaceDetails } from '~/features/place/components/localized-place-details'
 import { generateAlternateLinks } from '~/features/seo/alternate-links'
 import { generateCanonicalLink } from '~/features/seo/canonical-url'
-import { getLocalizedPlace, getPlaceListings } from './+queries.server'
+import { getLocalizedPlace, getPlaceIdByGoogleId, getPlaceListings } from './+queries.server'
 import type { Route } from './+types/route'
 
 export const headers: Route.HeadersFunction = () => ({
@@ -67,6 +67,11 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
 
   const place = await getLocalizedPlace({ placeId, language: lang.id })
   if (!place) {
+    // 旧Google Place IDでのアクセスは自社IDに301リダイレクト
+    const newPlaceId = await getPlaceIdByGoogleId({ googlePlaceId: placeId })
+    if (newPlaceId) {
+      throw redirect(`${lang.path}place/${newPlaceId}${url.search}`, 301)
+    }
     throw new Response('Not Found', { status: 404 })
   }
 

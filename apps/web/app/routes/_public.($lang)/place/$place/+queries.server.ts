@@ -27,3 +27,22 @@ export const getPlaceListings = async ({ placeId }: { placeId: string }) => {
 
   return listings
 }
+
+// 旧Google Place ID -> 自社IDの解決 (移行期のリダイレクト用)
+// 移行前DB (google_place_id列なし) ではnullを返す
+export const getPlaceIdByGoogleId = async ({
+  googlePlaceId,
+}: {
+  googlePlaceId: string
+}): Promise<string | null> => {
+  try {
+    const row = await db
+      .selectFrom('places')
+      .select('id')
+      .where('googlePlaceId', '==', googlePlaceId)
+      .executeTakeFirst()
+    return row?.id ?? null
+  } catch {
+    return null
+  }
+}

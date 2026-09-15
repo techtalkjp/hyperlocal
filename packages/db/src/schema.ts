@@ -81,6 +81,7 @@ export interface Places {
   displayName: string;
   genres: Generated<string>;
   googleMapsUri: string;
+  googlePlaceId: string | null;
   id: string;
   latitude: number;
   longitude: number;

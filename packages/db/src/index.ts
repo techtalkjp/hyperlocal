@@ -3,7 +3,8 @@ import { CamelCasePlugin, Kysely, ParseJSONResultsPlugin } from 'kysely'
 import type { DB } from './schema'
 export { sql } from 'kysely'
 export type { Insertable, Selectable, Updateable } from 'kysely'
-export type * from './types'
+export * from './types'
+export * from './ids'
 export type { DB }
 
 // Query logging without the `debug` package: its Node implementation pulls

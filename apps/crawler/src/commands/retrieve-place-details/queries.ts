@@ -4,6 +4,11 @@ export const getPlace = async (placeId: string) => {
   return await db
     .selectFrom('places')
     .selectAll()
-    .where('id', '==', placeId)
+    .where((eb) =>
+      eb.or([
+        eb('id', '==', placeId),
+        eb('googlePlaceId', '==', placeId),
+      ]),
+    )
     .executeTakeFirst()
 }

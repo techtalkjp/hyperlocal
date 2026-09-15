@@ -57,6 +57,7 @@ CREATE INDEX `account_provider_idx` ON `account`(`provider_id`, `account_id`);
 -- Create "places" table
 CREATE TABLE `places` (
   `id` text NOT NULL,
+  `google_place_id` text NULL,
   `categories` text NOT NULL DEFAULT '[]',
   `genres` text NOT NULL DEFAULT '[]',
   `display_name` text NOT NULL,
@@ -74,6 +75,7 @@ CREATE TABLE `places` (
   `updated_at` datetime NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   PRIMARY KEY (`id`)
 );
+CREATE UNIQUE INDEX `places_google_place_id_unique` ON `places` (`google_place_id`);
 
 -- Create "place_listings" table
 CREATE TABLE `place_listings` (
@@ -85,7 +87,7 @@ CREATE TABLE `place_listings` (
   `created_at` datetime NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `updated_at` datetime NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   PRIMARY KEY (`city_id`, `area_id`, `category_id`, `ranking_type`, `place_id`),
-  CONSTRAINT `place_listings_place_id_fkey` FOREIGN KEY (`place_id`) REFERENCES `places` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION
+  CONSTRAINT `place_listings_place_id_fkey` FOREIGN KEY (`place_id`) REFERENCES `places` (`id`) ON UPDATE CASCADE ON DELETE NO ACTION
 );
 
 -- Create "localized_places" table
