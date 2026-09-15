@@ -5,6 +5,7 @@
  *   pnpm --filter @hyperlocal/web seo:sc -- perf --days 28
  *   pnpm --filter @hyperlocal/web seo:sc -- sitemaps
  *   pnpm --filter @hyperlocal/web seo:sc -- inspect
+ *   pnpm --filter @hyperlocal/web seo:sc -- submit
  *   pnpm --filter @hyperlocal/web seo:sc -- all --days 28
  *
  * 認証(サービスアカウント):
@@ -37,7 +38,8 @@ const __dirname = path.dirname(new URL(import.meta.url).pathname)
 const SNAPSHOT_DIR =
   getArg('snapshot-dir') ?? path.resolve(__dirname, '../../../data/seo')
 
-const SCOPES = ['https://www.googleapis.com/auth/webmasters.readonly']
+// sitemaps.submit(再送信)が書込みのためフルスコープ(読取りも含む)
+const SCOPES = ['https://www.googleapis.com/auth/webmasters']
 
 function loadAuth() {
   const file = process.env.GOOGLE_SERVICE_ACCOUNT_FILE
@@ -210,6 +212,24 @@ async function cmdSitemaps() {
   console.log(`- snapshot: ${file}`)
 }
 
+async function cmdSubmit() {
+  const auth = loadAuth()
+  const sc = google.searchconsole({ version: 'v1', auth })
+  const feedpath =
+    getArg('feedpath') ?? 'https://tokyo.hyper-local.app/sitemap.xml'
+  await sc.sitemaps.submit({ siteUrl: SITE_URL, feedpath })
+  console.log(`# Sitemap resubmitted: ${feedpath}`)
+  const res = await sc.sitemaps.list({ siteUrl: SITE_URL })
+  const hit = (res.data.sitemap ?? []).find((s) => s.path === feedpath)
+  if (hit) {
+    console.log(
+      `- 最終読込: ${hit.lastDownloaded ?? '(取込待ち)'} / 検出: ${hit.contents?.[0]?.submitted ?? '?'}件`,
+    )
+  } else {
+    console.log('- 一覧に未反映(数分後に sitemaps で確認してください)')
+  }
+}
+
 const DEFAULT_INSPECT_URLS = (origin: string) => [
   `${origin}/`,
   `${origin}/ja/`,
@@ -258,9 +278,12 @@ async function cmdInspect() {
 const main = async () => {
   if (COMMAND === 'perf' || COMMAND === 'all') await cmdPerf()
   if (COMMAND === 'sitemaps' || COMMAND === 'all') await cmdSitemaps()
+  if (COMMAND === 'submit') await cmdSubmit()
   if (COMMAND === 'inspect' || COMMAND === 'all') await cmdInspect()
-  if (!['perf', 'sitemaps', 'inspect', 'all'].includes(COMMAND)) {
-    console.error(`unknown command: ${COMMAND} (perf|sitemaps|inspect|all)`)
+  if (!['perf', 'sitemaps', 'submit', 'inspect', 'all'].includes(COMMAND)) {
+    console.error(
+      `unknown command: ${COMMAND} (perf|sitemaps|submit|inspect|all)`,
+    )
     process.exit(1)
   }
 }
