@@ -27,7 +27,10 @@ export const headers: Route.HeadersFunction = () => ({
 })
 
 export const meta = ({ loaderData, location }: Route.MetaArgs) => {
-  if (!loaderData?.url) return []
+  // SSR時はclientLoader未実行でloaderDataが空のため早期リターンしていたが、
+  // それではnoindexも出力されず空headのまま200を返す。
+  // 個別化ページは検索対象外なので、最低限noindexだけは常に出す。
+  if (!loaderData?.url) return [{ name: 'robots', content: 'noindex, follow' }]
 
   const rankingTitle = match(loaderData.rankingType)
     .with('review', () => 'Most Popular')
