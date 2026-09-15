@@ -72,11 +72,12 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
   const rankType = url.searchParams.get('rank') ?? 'rating'
 
   // R2 shard優先 (カナリア: place路線のみ)。miss時はTurso。
+  // DB障害時はnull扱い (404に落とす。500にしない)
   const place =
     ((await readShard(
       `place/${lang.id}/${placeId}.json`,
     )) as unknown as LocalizedPlace | null) ??
-    (await getLocalizedPlace({ placeId, language: lang.id }))
+    (await getLocalizedPlace({ placeId, language: lang.id }).catch(() => null))
   if (!place) {
     // 旧Google Place IDでのアクセスは自社IDに301リダイレクト
     const newPlaceId = await getPlaceIdByGoogleId({ googlePlaceId: placeId })

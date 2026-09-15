@@ -80,7 +80,7 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
     { require: { area: true, category: true, rank: true } },
   )
 
-  // R2 shard優先。miss時はTurso。
+  // R2 shard優先。miss時はTurso。DB障害時は空表示 (500にしない)
   const places =
     ((await readShard(
       `listing/${lang.id}/${area.areaId}/${category.id}/${rankingType ?? 'rating'}.json`,
@@ -91,7 +91,7 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
       categoryId: category.id,
       language: lang.id,
       rankingType: rankingType ?? 'rating',
-    }))
+    }).catch(() => []))
 
   return { url: request.url, places, city, area, category, lang, rankingType }
 }

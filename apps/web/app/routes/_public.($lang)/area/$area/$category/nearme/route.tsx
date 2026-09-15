@@ -93,6 +93,7 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
   })
 
   // R2 shard優先 (rating一覧を基にclient側で距離ソート)。miss時はTurso。
+  // DB障害時は空表示 (500にしない)
   const places =
     ((await readShard(
       `listing/${lang.id}/${area.areaId}/${category.id}/rating.json`,
@@ -103,7 +104,7 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
       categoryId: category.id,
       language: lang.id,
       rankingType: 'nearme',
-    }))
+    }).catch(() => []))
 
   return {
     url: request.url,

@@ -123,7 +123,13 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
     }
   }
 
-  const article = await getArticle(city.cityId, area.areaId, sceneId, lang.id)
+  // Turso経路 (shard欠け時のfallback)。DB障害時は404に落とす (500にしない)
+  let article: ParsedAreaArticle | undefined
+  try {
+    article = await getArticle(city.cityId, area.areaId, sceneId, lang.id)
+  } catch {
+    article = undefined
+  }
   if (!article) {
     throw data(
       { error: 'Article not found', lang, city, area, scene },
@@ -138,7 +144,9 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
   const placeIds = Array.from(placeIdMatches, (match) => match[1])
 
   // Fetch place data for all referenced places in a single query
-  const places = await getLocalizedPlacesByIds(placeIds, lang.id)
+  const places = await getLocalizedPlacesByIds(placeIds, lang.id).catch(
+    () => [],
+  )
 
   // Create a map of place data
   const placesMap = Object.fromEntries(
@@ -151,7 +159,7 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
     area.areaId,
     lang.id,
     sceneId,
-  )
+  ).catch(() => [])
 
   return {
     lang,
