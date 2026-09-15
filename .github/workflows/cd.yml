@@ -103,6 +103,12 @@ jobs:
           R2_PUBLIC_URL=${{ secrets.R2_PUBLIC_URL }}
           EOF
 
+      - name: 🗂 Cache production replica (incremental sync only)
+        uses: actions/cache@v4
+        with:
+          path: data/production-replica.db*
+          key: replica-v1
+
       - name: 📥 Sync production replica (fast bulk download)
         run: pnpm --filter @hyperlocal/web make:replica
 
