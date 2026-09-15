@@ -4,13 +4,29 @@ import path from 'node:path'
 
 // Turso(DATABASE_URL) -> D1用SQLダンプ。SELECTのみ。
 // 使い方: pnpm tsx src/scripts/export-sql.ts --out /tmp/d1dump
+//         pnpm tsx src/scripts/export-sql.ts --out /tmp/d1sync --upsert  (staging->D1同期用)
 // 空のD1への初回投入用 ( plain INSERT )。FK順に tables 出力。
 // localized_places は5000行ずつ分割。
+// --upsert: INSERT ... ON CONFLICT DO UPDATE を出す。area_articlesは
+//   自然キー(city/area/scene/lang)のunique indexに合わせ、idは更新対象外。
 
 const args = process.argv.slice(2)
 const outDir = args[args.indexOf('--out') + 1]
+const upsert = args.includes('--upsert')
 if (!outDir) throw new Error('--out <dir> is required')
 fs.mkdirSync(outDir, { recursive: true })
+
+// ON CONFLICT対象 (area_articlesは自然キーunique)
+const CONFLICT_COLS: Record<string, string[]> = {
+  user: ['id'],
+  account: ['id'],
+  session: ['id'],
+  verification: ['identifier'],
+  places: ['id'],
+  place_listings: ['city_id', 'area_id', 'category_id', 'ranking_type', 'place_id'],
+  localized_places: ['city_id', 'area_id', 'category_id', 'ranking_type', 'place_id', 'language'],
+  area_articles: ['city_id', 'area_id', 'scene_id', 'language'],
+}
 
 const camel = (s: string) => s.replace(/_([a-z])/g, (_, c: string) => c.toUpperCase())
 
@@ -36,10 +52,14 @@ const dumpTable = async (table: string, orderBy: string, chunkSize = 0) => {
     const rows = res.rows as Record<string, unknown>[]
     if (rows.length === 0) break
     part++
+    const conflict = CONFLICT_COLS[table] ?? ['id']
+    const updatable = cols.filter((c) => c !== 'id' && !conflict.includes(c))
     const lines = (rows as Record<string, unknown>[]).map((r) => {
       // kysely CamelCasePlugin済み (google_place_id -> googlePlaceId) の両対応
       const val = (c: string) => r[c] ?? r[camel(c)]
-      return `INSERT INTO "${table}" (${cols.map((c) => `"${c}"`).join(', ')}) VALUES (${cols.map((c) => lit(val(c))).join(', ')});`
+      const insert = `INSERT INTO "${table}" (${cols.map((c) => `"${c}"`).join(', ')}) VALUES (${cols.map((c) => lit(val(c))).join(', ')})`
+      if (!upsert) return `${insert};`
+      return `${insert} ON CONFLICT(${conflict.map((c) => `"${c}"`).join(', ')}) DO UPDATE SET ${updatable.map((c) => `"${c}"=excluded."${c}"`).join(', ')};`
     })
     const name =
       chunkSize > 0 ? `${table}-${String(part).padStart(2, '0')}.sql` : `${table}.sql`
