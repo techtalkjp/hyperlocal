@@ -103,14 +103,6 @@ jobs:
           R2_PUBLIC_URL=${{ secrets.R2_PUBLIC_URL }}
           EOF
 
-      - name: 📥 Export production DB from D1
-        run: |
-          pnpm --filter @hyperlocal/web exec wrangler d1 export hyperlocal --remote --output ${{ github.workspace }}/data/production-replica.sql
-          sqlite3 ${{ github.workspace }}/data/production-replica.db < ${{ github.workspace }}/data/production-replica.sql
-          rm ${{ github.workspace }}/data/production-replica.sql
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-
       - name: 🏗 Build web
         run: pnpm --filter @hyperlocal/web build
         env:
