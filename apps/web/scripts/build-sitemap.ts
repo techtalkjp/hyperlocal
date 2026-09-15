@@ -3,6 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { generateArticlesSitemap } from './sitemap/generate-articles'
 import { generateIndexSitemap } from './sitemap/generate-index'
+import { generatePlaceSitemap } from './sitemap/generate-place'
 import { generateRankSitemap } from './sitemap/generate-rank'
 
 const __filename = new URL(import.meta.url).pathname
@@ -52,12 +53,16 @@ const main = async () => {
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>',
     )
 
-    // places
-    // const sitemapPlaceContent = await generatePlaceSitemap(origin, 'tokyo', lang.id)
-    // fs.writeFileSync(
-    //   path.join(outputDir, `sitemap/place-${lang.id}.xml.gz`),
-    //   gzip(sitemapPlaceContent),
-    // )
+    // places(言語別・約4k件/言語のため非圧縮のまま)
+    const sitemapPlaceContent = await generatePlaceSitemap(
+      origin,
+      'tokyo',
+      lang.id,
+    )
+    fs.writeFileSync(
+      path.join(outputDir, `sitemap/place-${lang.id}.xml`),
+      sitemapPlaceContent,
+    )
   }
 
   console.log('Sitemaps generated successfully.')

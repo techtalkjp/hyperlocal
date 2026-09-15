@@ -14,6 +14,7 @@ import {
 import { getPathParams } from '~/features/city-area/utils'
 import { RouteErrorBoundary } from '~/features/error/components/route-error-boundary'
 import { LocalizedPlaceDetails } from '~/features/place/components/localized-place-details'
+import { generateAlternateLinks } from '~/features/seo/alternate-links'
 import { generateCanonicalLink } from '~/features/seo/canonical-url'
 import { getLocalizedPlace, getPlaceListings } from './+queries.server'
 import type { Route } from './+types/route'
@@ -29,11 +30,28 @@ export const headers: Route.HeadersFunction = () => ({
 })
 
 export const meta: Route.MetaFunction = ({ loaderData, location }) => {
+  const placeName = loaderData?.place.displayName ?? 'Place'
+  const cityName = loaderData?.city.i18n[loaderData.lang.id] ?? 'Tokyo'
+  const rating = loaderData?.place.rating
+  const reviewCount = loaderData?.place.userRatingCount
   return [
     {
-      title: `${loaderData?.place.displayName}  - Hyperlocal ${loaderData?.city.i18n[loaderData.lang.id]}`,
+      title: `${placeName}  - Hyperlocal ${cityName}`,
+    },
+    {
+      name: 'description',
+      content:
+        rating != null
+          ? `${placeName} in ${cityName} - rated ${rating} from ${reviewCount ?? 0} reviews. Check real-time open/closed status, photos and ratings on Hyperlocal ${cityName}.`
+          : `${placeName} in ${cityName} - check real-time open/closed status, photos and ratings on Hyperlocal ${cityName}.`,
     },
     generateCanonicalLink(location.pathname),
+    ...(loaderData
+      ? generateAlternateLinks({
+          url: location.pathname,
+          placeId: loaderData.placeId,
+        })
+      : []),
   ]
 }
 
