@@ -24,7 +24,10 @@ import {
   getArticle,
   getLocalizedPlacesByIds,
   getOtherArticlesForArea,
+  type ParsedAreaArticle,
+  type ParsedLocalizedPlace,
 } from './+queries.server'
+import { readShard } from '~/features/shards/reader'
 import type { Route } from './+types/route'
 
 export const headers: Route.HeadersFunction = () => ({
@@ -67,6 +70,56 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
   const scene = scenes.find((s) => s.id === sceneId)
   if (!scene) {
     throw new Response('Not Found', { status: 404 })
+  }
+
+  // R2 shard優先。全部揃えば早期return、欠けたらTurso経路へ。
+  const guideShard = await readShard<{
+    title: string
+    content: string
+    compiledCode: string
+    metadata: string | { description: string }
+    cityId: string
+    areaId: string
+    sceneId: string
+    language: string
+    status: string
+    createdAt: string
+    updatedAt: string
+    placeIds: string[]
+  }>(`guide/${lang.id}/${area.areaId}/${sceneId}.json`)
+  if (guideShard) {
+    const [placeRows, indexRows] = await Promise.all([
+      Promise.all(
+        guideShard.placeIds.map((id) =>
+          readShard(`place/${lang.id}/${id}.json`),
+        ),
+      ),
+      readShard<Array<{ sceneId: string; title: string }>>(
+        `guide-index/${lang.id}/${area.areaId}.json`,
+      ),
+    ])
+    if (placeRows.every(Boolean) && indexRows) {
+      const places = placeRows as unknown as ParsedLocalizedPlace[]
+      const article = {
+        ...guideShard,
+        metadata:
+          typeof guideShard.metadata === 'string'
+            ? (JSON.parse(guideShard.metadata) as { description: string })
+            : guideShard.metadata,
+      } as ParsedAreaArticle
+      return {
+        lang,
+        city,
+        area,
+        scene,
+        article,
+        mdxCode: article.compiledCode,
+        placesMap: Object.fromEntries(
+          places.map((place) => [place.placeId, place]),
+        ),
+        otherArticles: indexRows.filter((a) => a.sceneId !== sceneId),
+      }
+    }
   }
 
   const article = await getArticle(city.cityId, area.areaId, sceneId, lang.id)

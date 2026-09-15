@@ -1,4 +1,5 @@
 import { LoaderIcon } from 'lucide-react'
+import type { LocalizedPlace } from '@hyperlocal/db'
 import { href, NavLink } from 'react-router'
 import { match } from 'ts-pattern'
 import { Stack, Tabs, TabsList, TabsTrigger } from '~/components/ui'
@@ -12,6 +13,7 @@ import {
 } from '~/features/seo/canonical-url'
 import { generateAreaCategoryMetaDescription } from '~/features/seo/meta-area-category'
 import { listLocalizedPlaces } from './+queries.server'
+import { readShard } from '~/features/shards/reader'
 import type { Route } from './+types/route'
 
 export const headers: Route.HeadersFunction = () => ({
@@ -78,13 +80,18 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
     { require: { area: true, category: true, rank: true } },
   )
 
-  const places = await listLocalizedPlaces({
-    cityId: city.cityId,
-    areaId: area.areaId,
-    categoryId: category.id,
-    language: lang.id,
-    rankingType: rankingType ?? 'rating',
-  })
+  // R2 shard優先。miss時はTurso。
+  const places =
+    ((await readShard(
+      `listing/${lang.id}/${area.areaId}/${category.id}/${rankingType ?? 'rating'}.json`,
+    )) as unknown as LocalizedPlace[] | null) ??
+    (await listLocalizedPlaces({
+      cityId: city.cityId,
+      areaId: area.areaId,
+      categoryId: category.id,
+      language: lang.id,
+      rankingType: rankingType ?? 'rating',
+    }))
 
   return { url: request.url, places, city, area, category, lang, rankingType }
 }

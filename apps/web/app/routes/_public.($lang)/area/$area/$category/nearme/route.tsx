@@ -13,6 +13,8 @@ import { generateAlternateLinks } from '~/features/seo/alternate-links'
 import { generateCanonicalLink } from '~/features/seo/canonical-url'
 import { generateAreaCategoryMetaDescription } from '~/features/seo/meta-area-category'
 import { sortLocalizedPlaceByDistance } from '~/services/distance'
+import type { LocalizedPlace } from '@hyperlocal/db'
+import { readShard } from '~/features/shards/reader'
 import { listLocalizedPlaces } from './+queries.server'
 import type { Route } from './+types/route'
 
@@ -90,13 +92,18 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
     },
   })
 
-  const places = await listLocalizedPlaces({
-    cityId: city.cityId,
-    areaId: area.areaId,
-    categoryId: category.id,
-    language: lang.id,
-    rankingType: 'nearme',
-  })
+  // R2 shard優先 (rating一覧を基にclient側で距離ソート)。miss時はTurso。
+  const places =
+    ((await readShard(
+      `listing/${lang.id}/${area.areaId}/${category.id}/rating.json`,
+    )) as unknown as LocalizedPlace[] | null) ??
+    (await listLocalizedPlaces({
+      cityId: city.cityId,
+      areaId: area.areaId,
+      categoryId: category.id,
+      language: lang.id,
+      rankingType: 'nearme',
+    }))
 
   return {
     url: request.url,
