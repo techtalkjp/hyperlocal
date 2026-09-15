@@ -258,8 +258,8 @@ catalogs:
       specifier: 5.2.2
       version: 5.2.2
     kysely:
-      specifier: 0.29.5
-      version: 0.29.5
+      specifier: 0.28.11
+      version: 0.28.11
     kysely-codegen:
       specifier: 0.20.0
       version: 0.20.0
@@ -402,7 +402,7 @@ importers:
         version: link:../../packages/google-place-api
       '@libsql/kysely-libsql':
         specifier: 'catalog:'
-        version: 0.4.1(kysely@0.29.5)
+        version: 0.4.1(kysely@0.28.11)
       '@mdx-js/mdx':
         specifier: ^3.1.1
         version: 3.1.1(supports-color@10.2.2)
@@ -438,7 +438,7 @@ importers:
         version: 5.2.2
       kysely:
         specifier: 'catalog:'
-        version: 0.29.5
+        version: 0.28.11
       lucide-react:
         specifier: 'catalog:'
         version: 1.45.0(react@19.3.0)
@@ -589,10 +589,10 @@ importers:
         version: 17.4.2
       kysely:
         specifier: 'catalog:'
-        version: 0.29.5
+        version: 0.28.11
       kysely-duckdb:
         specifier: 'catalog:'
-        version: 0.4.0(@duckdb/node-api@1.5.5-r.4)(kysely@0.29.5)
+        version: 0.4.0(@duckdb/node-api@1.5.5-r.4)(kysely@0.28.11)
       tsx:
         specifier: 'catalog:'
         version: 4.23.13
@@ -644,7 +644,7 @@ importers:
         version: 0.18.0
       '@libsql/kysely-libsql':
         specifier: 'catalog:'
-        version: 0.4.1(kysely@0.29.5)
+        version: 0.4.1(kysely@0.28.11)
       '@react-router/node':
         specifier: 'catalog:'
         version: 8.3.1(react-router@8.3.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(typescript@7.0.2)
@@ -671,7 +671,7 @@ importers:
         version: 5.2.2
       kysely:
         specifier: 'catalog:'
-        version: 0.29.5
+        version: 0.28.11
       lucide-react:
         specifier: 'catalog:'
         version: 1.45.0(react@19.3.0)
@@ -814,13 +814,13 @@ importers:
         version: 0.18.0
       '@libsql/kysely-libsql':
         specifier: 'catalog:'
-        version: 0.4.1(kysely@0.29.5)
+        version: 0.4.1(kysely@0.28.11)
       dotenv:
         specifier: 'catalog:'
         version: 17.4.2
       kysely:
         specifier: 'catalog:'
-        version: 0.29.5
+        version: 0.28.11
     devDependencies:
       '@biomejs/biome':
         specifier: 'catalog:'
@@ -833,7 +833,7 @@ importers:
         version: 11.0.0
       kysely-codegen:
         specifier: 'catalog:'
-        version: 0.20.0(@libsql/kysely-libsql@0.4.1(kysely@0.29.5))(kysely@0.29.5)(typescript@7.0.2)
+        version: 0.20.0(@libsql/kysely-libsql@0.4.1(kysely@0.28.11))(kysely@0.28.11)(typescript@7.0.2)
       npm-run-all:
         specifier: 'catalog:'
         version: 4.1.5
@@ -4912,6 +4912,10 @@ packages:
       web-worker:
         optional: true
 
+  kysely@0.28.11:
+    resolution: {integrity: sha512-zpGIFg0HuoC893rIjYX1BETkVWdDnzTzF5e0kWXJFg5lE0k1/LfNWBejrcnOFu8Q2Rfq/hTDTU7XLUM8QOrpzg==}
+    engines: {node: '>=20.0.0'}
+
   kysely@0.29.5:
     resolution: {integrity: sha512-ooa+eSbBNPTo3MycPEuW5jdrxQdQwdtB3LC3h43FiXQbIry5tR0C5lDG7eealK0E4D7XjrnOP5DIUg/LyjRMYQ==}
     engines: {node: '>=22.0.0'}
@@ -7957,10 +7961,10 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@libsql/kysely-libsql@0.4.1(kysely@0.29.5)':
+  '@libsql/kysely-libsql@0.4.1(kysely@0.28.11)':
     dependencies:
       '@libsql/client': 0.8.1
-      kysely: 0.29.5
+      kysely: 0.28.11
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -10929,28 +10933,30 @@ snapshots:
 
   kleur@4.1.5: {}
 
-  kysely-codegen@0.20.0(@libsql/kysely-libsql@0.4.1(kysely@0.29.5))(kysely@0.29.5)(typescript@7.0.2):
+  kysely-codegen@0.20.0(@libsql/kysely-libsql@0.4.1(kysely@0.28.11))(kysely@0.28.11)(typescript@7.0.2):
     dependencies:
       chalk: 4.1.2
       cosmiconfig: 9.0.2(typescript@7.0.2)
       diff: 8.0.4
       dotenv: 17.4.2
       dotenv-expand: 12.0.3
-      kysely: 0.29.5
+      kysely: 0.28.11
       micromatch: 4.0.8
       minimist: 1.2.8
       pluralize: 8.0.0
       zod: 4.6.2
     optionalDependencies:
-      '@libsql/kysely-libsql': 0.4.1(kysely@0.29.5)
+      '@libsql/kysely-libsql': 0.4.1(kysely@0.28.11)
     transitivePeerDependencies:
       - typescript
 
-  kysely-duckdb@0.4.0(@duckdb/node-api@1.5.5-r.4)(kysely@0.29.5):
+  kysely-duckdb@0.4.0(@duckdb/node-api@1.5.5-r.4)(kysely@0.28.11):
     dependencies:
-      kysely: 0.29.5
+      kysely: 0.28.11
     optionalDependencies:
       '@duckdb/node-api': 1.5.5-r.4
+
+  kysely@0.28.11: {}
 
   kysely@0.29.5: {}
 
