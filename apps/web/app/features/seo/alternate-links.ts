@@ -6,6 +6,7 @@ interface AlternateLinkData {
   categoryId?: string
   rankingType?: string
   guideSceneId?: string
+  placeId?: string
 }
 
 const CANONICAL_BASE_URL = 'https://tokyo.hyper-local.app'
@@ -13,12 +14,16 @@ const CANONICAL_BASE_URL = 'https://tokyo.hyper-local.app'
 export const generateAlternateLinks = (data: AlternateLinkData) => {
   const pathSegments: string[] = []
 
-  if (data.areaId) pathSegments.push(`area/${data.areaId}`)
-  if (data.guideSceneId) {
-    pathSegments.push(`guide/${data.guideSceneId}`)
+  if (data.placeId) {
+    pathSegments.push(`place/${data.placeId}`)
   } else {
-    if (data.categoryId) pathSegments.push(`${data.categoryId}`)
-    if (data.rankingType) pathSegments.push(`${data.rankingType}`)
+    if (data.areaId) pathSegments.push(`area/${data.areaId}`)
+    if (data.guideSceneId) {
+      pathSegments.push(`guide/${data.guideSceneId}`)
+    } else {
+      if (data.categoryId) pathSegments.push(`${data.categoryId}`)
+      if (data.rankingType) pathSegments.push(`${data.rankingType}`)
+    }
   }
 
   const path = pathSegments.join('/')
