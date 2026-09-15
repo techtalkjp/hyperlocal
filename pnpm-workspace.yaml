@@ -44,6 +44,7 @@ catalog:
   dotenv: 17.4.2
   dotenv-cli: 11.0.0
   embla-carousel-react: 8.6.0
+  googleapis: 181.0.0
   isbot: 5.2.2
   kysely: 0.29.5
   kysely-codegen: 0.20.0
@@ -80,3 +81,6 @@ catalog:
   vitest: 5.0.0
   wrangler: 4.131.1
   zod: 4.6.2
+
+minimumReleaseAgeExclude:
+  - googleapis@181.0.0
