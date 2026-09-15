@@ -1,4 +1,8 @@
-import { createDb, selfIdFromGoogleId, selfIdFromSourceUri } from '@hyperlocal/db'
+import {
+  createDb,
+  selfIdFromGoogleId,
+  selfIdFromSourceUri,
+} from '@hyperlocal/db'
 import fs from 'node:fs'
 import { sql } from 'kysely'
 
@@ -15,7 +19,10 @@ if (!mappingPath) {
   throw new Error('--mapping <path> is required')
 }
 
-const db = createDb(process.env.DATABASE_URL ?? '', process.env.TURSO_AUTH_TOKEN ?? '')
+const db = createDb(
+  process.env.DATABASE_URL ?? '',
+  process.env.TURSO_AUTH_TOKEN ?? '',
+)
 
 const places = await db
   .selectFrom('places')
@@ -38,7 +45,10 @@ for (const p of targets) {
 }
 
 console.log(`targets: ${targets.length} / ${places.length}`)
-fs.writeFileSync(mappingPath, JSON.stringify(Object.fromEntries(mapping), null, 2))
+fs.writeFileSync(
+  mappingPath,
+  JSON.stringify(Object.fromEntries(mapping), null, 2),
+)
 console.log(`mapping written: ${mappingPath}`)
 
 if (!apply) {

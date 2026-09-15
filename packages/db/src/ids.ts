@@ -13,11 +13,17 @@ export const selfIdFromSourceUri = (sourceUri: string): string => {
     .replace(/\/+$/, '')
   return (
     PLACE_ID_PREFIX +
-    createHash('sha256').update(`tabelog:${normalized}`).digest('hex').slice(0, 12)
+    createHash('sha256')
+      .update(`tabelog:${normalized}`)
+      .digest('hex')
+      .slice(0, 12)
   )
 }
 
 // ソースURLがない行のフォールバック (旧Google IDから生成)
 export const selfIdFromGoogleId = (googlePlaceId: string): string =>
   PLACE_ID_PREFIX +
-  createHash('sha256').update(`google:${googlePlaceId}`).digest('hex').slice(0, 12)
+  createHash('sha256')
+    .update(`google:${googlePlaceId}`)
+    .digest('hex')
+    .slice(0, 12)

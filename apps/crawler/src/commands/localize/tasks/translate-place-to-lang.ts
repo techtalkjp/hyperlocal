@@ -47,13 +47,7 @@ export const translatePlaceToLangTask = async ({
   if (expectedKeys.length > 0) {
     const existing = await db
       .selectFrom('localizedPlaces')
-      .select([
-        'cityId',
-        'areaId',
-        'categoryId',
-        'rankingType',
-        'sourceHash',
-      ])
+      .select(['cityId', 'areaId', 'categoryId', 'rankingType', 'sourceHash'])
       .where('placeId', '==', placeId)
       .where('language', '==', to)
       .execute()

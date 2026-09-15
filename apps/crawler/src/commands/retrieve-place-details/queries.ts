@@ -5,10 +5,7 @@ export const getPlace = async (placeId: string) => {
     .selectFrom('places')
     .selectAll()
     .where((eb) =>
-      eb.or([
-        eb('id', '==', placeId),
-        eb('googlePlaceId', '==', placeId),
-      ]),
+      eb.or([eb('id', '==', placeId), eb('googlePlaceId', '==', placeId)]),
     )
     .executeTakeFirst()
 }
