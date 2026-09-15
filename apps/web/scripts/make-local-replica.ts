@@ -1,5 +1,4 @@
 import { createClient } from '@libsql/client'
-import fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import '~/services/env.server'
@@ -14,13 +13,10 @@ const config = {
   syncUrl: process.env.TURSO_DATABASE_URL,
 }
 
-// Remove existing replica and metadata files
-await fs.rm(replicaDbPath, { force: true })
-await fs.rm(`${replicaDbPath}-client_wal_index`, { force: true })
-await fs.rm(`${replicaDbPath}-shm`, { force: true })
-await fs.rm(`${replicaDbPath}-wal`, { force: true })
-
-console.log('📥 Downloading production data from Turso...')
+// NOTE: 既存レプリカは消さないこと。消すと全量(約178MB)の再DLになり
+// Turso無料枠のsync quota(月3GB)を十数回で枯渇させアカウント停止に至る。
+// 残したまま client.sync() すれば差分フレームのみの増分syncになる。
+console.log('📥 Syncing production data from Turso (incremental)...')
 console.log(`   Source: ${config.syncUrl}`)
 console.log(`   Target: ${replicaDbPath}\n`)
 
