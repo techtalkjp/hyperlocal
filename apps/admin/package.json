@@ -60,6 +60,7 @@
   "devDependencies": {
     "@biomejs/biome": "catalog:",
     "@cloudflare/vite-plugin": "^1.54.8",
+    "@cloudflare/workers-types": "^5.20260914.1",
     "@react-router/dev": "catalog:",
     "@tailwindcss/vite": "catalog:",
     "@types/node": "catalog:",

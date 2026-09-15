@@ -14,3 +14,8 @@ routes = [
 
 [observability]
 enabled = true
+
+[[d1_databases]]
+binding = "DB"
+database_name = "hyperlocal"
+database_id = "3af44920-5ced-4dde-9d22-18f3e20eada3"

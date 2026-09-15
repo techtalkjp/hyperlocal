@@ -1,9 +1,11 @@
+import type { D1Database } from '@cloudflare/workers-types'
 import { LibsqlDialect } from '@libsql/kysely-libsql'
 import { CamelCasePlugin, Kysely, ParseJSONResultsPlugin } from 'kysely'
+import { D1Dialect } from 'kysely-d1'
 import type { DB } from './schema'
 export { sql } from 'kysely'
 export type { Insertable, Selectable, Updateable } from 'kysely'
-export * from './types'
+export type * from './types'
 export * from './ids'
 export type { DB }
 
@@ -35,15 +37,31 @@ export function createDb(url: string, authToken: string): Kysely<DB> {
 }
 
 let sharedDb: Kysely<DB> | undefined
+let d1Database: D1Database | undefined
+
+// Worker起動時に1回呼ぶ (bindingは全リクエスト共通)。
+// 未設定なら従来通り libsql (Turso/file) を使う。
+export function setD1Database(binding: D1Database | undefined): void {
+  if (binding && !d1Database) {
+    d1Database = binding
+  }
+}
 
 export const db: Kysely<DB> = new Proxy({} as Kysely<DB>, {
   get: (_target, prop) => {
     // Lazily constructed on first use: module scope runs before request env
     // exists on Cloudflare Workers, and only Node consumers ever touch `db`.
-    sharedDb ??= createDb(
-      process.env.DATABASE_URL ?? '',
-      process.env.TURSO_AUTH_TOKEN ?? '',
-    )
+    if (!sharedDb) {
+      sharedDb = d1Database
+        ? new Kysely<DB>({
+            dialect: new D1Dialect({ database: d1Database }),
+            plugins: [new CamelCasePlugin(), new ParseJSONResultsPlugin()],
+          })
+        : createDb(
+            process.env.DATABASE_URL ?? '',
+            process.env.TURSO_AUTH_TOKEN ?? '',
+          )
+    }
     const value = Reflect.get(sharedDb, prop)
     return typeof value === 'function' ? value.bind(sharedDb) : value
   },

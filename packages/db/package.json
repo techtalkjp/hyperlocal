@@ -32,10 +32,12 @@
     "typescript": "catalog:"
   },
   "dependencies": {
+    "@cloudflare/workers-types": "^5.20260914.1",
     "@hyperlocal/google-place-api": "workspace:*",
     "@libsql/client": "catalog:",
     "@libsql/kysely-libsql": "catalog:",
     "dotenv": "catalog:",
-    "kysely": "catalog:"
+    "kysely": "catalog:",
+    "kysely-d1": "^0.4.0"
   }
 }

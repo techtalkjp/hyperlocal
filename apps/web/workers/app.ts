@@ -1,4 +1,6 @@
 import { RouterContextProvider, createRequestHandler } from 'react-router'
+import { setD1Database } from '@hyperlocal/db'
+import type { D1Database } from '@cloudflare/workers-types'
 import { executionContext } from '../app/lib/worker-context'
 
 const requestHandler = createRequestHandler(
@@ -24,6 +26,8 @@ function seedProcessEnv(env: Record<string, unknown>) {
   if (!process.env.DATABASE_URL) {
     throw new Error('DATABASE_URL is not set in the worker environment')
   }
+  // D1 bindingがあればdb層が優先使用 (なければTurso/fileにfallback)
+  setD1Database(env.DB as D1Database | undefined)
   seeded = true
 }
 
