@@ -13,6 +13,8 @@ import {
 } from '~/components/ui'
 import { getPathParams } from '~/features/city-area/utils'
 import { BusinessStatusBadge } from '~/features/place/components'
+import { generateAlternateLinks } from '~/features/seo/alternate-links'
+import { generateCanonicalLink } from '~/features/seo/canonical-url'
 import {
   type BusinessHours,
   getBusinessStatus,
@@ -35,7 +37,7 @@ export const headers: Route.HeadersFunction = () => ({
   'Cache-Tag': 'guide',
 })
 
-export const meta = ({ loaderData }: Route.MetaArgs) => {
+export const meta = ({ loaderData, location }: Route.MetaArgs) => {
   if (!loaderData?.article) {
     return [{ title: 'Article Not Found' }]
   }
@@ -43,6 +45,12 @@ export const meta = ({ loaderData }: Route.MetaArgs) => {
   return [
     { title: loaderData.article.title },
     { name: 'description', content: loaderData.article.metadata.description },
+    generateCanonicalLink(location.pathname),
+    ...generateAlternateLinks({
+      url: location.pathname,
+      areaId: loaderData.area.areaId,
+      guideSceneId: loaderData.scene.id,
+    }),
   ]
 }
 

@@ -57,25 +57,10 @@ export const generateRankSitemap = async (
     })
   }
 
-  // near me
-  const nearMeAreaCategories = await db
-    .selectFrom('localizedPlaces')
-    .select([
-      'areaId',
-      'categoryId',
-      sql<string>`strftime('%Y-%m-%dT%H:%M:%SZ', updated_at)`.as('lastmod'),
-    ])
-    .where('cityId', '==', cityId)
-    .where('language', '==', langId)
-    .groupBy(['areaId', 'categoryId'])
-    .execute()
-  for (const areaCategory of nearMeAreaCategories) {
-    urls.push({
-      loc: `${origin}/${langId === 'en' ? '' : `${langId}/`}area/${areaCategory.areaId}/${areaCategory.categoryId}/nearme`,
-      lastmod: areaCategory.lastmod,
-      priority: 0.6,
-    })
-  }
+  // NOTE: nearme ページは位置情報依存の個別化コンテンツのため
+  // sitemapに含めない(SEO対象外。noindexはルート側のmetaで指定)。
+  // かつてはここで nearme URLを列挙していたが、titleなし空headの
+  // 薄いコンテンツとしてGoogleの評価を下げたため除外した(2026-09)。
 
   const sitemap = `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls

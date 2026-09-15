@@ -9,6 +9,7 @@
     "db:reset": "cp ../../data/production-replica.db ../../data/dev.db && echo '✅ dev.db reset from production data'",
     "build": "vite build && tsx --env-file=.env scripts/build-sitemap.ts",
     "build:sitemap": "tsx --env-file=.env scripts/build-sitemap.ts",
+    "seo:check": "tsx scripts/seo-check.ts",
     "start": "wrangler dev",
     "deploy": "wrangler deploy --config build/server/wrangler.json",
     "lint": "biome lint .",

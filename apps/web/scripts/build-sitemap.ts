@@ -40,18 +40,17 @@ const main = async () => {
       sitemapAreaCategoryRankContent,
     )
 
-    // articles
+    // articles(空言語でも空urlsetを書き出し、sitemap indexとの404不整合を防ぐ)
     const sitemapArticlesContent = await generateArticlesSitemap(
       origin,
       'tokyo',
       lang.id,
     )
-    if (sitemapArticlesContent) {
-      fs.writeFileSync(
-        path.join(outputDir, `sitemap/articles-${lang.id}.xml`),
-        sitemapArticlesContent,
-      )
-    }
+    fs.writeFileSync(
+      path.join(outputDir, `sitemap/articles-${lang.id}.xml`),
+      sitemapArticlesContent ||
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>',
+    )
 
     // places
     // const sitemapPlaceContent = await generatePlaceSitemap(origin, 'tokyo', lang.id)
