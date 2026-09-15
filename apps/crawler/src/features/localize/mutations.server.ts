@@ -11,6 +11,7 @@ export const upsertLocalizedPlace = async ({
   rankingType,
   place,
   translated,
+  sourceHash,
 }: {
   cityId: string
   areaId: string
@@ -19,6 +20,7 @@ export const upsertLocalizedPlace = async ({
   rankingType: string
   place: Place
   translated: Awaited<ReturnType<typeof translatePlace>>
+  sourceHash: string
 }) => {
   const values = {
     cityId,
@@ -42,6 +44,7 @@ export const upsertLocalizedPlace = async ({
     regularOpeningHours: place.regularOpeningHours
       ? JSON.stringify(place.regularOpeningHours)
       : null,
+    sourceHash,
     updatedAt: format(new UTCDate(), 'yyyy-MM-dd HH:mm:ss'),
   }
 

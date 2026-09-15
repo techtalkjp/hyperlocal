@@ -1,7 +1,26 @@
 import { languages } from '@hyperlocal/consts'
 import type { Place } from '@hyperlocal/db'
+import { google } from '@ai-sdk/google'
+import { generateText, Output } from 'ai'
 import consola from 'consola'
-import { translateSentences } from './translate-sentences'
+import { z } from 'zod'
+
+// 店舗×言語あたり1リクエストにまとめるためのスキーマ
+const schema = z.object({
+  displayName: z.string(),
+  reviews: z.array(
+    z.object({
+      index: z.number(),
+      text: z.string(),
+    }),
+  ),
+})
+
+// 将来のモデル切替用 (例: TRANSLATE_MODEL=gemini-3.5-flash-lite)
+const MODEL = process.env.TRANSLATE_MODEL ?? 'gemini-2.5-flash-lite'
+
+// ビルド時に翻訳するレビュー件数 (表示は先頭のみ使うため、残りは訳さない)
+const REVIEW_LIMIT = Number(process.env.TRANSLATE_REVIEW_LIMIT ?? 2)
 
 export const translatePlace = async (
   place: Place,
@@ -30,44 +49,52 @@ export const translatePlace = async (
     throw new Error('Target language not found')
   }
 
-  let displayName = place.displayName
+  const reviewInputs = place.reviews
+    .map((review, index) => ({
+      index,
+      rating: review.rating,
+      text: review.originalText?.text,
+    }))
+    .filter((r) => r.text)
+    .slice(0, REVIEW_LIMIT)
+
+  const prompt = [
+    `Name: ${place.displayName}`,
+    ...reviewInputs.map((r) => `Review ${r.index}: ${r.text}`),
+  ].join('\n')
+
   try {
-    displayName = await translateSentences({
-      sentence: place.displayName,
-      source: sourceLang.displayName,
-      target: targetLang.displayName,
+    const result = await generateText({
+      model: google(MODEL),
+      maxRetries: 3,
+      output: Output.object({ schema }),
+      system: `Translate the following ${sourceLang.displayName} restaurant name and customer reviews into ${targetLang.displayName}, item by item. Keep the original meaning and tone so they sound natural in ${targetLang.displayName}. Remove personal information, promotional content, and platform-specific remarks. Do not merge items and do not invent new ones.`,
+      prompt,
     })
+
+    const textsByIndex = new Map(
+      result.output.reviews.map((r) => [r.index, r.text] as const),
+    )
+
+    return {
+      displayName: result.output.displayName,
+      originalDisplayName: place.displayName,
+      reviews: place.reviews.map((review, index) => ({
+        rating: review.rating,
+        text: textsByIndex.get(index) || undefined,
+      })),
+    }
   } catch (error) {
     if (error instanceof Error) {
-      consola.error(place.id, 'displayName', error.message)
+      consola.error(place.id, `${from}->${to}`, error.message)
     }
-  }
-
-  const reviews: { rating: number; text?: string }[] = []
-  for (const review of place.reviews) {
-    const text = review.originalText?.text
-    if (!text) {
-      reviews.push({ rating: review.rating })
-      continue
-    }
-
-    try {
-      const translatedText = await translateSentences({
-        sentence: text,
-        source: sourceLang.displayName,
-        target: targetLang.displayName,
-      })
-
-      reviews.push({
+    return {
+      displayName: place.displayName,
+      originalDisplayName: place.displayName,
+      reviews: place.reviews.map((review) => ({
         rating: review.rating,
-        text: translatedText !== '' ? translatedText : undefined,
-      })
-    } catch (error) {
-      if (error instanceof Error) {
-        consola.error(place.id, 'review', error.message)
-      }
+        text: undefined,
+      })),
     }
   }
-
-  return { displayName, originalDisplayName: place.displayName, reviews }
 }

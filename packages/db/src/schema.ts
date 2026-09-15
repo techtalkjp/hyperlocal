@@ -59,6 +59,7 @@ export interface LocalizedPlaces {
   rating: number;
   regularOpeningHours: string | null;
   reviews: string;
+  sourceHash: string | null;
   sourceUri: string | null;
   updatedAt: Generated<string>;
   userRatingCount: number;

@@ -109,6 +109,7 @@ CREATE TABLE `localized_places` (
   `regular_opening_hours` text NULL,
   `reviews` text NOT NULL,
   `photos` text NOT NULL,
+  `source_hash` text NULL,
   `created_at` datetime NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `updated_at` datetime NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   PRIMARY KEY (`city_id`, `area_id`, `category_id`, `ranking_type`, `place_id`, `language`),

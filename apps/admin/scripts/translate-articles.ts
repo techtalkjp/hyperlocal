@@ -59,7 +59,7 @@ Please respond with a JSON object containing only the translated fields:
 `
 
   const result = await generateText({
-    model: google('gemini-2.5-flash'),
+    model: google('gemini-2.5-flash-lite'),
     prompt,
   })
 
