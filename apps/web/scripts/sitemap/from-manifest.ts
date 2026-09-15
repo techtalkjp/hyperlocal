@@ -9,7 +9,9 @@ export interface ShardManifest {
   files: Record<string, string>
 }
 
-export const fetchManifest = async (baseUrl: string): Promise<ShardManifest> => {
+export const fetchManifest = async (
+  baseUrl: string,
+): Promise<ShardManifest> => {
   const url = `${baseUrl.replace(/\/+$/, '')}/shards/manifest.json`
   const res = await fetch(url)
   if (!res.ok) {
