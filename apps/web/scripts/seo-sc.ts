@@ -21,7 +21,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { google } from 'googleapis'
 
-const args = process.argv.slice(2)
+const args = process.argv.slice(2).filter((a) => a !== '--')
 const getArg = (name: string, fallback?: string) => {
   const i = args.indexOf(`--${name}`)
   if (i >= 0 && args[i + 1] && !args[i + 1].startsWith('--')) return args[i + 1]

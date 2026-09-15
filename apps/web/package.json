@@ -10,7 +10,7 @@
     "build": "vite build && tsx --env-file=.env scripts/build-sitemap.ts",
     "build:sitemap": "tsx --env-file=.env scripts/build-sitemap.ts",
     "seo:check": "tsx scripts/seo-check.ts",
-    "seo:sc": "tsx scripts/seo-sc.ts",
+    "seo:sc": "tsx --env-file=.env scripts/seo-sc.ts",
     "start": "wrangler dev",
     "deploy": "wrangler deploy --config build/server/wrangler.json",
     "lint": "biome lint .",
