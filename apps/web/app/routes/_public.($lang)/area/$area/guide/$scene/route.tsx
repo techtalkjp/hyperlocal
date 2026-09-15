@@ -74,6 +74,7 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
 
   // R2 shard優先。全部揃えば早期return、欠けたらTurso経路へ。
   const guideShard = await readShard<{
+    id: string
     title: string
     content: string
     compiledCode: string

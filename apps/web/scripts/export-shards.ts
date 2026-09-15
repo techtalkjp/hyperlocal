@@ -23,12 +23,15 @@ const versionArg = args[args.indexOf('--version') + 1]
 // --only listing,place : 部分出力 (surgical追加用。manifestは既存とマージ)
 const onlyArg = args[args.indexOf('--only') + 1]
 const only = new Set(
-  onlyArg ? onlyArg.split(',') : ['listing', 'place', 'geo', 'guide', 'guide-index'],
+  onlyArg
+    ? onlyArg.split(',')
+    : ['listing', 'place', 'geo', 'guide', 'guide-index'],
 )
 if (!outDir) {
   throw new Error('--out <dir> is required')
 }
-const version = versionArg ?? new Date().toISOString().slice(0, 13).replace(/[-T:]/g, '')
+const version =
+  versionArg ?? new Date().toISOString().slice(0, 13).replace(/[-T:]/g, '')
 
 const files: Record<string, string> = {}
 const write = (logicalPath: string, data: unknown) => {
@@ -102,7 +105,11 @@ if (only.has('geo')) {
   const areaIds = [
     ...new Set(
       (
-        await db.selectFrom('placeListings').select('areaId').distinct().execute()
+        await db
+          .selectFrom('placeListings')
+          .select('areaId')
+          .distinct()
+          .execute()
       ).map((r) => r.areaId),
     ),
   ]
@@ -146,12 +153,14 @@ if (only.has('guide')) {
     const row = a as unknown as Record<string, unknown>
     const content = String(row.content ?? '')
     const placeIds = [
-      ...new Set([...content.matchAll(/<Place id="([^"]+)"/g)].map((m) => m[1])),
+      ...new Set(
+        [...content.matchAll(/<Place id="([^"]+)"/g)].map((m) => m[1]),
+      ),
     ]
-    bytes += write(
-      `guide/${row.language}/${row.areaId}/${row.sceneId}.json`,
-      { ...row, placeIds },
-    )
+    bytes += write(`guide/${row.language}/${row.areaId}/${row.sceneId}.json`, {
+      ...row,
+      placeIds,
+    })
     counts.guide++
   }
 }
@@ -159,9 +168,7 @@ if (only.has('guide')) {
 // 5. guide-index: 他記事一覧 (言語×エリア)
 counts['guide-index'] = 0
 if (only.has('guide-index')) {
-  const keys = [
-    ...new Set(articles.map((a) => `${a.language}/${a.areaId}`)),
-  ]
+  const keys = [...new Set(articles.map((a) => `${a.language}/${a.areaId}`))]
   for (const key of keys) {
     const [language, areaId] = key.split('/')
     const list = articles
