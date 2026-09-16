@@ -29,6 +29,8 @@ const main = defineCommand({
       .default,
     // 05. 翻訳してローカライズする
     localize: (await import('./commands/localize')).default,
+    // 06. Tabelog直結でstagingに取込 (Google不使用)
+    ingestTabelog: (await import('./commands/ingest-tabelog')).default,
   },
 })
 
