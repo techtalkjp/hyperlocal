@@ -18,10 +18,14 @@ import { listLocalizedPlaces } from '../app/routes/_public.($lang)/area/$area/$c
 //   guide-index/{lang}/{area}.json                (他記事一覧 [{sceneId,title}])
 
 const args = process.argv.slice(2)
-const outDir = args[args.indexOf('--out') + 1]
-const versionArg = args[args.indexOf('--version') + 1]
+const flag = (name: string) => {
+  const i = args.indexOf(name)
+  return i >= 0 ? args[i + 1] : undefined
+}
+const outDir = flag('--out')
+const versionArg = flag('--version')
 // --only listing,place : 部分出力 (surgical追加用。manifestは既存とマージ)
-const onlyArg = args[args.indexOf('--only') + 1]
+const onlyArg = flag('--only')
 const only = new Set(
   onlyArg
     ? onlyArg.split(',')

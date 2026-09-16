@@ -19,7 +19,11 @@ import path from 'node:path'
 // - 版付きは immutable 1年、manifestは60秒でCache-Control
 
 const args = process.argv.slice(2)
-const dir = args[args.indexOf('--dir') + 1]
+const flag = (name: string) => {
+  const i = args.indexOf(name)
+  return i >= 0 ? args[i + 1] : undefined
+}
+const dir = flag('--dir')
 const dryRun = args.includes('--dry-run')
 const doPurge = args.includes('--purge')
 if (!dir) {

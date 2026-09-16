@@ -13,7 +13,11 @@ import { sql } from 'kysely'
 // DB接続は DATABASE_URL / TURSO_AUTH_TOKEN 環境変数 (.env) を見る。
 
 const args = process.argv.slice(2)
-const mappingPath = args[args.indexOf('--mapping') + 1]
+const flag = (name: string) => {
+  const i = args.indexOf(name)
+  return i >= 0 ? args[i + 1] : undefined
+}
+const mappingPath = flag('--mapping')
 const apply = args.includes('--apply')
 if (!mappingPath) {
   throw new Error('--mapping <path> is required')
