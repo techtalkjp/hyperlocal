@@ -1,5 +1,9 @@
 import { defineCommand } from 'citty'
-import { extractStation, googleMapsSearchUrl, selfIdFromSourceUri } from '@hyperlocal/db'
+import {
+  extractStation,
+  googleMapsSearchUrl,
+  selfIdFromSourceUri,
+} from '@hyperlocal/db'
 import consola from 'consola'
 import { differenceInDays } from 'date-fns'
 import { db as duckdb } from '~/services/duckdb.server'
