@@ -7,6 +7,7 @@ export { sql } from 'kysely'
 export type { Insertable, Selectable, Updateable } from 'kysely'
 export type * from './types'
 export * from './ids'
+export * from './links'
 export type { DB }
 
 // Query logging without the `debug` package: its Node implementation pulls

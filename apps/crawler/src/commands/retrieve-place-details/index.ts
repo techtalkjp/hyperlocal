@@ -1,5 +1,5 @@
 import { defineCommand } from 'citty'
-import { selfIdFromSourceUri } from '@hyperlocal/db'
+import { extractStation, googleMapsSearchUrl, selfIdFromSourceUri } from '@hyperlocal/db'
 import consola from 'consola'
 import { differenceInDays } from 'date-fns'
 import { db as duckdb } from '~/services/duckdb.server'
@@ -96,11 +96,22 @@ export const retrievePlaceDetails = async (
     )
 
     // データを保存 (主キーは自社ID。Google IDはgoogle_place_idに退避)
+    // MapsリンクはAPI値優先、なければ店名+駅の検索URLを生成 (キー不要)
+    const crawled = await duckdb
+      .selectFrom('crawled_restaurants')
+      .select('features')
+      .where('url', '==', restaurant.url)
+      .executeTakeFirst()
+    const station = extractStation(
+      (crawled?.features as Record<string, string> | undefined)?.['交通手段'],
+    )
     await upsertPlace({
       id: selfIdFromSourceUri(restaurant.url),
       googlePlaceId: restaurant.placeId,
+      googleMapsUri:
+        googlePlace.googleMapsUri ??
+        googleMapsSearchUrl(googlePlace.displayName.text, station),
       displayName: googlePlace.displayName.text,
-      googleMapsUri: googlePlace.googleMapsUri,
       sourceUri: restaurant.url,
       latitude: googlePlace.location.latitude,
       longitude: googlePlace.location.longitude,
