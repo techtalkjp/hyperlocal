@@ -1,3 +1,5 @@
+import { assertGoogleApiEnabled } from '~/services/google-guard'
+
 export const googlePlacePhoto = async ({
   name,
   maxWidthPx = 400,
@@ -7,6 +9,7 @@ export const googlePlacePhoto = async ({
   maxWidthPx?: number
   maxHeightPx?: number
 }) => {
+  assertGoogleApiEnabled()
   const ret = await fetch(
     `https://places.googleapis.com/v1/${name}/media?key=${process.env.GOOGLE_MAPS_API_KEY}&maxWidthPx=${maxWidthPx}&maxHeightPx=${maxHeightPx}`,
   )
@@ -22,6 +25,7 @@ export const getGooglePlacePhotoUri = async ({
   maxWidthPx?: number
   maxHeightPx?: number
 }) => {
+  assertGoogleApiEnabled()
   const ret = await fetch(
     `https://places.googleapis.com/v1/${name}/media?key=${process.env.GOOGLE_MAPS_API_KEY}&maxWidthPx=${maxWidthPx}&maxHeightPx=${maxHeightPx}&skipHttpRedirect=true`,
   )

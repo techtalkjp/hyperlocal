@@ -1,7 +1,6 @@
 import { categories } from '@hyperlocal/consts'
 import { Link, Outlet } from 'react-router'
 import { Card, CardContent, HStack, Stack } from '~/components/ui'
-import { getEnv } from '~/lib/request-context'
 import { getPathParams } from '~/features/admin/get-path-params'
 import { CategoryNav, CategoryNavItem } from './+components/category-nav-item'
 import { GoogleMapPopover } from './+components/google-map-popover'
@@ -13,18 +12,17 @@ export const meta: Route.MetaFunction = ({ loaderData }) => [
   },
 ]
 
-export const loader = ({ params, context }: Route.LoaderArgs) => {
-  const googleMapsApiKey = getEnv(context).GOOGLE_MAPS_API_KEY ?? ''
+export const loader = ({ params }: Route.LoaderArgs) => {
   const { city, area } = getPathParams(params)
   if (!area) {
     throw new Response(null, { status: 404, statusText: 'Not Found' })
   }
 
-  return { city, area, googleMapsApiKey }
+  return { city, area }
 }
 
 export default function AdminCityAreaLayout({
-  loaderData: { city, area, googleMapsApiKey },
+  loaderData: { city, area },
 }: Route.ComponentProps) {
   return (
     <Card className="mb-6">
@@ -44,12 +42,7 @@ export default function AdminCityAreaLayout({
                 <p>{area.latitude}</p>
                 <p>{area.longitude}</p>
                 <p>{area.radius}m</p>
-                <GoogleMapPopover
-                  area={area}
-                  googleMapsApiKey={googleMapsApiKey}
-                >
-                  Map
-                </GoogleMapPopover>
+                <GoogleMapPopover area={area}>Map</GoogleMapPopover>
               </HStack>
             </div>
           </div>

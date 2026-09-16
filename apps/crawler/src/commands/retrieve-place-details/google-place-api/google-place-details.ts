@@ -1,5 +1,6 @@
 import consola from 'consola'
 import type { GooglePlace } from '@hyperlocal/google-place-api'
+import { assertGoogleApiEnabled } from '~/services/google-guard'
 
 const fieldMask = [
   'id',
@@ -30,6 +31,7 @@ export const googlePlaceDetails = async ({
   placeId,
   languageCode = defaultLanguageCode,
 }: PlaceDetailsProps): Promise<GooglePlace | null> => {
+  assertGoogleApiEnabled()
   const ret = await fetch(
     `https://places.googleapis.com/v1/places/${placeId}?languageCode=${languageCode}`,
     {

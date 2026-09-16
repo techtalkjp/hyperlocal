@@ -1,3 +1,5 @@
+import { assertGoogleApiEnabled } from './google-guard'
+
 interface TextSearchResponse {
   places: { id: string }[]
 }
@@ -14,6 +16,7 @@ export const textSearch = async ({
   textQuery,
   pageSize = 3,
 }: TextSearchProps): Promise<TextSearchResponse> => {
+  assertGoogleApiEnabled()
   const params = {
     textQuery,
     pageSize,

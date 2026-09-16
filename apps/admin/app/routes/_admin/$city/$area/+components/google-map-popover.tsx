@@ -14,13 +14,11 @@ interface GoogleMapPopoverProps extends React.ComponentPropsWithoutRef<
     longitude: number
     radius: number
   }
-  googleMapsApiKey: string
 }
-export const GoogleMapPopover = ({
-  children,
-  area,
-  googleMapsApiKey,
-}: GoogleMapPopoverProps) => {
+export const GoogleMapPopover = ({ children, area }: GoogleMapPopoverProps) => {
+  // OSM埋め込み (キー不要・課金なし)。旧Static Maps (従量課金) の代替。
+  const d = 0.004
+  const bbox = `${area.longitude - d},${area.latitude - d},${area.longitude + d},${area.latitude + d}`
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -30,12 +28,12 @@ export const GoogleMapPopover = ({
         </Button>
       </PopoverTrigger>
       <PopoverContent>
-        <img
+        <iframe
           width="320"
           height="320"
           loading="lazy"
-          src={`https://maps.googleapis.com/maps/api/staticmap?center=${area.latitude},${area.longitude}&zoom=17&size=320x320&markers=color:red%7Clabel:A%7C${area.latitude},${area.longitude}&key=${googleMapsApiKey}`}
-          alt="map"
+          title="map"
+          src={`https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${area.latitude},${area.longitude}`}
         />
 
         <div className="text-center">
