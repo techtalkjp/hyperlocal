@@ -47,6 +47,37 @@ const s3 = new S3Client({
 })
 const Bucket = process.env.R2_BUCKET_NAME ?? ''
 
+// 同版への内容変更は禁止 (版付きはimmutable cache)。変えたい場合は新版を切る。
+// 公開中manifestと同版でhashが1件でも違えばabort。
+const publicBase = (process.env.R2_PUBLIC_URL ?? '').replace(/\/+$/, '')
+if (publicBase && !dryRun) {
+  try {
+    const remote = (await (
+      await fetch(`${publicBase}/shards/manifest.json`)
+    ).json()) as { version: string; files: Record<string, string> }
+    if (remote.version === version) {
+      const localManifest = JSON.parse(
+        fs.readFileSync(path.join(dir, 'manifest.json'), 'utf8'),
+      ) as { files: Record<string, string> }
+      const changed = Object.entries(localManifest.files).filter(
+        ([k, h]) => remote.files[k] && remote.files[k] !== h,
+      )
+      if (changed.length > 0) {
+        console.error(
+          `ABORT: version ${version} already published with different content (${changed.length} files differ, e.g. ${changed[0][0]}). Cut a new version instead.`,
+        )
+        process.exit(1)
+      }
+    }
+  } catch (e) {
+    if ((e as Error).message.startsWith('ABORT')) throw e
+    console.log(
+      'remote manifest check skipped:',
+      (e as Error).message.slice(0, 120),
+    )
+  }
+}
+
 const walk = (d: string): string[] =>
   fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => {
     const p = path.join(d, e.name)
@@ -91,9 +122,9 @@ const queue = versionFiles.map((f) => ({
   key: `shards/${version}/${path.relative(path.join(dir, version), f)}`,
   file: f,
 }))
-for (let i = 0; i < queue.length; i += 10) {
+for (let i = 0; i < queue.length; i += 25) {
   await Promise.all(
-    queue.slice(i, i + 10).map(async ({ key, file }) => {
+    queue.slice(i, i + 25).map(async ({ key, file }) => {
       await putOne(
         key,
         fs.readFileSync(file),
