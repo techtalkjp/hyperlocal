@@ -48,7 +48,7 @@ export const PlaceCard = ({ place, no }: PlaceCardProps) => {
           <HStack className="flex-1">
             <Rating star={place.rating} withLabel={true} size={14} />
             <div className="text-muted-foreground text-xs">
-              {place.userRatingCount} reviews
+              Tabelog · {place.userRatingCount} reviews
             </div>
           </HStack>
           {place.priceLevel && (

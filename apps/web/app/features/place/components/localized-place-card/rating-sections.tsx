@@ -12,7 +12,7 @@ export const RatingSection: React.FC<RatingSectionProps> = React.memo(
     <HStack>
       <Rating star={place.rating} withLabel size={16} />
       <div className="text-muted-foreground text-xs whitespace-nowrap">
-        ({place.userRatingCount} reviews)
+        Tabelog · ({place.userRatingCount} reviews)
       </div>
     </HStack>
   ),

@@ -110,7 +110,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
                 </span>
               </div>
               <span className="text-gray-600">
-                ({place.userRatingCount} reviews)
+                Tabelog · ({place.userRatingCount} reviews)
               </span>
 
               <div className="flex-1" />

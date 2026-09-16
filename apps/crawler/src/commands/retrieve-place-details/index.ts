@@ -119,8 +119,9 @@ export const retrievePlaceDetails = async (
       sourceUri: restaurant.url,
       latitude: googlePlace.location.latitude,
       longitude: googlePlace.location.longitude,
-      rating: googlePlace.rating ?? 0,
-      userRatingCount: googlePlace.userRatingCount ?? 0,
+      // 評価はTabelog由来に一本化 (Google値は使わない)
+      rating: restaurant.rating ?? 0,
+      userRatingCount: restaurant.reviewCount ?? 0,
       priceLevel: googlePlace.priceLevel,
       regularOpeningHours: JSON.stringify(googlePlace.regularOpeningHours),
       photos: JSON.stringify(photos),
