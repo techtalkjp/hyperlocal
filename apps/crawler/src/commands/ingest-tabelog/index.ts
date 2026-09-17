@@ -89,6 +89,19 @@ export const ingestTabelog = async (opts: IngestTabelogOptions) => {
     const features = featuresByUrl.get(r.url) ?? {}
     const station = extractStation(features['交通手段'])
 
+    // 評価未取得 (Tabelog無点数) は既存値を温存。0.00表示を作らない。
+    // 新規かつ無点数は取込自体を見送り (次回クロールで点数が付けば自動追加)
+    const freshRating = typeof r.rating === 'number' ? r.rating : null
+    if (!existing && freshRating === null) {
+      consola.info(`skip unscored new store: ${r.name}`)
+      continue
+    }
+    const rating = freshRating ?? (existing?.rating as number | undefined) ?? 0
+    const userRatingCount =
+      freshRating !== null
+        ? Math.round(Number(r.reviewCount ?? 0))
+        : ((existing?.userRatingCount as number | undefined) ?? 0)
+
     // 座標: 既存があれば温存、なければGSI (無料)
     let latitude = existing?.latitude ?? 0
     let longitude = existing?.longitude ?? 0
@@ -112,8 +125,8 @@ export const ingestTabelog = async (opts: IngestTabelogOptions) => {
       sourceUri: r.url,
       latitude,
       longitude,
-      rating: Number(r.rating ?? 0),
-      userRatingCount: Math.round(Number(r.reviewCount ?? 0)),
+      rating,
+      userRatingCount,
       priceLevel: priceLevelOf([r.budgetDinner, r.budgetLunch]),
       // reviews/photos/hoursは既存温存 (Google-legacy凍結)、新規は空
       regularOpeningHours: existing

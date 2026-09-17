@@ -60,6 +60,22 @@ export const translatePlaceToLangTask = async ({
         ),
     )
     if (expectedKeys.every((key) => doneKeys.has(key))) {
+      // 原文不変でも評価・件数は追随 (APIなしの安価UPDATE)
+      const current = await db
+        .selectFrom('places')
+        .select(['rating', 'userRatingCount'])
+        .where('id', '==', placeId)
+        .executeTakeFirstOrThrow()
+      await db
+        .updateTable('localizedPlaces')
+        .set({
+          rating: current.rating,
+          userRatingCount: current.userRatingCount,
+        })
+        .where('placeId', '==', placeId)
+        .where('language', '==', to)
+        .where('sourceHash', '==', sourceHash)
+        .execute()
       consola.info(`skip (unchanged) ${placeId} -> ${to}`)
       return
     }
