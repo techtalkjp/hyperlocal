@@ -40,7 +40,9 @@ export default defineCommand({
 // 予算表記 (～￥999 / ￥1,000～￥1,999 / -) -> PRICE_LEVEL_*
 const priceLevelOf = (budgets: string[]): string | null => {
   const nums = budgets.flatMap((b) =>
-    [...b.matchAll(/￥([0-9,]+)/g)].map((m) => Number(m[1].replaceAll(',', ''))),
+    [...b.matchAll(/￥([0-9,]+)/g)].map((m) =>
+      Number(m[1].replaceAll(',', '')),
+    ),
   )
   if (nums.length === 0) return null
   const max = Math.max(...nums)
@@ -62,7 +64,8 @@ interface IngestTabelogOptions {
 }
 export const ingestTabelog = async (opts: IngestTabelogOptions) => {
   let restaurants = await duckdb.selectFrom('restaurants').selectAll().execute()
-  if (opts.url) restaurants = restaurants.filter((r) => r.url.includes(opts.url as string))
+  if (opts.url)
+    restaurants = restaurants.filter((r) => r.url.includes(opts.url as string))
   if (opts.limit) restaurants = restaurants.slice(0, opts.limit)
 
   const crawled = await duckdb

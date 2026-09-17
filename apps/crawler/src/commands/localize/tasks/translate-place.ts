@@ -7,14 +7,15 @@ import { translatePlaceToLangTask } from './translate-place-to-lang'
 export const translatePlaceTask = async ({ placeId }: { placeId: string }) => {
   const place = await db
     .selectFrom('places')
-    .select('places.id')
+    .select(['id', 'sourceUri'])
     .where('id', '==', placeId)
     .executeTakeFirstOrThrow()
 
+  // duckdb側はGoogle ID世界のままなのでURLで突合 (stagingは自社ID)
   const ranked = await duckdb
     .selectFrom('ranked_restaurants')
     .select('placeId')
-    .where('placeId', '==', placeId)
+    .where('url', '==', place.sourceUri)
     .executeTakeFirst()
   if (!ranked) {
     console.error('no area found for place', place)

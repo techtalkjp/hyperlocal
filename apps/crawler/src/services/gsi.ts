@@ -3,12 +3,12 @@
 export const geocodeBlock = async (
   address: string,
 ): Promise<{ lat: number; lng: number } | null> => {
-  const m = address
-    .replace(/\s+/g, '')
-    .match(/^(.+?[0-9]+-[0-9]+(?:-[0-9]+)?)/)
+  const m = address.replace(/\s+/g, '').match(/^(.+?[0-9]+-[0-9]+(?:-[0-9]+)?)/)
   const q = m?.[1] ?? address.slice(0, 60)
   const url = `https://msearch.gsi.go.jp/address-search/AddressSearch?q=${encodeURIComponent(q)}`
-  const res = await fetch(url, { headers: { 'User-Agent': 'hyperlocal-ingest/0.1' } })
+  const res = await fetch(url, {
+    headers: { 'User-Agent': 'hyperlocal-ingest/0.1' },
+  })
   if (!res.ok) return null
   const hits = (await res.json()) as Array<{
     geometry: { coordinates: [number, number] }

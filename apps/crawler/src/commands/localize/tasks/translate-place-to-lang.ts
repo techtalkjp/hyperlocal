@@ -24,11 +24,11 @@ export const translatePlaceToLangTask = async ({
   const ranked = await duckdb
     .selectFrom('ranked_restaurants')
     .selectAll()
-    .where('placeId', '==', placeId)
+    .where('url', '==', place.sourceUri)
     .execute()
 
-  if (!ranked) {
-    consola.error('no area found for place', place)
+  if (ranked.length === 0) {
+    consola.error('no area found for place', placeId)
     return
   }
 
