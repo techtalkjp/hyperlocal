@@ -1,47 +1,44 @@
-import { UTCDate } from '@date-fns/utc'
-import { cities } from '@hyperlocal/consts'
-import type { LocalizedPlace } from '@hyperlocal/db'
-import { FootprintsIcon, MapPinIcon } from 'lucide-react'
-import { Link } from 'react-router'
-import { HStack, Stack } from '~/components/ui'
-import { cn } from '~/libs/utils'
-import {
-  getBusinessStatus,
-  type BusinessHours,
-} from '@hyperlocal/google-place-api'
-import { ActionButtons } from './action-button'
-import { ImageSection } from './image-section'
-import { InfoSection } from './info-section'
-import { ReviewSection } from './review-section'
+import { UTCDate } from "@date-fns/utc";
+import { cities } from "@hyperlocal/consts";
+import type { LocalizedPlace } from "@hyperlocal/db";
+import { FootprintsIcon, MapPinIcon } from "lucide-react";
+import { Link } from "react-router";
+import { HStack, Stack } from "~/components/ui";
+import { cn } from "~/libs/utils";
+import { getBusinessStatus, type BusinessHours } from "@hyperlocal/google-place-api";
+import { ActionButtons } from "./action-button";
+import { ImageSection } from "./image-section";
+import { InfoSection } from "./info-section";
+import { ReviewSection } from "./review-section";
 
-interface PlaceCardProps extends React.ComponentProps<'div'> {
-  place: LocalizedPlace
-  distance?: number
-  no?: number
-  loading?: 'eager' | 'lazy'
-  to: string
+interface PlaceCardProps extends React.ComponentProps<"div"> {
+  place: LocalizedPlace;
+  distance?: number;
+  no?: number;
+  loading?: "eager" | "lazy";
+  to: string;
 }
 
 export const LocalizedPlaceCard = ({
   place,
   distance,
   no,
-  loading = 'eager',
+  loading = "eager",
   to,
   className,
 }: PlaceCardProps) => {
-  const city = cities.find((c) => c.cityId === place.cityId)
-  const date = new UTCDate()
+  const city = cities.find((c) => c.cityId === place.cityId);
+  const date = new UTCDate();
   const businessStatusResult = getBusinessStatus(
     place.regularOpeningHours as BusinessHours | null,
     date,
-    city?.timezone ?? 'Asia/Tokyo',
-  )
+    city?.timezone ?? "Asia/Tokyo",
+  );
 
   return (
     <div
       className={cn(
-        'text-card-foreground hover:bg-secondary relative grid grid-cols-1 rounded-md border p-0 text-sm transition-colors sm:text-base md:text-lg',
+        "text-card-foreground hover:bg-secondary relative grid grid-cols-1 rounded-md border p-0 text-sm transition-colors sm:text-base md:text-lg",
         className,
       )}
     >
@@ -51,11 +48,7 @@ export const LocalizedPlaceCard = ({
         <ImageSection place={place} loading={loading} />
 
         <Stack className="gap-1 p-2">
-          <InfoSection
-            place={place}
-            no={no}
-            businessStatusResult={businessStatusResult}
-          />
+          <InfoSection place={place} no={no} businessStatusResult={businessStatusResult} />
 
           <ActionButtons place={place} distance={distance} className="z-20" />
 
@@ -83,5 +76,5 @@ export const LocalizedPlaceCard = ({
 
       <ReviewSection place={place} className="p-2" />
     </div>
-  )
-}
+  );
+};

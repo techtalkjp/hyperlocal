@@ -1,8 +1,8 @@
-import { createContext } from 'react-router'
+import { createContext } from "react-router";
 
 export interface WorkerExecutionContext {
-  waitUntil(promise: Promise<unknown>): void
-  passThroughOnException(): void
+  waitUntil(promise: Promise<unknown>): void;
+  passThroughOnException(): void;
   cache?: {
     purge(
       options:
@@ -10,8 +10,8 @@ export interface WorkerExecutionContext {
         | { files: string[] }
         | { hosts: string[] }
         | { prefixes: string[] },
-    ): Promise<unknown>
-  }
+    ): Promise<unknown>;
+  };
 }
 
-export const executionContext = createContext<WorkerExecutionContext>()
+export const executionContext = createContext<WorkerExecutionContext>();

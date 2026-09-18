@@ -1,6 +1,6 @@
-import type { Area, LanguageId } from '@hyperlocal/consts'
-import { Link } from 'react-router'
-import { Badge } from '~/components/ui'
+import type { Area, LanguageId } from "@hyperlocal/consts";
+import { Link } from "react-router";
+import { Badge } from "~/components/ui";
 
 /**
  * エリアへのリンクカード（エリア一覧・カテゴリ親で共用）
@@ -10,9 +10,9 @@ export const AreaLinkCard = ({
   area,
   languageId,
 }: {
-  to: string
-  area: Area
-  languageId: LanguageId
+  to: string;
+  area: Area;
+  languageId: LanguageId;
 }) => {
   return (
     <Link to={to} prefetch="viewport" viewTransition>
@@ -36,5 +36,5 @@ export const AreaLinkCard = ({
         </div>
       </div>
     </Link>
-  )
-}
+  );
+};

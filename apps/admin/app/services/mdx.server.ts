@@ -1,6 +1,6 @@
-import { compile } from '@mdx-js/mdx'
-import rehypeHighlight from 'rehype-highlight'
-import remarkGfm from 'remark-gfm'
+import { compile } from "@mdx-js/mdx";
+import rehypeHighlight from "rehype-highlight";
+import remarkGfm from "remark-gfm";
 
 // The first line @mdx-js/mdx emits in function-body output destructures the
 // jsx runtime from `arguments[0]` (the exact members vary with content).
@@ -8,7 +8,7 @@ import remarkGfm from 'remark-gfm'
 // getMDXExport calling convention (new Function(React, ReactDOM,
 // _jsx_runtime, code)). If an upgrade changes this shape, the replacement
 // misses and we throw instead of shipping silently broken articles.
-const JSX_RUNTIME_DESTRUCTURE = /const \{[^}]*\} = arguments\[0\];/
+const JSX_RUNTIME_DESTRUCTURE = /const \{[^}]*\} = arguments\[0\];/;
 
 /**
  * Compile MDX source to executable code.
@@ -22,17 +22,15 @@ const JSX_RUNTIME_DESTRUCTURE = /const \{[^}]*\} = arguments\[0\];/
  */
 export async function compileMDX(source: string): Promise<string> {
   const result = await compile(source, {
-    outputFormat: 'function-body',
+    outputFormat: "function-body",
     remarkPlugins: [remarkGfm],
     rehypePlugins: [rehypeHighlight],
-  })
-  const code = String(result)
+  });
+  const code = String(result);
   if (!JSX_RUNTIME_DESTRUCTURE.test(code)) {
-    throw new Error(
-      'compileMDX: unexpected @mdx-js/mdx output shape, refusing to emit',
-    )
+    throw new Error("compileMDX: unexpected @mdx-js/mdx output shape, refusing to emit");
   }
   return code.replace(JSX_RUNTIME_DESTRUCTURE, (match) =>
-    match.replace('arguments[0]', '_jsx_runtime'),
-  )
+    match.replace("arguments[0]", "_jsx_runtime"),
+  );
 }

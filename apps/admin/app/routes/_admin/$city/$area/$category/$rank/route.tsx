@@ -1,33 +1,28 @@
-import React from 'react'
-import { Link, href } from 'react-router'
-import { Button, Stack } from '~/components/ui'
-import { getPathParams } from '~/features/admin/get-path-params'
-import { PlaceCard } from '~/features/place/components'
-import { listAreaPlaces } from './+queries.server'
-import { getEnv } from '~/lib/request-context'
-import type { Route } from './+types/route'
+import React from "react";
+import { Link, href } from "react-router";
+import { Button, Stack } from "~/components/ui";
+import { getPathParams } from "~/features/admin/get-path-params";
+import { PlaceCard } from "~/features/place/components";
+import { listAreaPlaces } from "./+queries.server";
+import { getEnv } from "~/lib/request-context";
+import type { Route } from "./+types/route";
 
 export const loader = async ({ params, context }: Route.LoaderArgs) => {
-  const { city, area, lang, category, rankType } = getPathParams(params)
+  const { city, area, lang, category, rankType } = getPathParams(params);
   if (!area) {
-    throw new Response(null, { status: 404, statusText: 'Not Found' })
+    throw new Response(null, { status: 404, statusText: "Not Found" });
   }
   if (!category) {
-    throw new Response(null, { status: 404, statusText: 'Not Found' })
+    throw new Response(null, { status: 404, statusText: "Not Found" });
   }
   if (!rankType) {
-    throw new Response(null, { status: 404, statusText: 'Not Found' })
+    throw new Response(null, { status: 404, statusText: "Not Found" });
   }
-  if (rankType !== 'rating' && rankType !== 'review') {
-    throw new Response(null, { status: 404, statusText: 'Not Found' })
+  if (rankType !== "rating" && rankType !== "review") {
+    throw new Response(null, { status: 404, statusText: "Not Found" });
   }
 
-  const places = await listAreaPlaces(
-    getEnv(context),
-    area.areaId,
-    category.id,
-    rankType,
-  )
+  const places = await listAreaPlaces(getEnv(context), area.areaId, category.id, rankType);
 
   return {
     city,
@@ -36,8 +31,8 @@ export const loader = async ({ params, context }: Route.LoaderArgs) => {
     category,
     rankType,
     places,
-  }
-}
+  };
+};
 
 export default function AdminCreategoryIndex({
   loaderData: { city, lang, area, category, places },
@@ -47,9 +42,7 @@ export default function AdminCreategoryIndex({
       {places.length > 0 ? (
         <div>{places.length} places found.</div>
       ) : (
-        <p className="text-muted-foreground grid h-32 place-content-center">
-          No places found
-        </p>
+        <p className="text-muted-foreground grid h-32 place-content-center">No places found</p>
       )}
 
       {places.length > 0 && (
@@ -60,7 +53,7 @@ export default function AdminCreategoryIndex({
                 <Stack>
                   <Button asChild>
                     <Link
-                      to={`${href('/place/:place/:lang?', {
+                      to={`${href("/place/:place/:lang?", {
                         place: place.id,
                         lang: lang?.id,
                       })}?city=${city.cityId}&area=${area.areaId}&category=${category.id}`}
@@ -71,10 +64,10 @@ export default function AdminCreategoryIndex({
                 </Stack>
                 <PlaceCard place={place} no={idx + 1} />
               </React.Fragment>
-            )
+            );
           })}
         </div>
       )}
     </Stack>
-  )
+  );
 }

@@ -1,24 +1,17 @@
-import { MapIcon } from 'lucide-react'
-import {
-  Button,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '~/components/ui'
+import { MapIcon } from "lucide-react";
+import { Button, Popover, PopoverContent, PopoverTrigger } from "~/components/ui";
 
-interface GoogleMapPopoverProps extends React.ComponentPropsWithoutRef<
-  typeof PopoverTrigger
-> {
+interface GoogleMapPopoverProps extends React.ComponentPropsWithoutRef<typeof PopoverTrigger> {
   area: {
-    latitude: number
-    longitude: number
-    radius: number
-  }
+    latitude: number;
+    longitude: number;
+    radius: number;
+  };
 }
 export const GoogleMapPopover = ({ children, area }: GoogleMapPopoverProps) => {
   // OSM埋め込み (キー不要・課金なし)。旧Static Maps (従量課金) の代替。
-  const d = 0.004
-  const bbox = `${area.longitude - d},${area.latitude - d},${area.longitude + d},${area.latitude + d}`
+  const d = 0.004;
+  const bbox = `${area.longitude - d},${area.latitude - d},${area.longitude + d},${area.latitude + d}`;
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -48,5 +41,5 @@ export const GoogleMapPopover = ({ children, area }: GoogleMapPopoverProps) => {
         </div>
       </PopoverContent>
     </Popover>
-  )
-}
+  );
+};

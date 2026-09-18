@@ -1,1 +1,1 @@
-export * from './google-place-api'
+export * from "./google-place-api";

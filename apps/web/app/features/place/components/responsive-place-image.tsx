@@ -1,4 +1,4 @@
-import type React from 'react'
+import type React from "react";
 
 /**
  * デバイスごとの画像サイズ設定
@@ -7,7 +7,7 @@ const IMAGE_SIZES = {
   MOBILE: 400, // モバイル基本サイズ
   TABLET: 640, // タブレット基本サイズ
   DESKTOP: 1200, // デスクトップ基本サイズ
-} as const
+} as const;
 
 /**
  * 異なるデバイス向けの画像URLを生成します
@@ -16,25 +16,25 @@ const IMAGE_SIZES = {
  */
 const getResponsiveImageUrls = (imageUrl: string) => {
   // URLが正しいフォーマットかチェック
-  if (!imageUrl.includes('googleusercontent.com/places/')) {
-    throw new Error('Invalid Google Places image URL')
+  if (!imageUrl.includes("googleusercontent.com/places/")) {
+    throw new Error("Invalid Google Places image URL");
   }
 
-  const [baseUrl] = imageUrl.split('=')
+  const [baseUrl] = imageUrl.split("=");
   if (!baseUrl) {
-    throw new Error('Invalid URL format')
+    throw new Error("Invalid URL format");
   }
 
   return {
     mobile: `${baseUrl}=s4800-w${IMAGE_SIZES.MOBILE}-h${IMAGE_SIZES.MOBILE}`,
     tablet: `${baseUrl}=s${IMAGE_SIZES.TABLET * 2}-w${IMAGE_SIZES.TABLET}-h${IMAGE_SIZES.TABLET}`,
     desktop: `${baseUrl}=s${IMAGE_SIZES.DESKTOP * 2}-w${IMAGE_SIZES.DESKTOP}-h${IMAGE_SIZES.DESKTOP}`,
-  } as const
-}
+  } as const;
+};
 
 interface ResponsivePlacesImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
-  imageUrl: string
-  alt: string
+  imageUrl: string;
+  alt: string;
 }
 
 /**
@@ -43,10 +43,10 @@ interface ResponsivePlacesImageProps extends React.ImgHTMLAttributes<HTMLImageEl
 export const ResponsivePlacesImage: React.FC<ResponsivePlacesImageProps> = ({
   imageUrl,
   alt,
-  className = '',
+  className = "",
   style,
 }) => {
-  const urls = getResponsiveImageUrls(imageUrl)
+  const urls = getResponsiveImageUrls(imageUrl);
 
   return (
     <picture>
@@ -74,5 +74,5 @@ export const ResponsivePlacesImage: React.FC<ResponsivePlacesImageProps> = ({
         decoding="async"
       />
     </picture>
-  )
-}
+  );
+};

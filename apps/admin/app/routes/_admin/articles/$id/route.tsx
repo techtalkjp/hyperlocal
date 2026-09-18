@@ -1,5 +1,5 @@
-import { areas, scenes } from '@hyperlocal/consts'
-import { data, redirect } from 'react-router'
+import { areas, scenes } from "@hyperlocal/consts";
+import { data, redirect } from "react-router";
 import {
   Button,
   Card,
@@ -17,65 +17,61 @@ import {
   SelectValue,
   Stack,
   Textarea,
-} from '~/components/ui'
-import { getEnv } from '~/lib/request-context'
-import { deleteArticle, getArticle, updateArticle } from './+queries.server'
-import type { Route } from './+types/route'
+} from "~/components/ui";
+import { getEnv } from "~/lib/request-context";
+import { deleteArticle, getArticle, updateArticle } from "./+queries.server";
+import type { Route } from "./+types/route";
 
 export const loader = async ({ params, context }: Route.LoaderArgs) => {
   if (!params.id) {
-    throw new Response('Not Found', { status: 404 })
+    throw new Response("Not Found", { status: 404 });
   }
-  const article = await getArticle(getEnv(context), params.id)
+  const article = await getArticle(getEnv(context), params.id);
   if (!article) {
-    throw new Response('Not Found', { status: 404 })
+    throw new Response("Not Found", { status: 404 });
   }
-  return { article }
-}
+  return { article };
+};
 
-export const action = async ({
-  request,
-  params,
-  context,
-}: Route.ActionArgs) => {
+export const action = async ({ request, params, context }: Route.ActionArgs) => {
   if (!params.id) {
-    throw new Response('Not Found', { status: 404 })
+    throw new Response("Not Found", { status: 404 });
   }
 
-  const env = getEnv(context)
-  const formData = await request.formData()
-  const intent = formData.get('intent')
+  const env = getEnv(context);
+  const formData = await request.formData();
+  const intent = formData.get("intent");
 
-  if (intent === 'update') {
-    const title = formData.get('title') as string
-    const content = formData.get('content') as string
-    const metadata = formData.get('metadata') as string
-    const status = formData.get('status') as string
+  if (intent === "update") {
+    const title = formData.get("title") as string;
+    const content = formData.get("content") as string;
+    const metadata = formData.get("metadata") as string;
+    const status = formData.get("status") as string;
 
     await updateArticle(env, params.id, {
       title,
       content,
       metadata,
       status,
-    })
+    });
 
-    return data({ success: true })
+    return data({ success: true });
   }
 
-  if (intent === 'delete') {
-    await deleteArticle(env, params.id)
-    return redirect('/articles')
+  if (intent === "delete") {
+    await deleteArticle(env, params.id);
+    return redirect("/articles");
   }
 
-  return data({ error: 'Invalid intent' }, { status: 400 })
-}
+  return data({ error: "Invalid intent" }, { status: 400 });
+};
 
 export default function EditArticlePage({
   loaderData: { article },
   actionData,
 }: Route.ComponentProps) {
-  const area = areas.find((a) => a.areaId === article.areaId)
-  const scene = scenes.find((s) => s.id === article.sceneId)
+  const area = areas.find((a) => a.areaId === article.areaId);
+  const scene = scenes.find((s) => s.id === article.sceneId);
 
   return (
     <Stack className="gap-6">
@@ -105,8 +101,7 @@ export default function EditArticlePage({
                   required
                 />
                 <p className="text-muted-foreground mt-1 text-sm">
-                  MDX format. Use &lt;Place id="..." /&gt; components to embed
-                  places
+                  MDX format. Use &lt;Place id="..." /&gt; components to embed places
                 </p>
               </div>
 
@@ -115,7 +110,7 @@ export default function EditArticlePage({
                 <Textarea
                   name="metadata"
                   defaultValue={
-                    typeof article.metadata === 'string'
+                    typeof article.metadata === "string"
                       ? article.metadata
                       : JSON.stringify(article.metadata, null, 2)
                   }
@@ -140,11 +135,9 @@ export default function EditArticlePage({
 
               <HStack className="justify-between">
                 <Button type="submit">Update Article</Button>
-                {actionData &&
-                  'success' in actionData &&
-                  actionData.success && (
-                    <span className="text-green-600">Saved successfully!</span>
-                  )}
+                {actionData && "success" in actionData && actionData.success && (
+                  <span className="text-green-600">Saved successfully!</span>
+                )}
               </HStack>
             </Stack>
           </form>
@@ -160,8 +153,8 @@ export default function EditArticlePage({
           <form
             method="post"
             onSubmit={(e: React.FormEvent) => {
-              if (!confirm('Are you sure you want to delete this article?')) {
-                e.preventDefault()
+              if (!confirm("Are you sure you want to delete this article?")) {
+                e.preventDefault();
               }
             }}
           >
@@ -173,5 +166,5 @@ export default function EditArticlePage({
         </CardContent>
       </Card>
     </Stack>
-  )
+  );
 }

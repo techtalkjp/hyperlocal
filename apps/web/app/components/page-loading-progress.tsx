@@ -1,21 +1,21 @@
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
-import { useEffect } from 'react'
-import { useNavigation } from 'react-router'
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
+import { useEffect } from "react";
+import { useNavigation } from "react-router";
 
 export const PageLoadingProgress = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   // Sync with NProgress library to show/hide loading bar
   useEffect(() => {
-    NProgress.configure({ showSpinner: false })
-    if (navigation.state !== 'idle') {
-      NProgress.start()
+    NProgress.configure({ showSpinner: false });
+    if (navigation.state !== "idle") {
+      NProgress.start();
     }
 
-    if (navigation.state === 'idle') {
-      NProgress.done()
+    if (navigation.state === "idle") {
+      NProgress.done();
     }
-  }, [navigation.state])
-  return null
-}
+  }, [navigation.state]);
+  return null;
+};

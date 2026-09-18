@@ -1,1 +1,1 @@
-export * from './translate-place'
+export * from "./translate-place";

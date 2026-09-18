@@ -1,14 +1,14 @@
 {
   "name": "hyperlocal",
   "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
-    "format": "turbo format",
-    "format:fix": "turbo format:fix",
-    "lint": "turbo lint",
-    "typecheck": "turbo typecheck",
-    "test": "turbo test",
-    "validate": "turbo validate",
+    "build": "vp run -r --concurrency-limit 2 build",
+    "dev": "vp run --parallel -r dev",
+    "format": "vp run -r format",
+    "format:fix": "vp run -r format:fix",
+    "lint": "vp run -r lint",
+    "typecheck": "vp run -r --concurrency-limit 2 typecheck",
+    "test": "vp run -r --concurrency-limit 2 test",
+    "validate": "vp run -r --concurrency-limit 2 validate",
     "db:apply": "pnpm --filter @hyperlocal/db db:apply",
     "db:apply:production": "pnpm --filter @hyperlocal/db db:apply:production",
     "db:generate": "pnpm --filter @hyperlocal/db db:generate",
@@ -18,18 +18,16 @@
     "doctor": "npx react-doctor@latest"
   },
   "devDependencies": {
-    "@biomejs/biome": "catalog:",
     "react-doctor": "catalog:",
-    "turbo": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:"
   },
-  "packageManager": "pnpm@12.4.1",
   "devEngines": {
     "runtime": {
       "name": "node",
       "version": "^24.21.0",
       "onFail": "download"
     }
-  }
+  },
+  "packageManager": "pnpm@12.4.1"
 }

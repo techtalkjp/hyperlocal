@@ -1,75 +1,64 @@
-import { areas, categories, cities, languages } from '@hyperlocal/consts'
-import { Outlet, redirect, useLocation, useParams } from 'react-router'
-import { Stack } from '~/components/ui'
-import { AreaLinkCard } from '~/components/area-link-card'
-import { CategoryNav, CategoryNavItem } from './+components/category-nav-item'
-import type { Route } from './+types/route'
+import { areas, categories, cities, languages } from "@hyperlocal/consts";
+import { Outlet, redirect, useLocation, useParams } from "react-router";
+import { Stack } from "~/components/ui";
+import { AreaLinkCard } from "~/components/area-link-card";
+import { CategoryNav, CategoryNavItem } from "./+components/category-nav-item";
+import type { Route } from "./+types/route";
 
 export const headers: Route.HeadersFunction = () => ({
   // Browser caches briefly; edge keeps a day with background revalidation.
   // NOTE: s-maxage/must-revalidate would disable stale-while-revalidate,
   // so edge directives live in cloudflare-cdn-cache-control instead.
-  'Cache-Control': 'public, max-age=60, stale-while-revalidate=60',
-  'cloudflare-cdn-cache-control':
-    'public, max-age=86400, stale-while-revalidate=3600',
-  'Cache-Tag': 'area',
-})
+  "Cache-Control": "public, max-age=60, stale-while-revalidate=60",
+  "cloudflare-cdn-cache-control": "public, max-age=86400, stale-while-revalidate=3600",
+  "Cache-Tag": "area",
+});
 
 export const clientLoader = ({ params, request }: Route.ClientLoaderArgs) => {
   const lang =
-    params.lang === undefined
-      ? languages[0]
-      : languages.find((l) => l.id === params.lang)
+    params.lang === undefined ? languages[0] : languages.find((l) => l.id === params.lang);
   if (!lang) {
-    throw new Response(null, { status: 404, statusText: 'Not Found' })
+    throw new Response(null, { status: 404, statusText: "Not Found" });
   }
-  const city = cities[0]
-  const area = areas.find((a) => a.areaId === params.area)
-  const category = categories.find((c) => c.id === params.category)
+  const city = cities[0];
+  const area = areas.find((a) => a.areaId === params.area);
+  const category = categories.find((c) => c.id === params.category);
 
   if (!area || !category) {
-    throw new Response(null, { status: 404, statusText: 'Not Found' })
+    throw new Response(null, { status: 404, statusText: "Not Found" });
   }
 
   // Detect ranking type from URL path (rank is a child route param)
-  const url = new URL(request.url)
-  const pathSegments = url.pathname.split('/').filter(Boolean)
-  const lastSegment = pathSegments[pathSegments.length - 1] ?? ''
-  const rankingType = (['rating', 'review'] as const).find(
-    (r) => r === lastSegment,
-  )
+  const url = new URL(request.url);
+  const pathSegments = url.pathname.split("/").filter(Boolean);
+  const lastSegment = pathSegments[pathSegments.length - 1] ?? "";
+  const rankingType = (["rating", "review"] as const).find((r) => r === lastSegment);
 
   // Redirect to rating if no ranking type is specified
-  if (!rankingType && lastSegment !== 'nearme') {
+  if (!rankingType && lastSegment !== "nearme") {
     throw redirect(
-      `/${lang.id === 'en' ? '' : `${lang.id}/`}area/${area.areaId}/${category.id}/rating`,
-    )
+      `/${lang.id === "en" ? "" : `${lang.id}/`}area/${area.areaId}/${category.id}/rating`,
+    );
   }
 
-  return { lang, city, area, category, rankingType }
-}
+  return { lang, city, area, category, rankingType };
+};
 
-export default function AreaCategory({
-  loaderData: { lang, area },
-}: Route.ComponentProps) {
-  const location = useLocation()
+export default function AreaCategory({ loaderData: { lang, area } }: Route.ComponentProps) {
+  const location = useLocation();
 
-  const params = useParams()
-  const rank = location.pathname.endsWith('/nearme') ? 'nearme' : params.rank
+  const params = useParams();
+  const rank = location.pathname.endsWith("/nearme") ? "nearme" : params.rank;
 
   return (
     <Stack>
-      <AreaLinkCard
-        to={`${lang.path}area/${area.areaId}`}
-        area={area}
-        languageId={lang.id}
-      />
+      <AreaLinkCard to={`${lang.path}area/${area.areaId}`} area={area} languageId={lang.id} />
 
       <CategoryNav>
         {categories.map((category) => (
           <CategoryNavItem
             key={category.id}
-            to={`${lang.path}area/${area.areaId}/${category.id}${rank ? `/${rank}` : ''}`}
+            to={`${lang.path}area/${area.areaId}/${category.id}${rank ? `/${rank}` : ""}`}
             viewTransition
             style={{ viewTransitionName: `nav-category-${category.id}` }}
           >
@@ -79,5 +68,5 @@ export default function AreaCategory({
       </CategoryNav>
       <Outlet />
     </Stack>
-  )
+  );
 }

@@ -1,113 +1,98 @@
-import { UTCDate } from '@date-fns/utc'
-import { scenes } from '@hyperlocal/consts'
-import { getMDXComponent } from 'mdx-bundler/client/index.js'
-import { data, Link } from 'react-router'
-import { ClientOnly } from 'remix-utils/client-only'
-import {
-  Badge,
-  Card,
-  CardHeader,
-  CardTitle,
-  HStack,
-  Stack,
-} from '~/components/ui'
-import { getPathParams } from '~/features/city-area/utils'
-import { BusinessStatusBadge } from '~/features/place/components'
-import { generateAlternateLinks } from '~/features/seo/alternate-links'
-import { generateCanonicalLink } from '~/features/seo/canonical-url'
-import {
-  type BusinessHours,
-  getBusinessStatus,
-} from '@hyperlocal/google-place-api'
-import { priceLevelLabel } from '~/features/place/utils'
+import { UTCDate } from "@date-fns/utc";
+import { scenes } from "@hyperlocal/consts";
+import { getMDXComponent } from "mdx-bundler/client/index.js";
+import { data, Link } from "react-router";
+import { ClientOnly } from "remix-utils/client-only";
+import { Badge, Card, CardHeader, CardTitle, HStack, Stack } from "~/components/ui";
+import { getPathParams } from "~/features/city-area/utils";
+import { BusinessStatusBadge } from "~/features/place/components";
+import { generateAlternateLinks } from "~/features/seo/alternate-links";
+import { generateCanonicalLink } from "~/features/seo/canonical-url";
+import { type BusinessHours, getBusinessStatus } from "@hyperlocal/google-place-api";
+import { priceLevelLabel } from "~/features/place/utils";
 import {
   getArticle,
   getLocalizedPlacesByIds,
   getOtherArticlesForArea,
   type ParsedAreaArticle,
   type ParsedLocalizedPlace,
-} from './+queries.server'
-import { readShard } from '~/features/shards/reader'
-import type { Route } from './+types/route'
+} from "./+queries.server";
+import { readShard } from "~/features/shards/reader";
+import type { Route } from "./+types/route";
 
 export const headers: Route.HeadersFunction = () => ({
   // Browser caches briefly; edge keeps a day with background revalidation.
   // NOTE: s-maxage/must-revalidate would disable stale-while-revalidate,
   // so edge directives live in cloudflare-cdn-cache-control instead.
-  'Cache-Control': 'public, max-age=60, stale-while-revalidate=60',
-  'cloudflare-cdn-cache-control':
-    'public, max-age=86400, stale-while-revalidate=3600',
-  'Cache-Tag': 'guide',
-})
+  "Cache-Control": "public, max-age=60, stale-while-revalidate=60",
+  "cloudflare-cdn-cache-control": "public, max-age=86400, stale-while-revalidate=3600",
+  "Cache-Tag": "guide",
+});
 
 export const meta = ({ loaderData, location }: Route.MetaArgs) => {
   if (!loaderData?.article) {
-    return [{ title: 'Article Not Found' }]
+    return [{ title: "Article Not Found" }];
   }
 
   return [
     { title: loaderData.article.title },
-    { name: 'description', content: loaderData.article.metadata.description },
+    { name: "description", content: loaderData.article.metadata.description },
     generateCanonicalLink(location.pathname),
     ...generateAlternateLinks({
       url: location.pathname,
       areaId: loaderData.area.areaId,
       guideSceneId: loaderData.scene.id,
     }),
-  ]
-}
+  ];
+};
 
 export const loader = async ({ request, params }: Route.LoaderArgs) => {
   const { lang, city, area } = getPathParams(request, params, {
     require: { area: true },
-  })
+  });
 
-  const sceneId = params.scene
+  const sceneId = params.scene;
   if (!sceneId) {
-    throw new Response('Not Found', { status: 404 })
+    throw new Response("Not Found", { status: 404 });
   }
 
-  const scene = scenes.find((s) => s.id === sceneId)
+  const scene = scenes.find((s) => s.id === sceneId);
   if (!scene) {
-    throw new Response('Not Found', { status: 404 })
+    throw new Response("Not Found", { status: 404 });
   }
 
   // R2 shard優先。全部揃えば早期return、欠けたらTurso経路へ。
   const guideShard = await readShard<{
-    id: string
-    title: string
-    content: string
-    compiledCode: string
-    metadata: string | { description: string }
-    cityId: string
-    areaId: string
-    sceneId: string
-    language: string
-    status: string
-    createdAt: string
-    updatedAt: string
-    placeIds: string[]
-  }>(`guide/${lang.id}/${area.areaId}/${sceneId}.json`)
+    id: string;
+    title: string;
+    content: string;
+    compiledCode: string;
+    metadata: string | { description: string };
+    cityId: string;
+    areaId: string;
+    sceneId: string;
+    language: string;
+    status: string;
+    createdAt: string;
+    updatedAt: string;
+    placeIds: string[];
+  }>(`guide/${lang.id}/${area.areaId}/${sceneId}.json`);
   if (guideShard) {
     const [placeRows, indexRows] = await Promise.all([
-      Promise.all(
-        guideShard.placeIds.map((id) =>
-          readShard(`place/${lang.id}/${id}.json`),
-        ),
-      ),
+      Promise.all(guideShard.placeIds.map((id) => readShard(`place/${lang.id}/${id}.json`))),
       readShard<Array<{ sceneId: string; title: string }>>(
         `guide-index/${lang.id}/${area.areaId}.json`,
       ),
-    ])
+    ]);
     if (placeRows.every(Boolean) && indexRows) {
-      const places = placeRows as unknown as ParsedLocalizedPlace[]
+      const places = placeRows as unknown as ParsedLocalizedPlace[];
       const article = {
         ...guideShard,
         metadata:
-          typeof guideShard.metadata === 'string'
+          typeof guideShard.metadata === "string"
             ? (JSON.parse(guideShard.metadata) as { description: string })
             : guideShard.metadata,
-      } as ParsedAreaArticle
+      } as ParsedAreaArticle;
       return {
         lang,
         city,
@@ -115,43 +100,32 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
         scene,
         article,
         mdxCode: article.compiledCode,
-        placesMap: Object.fromEntries(
-          places.map((place) => [place.placeId, place]),
-        ),
+        placesMap: Object.fromEntries(places.map((place) => [place.placeId, place])),
         otherArticles: indexRows.filter((a) => a.sceneId !== sceneId),
-      }
+      };
     }
   }
 
   // Turso経路 (shard欠け時のfallback)。DB障害時は404に落とす (500にしない)
-  let article: ParsedAreaArticle | undefined
+  let article: ParsedAreaArticle | undefined;
   try {
-    article = await getArticle(city.cityId, area.areaId, sceneId, lang.id)
+    article = await getArticle(city.cityId, area.areaId, sceneId, lang.id);
   } catch {
-    article = undefined
+    article = undefined;
   }
   if (!article) {
-    throw data(
-      { error: 'Article not found', lang, city, area, scene },
-      { status: 404 },
-    )
+    throw data({ error: "Article not found", lang, city, area, scene }, { status: 404 });
   }
 
   // Extract place IDs from article content
-  const placeIdMatches = article.content.matchAll(
-    /<Place\s+id="([^"]+)"\s*\/>/g,
-  )
-  const placeIds = Array.from(placeIdMatches, (match) => match[1])
+  const placeIdMatches = article.content.matchAll(/<Place\s+id="([^"]+)"\s*\/>/g);
+  const placeIds = Array.from(placeIdMatches, (match) => match[1]);
 
   // Fetch place data for all referenced places in a single query
-  const places = await getLocalizedPlacesByIds(placeIds, lang.id).catch(
-    () => [],
-  )
+  const places = await getLocalizedPlacesByIds(placeIds, lang.id).catch(() => []);
 
   // Create a map of place data
-  const placesMap = Object.fromEntries(
-    places.map((place) => [place.placeId, place]),
-  )
+  const placesMap = Object.fromEntries(places.map((place) => [place.placeId, place]));
 
   // Get other articles for this area
   const otherArticles = await getOtherArticlesForArea(
@@ -159,7 +133,7 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
     area.areaId,
     lang.id,
     sceneId,
-  ).catch(() => [])
+  ).catch(() => []);
 
   return {
     lang,
@@ -170,38 +144,32 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
     mdxCode: article.compiledCode,
     placesMap,
     otherArticles,
-  }
-}
+  };
+};
 
-export default function AreaGuideScenePage({
-  loaderData,
-}: Route.ComponentProps) {
-  const { lang, area, scene, article, mdxCode, placesMap, otherArticles } =
-    loaderData
+export default function AreaGuideScenePage({ loaderData }: Route.ComponentProps) {
+  const { lang, area, scene, article, mdxCode, placesMap, otherArticles } = loaderData;
 
   // Note: Not using useMemo per CLAUDE.md guidelines - getMDXComponent is pure and fast
-  const Component = getMDXComponent(mdxCode)
+  const Component = getMDXComponent(mdxCode);
 
   // Place component for use in MDX
   const Place = ({ id }: { id: string }) => {
-    const place = placesMap[id]
+    const place = placesMap[id];
 
     if (!place) {
       return (
         <div className="my-6 rounded border p-4">
-          <div className="text-muted-foreground text-sm">
-            Place not found: {id}
-          </div>
+          <div className="text-muted-foreground text-sm">Place not found: {id}</div>
         </div>
-      )
+      );
     }
 
-    const placePath =
-      lang.id === 'en' ? `/place/${id}` : `/${lang.id}/place/${id}`
+    const placePath = lang.id === "en" ? `/place/${id}` : `/${lang.id}/place/${id}`;
     const reviewText =
-      place.reviews?.length > 0 && typeof place.reviews[0].text === 'string'
+      place.reviews?.length > 0 && typeof place.reviews[0].text === "string"
         ? place.reviews[0].text
-        : null
+        : null;
 
     return (
       <Link
@@ -235,40 +203,28 @@ export default function AreaGuideScenePage({
             {/* Rating */}
             {place.rating && (
               <div className="text-muted-foreground flex items-center gap-2 text-sm">
-                <span className="font-semibold text-yellow-600">
-                  ★ {place.rating.toFixed(1)}
-                </span>
-                <span className="text-xs">
-                  ({place.userRatingCount} reviews)
-                </span>
+                <span className="font-semibold text-yellow-600">★ {place.rating.toFixed(1)}</span>
+                <span className="text-xs">({place.userRatingCount} reviews)</span>
               </div>
             )}
 
             {/* Business Status & Price */}
             <HStack className="text-xs">
-              <ClientOnly
-                fallback={
-                  <span className="text-xs text-transparent">Status</span>
-                }
-              >
+              <ClientOnly fallback={<span className="text-xs text-transparent">Status</span>}>
                 {() => {
-                  const date = new UTCDate()
+                  const date = new UTCDate();
                   const businessStatusResult = getBusinessStatus(
                     place.regularOpeningHours as unknown as BusinessHours | null,
                     date,
                     loaderData.city.timezone,
-                  )
-                  return (
-                    <BusinessStatusBadge statusResult={businessStatusResult} />
-                  )
+                  );
+                  return <BusinessStatusBadge statusResult={businessStatusResult} />;
                 }}
               </ClientOnly>
               {place.priceLevel && (
                 <>
                   <span className="text-muted-foreground mx-1">⋅</span>
-                  <span className="text-muted-foreground">
-                    {priceLevelLabel(place.priceLevel)}
-                  </span>
+                  <span className="text-muted-foreground">{priceLevelLabel(place.priceLevel)}</span>
                 </>
               )}
             </HStack>
@@ -297,13 +253,10 @@ export default function AreaGuideScenePage({
           </Stack>
         </div>
       </Link>
-    )
-  }
+    );
+  };
 
-  const areaPath =
-    lang.id === 'en'
-      ? `/area/${area.areaId}`
-      : `/${lang.id}/area/${area.areaId}`
+  const areaPath = lang.id === "en" ? `/area/${area.areaId}` : `/${lang.id}/area/${area.areaId}`;
 
   return (
     <Stack className="gap-8">
@@ -318,9 +271,7 @@ export default function AreaGuideScenePage({
 
       {/* Article */}
       <article className="mx-auto w-full max-w-3xl px-4">
-        <h1 className="mb-8 text-4xl leading-tight font-bold tracking-tight">
-          {article.title}
-        </h1>
+        <h1 className="mb-8 text-4xl leading-tight font-bold tracking-tight">{article.title}</h1>
         <div className="prose prose-lg prose-slate dark:prose-invert max-w-none [&_h1]:hidden [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-3xl [&_h2]:font-bold [&_h3]:mt-8 [&_h3]:mb-3 [&_h3]:text-2xl [&_h3]:font-bold [&_p]:my-4 [&_p]:text-lg [&_p]:leading-relaxed">
           <Component components={{ Place }} />
         </div>
@@ -329,18 +280,14 @@ export default function AreaGuideScenePage({
       {/* Other guides for this area */}
       {otherArticles.length > 0 && (
         <div className="border-border mx-auto w-full max-w-3xl border-t px-4 pt-8">
-          <h3 className="mb-3 font-semibold">
-            Other Guides for {area.i18n[lang.id]}
-          </h3>
+          <h3 className="mb-3 font-semibold">Other Guides for {area.i18n[lang.id]}</h3>
           <div className="grid gap-2">
             {otherArticles.map((otherArticle) => {
-              const otherScene = scenes.find(
-                (s) => s.id === otherArticle.sceneId,
-              )
+              const otherScene = scenes.find((s) => s.id === otherArticle.sceneId);
               const otherGuidePath =
-                lang.id === 'en'
+                lang.id === "en"
                   ? `/area/${area.areaId}/guide/${otherArticle.sceneId}`
-                  : `/${lang.id}/area/${area.areaId}/guide/${otherArticle.sceneId}`
+                  : `/${lang.id}/area/${area.areaId}/guide/${otherArticle.sceneId}`;
               return (
                 <Link
                   to={otherGuidePath}
@@ -350,9 +297,7 @@ export default function AreaGuideScenePage({
                 >
                   <Card className="hover:bg-secondary">
                     <CardHeader>
-                      <CardTitle className="text-base">
-                        {otherArticle.title}
-                      </CardTitle>
+                      <CardTitle className="text-base">{otherArticle.title}</CardTitle>
                       {otherScene && (
                         <p className="text-muted-foreground text-sm">
                           {otherScene.description[lang.id]}
@@ -361,11 +306,11 @@ export default function AreaGuideScenePage({
                     </CardHeader>
                   </Card>
                 </Link>
-              )
+              );
             })}
           </div>
         </div>
       )}
     </Stack>
-  )
+  );
 }

@@ -1,12 +1,12 @@
-import type { Place } from '@hyperlocal/db/src/types'
-import { MessageSquareIcon } from 'lucide-react'
-import { Badge, HStack } from '~/components/ui'
-import { Rating } from '~/features/place/components/rating'
-import { priceLevelLabel } from '../utils'
+import type { Place } from "@hyperlocal/db/src/types";
+import { MessageSquareIcon } from "lucide-react";
+import { Badge, HStack } from "~/components/ui";
+import { Rating } from "~/features/place/components/rating";
+import { priceLevelLabel } from "../utils";
 
 interface PlaceCardProps extends React.ComponentProps<typeof HStack> {
-  place: Place
-  no?: number
+  place: Place;
+  no?: number;
 }
 export const PlaceCard = ({ place, no }: PlaceCardProps) => {
   return (
@@ -47,9 +47,7 @@ export const PlaceCard = ({ place, no }: PlaceCardProps) => {
         <HStack>
           <HStack className="flex-1">
             <Rating star={place.rating} withLabel={true} size={14} />
-            <div className="text-muted-foreground text-xs">
-              {place.userRatingCount} reviews
-            </div>
+            <div className="text-muted-foreground text-xs">{place.userRatingCount} reviews</div>
           </HStack>
           {place.priceLevel && (
             <div className="text-foreground/70 shrink-0 text-xs font-bold">
@@ -60,7 +58,7 @@ export const PlaceCard = ({ place, no }: PlaceCardProps) => {
 
         {place.reviews.length > 0 &&
           place.reviews[0].originalText?.text &&
-          place.reviews[0].originalText.text !== '' && (
+          place.reviews[0].originalText.text !== "" && (
             <HStack className="items-start">
               <MessageSquareIcon size="12" className="mt-0.5 shrink-0" />
               <div className="text-muted-foreground line-clamp-2 text-xs">
@@ -70,5 +68,5 @@ export const PlaceCard = ({ place, no }: PlaceCardProps) => {
           )}
       </div>
     </HStack>
-  )
-}
+  );
+};

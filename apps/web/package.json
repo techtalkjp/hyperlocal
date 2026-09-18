@@ -1,8 +1,8 @@
 {
   "name": "@hyperlocal/web",
   "private": true,
-  "sideEffects": false,
   "type": "module",
+  "sideEffects": false,
   "scripts": {
     "dev": "react-router dev --host",
     "make:replica": "tsx --env-file .env scripts/make-local-replica.ts",
@@ -13,9 +13,9 @@
     "seo:sc": "tsx --env-file=.env scripts/seo-sc.ts",
     "start": "wrangler dev",
     "deploy": "wrangler deploy --config build/server/wrangler.json",
-    "lint": "biome lint .",
-    "format": "prettier --check . --experimental-cli",
-    "format:fix": "prettier --write . --experimental-cli",
+    "lint": "vp lint .",
+    "format": "vp fmt --check .",
+    "format:fix": "vp fmt --write .",
     "typecheck": "react-router typegen && tsc",
     "test": "vp test --run",
     "validate": "run-s lint format typecheck test"
@@ -55,7 +55,6 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@biomejs/biome": "catalog:",
     "@cloudflare/vite-plugin": "^1.54.8",
     "@cloudflare/workers-types": "^5.20260914.1",
     "@react-router/dev": "catalog:",
@@ -68,18 +67,15 @@
     "concurrently": "catalog:",
     "dotenv-cli": "catalog:",
     "npm-run-all": "catalog:",
-    "prettier": "catalog:",
-    "prettier-plugin-organize-imports": "catalog:",
-    "prettier-plugin-tailwindcss": "catalog:",
     "react-router-auto-routes": "1.0.0",
     "tailwindcss": "catalog:",
     "tailwindcss-animate": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
+    "vite-plus": "catalog:",
     "vitest": "catalog:",
-    "wrangler": "catalog:",
-    "vite-plus": "catalog:"
+    "wrangler": "catalog:"
   },
   "engines": {
     "node": ">=24.0.0"

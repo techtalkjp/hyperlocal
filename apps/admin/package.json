@@ -1,8 +1,8 @@
 {
-  "private": true,
-  "sideEffects": false,
   "name": "@hyperlocal/admin",
+  "private": true,
   "type": "module",
+  "sideEffects": false,
   "scripts": {
     "dev": "react-router dev",
     "build": "vp build",
@@ -10,12 +10,12 @@
     "generate:article": "tsx --env-file .env scripts/generate-article.ts",
     "import:articles": "tsx --env-file .env scripts/import-articles.ts",
     "translate:articles": "tsx --env-file .env scripts/translate-articles.ts",
-    "lint": "biome lint .",
-    "format": "prettier --check . --experimental-cli",
-    "format:fix": "prettier --write . --experimental-cli",
+    "lint": "vp lint .",
+    "format": "vp fmt --check .",
+    "format:fix": "vp fmt --write .",
     "typecheck": "react-router typegen && tsc",
     "test": "vp test run",
-    "validate": "run-p format lint && run-p typecheck test"
+    "validate": "run-s format lint typecheck test"
   },
   "dependencies": {
     "@ai-sdk/google": "catalog:",
@@ -58,7 +58,6 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@biomejs/biome": "catalog:",
     "@cloudflare/vite-plugin": "^1.54.8",
     "@cloudflare/workers-types": "^5.20260914.1",
     "@react-router/dev": "catalog:",
@@ -68,17 +67,14 @@
     "@types/react-dom": "catalog:",
     "autoprefixer": "catalog:",
     "npm-run-all": "catalog:",
-    "prettier": "catalog:",
-    "prettier-plugin-organize-imports": "catalog:",
-    "prettier-plugin-tailwindcss": "catalog:",
     "react-router-auto-routes": "1.0.0",
     "tailwindcss": "catalog:",
     "tailwindcss-animate": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
+    "vite-plus": "catalog:",
     "vitest": "catalog:",
-    "wrangler": "^4.131.1",
-    "vite-plus": "catalog:"
+    "wrangler": "^4.131.1"
   },
   "engines": {
     "node": ">=24.0.0"

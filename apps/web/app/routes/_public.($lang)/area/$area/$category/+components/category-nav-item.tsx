@@ -1,7 +1,7 @@
-import { NavLink } from 'react-router'
-import { twc } from 'react-twc'
+import { NavLink } from "react-router";
+import { twc } from "react-twc";
 
-export const CategoryNav = twc.div`flex flex-nowrap overflow-auto hidden-scrollbar gap-2`
+export const CategoryNav = twc.div`flex flex-nowrap overflow-auto hidden-scrollbar gap-2`;
 export const CategoryNavItem = twc(
   NavLink,
-)`shrink-0 pr-1 text-muted-foreground aria-[current]:text-brand hover:text-brand aria-[current]:underline underline-offset-4 decoration-2`
+)`shrink-0 pr-1 text-muted-foreground aria-[current]:text-brand hover:text-brand aria-[current]:underline underline-offset-4 decoration-2`;

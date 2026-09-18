@@ -1,69 +1,69 @@
-import type { i18nRecord } from './languages'
+import type { i18nRecord } from "./languages";
 
 export interface Category {
-  id: string
-  i18n: i18nRecord
+  id: string;
+  i18n: i18nRecord;
 }
 
 export const categories = [
   {
-    id: 'lunch',
+    id: "lunch",
     i18n: {
-      en: 'Lunch',
-      ja: 'ランチ',
-      'zh-cn': '午餐',
-      'zh-tw': '午餐',
-      ko: '점심',
+      en: "Lunch",
+      ja: "ランチ",
+      "zh-cn": "午餐",
+      "zh-tw": "午餐",
+      ko: "점심",
     },
   },
   {
-    id: 'dinner',
+    id: "dinner",
     i18n: {
-      en: 'Dinner',
-      ja: 'ディナー',
-      'zh-cn': '晚餐',
-      'zh-tw': '晚餐',
-      ko: '저녁',
+      en: "Dinner",
+      ja: "ディナー",
+      "zh-cn": "晚餐",
+      "zh-tw": "晚餐",
+      ko: "저녁",
     },
   },
   {
-    id: 'cafe',
+    id: "cafe",
     i18n: {
-      en: 'Cafes',
-      ja: 'カフェ',
-      'zh-cn': '咖啡店',
-      'zh-tw': '咖啡廳',
-      ko: '카페',
+      en: "Cafes",
+      ja: "カフェ",
+      "zh-cn": "咖啡店",
+      "zh-tw": "咖啡廳",
+      ko: "카페",
     },
   },
   {
-    id: 'sweets',
+    id: "sweets",
     i18n: {
-      en: 'Sweets',
-      ja: 'スイーツ',
-      'zh-cn': '甜点',
-      'zh-tw': '甜點',
-      ko: '디저트',
+      en: "Sweets",
+      ja: "スイーツ",
+      "zh-cn": "甜点",
+      "zh-tw": "甜點",
+      ko: "디저트",
     },
   },
   {
-    id: 'bakery',
+    id: "bakery",
     i18n: {
-      en: 'Bakery',
-      ja: 'ベーカリー',
-      'zh-cn': '面包店',
-      'zh-tw': '麵包店',
-      ko: '빵집',
+      en: "Bakery",
+      ja: "ベーカリー",
+      "zh-cn": "面包店",
+      "zh-tw": "麵包店",
+      ko: "빵집",
     },
   },
   {
-    id: 'nightlife',
+    id: "nightlife",
     i18n: {
-      en: 'Bars & Clubs',
-      ja: 'バー・クラブ',
-      'zh-cn': '酒吧夜店',
-      'zh-tw': '酒吧夜店',
-      ko: '바 & 클럽',
+      en: "Bars & Clubs",
+      ja: "バー・クラブ",
+      "zh-cn": "酒吧夜店",
+      "zh-tw": "酒吧夜店",
+      ko: "바 & 클럽",
     },
   },
   // {
@@ -132,4 +132,4 @@ export const categories = [
   //     ko: '교통',
   //   },
   // },
-] as const satisfies Category[]
+] as const satisfies Category[];

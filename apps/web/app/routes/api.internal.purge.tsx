@@ -1,70 +1,63 @@
-import { data } from 'react-router'
-import {
-  executionContext,
-  type WorkerExecutionContext,
-} from '~/lib/worker-context'
-import type { Route } from './+types/api.internal.purge'
+import { data } from "react-router";
+import { executionContext, type WorkerExecutionContext } from "~/lib/worker-context";
+import type { Route } from "./+types/api.internal.purge";
 
-const VALID_TAGS = new Set(['top', 'area', 'guide', 'place'])
+const VALID_TAGS = new Set(["top", "area", "guide", "place"]);
 
 /**
  * Internal cache purge endpoint. Called by the admin worker after content
  * changes. Never cached (POST). Guarded by a shared bearer secret.
  */
 export const action = async ({ request, context }: Route.ActionArgs) => {
-  const auth = request.headers.get('authorization')
-  const secret = process.env.PURGE_SECRET
+  const auth = request.headers.get("authorization");
+  const secret = process.env.PURGE_SECRET;
   if (!secret || auth !== `Bearer ${secret}`) {
-    throw new Response('Forbidden', { status: 403 })
+    throw new Response("Forbidden", { status: 403 });
   }
 
   const body = (await request.json().catch(() => null)) as {
-    tags?: unknown
-    prefixes?: unknown
-  } | null
+    tags?: unknown;
+    prefixes?: unknown;
+  } | null;
   const tags = Array.isArray(body?.tags)
-    ? body.tags.filter(
-        (tag): tag is string => typeof tag === 'string' && VALID_TAGS.has(tag),
-      )
-    : []
+    ? body.tags.filter((tag): tag is string => typeof tag === "string" && VALID_TAGS.has(tag))
+    : [];
   // R2 shard配布物のprefix purge (shards/ 配下のみ許可)
   const prefixes = Array.isArray(body?.prefixes)
-    ? body.prefixes.filter(
-        (p): p is string => typeof p === 'string' && p.startsWith('shards/'),
-      )
-    : []
+    ? body.prefixes.filter((p): p is string => typeof p === "string" && p.startsWith("shards/"))
+    : [];
   if (tags.length === 0 && prefixes.length === 0) {
-    return data({ error: 'No valid tags' }, { status: 400 })
+    return data({ error: "No valid tags" }, { status: 400 });
   }
 
-  let ctx: WorkerExecutionContext
+  let ctx: WorkerExecutionContext;
   try {
-    ctx = context.get(executionContext)
+    ctx = context.get(executionContext);
   } catch {
     return data(
-      { error: 'Cache purge unavailable in this runtime' },
+      { error: "Cache purge unavailable in this runtime" },
       {
         status: 500,
       },
-    )
+    );
   }
   if (!ctx.cache) {
     return data(
-      { error: 'Cache purge unavailable in this runtime' },
+      { error: "Cache purge unavailable in this runtime" },
       {
         status: 500,
       },
-    )
+    );
   }
   if (tags.length > 0) {
-    await ctx.cache.purge({ tags })
+    await ctx.cache.purge({ tags });
   }
   if (prefixes.length > 0) {
-    await ctx.cache.purge({ prefixes })
+    await ctx.cache.purge({ prefixes });
   }
-  return data({ purged: { tags, prefixes } })
-}
+  return data({ purged: { tags, prefixes } });
+};
 
 export const loader = () => {
-  throw new Response('Method Not Allowed', { status: 405 })
-}
+  throw new Response("Method Not Allowed", { status: 405 });
+};

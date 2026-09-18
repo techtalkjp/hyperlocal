@@ -1,78 +1,62 @@
-import type { LanguageId } from '@hyperlocal/consts'
-import {
-  AlertCircle,
-  Home,
-  RefreshCw,
-  ServerCrash,
-  WifiOff,
-} from 'lucide-react'
-import { useState } from 'react'
-import { Link, useRevalidator } from 'react-router'
-import {
-  Badge,
-  Button,
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '~/components/ui'
-import { getErrorMessages } from '../i18n'
-import type { ErrorType } from '../utils'
+import type { LanguageId } from "@hyperlocal/consts";
+import { AlertCircle, Home, RefreshCw, ServerCrash, WifiOff } from "lucide-react";
+import { useState } from "react";
+import { Link, useRevalidator } from "react-router";
+import { Badge, Button, Card, CardDescription, CardHeader, CardTitle } from "~/components/ui";
+import { getErrorMessages } from "../i18n";
+import type { ErrorType } from "../utils";
 
 interface ErrorDisplayProps {
-  errorType: ErrorType
-  languageId?: LanguageId
+  errorType: ErrorType;
+  languageId?: LanguageId;
 }
 
-export const ErrorDisplay = ({
-  errorType,
-  languageId = 'en',
-}: ErrorDisplayProps) => {
-  const revalidator = useRevalidator()
-  const [isRetrying, setIsRetrying] = useState(false)
-  const messages = getErrorMessages(errorType, languageId)
+export const ErrorDisplay = ({ errorType, languageId = "en" }: ErrorDisplayProps) => {
+  const revalidator = useRevalidator();
+  const [isRetrying, setIsRetrying] = useState(false);
+  const messages = getErrorMessages(errorType, languageId);
 
   const handleRetry = () => {
-    setIsRetrying(true)
-    revalidator.revalidate()
+    setIsRetrying(true);
+    revalidator.revalidate();
 
     // 3秒後に再試行ボタンを再度有効化
     setTimeout(() => {
-      setIsRetrying(false)
-    }, 3000)
-  }
+      setIsRetrying(false);
+    }, 3000);
+  };
 
   // エラータイプに応じたアイコンとバッジ色を決定
   const getErrorConfig = () => {
     switch (errorType) {
-      case 'network-error':
+      case "network-error":
         return {
           icon: WifiOff,
-          badgeVariant: 'default' as const,
-          badgeText: 'Network Error',
-        }
-      case 'server-error':
+          badgeVariant: "default" as const,
+          badgeText: "Network Error",
+        };
+      case "server-error":
         return {
           icon: ServerCrash,
-          badgeVariant: 'destructive' as const,
-          badgeText: 'Server Error',
-        }
-      case 'not-found':
+          badgeVariant: "destructive" as const,
+          badgeText: "Server Error",
+        };
+      case "not-found":
         return {
           icon: AlertCircle,
-          badgeVariant: 'secondary' as const,
-          badgeText: 'Not Found',
-        }
+          badgeVariant: "secondary" as const,
+          badgeText: "Not Found",
+        };
       default:
         return {
           icon: AlertCircle,
-          badgeVariant: 'destructive' as const,
-          badgeText: 'Error',
-        }
+          badgeVariant: "destructive" as const,
+          badgeText: "Error",
+        };
     }
-  }
+  };
 
-  const { icon: Icon, badgeVariant, badgeText } = getErrorConfig()
+  const { icon: Icon, badgeVariant, badgeText } = getErrorConfig();
 
   return (
     <div className="w-full space-y-4">
@@ -92,7 +76,7 @@ export const ErrorDisplay = ({
       </Card>
 
       <div className="flex gap-2">
-        {errorType === 'not-found' ? (
+        {errorType === "not-found" ? (
           <Button asChild>
             <Link to="/">
               <Home className="mr-2 h-4 w-4" />
@@ -101,13 +85,11 @@ export const ErrorDisplay = ({
           </Button>
         ) : (
           <Button onClick={handleRetry} disabled={isRetrying}>
-            <RefreshCw
-              className={`mr-2 h-4 w-4 ${isRetrying ? 'animate-spin' : ''}`}
-            />
+            <RefreshCw className={`mr-2 h-4 w-4 ${isRetrying ? "animate-spin" : ""}`} />
             {messages.action}
           </Button>
         )}
       </div>
     </div>
-  )
-}
+  );
+};

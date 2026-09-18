@@ -1,23 +1,17 @@
-import { cn } from '~/libs/utils'
+import { cn } from "~/libs/utils";
 
 interface RatingProps extends React.HTMLAttributes<HTMLDivElement> {
-  star?: number
-  size?: number
-  color?: string
-  withLabel?: boolean
+  star?: number;
+  size?: number;
+  color?: string;
+  withLabel?: boolean;
 }
 
-export const Rating = ({
-  star,
-  size = 24,
-  withLabel = false,
-  className,
-  ...rest
-}: RatingProps) => {
-  const arr = [1, 2, 3, 4, 5]
+export const Rating = ({ star, size = 24, withLabel = false, className, ...rest }: RatingProps) => {
+  const arr = [1, 2, 3, 4, 5];
 
   return (
-    <div className={cn('flex items-center gap-2', className)} {...rest}>
+    <div className={cn("flex items-center gap-2", className)} {...rest}>
       <div className="relative inline-block cursor-auto items-center select-none">
         <div
           className="flex overflow-hidden whitespace-nowrap text-[#e6e6e6]"
@@ -30,7 +24,7 @@ export const Rating = ({
               <span key={`star-${num}`} className="p-[0.1]">
                 ☆
               </span>
-            )
+            );
           })}
         </div>
         {star && (
@@ -46,17 +40,15 @@ export const Rating = ({
                 <span key={`star-active-${num}`} className="p-[0.1]">
                   ★
                 </span>
-              )
+              );
             })}
           </div>
         )}
       </div>
 
       {withLabel && star ? (
-        <span className="text-sm font-bold text-yellow-500">
-          {star.toFixed(1)}
-        </span>
+        <span className="text-sm font-bold text-yellow-500">{star.toFixed(1)}</span>
       ) : null}
     </div>
-  )
-}
+  );
+};

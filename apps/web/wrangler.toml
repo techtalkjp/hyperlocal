@@ -8,9 +8,7 @@ compatibility_date = "2026-09-14"
 
 assets = { directory = "./build/client", binding = "ASSETS", html_handling = "drop-trailing-slash" }
 
-routes = [
-  { pattern = "tokyo.hyper-local.app", custom_domain = true },
-]
+routes = [{ pattern = "tokyo.hyper-local.app", custom_domain = true }]
 
 [observability]
 enabled = true

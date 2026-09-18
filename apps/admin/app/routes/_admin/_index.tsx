@@ -1,15 +1,13 @@
-import { areas, cities } from '@hyperlocal/consts'
-import { Link } from 'react-router'
-import { Button, HStack } from '~/components/ui'
-import type { Route } from './+types/_index'
+import { areas, cities } from "@hyperlocal/consts";
+import { Link } from "react-router";
+import { Button, HStack } from "~/components/ui";
+import type { Route } from "./+types/_index";
 
 export const loader = () => {
-  return { cities, areas }
-}
+  return { cities, areas };
+};
 
-export default function AdminIndex({
-  loaderData: { cities, areas },
-}: Route.ComponentProps) {
+export default function AdminIndex({ loaderData: { cities, areas } }: Route.ComponentProps) {
   return (
     <div className="space-y-6">
       <HStack>
@@ -28,19 +26,16 @@ export default function AdminIndex({
 
       <ul>
         {areas.map((area) => {
-          const city = cities.find((city) => city.cityId === area.cityId)
+          const city = cities.find((city) => city.cityId === area.cityId);
           return (
             <li key={area.areaId}>
-              <Link
-                className="hover:underline"
-                to={`/${area.cityId}/${area.areaId}`}
-              >
+              <Link className="hover:underline" to={`/${area.cityId}/${area.areaId}`}>
                 {city?.i18n.en ?? `unknown - ${area.cityId}`} - {area.i18n.en}
               </Link>
             </li>
-          )
+          );
         })}
       </ul>
     </div>
-  )
+  );
 }

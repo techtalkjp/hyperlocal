@@ -1,55 +1,52 @@
-import { TZDate } from '@date-fns/tz'
+import { TZDate } from "@date-fns/tz";
 
 interface BusinessHoursPeriod {
   open: {
-    day: number // 週の開始からの日数 (0-6)
-    hour: number // 時間 (0-23)
-    minute: number // 分 (0-59)
-  }
+    day: number; // 週の開始からの日数 (0-6)
+    hour: number; // 時間 (0-23)
+    minute: number; // 分 (0-59)
+  };
   close?: {
-    day: number // 週の開始からの日数 (0-6)
-    hour: number // 時間 (0-23)
-    minute: number // 分 (0-59)
-  }
+    day: number; // 週の開始からの日数 (0-6)
+    hour: number; // 時間 (0-23)
+    minute: number; // 分 (0-59)
+  };
 }
 
 interface NormalizeBusinessHoursPeriod {
-  start: number // 週の開始からの分数 (0-10079)
-  end: number // 週の開始からの分数 (0-10079)
+  start: number; // 週の開始からの分数 (0-10079)
+  end: number; // 週の開始からの分数 (0-10079)
 }
 
 interface BusinessHours {
-  periods: BusinessHoursPeriod[]
+  periods: BusinessHoursPeriod[];
 }
 
 enum BusinessStatus {
-  OPEN = 'OPEN',
-  OPEN_CLOSING_SOON = 'OPEN_CLOSING_SOON',
-  OPEN_24_HOURS = 'OPEN_24_HOURS',
-  CLOSED = 'CLOSED',
-  CLOSED_OPENING_SOON = 'CLOSED_OPENING_SOON',
-  UNKNOWN = 'UNKNOWN',
+  OPEN = "OPEN",
+  OPEN_CLOSING_SOON = "OPEN_CLOSING_SOON",
+  OPEN_24_HOURS = "OPEN_24_HOURS",
+  CLOSED = "CLOSED",
+  CLOSED_OPENING_SOON = "CLOSED_OPENING_SOON",
+  UNKNOWN = "UNKNOWN",
 }
 
 interface BusinessStatusResult {
-  status: BusinessStatus
+  status: BusinessStatus;
   details: {
-    closingDay?: number
-    closingTime?: string
-    nextOpenDay?: number
-    nextOpenTime?: string
-  }
+    closingDay?: number;
+    closingTime?: string;
+    nextOpenDay?: number;
+    nextOpenTime?: string;
+  };
 }
 
-const WEEK_MINUTES = 7 * 24 * 60 // 10080 minutes in a week
+const WEEK_MINUTES = 7 * 24 * 60; // 10080 minutes in a week
 
-function normalizeBusinessHours(
-  originalHours: BusinessHours,
-): NormalizeBusinessHoursPeriod[] {
+function normalizeBusinessHours(originalHours: BusinessHours): NormalizeBusinessHoursPeriod[] {
   return originalHours.periods
     .map((period) => ({
-      start:
-        period.open.day * 24 * 60 + period.open.hour * 60 + period.open.minute,
+      start: period.open.day * 24 * 60 + period.open.hour * 60 + period.open.minute,
       end: period.close
         ? (period.close.day * 24 * 60 +
             period.close.hour * 60 +
@@ -58,17 +55,17 @@ function normalizeBusinessHours(
           WEEK_MINUTES
         : WEEK_MINUTES,
     }))
-    .sort((a, b) => a.start - b.start)
+    .sort((a, b) => a.start - b.start);
 }
 
 function formatMinutes(minutes: number) {
-  const day = Math.floor(minutes / (24 * 60))
-  const hour = Math.floor((minutes % (24 * 60)) / 60)
-  const minute = minutes % 60
+  const day = Math.floor(minutes / (24 * 60));
+  const hour = Math.floor((minutes % (24 * 60)) / 60);
+  const minute = minutes % 60;
   return {
     day,
-    time: `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`,
-  }
+    time: `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`,
+  };
 }
 
 function getBusinessStatus(
@@ -77,65 +74,58 @@ function getBusinessStatus(
   timeZone: string,
 ): BusinessStatusResult {
   if (!businessHours) {
-    return { status: BusinessStatus.UNKNOWN, details: {} }
+    return { status: BusinessStatus.UNKNOWN, details: {} };
   }
 
   if (businessHours.periods.length === 0) {
-    return { status: BusinessStatus.UNKNOWN, details: {} }
+    return { status: BusinessStatus.UNKNOWN, details: {} };
   }
 
   if (businessHours.periods[0].close === undefined) {
-    return { status: BusinessStatus.OPEN_24_HOURS, details: {} }
+    return { status: BusinessStatus.OPEN_24_HOURS, details: {} };
   }
 
-  const normalizedHours = normalizeBusinessHours(businessHours)
-  const localDateTime = new TZDate(currentDate, timeZone)
+  const normalizedHours = normalizeBusinessHours(businessHours);
+  const localDateTime = new TZDate(currentDate, timeZone);
   let currentMinutes =
-    localDateTime.getDay() * 24 * 60 +
-    localDateTime.getHours() * 60 +
-    localDateTime.getMinutes()
+    localDateTime.getDay() * 24 * 60 + localDateTime.getHours() * 60 + localDateTime.getMinutes();
 
   // Adjust for week wrapping
   if (currentMinutes >= WEEK_MINUTES) {
-    currentMinutes %= WEEK_MINUTES
+    currentMinutes %= WEEK_MINUTES;
   }
 
   for (let i = 0; i < normalizedHours.length; i++) {
-    const period = normalizedHours[i]
+    const period = normalizedHours[i];
     if (
       (period.start <= currentMinutes && currentMinutes < period.end) ||
-      (period.start > period.end &&
-        (currentMinutes >= period.start || currentMinutes < period.end))
+      (period.start > period.end && (currentMinutes >= period.start || currentMinutes < period.end))
     ) {
       // 営業中
-      const minutesUntilClosing =
-        (period.end - currentMinutes + WEEK_MINUTES) % WEEK_MINUTES
+      const minutesUntilClosing = (period.end - currentMinutes + WEEK_MINUTES) % WEEK_MINUTES;
       if (minutesUntilClosing <= 60) {
-        const { day: closingDay, time: closingTime } = formatMinutes(period.end)
+        const { day: closingDay, time: closingTime } = formatMinutes(period.end);
         return {
           status: BusinessStatus.OPEN_CLOSING_SOON,
           details: {
             closingDay,
             closingTime,
           },
-        }
+        };
       }
-      const { day: closingDay, time: closingTime } = formatMinutes(period.end)
+      const { day: closingDay, time: closingTime } = formatMinutes(period.end);
       return {
         status: BusinessStatus.OPEN,
         details: {
           closingDay,
           closingTime,
         },
-      }
+      };
     }
 
-    const minutesUntilOpening =
-      (period.start - currentMinutes + WEEK_MINUTES) % WEEK_MINUTES
+    const minutesUntilOpening = (period.start - currentMinutes + WEEK_MINUTES) % WEEK_MINUTES;
     if (minutesUntilOpening <= 60) {
-      const { day: nextOpenDay, time: nextOpenTime } = formatMinutes(
-        period.start,
-      )
+      const { day: nextOpenDay, time: nextOpenTime } = formatMinutes(period.start);
       // もうすぐ開店
       return {
         status: BusinessStatus.CLOSED_OPENING_SOON,
@@ -143,7 +133,7 @@ function getBusinessStatus(
           nextOpenDay,
           nextOpenTime,
         },
-      }
+      };
     }
   }
 
@@ -152,32 +142,23 @@ function getBusinessStatus(
     (period) =>
       (period.start - currentMinutes + WEEK_MINUTES) % WEEK_MINUTES ===
       Math.min(
-        ...normalizedHours.map(
-          (p) => (p.start - currentMinutes + WEEK_MINUTES) % WEEK_MINUTES,
-        ),
+        ...normalizedHours.map((p) => (p.start - currentMinutes + WEEK_MINUTES) % WEEK_MINUTES),
       ),
-  )
+  );
 
   if (nextPeriod) {
-    const { day: nextOpenDay, time: nextOpenTime } = formatMinutes(
-      nextPeriod.start,
-    )
+    const { day: nextOpenDay, time: nextOpenTime } = formatMinutes(nextPeriod.start);
     return {
       status: BusinessStatus.CLOSED,
       details: {
         nextOpenDay,
         nextOpenTime,
       },
-    }
+    };
   }
 
   // ここに到達することはないはずですが、安全のため
-  return { status: BusinessStatus.UNKNOWN, details: {} }
+  return { status: BusinessStatus.UNKNOWN, details: {} };
 }
 
-export {
-  BusinessStatus,
-  getBusinessStatus,
-  type BusinessHours,
-  type BusinessStatusResult,
-}
+export { BusinessStatus, getBusinessStatus, type BusinessHours, type BusinessStatusResult };

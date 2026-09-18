@@ -1,20 +1,17 @@
-import type { LocalizedPlace } from '@hyperlocal/db'
-import { ExternalLink, MapIcon } from 'lucide-react'
-import type React from 'react'
-import { Button, HStack } from '~/components/ui'
-import { cn } from '~/libs/utils'
-import { buildTabelogLink } from '../../utils'
+import type { LocalizedPlace } from "@hyperlocal/db";
+import { ExternalLink, MapIcon } from "lucide-react";
+import type React from "react";
+import { Button, HStack } from "~/components/ui";
+import { cn } from "~/libs/utils";
+import { buildTabelogLink } from "../../utils";
 
-interface ActionButtonsProps extends React.ComponentProps<'div'> {
-  place: LocalizedPlace
-  distance?: number
+interface ActionButtonsProps extends React.ComponentProps<"div"> {
+  place: LocalizedPlace;
+  distance?: number;
 }
 
-export const ActionButtons: React.FC<ActionButtonsProps> = ({
-  place,
-  className,
-}) => (
-  <HStack className={cn('pointer-events-none flex gap-2', className)}>
+export const ActionButtons: React.FC<ActionButtonsProps> = ({ place, className }) => (
+  <HStack className={cn("pointer-events-none flex gap-2", className)}>
     <Button type="button" variant="outline" size="xs" asChild>
       <a
         href={place.googleMapsUri}
@@ -41,4 +38,4 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
       </Button>
     )}
   </HStack>
-)
+);

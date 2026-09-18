@@ -1,10 +1,10 @@
-import type { LanguageId } from '@hyperlocal/consts'
-import { isRouteErrorResponse, useRouteError } from 'react-router'
-import { classifyError } from '../utils'
-import { ErrorDisplay } from './error-display'
+import type { LanguageId } from "@hyperlocal/consts";
+import { isRouteErrorResponse, useRouteError } from "react-router";
+import { classifyError } from "../utils";
+import { ErrorDisplay } from "./error-display";
 
 interface RouteErrorBoundaryProps {
-  languageId?: LanguageId
+  languageId?: LanguageId;
 }
 
 /**
@@ -15,17 +15,15 @@ interface RouteErrorBoundaryProps {
  * export const ErrorBoundary = () => <RouteErrorBoundary languageId={lang.id} />
  * ```
  */
-export const RouteErrorBoundary = ({
-  languageId = 'en',
-}: RouteErrorBoundaryProps) => {
-  const error = useRouteError()
+export const RouteErrorBoundary = ({ languageId = "en" }: RouteErrorBoundaryProps) => {
+  const error = useRouteError();
 
   // エラーの種類を分類
-  const errorType = classifyError(error)
+  const errorType = classifyError(error);
 
   // 開発環境ではエラーの詳細をコンソールに出力
-  if (process.env.NODE_ENV === 'development') {
-    console.error('Route error:', error)
+  if (process.env.NODE_ENV === "development") {
+    console.error("Route error:", error);
   }
 
   return (
@@ -34,7 +32,7 @@ export const RouteErrorBoundary = ({
         <ErrorDisplay errorType={errorType} languageId={languageId} />
 
         {/* 開発環境ではエラーの詳細情報を表示 */}
-        {process.env.NODE_ENV === 'development' && (
+        {process.env.NODE_ENV === "development" && (
           <details className="rounded border p-4">
             <summary className="text-muted-foreground cursor-pointer text-sm">
               Error Details (Development Only)
@@ -50,5 +48,5 @@ export const RouteErrorBoundary = ({
         )}
       </div>
     </div>
-  )
-}
+  );
+};

@@ -64,6 +64,7 @@ pnpm --filter @hyperlocal/admin import:articles
 ```
 
 このコマンドは：
+
 - 既存の記事を削除（同じ area, scene, language の組み合わせ）
 - 新しい記事を登録
 - 処理結果のサマリーを表示
@@ -112,6 +113,7 @@ pnpm --filter @hyperlocal/admin generate:article --list
 ### 記事が表示されない
 
 1. データベースに記事が登録されているか確認：
+
    ```bash
    sqlite3 data/dev.db "SELECT id, title, status FROM area_articles"
    ```

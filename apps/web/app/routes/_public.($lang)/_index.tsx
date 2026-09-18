@@ -1,5 +1,5 @@
-import { areas as allAreas, cities } from '@hyperlocal/consts'
-import { Link } from 'react-router'
+import { areas as allAreas, cities } from "@hyperlocal/consts";
+import { Link } from "react-router";
 import {
   Button,
   Card,
@@ -8,56 +8,53 @@ import {
   CardTitle,
   HStack,
   Stack,
-} from '~/components/ui'
-import { getPathParams } from '~/features/city-area/utils'
-import { getCityDomain } from '~/features/city-area/utils/get-city-domain'
-import { generateAlternateLinks } from '~/features/seo/alternate-links'
-import { generateCanonicalLink } from '~/features/seo/canonical-url'
-import type { Route } from './+types/_index'
+} from "~/components/ui";
+import { getPathParams } from "~/features/city-area/utils";
+import { getCityDomain } from "~/features/city-area/utils/get-city-domain";
+import { generateAlternateLinks } from "~/features/seo/alternate-links";
+import { generateCanonicalLink } from "~/features/seo/canonical-url";
+import type { Route } from "./+types/_index";
 
 export const headers: Route.HeadersFunction = () => ({
   // Browser caches briefly; edge keeps a day with background revalidation.
   // NOTE: s-maxage/must-revalidate would disable stale-while-revalidate,
   // so edge directives live in cloudflare-cdn-cache-control instead.
-  'Cache-Control': 'public, max-age=60, stale-while-revalidate=60',
-  'cloudflare-cdn-cache-control':
-    'public, max-age=86400, stale-while-revalidate=3600',
-  'Cache-Tag': 'top',
-})
+  "Cache-Control": "public, max-age=60, stale-while-revalidate=60",
+  "cloudflare-cdn-cache-control": "public, max-age=86400, stale-while-revalidate=3600",
+  "Cache-Tag": "top",
+});
 
 const metaDescriptions: Record<string, string> = {
-  en: 'Discover top-rated restaurants and places across Tokyo. Explore 20 areas with real-time status, ratings, and instant guides for cafes, dining, and local spots.',
-  ja: '東京の厳選レストランとスポットを発見。20エリアのカフェ、グルメ、ローカルスポットをリアルタイムの営業状況と評価でチェック。',
-  'zh-cn':
-    '探索东京的顶级餐厅和场所。覆盖20个地区，提供咖啡馆、餐饮和本地景点的实时状态和评分。',
-  'zh-tw':
-    '探索東京的頂級餐廳和場所。覆蓋20個地區，提供咖啡廳、餐飲和本地景點的即時狀態和評分。',
-  ko: '도쿄의 최고 평점 레스토랑과 장소를 발견하세요. 20개 지역의 카페, 맛집, 로컬 명소를 실시간 영업 정보와 평점으로 확인하세요.',
-}
+  en: "Discover top-rated restaurants and places across Tokyo. Explore 20 areas with real-time status, ratings, and instant guides for cafes, dining, and local spots.",
+  ja: "東京の厳選レストランとスポットを発見。20エリアのカフェ、グルメ、ローカルスポットをリアルタイムの営業状況と評価でチェック。",
+  "zh-cn": "探索东京的顶级餐厅和场所。覆盖20个地区，提供咖啡馆、餐饮和本地景点的实时状态和评分。",
+  "zh-tw": "探索東京的頂級餐廳和場所。覆蓋20個地區，提供咖啡廳、餐飲和本地景點的即時狀態和評分。",
+  ko: "도쿄의 최고 평점 레스토랑과 장소를 발견하세요. 20개 지역의 카페, 맛집, 로컬 명소를 실시간 영업 정보와 평점으로 확인하세요.",
+};
 
 export const meta: Route.MetaFunction = ({ loaderData, location }) => {
-  if (!loaderData?.url) return []
+  if (!loaderData?.url) return [];
   return [
     {
       title: `Hyperlocal ${loaderData?.city.i18n[loaderData.lang.id]}`,
     },
     {
-      name: 'description',
+      name: "description",
       content: metaDescriptions[loaderData.lang.id] || metaDescriptions.en,
     },
     generateCanonicalLink(location.pathname),
     ...generateAlternateLinks({
       url: loaderData.url,
     }),
-  ]
-}
+  ];
+};
 
 export const loader = ({ request, params }: Route.LoaderArgs) => {
-  const { city, lang } = getPathParams(request, params)
-  const areas = allAreas.filter((area) => area.cityId === city.cityId)
+  const { city, lang } = getPathParams(request, params);
+  const areas = allAreas.filter((area) => area.cityId === city.cityId);
 
-  return { url: request.url, cities, city, areas, lang }
-}
+  return { url: request.url, cities, city, areas, lang };
+};
 
 export default function IndexPage({
   loaderData: { areas, city, lang, url },
@@ -68,7 +65,7 @@ export default function IndexPage({
         {cities.map((c) => (
           <Button
             key={c.cityId}
-            variant={c.cityId === city.cityId ? 'default' : 'outline'}
+            variant={c.cityId === city.cityId ? "default" : "outline"}
             className="min-w-20"
             asChild
           >
@@ -79,17 +76,10 @@ export default function IndexPage({
 
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
         {areas.map((area) => (
-          <Link
-            key={area.areaId}
-            to={`area/${area.areaId}`}
-            prefetch="viewport"
-            viewTransition
-          >
+          <Link key={area.areaId} to={`area/${area.areaId}`} prefetch="viewport" viewTransition>
             <Card className="hover:bg-secondary h-full">
               <CardHeader className="h-full">
-                <CardTitle
-                  style={{ viewTransitionName: `area-title-${area.areaId}` }}
-                >
+                <CardTitle style={{ viewTransitionName: `area-title-${area.areaId}` }}>
                   {area.i18n[lang.id]}
                 </CardTitle>
                 <CardDescription
@@ -105,5 +95,5 @@ export default function IndexPage({
         ))}
       </div>
     </Stack>
-  )
+  );
 }

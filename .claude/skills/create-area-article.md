@@ -80,6 +80,7 @@ DATABASE_URL="file:./data/dev.db" npx tsx .claude/skills/scripts/get-places-for-
 **Note**: DATABASE_URLにはローカル開発DBのパス `file:./data/dev.db` を指定します。
 
 スクリプトは以下を含むJSON配列を返します:
+
 - Place ID
 - 店名（ローカライズ版と元の名前）
 - 評価とレビュー数
@@ -93,36 +94,43 @@ DATABASE_URL="file:./data/dev.db" npx tsx .claude/skills/scripts/get-places-for-
 ### シーン別の構成例
 
 **morning-cafe (朝カフェ)**
+
 - 早朝から営業しているカフェ
 - モーニングメニューがあるお店
 - 静かに過ごせる空間
 
 **lunch-spot (ランチスポット)**
+
 - コスパの良いランチ
 - 人気の定食屋やレストラン
 - ビジネスマン・観光客向け
 
 **afternoon-break (午後の休憩)**
+
 - カフェ、スイーツ
 - ゆったり過ごせる空間
 - 14:00-17:00頃に営業
 
 **dinner-date (ディナー・デート)**
+
 - 雰囲気の良いレストラン
 - 価格帯は中〜高め
 - デートに適した空間
 
 **late-night (深夜営業)**
+
 - 深夜まで営業
 - ラーメン、居酒屋、バー
 - 終電後も利用可能
 
 **solo-dining (一人ごはん)**
+
 - カウンター席充実
 - 一人客が多い
 - 気兼ねなく入れる
 
 **local-favorite (地元で人気)**
+
 - 観光地化していない
 - 地元の常連客が多い
 - 隠れた名店

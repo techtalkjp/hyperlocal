@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '~/components/ui'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui";
 
 export default function AreaAddPage() {
   return (
@@ -15,5 +9,5 @@ export default function AreaAddPage() {
       </CardHeader>
       <CardContent>hoge</CardContent>
     </Card>
-  )
+  );
 }

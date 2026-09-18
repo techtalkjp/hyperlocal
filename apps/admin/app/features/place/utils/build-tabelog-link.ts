@@ -1,4 +1,4 @@
-import { match } from 'ts-pattern'
+import { match } from "ts-pattern";
 
 export const buildTabelogLink = (url: string, language: string) => {
   // url: https://tabelog.com/tokyo/A1312/A131201/13280056/
@@ -8,14 +8,11 @@ export const buildTabelogLink = (url: string, language: string) => {
   // zh-TW: https://tabelog.com/tw/tokyo/A1312/A131201/13280056/
   // ko: https://tabelog.com/kr/tokyo/A1312/A131201/13280056/
   const languagePrefix = match(language)
-    .with('ja', () => '')
-    .with('en', () => 'en/')
-    .with('zh-CN', () => 'cn/')
-    .with('zh-TW', () => 'tw/')
-    .with('ko', () => 'kr/')
-    .otherwise(() => 'en/')
-  return url.replace(
-    'https://tabelog.com/',
-    `https://tabelog.com/${languagePrefix}`,
-  )
-}
+    .with("ja", () => "")
+    .with("en", () => "en/")
+    .with("zh-CN", () => "cn/")
+    .with("zh-TW", () => "tw/")
+    .with("ko", () => "kr/")
+    .otherwise(() => "en/");
+  return url.replace("https://tabelog.com/", `https://tabelog.com/${languagePrefix}`);
+};

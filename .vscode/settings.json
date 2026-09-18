@@ -8,5 +8,5 @@
     "**/Thumbs.db": true,
     "**/node_modules": false
   },
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.defaultFormatter": "oxc.oxc-vscode"
 }

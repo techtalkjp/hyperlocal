@@ -1,7 +1,7 @@
-import { UTCDate } from '@date-fns/utc'
-import { db, type Place } from '@hyperlocal/db'
-import { format } from 'date-fns'
-import type { translatePlace } from './translate-place'
+import { UTCDate } from "@date-fns/utc";
+import { db, type Place } from "@hyperlocal/db";
+import { format } from "date-fns";
+import type { translatePlace } from "./translate-place";
 
 export const upsertLocalizedPlace = async ({
   cityId,
@@ -13,14 +13,14 @@ export const upsertLocalizedPlace = async ({
   translated,
   sourceHash,
 }: {
-  cityId: string
-  areaId: string
-  categoryId: string
-  languageId: string
-  rankingType: string
-  place: Place
-  translated: Awaited<ReturnType<typeof translatePlace>>
-  sourceHash: string
+  cityId: string;
+  areaId: string;
+  categoryId: string;
+  languageId: string;
+  rankingType: string;
+  place: Place;
+  translated: Awaited<ReturnType<typeof translatePlace>>;
+  sourceHash: string;
 }) => {
   const values = {
     cityId,
@@ -45,13 +45,13 @@ export const upsertLocalizedPlace = async ({
       ? JSON.stringify(place.regularOpeningHours)
       : null,
     sourceHash,
-    updatedAt: format(new UTCDate(), 'yyyy-MM-dd HH:mm:ss'),
-  }
+    updatedAt: format(new UTCDate(), "yyyy-MM-dd HH:mm:ss"),
+  };
 
   return await db
-    .insertInto('localizedPlaces')
+    .insertInto("localizedPlaces")
     .values(values)
     .onConflict((oc) => oc.doUpdateSet(values))
     .returningAll()
-    .execute()
-}
+    .execute();
+};

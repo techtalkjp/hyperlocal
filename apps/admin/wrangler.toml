@@ -8,9 +8,7 @@ compatibility_flags = ["nodejs_compat"]
 
 assets = { directory = "./build/client", binding = "ASSETS", html_handling = "drop-trailing-slash" }
 
-routes = [
-  { pattern = "admin.hyper-local.app", custom_domain = true },
-]
+routes = [{ pattern = "admin.hyper-local.app", custom_domain = true }]
 
 [observability]
 enabled = true

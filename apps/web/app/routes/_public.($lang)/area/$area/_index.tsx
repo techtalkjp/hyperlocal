@@ -1,32 +1,31 @@
-import { areas, categories, scenes } from '@hyperlocal/consts'
-import { Link } from 'react-router'
-import { Badge, Card, CardHeader, CardTitle, Stack } from '~/components/ui'
-import { AreaLinkCard } from '~/components/area-link-card'
-import { getPathParams } from '~/features/city-area/utils'
-import { generateAlternateLinks } from '~/features/seo/alternate-links'
-import { generateCanonicalLink } from '~/features/seo/canonical-url'
-import { sortAreasByDistance } from '~/services/distance'
-import { getPublishedArticlesForArea } from './+queries.server'
-import type { Route } from './+types/_index'
+import { areas, categories, scenes } from "@hyperlocal/consts";
+import { Link } from "react-router";
+import { Badge, Card, CardHeader, CardTitle, Stack } from "~/components/ui";
+import { AreaLinkCard } from "~/components/area-link-card";
+import { getPathParams } from "~/features/city-area/utils";
+import { generateAlternateLinks } from "~/features/seo/alternate-links";
+import { generateCanonicalLink } from "~/features/seo/canonical-url";
+import { sortAreasByDistance } from "~/services/distance";
+import { getPublishedArticlesForArea } from "./+queries.server";
+import type { Route } from "./+types/_index";
 
 export const headers: Route.HeadersFunction = () => ({
   // Browser caches briefly; edge keeps a day with background revalidation.
   // NOTE: s-maxage/must-revalidate would disable stale-while-revalidate,
   // so edge directives live in cloudflare-cdn-cache-control instead.
-  'Cache-Control': 'public, max-age=60, stale-while-revalidate=60',
-  'cloudflare-cdn-cache-control':
-    'public, max-age=86400, stale-while-revalidate=3600',
-  'Cache-Tag': 'area',
-})
+  "Cache-Control": "public, max-age=60, stale-while-revalidate=60",
+  "cloudflare-cdn-cache-control": "public, max-age=86400, stale-while-revalidate=3600",
+  "Cache-Tag": "area",
+});
 
 export const meta: Route.MetaFunction = ({ loaderData, location }) => {
-  if (!loaderData?.url) return []
+  if (!loaderData?.url) return [];
   return [
     {
       title: `${loaderData?.area.i18n[loaderData.lang.id]} - Hyperlocal Tokyo`,
     },
     {
-      name: 'description',
+      name: "description",
       content: `${loaderData.area.description[loaderData.lang.id]} Discover top-rated cafes, restaurants, and local spots in ${loaderData.area.i18n[loaderData.lang.id]}.`,
     },
     generateCanonicalLink(location.pathname),
@@ -34,28 +33,24 @@ export const meta: Route.MetaFunction = ({ loaderData, location }) => {
       url: loaderData.url,
       areaId: loaderData.area.areaId,
     }),
-  ]
-}
+  ];
+};
 
 export const loader = async ({ request, params }: Route.LoaderArgs) => {
   const { lang, city, area } = await getPathParams(request, params, {
     require: { area: true },
-  })
+  });
 
   const nearbyAreas = sortAreasByDistance(areas, area.latitude, area.longitude)
     .slice(0, 4)
     .filter((a) => a.distance < 3000)
-    .filter((a) => a.areaId !== area.areaId)
+    .filter((a) => a.areaId !== area.areaId);
 
   // Get published articles for this area
-  const articles = await getPublishedArticlesForArea(
-    city.cityId,
-    area.areaId,
-    lang.id,
-  )
+  const articles = await getPublishedArticlesForArea(city.cityId, area.areaId, lang.id);
 
-  return { url: request.url, lang, area, nearbyAreas, articles }
-}
+  return { url: request.url, lang, area, nearbyAreas, articles };
+};
 
 export default function AreaIndexPage({
   loaderData: { lang, area, nearbyAreas, articles },
@@ -89,7 +84,7 @@ export default function AreaIndexPage({
           <h4 className="font-semibold">Area Guides</h4>
           <div className="grid gap-2">
             {articles.map((article) => {
-              const scene = scenes.find((s) => s.id === article.sceneId)
+              const scene = scenes.find((s) => s.id === article.sceneId);
               return (
                 <Link
                   to={`guide/${article.sceneId}`}
@@ -99,9 +94,7 @@ export default function AreaIndexPage({
                 >
                   <Card className="hover:bg-secondary">
                     <CardHeader>
-                      <CardTitle className="text-base">
-                        {article.title}
-                      </CardTitle>
+                      <CardTitle className="text-base">{article.title}</CardTitle>
                       {scene && (
                         <p className="text-muted-foreground text-sm">
                           {scene.description[lang.id]}
@@ -110,7 +103,7 @@ export default function AreaIndexPage({
                     </CardHeader>
                   </Card>
                 </Link>
-              )
+              );
             })}
           </div>
         </div>
@@ -120,12 +113,7 @@ export default function AreaIndexPage({
         <h4 className="font-semibold">Places</h4>
         <div className="grid grid-cols-2 gap-2">
           {categories.map((category) => (
-            <Link
-              to={`${category.id}/rating`}
-              key={category.id}
-              prefetch="viewport"
-              viewTransition
-            >
+            <Link to={`${category.id}/rating`} key={category.id} prefetch="viewport" viewTransition>
               <Card className="hover:bg-secondary">
                 <CardHeader>
                   <CardTitle
@@ -159,5 +147,5 @@ export default function AreaIndexPage({
         </div>
       )}
     </Stack>
-  )
+  );
 }

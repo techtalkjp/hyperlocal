@@ -1,17 +1,14 @@
-import type {
-  getBusinessStatus,
-  GooglePlacePriceLevel,
-} from '@hyperlocal/google-place-api'
-import type React from 'react'
-import { ClientOnly } from 'remix-utils/client-only'
-import { HStack } from '~/components/ui'
-import { BusinessStatusBadge } from '..'
-import { priceLevelLabel } from '../../utils'
+import type { getBusinessStatus, GooglePlacePriceLevel } from "@hyperlocal/google-place-api";
+import type React from "react";
+import { ClientOnly } from "remix-utils/client-only";
+import { HStack } from "~/components/ui";
+import { BusinessStatusBadge } from "..";
+import { priceLevelLabel } from "../../utils";
 
 interface StatusPriceSectionProps {
-  distance?: number
-  businessStatusResult: ReturnType<typeof getBusinessStatus>
-  priceLevel?: GooglePlacePriceLevel
+  distance?: number;
+  businessStatusResult: ReturnType<typeof getBusinessStatus>;
+  priceLevel?: GooglePlacePriceLevel;
 }
 
 export const StatusPriceSection: React.FC<StatusPriceSectionProps> = ({
@@ -19,23 +16,12 @@ export const StatusPriceSection: React.FC<StatusPriceSectionProps> = ({
   priceLevel,
 }) => (
   <HStack>
-    <ClientOnly
-      fallback={
-        <span className="text-xs text-transparent md:text-sm">Status</span>
-      }
-    >
-      {() => (
-        <BusinessStatusBadge
-          statusResult={businessStatusResult}
-          className="text-sm"
-        />
-      )}
+    <ClientOnly fallback={<span className="text-xs text-transparent md:text-sm">Status</span>}>
+      {() => <BusinessStatusBadge statusResult={businessStatusResult} className="text-sm" />}
     </ClientOnly>
     <div className="flex-1" />
     {priceLevel && (
-      <div className="text-muted-foreground shrink-0">
-        {priceLevelLabel(priceLevel)}
-      </div>
+      <div className="text-muted-foreground shrink-0">{priceLevelLabel(priceLevel)}</div>
     )}
   </HStack>
-)
+);

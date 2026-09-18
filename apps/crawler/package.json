@@ -1,6 +1,8 @@
 {
   "name": "@hyperlocal/crawler",
   "version": "0.0.1",
+  "license": "ISC",
+  "author": "It's not you it's me",
   "type": "module",
   "scripts": {
     "crawl": "tsx --env-file=.env src/index.ts",
@@ -8,9 +10,9 @@
     "start:crawler": "npm run start:crawler:dev",
     "start:crawler:prod": "node dist/index.js",
     "start:crawler:dev": "tsx src/index.ts",
-    "format": "prettier --check . --experimental-cli",
-    "format:fix": "prettier --write . --experimental-cli",
-    "lint": "biome lint .",
+    "format": "vp fmt --check .",
+    "format:fix": "vp fmt --write .",
+    "lint": "vp lint .",
     "typecheck": "tsc"
   },
   "dependencies": {
@@ -33,13 +35,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@biomejs/biome": "catalog:",
     "@types/node": "catalog:",
-    "prettier": "catalog:",
-    "prettier-plugin-organize-imports": "catalog:",
-    "prettier-plugin-tailwindcss": "catalog:",
     "typescript": "catalog:"
-  },
-  "author": "It's not you it's me",
-  "license": "ISC"
+  }
 }

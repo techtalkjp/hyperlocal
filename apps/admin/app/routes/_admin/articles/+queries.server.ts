@@ -1,11 +1,11 @@
-import { getDb } from '~/lib/db'
-import type { AdminEnv } from '~/lib/request-context'
+import { getDb } from "~/lib/db";
+import type { AdminEnv } from "~/lib/request-context";
 
 export const listAreaArticles = async (env: AdminEnv) => {
   const articles = await getDb(env)
-    .selectFrom('areaArticles')
+    .selectFrom("areaArticles")
     .selectAll()
-    .orderBy('updatedAt', 'desc')
-    .execute()
-  return articles
-}
+    .orderBy("updatedAt", "desc")
+    .execute();
+  return articles;
+};

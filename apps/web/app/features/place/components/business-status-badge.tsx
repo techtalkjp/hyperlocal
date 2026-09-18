@@ -1,21 +1,15 @@
-import type React from 'react'
-import { match } from 'ts-pattern'
-import { cn } from '~/libs/utils'
-import {
-  BusinessStatus,
-  type BusinessStatusResult,
-} from '@hyperlocal/google-place-api'
+import type React from "react";
+import { match } from "ts-pattern";
+import { cn } from "~/libs/utils";
+import { BusinessStatus, type BusinessStatusResult } from "@hyperlocal/google-place-api";
 
-const weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+const weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 interface BusinessStatusBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
-  statusResult: BusinessStatusResult
+  statusResult: BusinessStatusResult;
 }
 
-export const BusinessStatusBadge = ({
-  statusResult,
-  className,
-}: BusinessStatusBadgeProps) => {
+export const BusinessStatusBadge = ({ statusResult, className }: BusinessStatusBadgeProps) => {
   const statusLabel = match(statusResult.status)
     .with(BusinessStatus.OPEN_24_HOURS, () => (
       <div className="text-green-600">
@@ -29,8 +23,7 @@ export const BusinessStatusBadge = ({
         <span className="font-semibold text-green-600">Open</span>
         <span className="text-muted-foreground mx-0.5">⋅</span>
         <span className="text-muted-foreground">
-          until {weekday[statusResult.details.closingDay ?? 0]}{' '}
-          {statusResult.details.closingTime}
+          until {weekday[statusResult.details.closingDay ?? 0]} {statusResult.details.closingTime}
         </span>
       </div>
     ))
@@ -39,8 +32,7 @@ export const BusinessStatusBadge = ({
         <span className="font-semibold text-orange-600">Closing Soon</span>
         <span className="text-muted-foreground mx-0.5">⋅</span>
         <span className="text-muted-foreground">
-          at {weekday[statusResult.details.closingDay ?? 0]}{' '}
-          {statusResult.details.closingTime}
+          at {weekday[statusResult.details.closingDay ?? 0]} {statusResult.details.closingTime}
         </span>
       </div>
     ))
@@ -49,7 +41,7 @@ export const BusinessStatusBadge = ({
         <span className="font-semibold text-red-600">Closed</span>
         <span className="text-muted-foreground mx-0.5">⋅</span>
         <span className="text-muted-foreground">
-          open at {weekday[statusResult.details.nextOpenDay ?? 0]}{' '}
+          open at {weekday[statusResult.details.nextOpenDay ?? 0]}{" "}
           {statusResult.details.nextOpenTime}
         </span>
       </div>
@@ -58,13 +50,11 @@ export const BusinessStatusBadge = ({
       <div>
         <span className="font-semibold text-orange-500">Opening Soon</span>
         <span className="text-muted-foreground mx-0.5">⋅</span>
-        <span className="text-muted-foreground">
-          at {statusResult.details.nextOpenTime}
-        </span>
+        <span className="text-muted-foreground">at {statusResult.details.nextOpenTime}</span>
       </div>
     ))
     .with(BusinessStatus.UNKNOWN, () => <span />)
-    .exhaustive()
+    .exhaustive();
 
-  return <div className={cn('shrink-0', className)}>{statusLabel}</div>
-}
+  return <div className={cn("shrink-0", className)}>{statusLabel}</div>;
+};

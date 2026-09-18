@@ -1,9 +1,9 @@
-import type { Place } from '@hyperlocal/db'
-import { createHash } from 'node:crypto'
+import type { Place } from "@hyperlocal/db";
+import { createHash } from "node:crypto";
 
 // 翻訳対象の原文からハッシュを作る (原文不変なら再翻訳しない)
-export const sourceHashOf = (place: Pick<Place, 'displayName' | 'reviews'>) =>
-  createHash('sha256')
+export const sourceHashOf = (place: Pick<Place, "displayName" | "reviews">) =>
+  createHash("sha256")
     .update(
       JSON.stringify({
         displayName: place.displayName,
@@ -13,4 +13,4 @@ export const sourceHashOf = (place: Pick<Place, 'displayName' | 'reviews'>) =>
         })),
       }),
     )
-    .digest('hex')
+    .digest("hex");

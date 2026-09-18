@@ -5,8 +5,9 @@
 **ALWAYS run `pnpm validate` before creating git commits.**
 
 This runs all quality checks:
-1. Format check (Prettier)
-2. Lint check (Biome)
+
+1. Format check (Oxfmt via `vp fmt`)
+2. Lint check (Oxlint via `vp lint`)
 3. Type check (TypeScript)
 4. Tests (Vitest)
 
@@ -14,13 +15,7 @@ Never rely on typecheck alone - always use the full validate command.
 
 ## Git Workflow
 
-**CRITICAL: Never commit directly to main branch.**
-
-1. Create a feature branch: `git checkout -b feature/description`
-2. Make changes and commit to feature branch
-3. Push branch: `git push -u origin feature/description`
-4. Create PR: `gh pr create`
-5. Merge via GitHub UI or `gh pr merge`
+Direct commits and pushes to main are allowed. Run `pnpm validate` first.
 
 ## Implementation Checklist
 
@@ -40,6 +35,7 @@ Before considering a task complete:
 ## Documentation Policy
 
 When creating technical documents in `docs/`:
+
 - Save in `docs/journals/YYYY-MM-DD/` directory
 - Write in natural Japanese prose
 - Focus on "why" and "what"

@@ -1,22 +1,22 @@
-import { createGoogleGenerativeAI } from '@ai-sdk/google'
-import type { Area, Scene } from '@hyperlocal/consts'
-import { generateText, Output } from 'ai'
-import { z } from 'zod'
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import type { Area, Scene } from "@hyperlocal/consts";
+import { generateText, Output } from "ai";
+import { z } from "zod";
 
 interface PlaceData {
-  id: string
-  displayName: string
-  rating: number
-  userRatingCount: number
-  priceLevel?: string
-  reviews: Array<{ text: string }>
+  id: string;
+  displayName: string;
+  rating: number;
+  userRatingCount: number;
+  priceLevel?: string;
+  reviews: Array<{ text: string }>;
 }
 
 const schema = z.object({
   title: z.string(),
   content: z.string(),
   description: z.string(),
-})
+});
 
 export const generateArticle = async ({
   area,
@@ -25,20 +25,20 @@ export const generateArticle = async ({
   places,
   apiKey,
 }: {
-  area: Area
-  scene: Scene
-  language: string
-  places: PlaceData[]
-  apiKey: string
+  area: Area;
+  scene: Scene;
+  language: string;
+  places: PlaceData[];
+  apiKey: string;
 }) => {
   const languageMap: Record<string, string> = {
-    ja: '日本語',
-    en: 'English',
-    ko: '한국어',
-    'zh-cn': '简体中文',
-    'zh-tw': '繁體中文',
-  }
-  const targetLang = languageMap[language] || language
+    ja: "日本語",
+    en: "English",
+    ko: "한국어",
+    "zh-cn": "简体中文",
+    "zh-tw": "繁體中文",
+  };
+  const targetLang = languageMap[language] || language;
 
   const system = `
 You are a local food guide writer specializing in creating engaging, experience-focused articles about Tokyo's dining scenes.
@@ -73,7 +73,7 @@ DO NOT:
 - Include links to other articles or guides (e.g., "check out our lunch guide")
 - Reference other content pages or create cross-references between articles
 - Add "See also" or "Related articles" sections - these are auto-generated
-`
+`;
 
   const placesInfo = places
     .slice(0, 10)
@@ -81,22 +81,19 @@ DO NOT:
       (p, idx) =>
         `${idx + 1}. ${p.displayName} (ID: ${p.id})
    Rating: ${p.rating}/5.0 (${p.userRatingCount} reviews)
-   ${p.priceLevel ? `Price: ${p.priceLevel}` : ''}
+   ${p.priceLevel ? `Price: ${p.priceLevel}` : ""}
    Sample reviews:
    ${p.reviews
      .slice(0, 2)
-     .map(
-       (r, i) =>
-         `   [Review ${i + 1}] ${r.text?.substring(0, 500) || 'No text'}`,
-     )
-     .join('\n')}`,
+     .map((r, i) => `   [Review ${i + 1}] ${r.text?.substring(0, 500) || "No text"}`)
+     .join("\n")}`,
     )
-    .join('\n\n')
+    .join("\n\n");
 
   const prompt = `
 Area: ${area.name} (${area.i18n.en})
 Location: ${area.latitude}, ${area.longitude}
-Area Description: ${area.description?.[language as keyof typeof area.description] || area.description?.en || ''}
+Area Description: ${area.description?.[language as keyof typeof area.description] || area.description?.en || ""}
 
 Scene: ${scene.i18n[language as keyof typeof scene.i18n]}
 Scene Description: ${scene.description[language as keyof typeof scene.description]}
@@ -112,17 +109,17 @@ IMPORTANT REMINDERS:
 
 Generate an engaging ${targetLang} article about experiencing ${area.name} for this ${scene.i18n[language as keyof typeof scene.i18n]} scene.
 Use <Place id="..." /> components to embed place cards in the article.
-`
+`;
 
-  const googleProvider = createGoogleGenerativeAI({ apiKey })
-  const model = googleProvider('gemini-2.5-flash-lite')
+  const googleProvider = createGoogleGenerativeAI({ apiKey });
+  const model = googleProvider("gemini-2.5-flash-lite");
   const result = await generateText({
     model,
     maxRetries: 3,
     output: Output.object({ schema }),
     system,
     prompt,
-  })
+  });
 
   return {
     title: result.output.title,
@@ -130,5 +127,5 @@ Use <Place id="..." /> components to embed place cards in the article.
     metadata: {
       description: result.output.description,
     },
-  }
-}
+  };
+};

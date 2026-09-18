@@ -1,8 +1,8 @@
-import { UTCDate } from '@date-fns/utc'
-import { areas, cities, languages } from '@hyperlocal/consts'
-import type { LocalizedPlace } from '@hyperlocal/db'
-import { ExternalLink, MapIcon, MapPin, Star } from 'lucide-react'
-import { ClientOnly } from 'remix-utils/client-only'
+import { UTCDate } from "@date-fns/utc";
+import { areas, cities, languages } from "@hyperlocal/consts";
+import type { LocalizedPlace } from "@hyperlocal/db";
+import { ExternalLink, MapIcon, MapPin, Star } from "lucide-react";
+import { ClientOnly } from "remix-utils/client-only";
 import {
   Badge,
   Button,
@@ -17,34 +17,29 @@ import {
   CarouselNext,
   CarouselPrevious,
   Stack,
-} from '~/components/ui'
-import {
-  type BusinessHours,
-  getBusinessStatus,
-} from '@hyperlocal/google-place-api'
-import { buildTabelogLink, priceLevelLabel } from '../utils'
-import { BusinessStatusBadge } from './business-status-badge'
-import { ResponsivePlacesImage } from './responsive-place-image'
+} from "~/components/ui";
+import { type BusinessHours, getBusinessStatus } from "@hyperlocal/google-place-api";
+import { buildTabelogLink, priceLevelLabel } from "../utils";
+import { BusinessStatusBadge } from "./business-status-badge";
+import { ResponsivePlacesImage } from "./responsive-place-image";
 
 export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
-  const city = cities.find((c) => c.cityId === place.cityId)
-  const language = languages.find((lang) => lang.id === place.language)
-  const area = areas.find((area) => area.areaId === place.areaId)
-  const date = new UTCDate()
+  const city = cities.find((c) => c.cityId === place.cityId);
+  const language = languages.find((lang) => lang.id === place.language);
+  const area = areas.find((area) => area.areaId === place.areaId);
+  const date = new UTCDate();
   const businessStatusResult = getBusinessStatus(
     place.regularOpeningHours as BusinessHours | null,
     date,
-    city?.timezone ?? 'Asia/Tokyo',
-  )
+    city?.timezone ?? "Asia/Tokyo",
+  );
 
   return (
     <Card>
       <CardHeader className="p-2 md:p-4">
         <div className="flex items-start justify-between">
           <div>
-            <CardTitle
-              style={{ viewTransitionName: `displayName-${place.placeId}` }}
-            >
+            <CardTitle style={{ viewTransitionName: `displayName-${place.placeId}` }}>
               {place.displayName}
             </CardTitle>
             <CardDescription>{place.originalDisplayName}</CardDescription>
@@ -70,8 +65,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
                       alt={`${place.displayName} - ${index + 1}`}
                       className="aspect-square w-full rounded-lg object-cover"
                       style={{
-                        viewTransitionName:
-                          index === 0 ? `hero-${place.placeId}` : '',
+                        viewTransitionName: index === 0 ? `hero-${place.placeId}` : "",
                       }}
                     />
                   </CarouselItem>
@@ -85,11 +79,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
           <Stack className="gap-2">
             <div className="flex flex-wrap gap-2">
               {place.genres.map((genre) => (
-                <Badge
-                  key={genre}
-                  variant="secondary"
-                  className="text-base capitalize"
-                >
+                <Badge key={genre} variant="secondary" className="text-base capitalize">
                   {genre}
                 </Badge>
               ))}
@@ -98,9 +88,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
             <div className="flex items-center gap-4">
               <div className="flex items-center">
                 <Star className="h-6 w-6 fill-current text-yellow-400" />
-                <span className="ml-2 text-2xl font-bold">
-                  {place.rating.toFixed(1)}
-                </span>
+                <span className="ml-2 text-2xl font-bold">{place.rating.toFixed(1)}</span>
               </div>
               <span className="text-muted-foreground">
                 Tabelog · ({place.userRatingCount} reviews)
@@ -115,37 +103,19 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
               )}
             </div>
 
-            <ClientOnly
-              fallback={<div className="text-transparent">Status</div>}
-            >
-              {() => (
-                <BusinessStatusBadge statusResult={businessStatusResult} />
-              )}
+            <ClientOnly fallback={<div className="text-transparent">Status</div>}>
+              {() => <BusinessStatusBadge statusResult={businessStatusResult} />}
             </ClientOnly>
 
             <div className="grid grid-cols-2 gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full"
-                asChild
-              >
-                <a
-                  href={place.googleMapsUri}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+              <Button type="button" variant="outline" className="w-full" asChild>
+                <a href={place.googleMapsUri} target="_blank" rel="noopener noreferrer">
                   <MapIcon className="mr-2 h-4 w-4" />
                   Google Maps
                 </a>
               </Button>
               {place.sourceUri && (
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full"
-                  asChild
-                >
+                <Button type="button" variant="outline" className="w-full" asChild>
                   <a
                     href={buildTabelogLink(place.sourceUri, place.language)}
                     target="_blank"
@@ -165,23 +135,16 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
         </h3>
         <Stack>
           {place.reviews.map((review) => (
-            <Stack
-              key={review.text}
-              className="bg-secondary rounded-lg p-2 md:p-4"
-            >
+            <Stack key={review.text} className="bg-secondary rounded-lg p-2 md:p-4">
               <div className="flex items-center">
                 <Star className="h-5 w-5 fill-current text-yellow-400" />
-                <span className="ml-2 font-bold">
-                  {review.rating.toFixed(1)}
-                </span>
+                <span className="ml-2 font-bold">{review.rating.toFixed(1)}</span>
               </div>
-              <p className="text-muted-foreground break-words whitespace-pre-wrap">
-                {review.text}
-              </p>
+              <p className="text-muted-foreground break-words whitespace-pre-wrap">{review.text}</p>
             </Stack>
           ))}
         </Stack>
       </CardContent>
     </Card>
-  )
-}
+  );
+};

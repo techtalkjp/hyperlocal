@@ -20,6 +20,7 @@ pnpm make:replica
 ```
 
 このコマンドは以下を実行します：
+
 - 既存の `data/production-replica.db` を削除
 - Tursoからデータを同期してローカルレプリカを作成
 

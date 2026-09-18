@@ -3,34 +3,32 @@ packages:
   - ./packages/*
 
 allowBuilds:
-  '@biomejs/biome': true
-  '@duckdb/node-api': true
-  '@tailwindcss/oxide': true
+  "@duckdb/node-api": true
+  "@tailwindcss/oxide": true
   esbuild: true
   sharp: true
   workerd: true
 
 catalog:
-  '@ai-sdk/google': 4.0.69
-  '@biomejs/biome': 2.5.13
-  '@coji/zodix': 0.7.0
-  '@conform-to/react': 1.21.1
-  '@conform-to/zod': 1.21.1
-  '@date-fns/tz': 1.5.0
-  '@date-fns/utc': 2.1.1
-  '@duckdb/node-api': 1.5.5-r.4
-  '@libsql/client': 0.18.0
-  '@libsql/kysely-libsql': 0.4.1
-  '@react-router/dev': 8.3.1
-  '@react-router/node': 8.3.1
-  '@react-router/remix-routes-option-adapter': 8.3.1
-  '@react-router/serve': 8.3.1
-  '@tailwindcss/vite': 4.3.3
-  '@types/debug': 4.1.13
-  '@types/node': 26.5.1
-  '@types/nprogress': 0.2.3
-  '@types/react': 19.3.0
-  '@types/react-dom': 19.3.0
+  "@ai-sdk/google": 4.0.69
+  "@coji/zodix": 0.7.0
+  "@conform-to/react": 1.21.1
+  "@conform-to/zod": 1.21.1
+  "@date-fns/tz": 1.5.0
+  "@date-fns/utc": 2.1.1
+  "@duckdb/node-api": 1.5.5-r.4
+  "@libsql/client": 0.18.0
+  "@libsql/kysely-libsql": 0.4.1
+  "@react-router/dev": 8.3.1
+  "@react-router/node": 8.3.1
+  "@react-router/remix-routes-option-adapter": 8.3.1
+  "@react-router/serve": 8.3.1
+  "@tailwindcss/vite": 4.3.3
+  "@types/debug": 4.1.13
+  "@types/node": 26.5.1
+  "@types/nprogress": 0.2.3
+  "@types/react": 19.3.0
+  "@types/react-dom": 19.3.0
   accept-language: 3.0.20
   ai: 7.0.99
   autoprefixer: 10.5.6
@@ -56,9 +54,6 @@ catalog:
   npm-run-all: 4.1.5
   nprogress: 0.2.0
   postcss: 8.5.3
-  prettier: 3.9.6
-  prettier-plugin-organize-imports: 4.3.0
-  prettier-plugin-tailwindcss: 0.8.1
   radix-ui: 1.6.7
   react: 19.3.0
   react-doctor: 0.9.14
@@ -76,7 +71,6 @@ catalog:
   tailwindcss-animate: 1.0.7
   ts-pattern: 5.9.0
   tsx: 4.23.13
-  turbo: 2.10.12
   typescript: 7.0.2
   vite: npm:@voidzero-dev/vite-plus-core@0.3.2
   vitest: 4.1.11
@@ -87,12 +81,12 @@ catalog:
 minimumReleaseAgeExclude:
   - googleapis@181.0.0
 overrides:
-  vite@*: 'catalog:'
-  vitest@*: 'catalog:'
+  vite@*: "catalog:"
+  vitest@*: "catalog:"
 peerDependencyRules:
   allowAny:
     - vite
     - vitest
   allowedVersions:
-    vite: '*'
-    vitest: '*'
+    vite: "*"
+    vitest: "*"

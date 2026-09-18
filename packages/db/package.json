@@ -2,34 +2,22 @@
   "name": "@hyperlocal/db",
   "version": "1.0.0",
   "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
   "type": "module",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {
-    "lint": "biome lint .",
-    "format": "prettier --check .",
-    "format:fix": "prettier --write .",
+    "lint": "vp lint .",
+    "format": "vp fmt --check .",
+    "format:fix": "vp fmt --write .",
     "typecheck": "tsc --noEmit",
     "validate": "run-s lint format typecheck",
     "db:generate": "kysely-codegen",
     "db:diff": "atlas schema apply --env local --dry-run",
     "db:apply": "atlas schema apply --env local --auto-approve",
     "db:apply:production": "dotenv -e .env -- atlas schema apply --env production"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@biomejs/biome": "catalog:",
-    "@types/node": "catalog:",
-    "dotenv-cli": "catalog:",
-    "kysely-codegen": "catalog:",
-    "npm-run-all": "catalog:",
-    "prettier": "catalog:",
-    "prettier-plugin-organize-imports": "catalog:",
-    "prettier-plugin-tailwindcss": "catalog:",
-    "tsx": "catalog:",
-    "typescript": "catalog:"
   },
   "dependencies": {
     "@cloudflare/workers-types": "^5.20260914.1",
@@ -39,5 +27,13 @@
     "dotenv": "catalog:",
     "kysely": "catalog:",
     "kysely-d1": "^0.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "dotenv-cli": "catalog:",
+    "kysely-codegen": "catalog:",
+    "npm-run-all": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:"
   }
 }

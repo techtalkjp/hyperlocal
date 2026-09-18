@@ -1,13 +1,7 @@
 {
   "name": "places/ChIJ3Q5zleCLGGARnuvHr-FOgMM",
   "id": "ChIJ3Q5zleCLGGARnuvHr-FOgMM",
-  "types": [
-    "japanese_restaurant",
-    "restaurant",
-    "food",
-    "point_of_interest",
-    "establishment"
-  ],
+  "types": ["japanese_restaurant", "restaurant", "food", "point_of_interest", "establishment"],
   "nationalPhoneNumber": "03-6264-7336",
   "internationalPhoneNumber": "+81 3-6264-7336",
   "formattedAddress": "日本、〒104-0061 東京都中央区銀座３丁目１４−１３",

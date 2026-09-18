@@ -1,8 +1,8 @@
-import { getFormProps, getInputProps, useForm } from '@conform-to/react'
-import { parseWithZod } from '@conform-to/zod/v4'
-import { areas, categories, languages, scenes } from '@hyperlocal/consts'
-import { data, redirect } from 'react-router'
-import { z } from 'zod'
+import { getFormProps, getInputProps, useForm } from "@conform-to/react";
+import { parseWithZod } from "@conform-to/zod/v4";
+import { areas, categories, languages, scenes } from "@hyperlocal/consts";
+import { data, redirect } from "react-router";
+import { z } from "zod";
 import {
   Button,
   Card,
@@ -19,60 +19,60 @@ import {
   SelectValue,
   Stack,
   Textarea,
-} from '~/components/ui'
-import { generateArticle } from './+generate-article.server'
-import { createArticle, getPlacesForArea } from './+queries.server'
-import { getEnv } from '~/lib/request-context'
-import type { Route } from './+types/route'
+} from "~/components/ui";
+import { generateArticle } from "./+generate-article.server";
+import { createArticle, getPlacesForArea } from "./+queries.server";
+import { getEnv } from "~/lib/request-context";
+import type { Route } from "./+types/route";
 
 const generateSchema = z.object({
-  intent: z.literal('generate'),
+  intent: z.literal("generate"),
   cityId: z.string().min(1),
   areaId: z.string().min(1),
   sceneId: z.string().min(1),
   language: z.string().min(1),
   categoryId: z.string().min(1),
-})
+});
 
 const saveSchema = z.object({
-  intent: z.literal('save'),
+  intent: z.literal("save"),
   cityId: z.string().min(1),
   areaId: z.string().min(1),
   sceneId: z.string().min(1),
   language: z.string().min(1),
-  title: z.string().min(1, 'Title is required'),
-  content: z.string().min(1, 'Content is required'),
-  metadata: z.string().min(1, 'Metadata is required'),
-  status: z.enum(['draft', 'published']),
-})
+  title: z.string().min(1, "Title is required"),
+  content: z.string().min(1, "Content is required"),
+  metadata: z.string().min(1, "Metadata is required"),
+  status: z.enum(["draft", "published"]),
+});
 
 export const loader = () => {
-  return { areas, scenes, languages, categories }
-}
+  return { areas, scenes, languages, categories };
+};
 
 export const action = async ({ request, context }: Route.ActionArgs) => {
-  const formData = await request.formData()
-  const intent = formData.get('intent')
-  const env = getEnv(context)
+  const formData = await request.formData();
+  const intent = formData.get("intent");
+  const env = getEnv(context);
 
-  if (intent === 'generate') {
-    const submission = parseWithZod(formData, { schema: generateSchema })
+  if (intent === "generate") {
+    const submission = parseWithZod(formData, { schema: generateSchema });
 
-    if (submission.status !== 'success') {
-      return data({ lastResult: submission.reply(), generated: null })
+    if (submission.status !== "success") {
+      return data({ lastResult: submission.reply(), generated: null });
     }
 
-    const { cityId, areaId, sceneId, language, categoryId } = submission.value
+    const { cityId, areaId, sceneId, language, categoryId } = submission.value;
 
-    const area = areas.find((a) => a.areaId === areaId)
-    const scene = scenes.find((s) => s.id === sceneId)
+    const area = areas.find((a) => a.areaId === areaId);
+    const scene = scenes.find((s) => s.id === sceneId);
 
     if (!area || !scene) {
-      return data({ error: 'Invalid area or scene' }, { status: 400 })
+      return data({ error: "Invalid area or scene" }, { status: 400 });
     }
 
     // Get places for the area
-    const places = await getPlacesForArea(env, areaId, categoryId, 'rating')
+    const places = await getPlacesForArea(env, areaId, categoryId, "rating");
     const placesData = places.map((p) => ({
       id: p.id,
       displayName: p.displayName,
@@ -80,7 +80,7 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
       userRatingCount: p.userRatingCount,
       priceLevel: p.priceLevel || undefined,
       reviews: JSON.parse(p.reviews),
-    }))
+    }));
 
     // Generate article
     const generated = await generateArticle({
@@ -88,8 +88,8 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
       scene,
       language,
       places: placesData,
-      apiKey: env.GOOGLE_GENERATIVE_AI_API_KEY ?? '',
-    })
+      apiKey: env.GOOGLE_GENERATIVE_AI_API_KEY ?? "",
+    });
 
     return data({
       lastResult: null,
@@ -100,26 +100,18 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
         language,
         ...generated,
       },
-    })
+    });
   }
 
-  if (intent === 'save') {
-    const submission = parseWithZod(formData, { schema: saveSchema })
+  if (intent === "save") {
+    const submission = parseWithZod(formData, { schema: saveSchema });
 
-    if (submission.status !== 'success') {
-      return data({ lastResult: submission.reply(), generated: null })
+    if (submission.status !== "success") {
+      return data({ lastResult: submission.reply(), generated: null });
     }
 
-    const {
-      cityId,
-      areaId,
-      sceneId,
-      language,
-      title,
-      content,
-      metadata,
-      status,
-    } = submission.value
+    const { cityId, areaId, sceneId, language, title, content, metadata, status } =
+      submission.value;
 
     const article = await createArticle(env, {
       cityId,
@@ -130,68 +122,51 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
       content,
       metadata,
       status,
-    })
+    });
 
-    return redirect(`/articles/${article.id}`)
+    return redirect(`/articles/${article.id}`);
   }
 
-  return data(
-    { lastResult: null, generated: null, error: 'Invalid intent' },
-    { status: 400 },
-  )
-}
+  return data({ lastResult: null, generated: null, error: "Invalid intent" }, { status: 400 });
+};
 
-export default function NewArticlePage({
-  loaderData,
-  actionData,
-}: Route.ComponentProps) {
-  const { areas, scenes, languages, categories } = loaderData
-  const generated =
-    actionData && 'generated' in actionData ? actionData.generated : undefined
-  const lastResult =
-    actionData && 'lastResult' in actionData ? actionData.lastResult : undefined
+export default function NewArticlePage({ loaderData, actionData }: Route.ComponentProps) {
+  const { areas, scenes, languages, categories } = loaderData;
+  const generated = actionData && "generated" in actionData ? actionData.generated : undefined;
+  const lastResult = actionData && "lastResult" in actionData ? actionData.lastResult : undefined;
 
   const [generateForm, generateFields] = useForm({
     lastResult,
     onValidate({ formData }) {
-      return parseWithZod(formData, { schema: generateSchema })
+      return parseWithZod(formData, { schema: generateSchema });
     },
-    shouldValidate: 'onBlur',
-    shouldRevalidate: 'onInput',
-  })
+    shouldValidate: "onBlur",
+    shouldRevalidate: "onInput",
+  });
 
   const [saveForm, saveFields] = useForm({
     lastResult,
     onValidate({ formData }) {
-      return parseWithZod(formData, { schema: saveSchema })
+      return parseWithZod(formData, { schema: saveSchema });
     },
-    shouldValidate: 'onBlur',
-    shouldRevalidate: 'onInput',
-  })
+    shouldValidate: "onBlur",
+    shouldRevalidate: "onInput",
+  });
 
   return (
     <Stack className="gap-6">
       <Card>
         <CardHeader>
           <CardTitle>Create New Article</CardTitle>
-          <CardDescription>
-            Generate a hyperlocal area guide with AI assistance
-          </CardDescription>
+          <CardDescription>Generate a hyperlocal area guide with AI assistance</CardDescription>
         </CardHeader>
         <CardContent>
           <form method="post" {...getFormProps(generateForm)}>
-            <input
-              {...getInputProps(generateFields.intent, { type: 'hidden' })}
-              value="generate"
-            />
+            <input {...getInputProps(generateFields.intent, { type: "hidden" })} value="generate" />
             <Stack>
               <div>
                 <Label htmlFor={generateFields.areaId.id}>Area</Label>
-                <Select
-                  name={generateFields.areaId.name}
-                  required
-                  defaultValue={generated?.areaId}
-                >
+                <Select name={generateFields.areaId.name} required defaultValue={generated?.areaId}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select area" />
                   </SelectTrigger>
@@ -204,9 +179,7 @@ export default function NewArticlePage({
                   </SelectContent>
                 </Select>
                 {generateFields.areaId.errors && (
-                  <p className="mt-1 text-sm text-red-600">
-                    {generateFields.areaId.errors}
-                  </p>
+                  <p className="mt-1 text-sm text-red-600">{generateFields.areaId.errors}</p>
                 )}
               </div>
 
@@ -229,9 +202,7 @@ export default function NewArticlePage({
                   </SelectContent>
                 </Select>
                 {generateFields.sceneId.errors && (
-                  <p className="mt-1 text-sm text-red-600">
-                    {generateFields.sceneId.errors}
-                  </p>
+                  <p className="mt-1 text-sm text-red-600">{generateFields.sceneId.errors}</p>
                 )}
               </div>
 
@@ -240,7 +211,7 @@ export default function NewArticlePage({
                 <Select
                   name={generateFields.language.name}
                   required
-                  defaultValue={generated?.language || 'ja'}
+                  defaultValue={generated?.language || "ja"}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select language" />
@@ -254,21 +225,13 @@ export default function NewArticlePage({
                   </SelectContent>
                 </Select>
                 {generateFields.language.errors && (
-                  <p className="mt-1 text-sm text-red-600">
-                    {generateFields.language.errors}
-                  </p>
+                  <p className="mt-1 text-sm text-red-600">{generateFields.language.errors}</p>
                 )}
               </div>
 
               <div>
-                <Label htmlFor={generateFields.categoryId.id}>
-                  Category (for place selection)
-                </Label>
-                <Select
-                  name={generateFields.categoryId.name}
-                  required
-                  defaultValue="lunch"
-                >
+                <Label htmlFor={generateFields.categoryId.id}>Category (for place selection)</Label>
+                <Select name={generateFields.categoryId.name} required defaultValue="lunch">
                   <SelectTrigger>
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
@@ -281,16 +244,11 @@ export default function NewArticlePage({
                   </SelectContent>
                 </Select>
                 {generateFields.categoryId.errors && (
-                  <p className="mt-1 text-sm text-red-600">
-                    {generateFields.categoryId.errors}
-                  </p>
+                  <p className="mt-1 text-sm text-red-600">{generateFields.categoryId.errors}</p>
                 )}
               </div>
 
-              <input
-                {...getInputProps(generateFields.cityId, { type: 'hidden' })}
-                value="tokyo"
-              />
+              <input {...getInputProps(generateFields.cityId, { type: "hidden" })} value="tokyo" />
 
               <Button type="submit">Generate with AI</Button>
             </Stack>
@@ -302,30 +260,25 @@ export default function NewArticlePage({
         <Card>
           <CardHeader>
             <CardTitle>Edit & Save</CardTitle>
-            <CardDescription>
-              Review and edit the generated article before saving
-            </CardDescription>
+            <CardDescription>Review and edit the generated article before saving</CardDescription>
           </CardHeader>
           <CardContent>
             <form method="post" {...getFormProps(saveForm)}>
+              <input {...getInputProps(saveFields.intent, { type: "hidden" })} value="save" />
               <input
-                {...getInputProps(saveFields.intent, { type: 'hidden' })}
-                value="save"
-              />
-              <input
-                {...getInputProps(saveFields.cityId, { type: 'hidden' })}
+                {...getInputProps(saveFields.cityId, { type: "hidden" })}
                 value={generated.cityId}
               />
               <input
-                {...getInputProps(saveFields.areaId, { type: 'hidden' })}
+                {...getInputProps(saveFields.areaId, { type: "hidden" })}
                 value={generated.areaId}
               />
               <input
-                {...getInputProps(saveFields.sceneId, { type: 'hidden' })}
+                {...getInputProps(saveFields.sceneId, { type: "hidden" })}
                 value={generated.sceneId}
               />
               <input
-                {...getInputProps(saveFields.language, { type: 'hidden' })}
+                {...getInputProps(saveFields.language, { type: "hidden" })}
                 value={generated.language}
               />
 
@@ -333,13 +286,11 @@ export default function NewArticlePage({
                 <div>
                   <Label htmlFor={saveFields.title.id}>Title</Label>
                   <Input
-                    {...getInputProps(saveFields.title, { type: 'text' })}
+                    {...getInputProps(saveFields.title, { type: "text" })}
                     defaultValue={generated.title}
                   />
                   {saveFields.title.errors && (
-                    <p className="mt-1 text-sm text-red-600">
-                      {saveFields.title.errors}
-                    </p>
+                    <p className="mt-1 text-sm text-red-600">{saveFields.title.errors}</p>
                   )}
                 </div>
 
@@ -353,20 +304,15 @@ export default function NewArticlePage({
                     className="font-mono text-sm"
                   />
                   {saveFields.content.errors && (
-                    <p className="mt-1 text-sm text-red-600">
-                      {saveFields.content.errors}
-                    </p>
+                    <p className="mt-1 text-sm text-red-600">{saveFields.content.errors}</p>
                   )}
                   <p className="text-muted-foreground mt-1 text-sm">
-                    MDX format. Use &lt;Place id="..." /&gt; components to embed
-                    places
+                    MDX format. Use &lt;Place id="..." /&gt; components to embed places
                   </p>
                 </div>
 
                 <div>
-                  <Label htmlFor={saveFields.metadata.id}>
-                    Metadata (JSON)
-                  </Label>
+                  <Label htmlFor={saveFields.metadata.id}>Metadata (JSON)</Label>
                   <Textarea
                     name={saveFields.metadata.name}
                     id={saveFields.metadata.id}
@@ -375,9 +321,7 @@ export default function NewArticlePage({
                     className="font-mono text-sm"
                   />
                   {saveFields.metadata.errors && (
-                    <p className="mt-1 text-sm text-red-600">
-                      {saveFields.metadata.errors}
-                    </p>
+                    <p className="mt-1 text-sm text-red-600">{saveFields.metadata.errors}</p>
                   )}
                 </div>
 
@@ -393,9 +337,7 @@ export default function NewArticlePage({
                     </SelectContent>
                   </Select>
                   {saveFields.status.errors && (
-                    <p className="mt-1 text-sm text-red-600">
-                      {saveFields.status.errors}
-                    </p>
+                    <p className="mt-1 text-sm text-red-600">{saveFields.status.errors}</p>
                   )}
                 </div>
 
@@ -406,5 +348,5 @@ export default function NewArticlePage({
         </Card>
       )}
     </Stack>
-  )
+  );
 }

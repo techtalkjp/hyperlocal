@@ -1,23 +1,19 @@
-import type { LocalizedPlace } from '@hyperlocal/db/src/types'
-import type React from 'react'
-import { Stack } from '~/components/ui'
-import type { getBusinessStatus } from '@hyperlocal/google-place-api'
-import { GenresSection } from './genre-sections'
-import { RatingSection } from './rating-sections'
-import { StatusPriceSection } from './status-price-section'
+import type { LocalizedPlace } from "@hyperlocal/db/src/types";
+import type React from "react";
+import { Stack } from "~/components/ui";
+import type { getBusinessStatus } from "@hyperlocal/google-place-api";
+import { GenresSection } from "./genre-sections";
+import { RatingSection } from "./rating-sections";
+import { StatusPriceSection } from "./status-price-section";
 
 interface InfoSectionProps {
-  place: LocalizedPlace
-  no?: number
-  withOriginalName: boolean
-  businessStatusResult: ReturnType<typeof getBusinessStatus>
+  place: LocalizedPlace;
+  no?: number;
+  withOriginalName: boolean;
+  businessStatusResult: ReturnType<typeof getBusinessStatus>;
 }
 
-export const InfoSection: React.FC<InfoSectionProps> = ({
-  place,
-  no,
-  businessStatusResult,
-}) => (
+export const InfoSection: React.FC<InfoSectionProps> = ({ place, no, businessStatusResult }) => (
   <Stack className="gap-1 overflow-hidden">
     <div
       className="text-base leading-none font-semibold sm:text-xl md:text-2xl"
@@ -35,4 +31,4 @@ export const InfoSection: React.FC<InfoSectionProps> = ({
       priceLevel={place.priceLevel ?? undefined}
     />
   </Stack>
-)
+);

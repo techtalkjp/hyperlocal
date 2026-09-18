@@ -5,6 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 
 Hyperlocal is a monorepo web application for discovering local restaurants and places with multi-language support. It consists of three main applications:
+
 - **Web App**: Public-facing React Router application for browsing places
 - **Admin App**: Dashboard for content management with AI integration
 - **Crawler**: Data collection service using Crawlee/Playwright
@@ -118,13 +119,14 @@ pnpm crawl         # Run crawler with environment variables
 - **Framework**: React Router v7 with SSR
 - **Database**: SQLite (via Turso) + DuckDB for analytics
 - **Styling**: Tailwind CSS + shadcn/ui components
-- **Build**: Turbo + Vite
+- **Build**: Vite+ (`vp`) + Vite
 - **Package Manager**: pnpm with workspaces
 - **Deployment**: Cloudflare Workers (dynamic SSR + edge cache, D1 + R2)
 
 ### Data Model
 
 Core entities:
+
 - **Place**: Restaurant/place data with Google Place ID as identifier
 - **PlaceListing**: Categorization by city/area/category
 - **LocalizedPlace**: Multi-language content (en, ja, ko, zh-cn, zh-tw)
@@ -149,6 +151,7 @@ Core entities:
 - `apps/web/app/routes/`: Web app routes
 - `apps/admin/app/routes/`: Admin app routes
 - `apps/crawler/src/commands/`: Crawler command implementations
+
 ## Git Workflow
 
 Direct commits and pushes to main are allowed. Small, validated changes can go straight to main without a feature branch or pull request.

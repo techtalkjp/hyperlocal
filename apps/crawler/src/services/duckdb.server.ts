@@ -1,14 +1,12 @@
-import { DuckDBInstance } from '@duckdb/node-api'
-import { Kysely, ParseJSONResultsPlugin } from 'kysely'
-import { DuckDbDialect } from 'kysely-duckdb'
-import { type Database, tableMappings } from './database-schema'
+import { DuckDBInstance } from "@duckdb/node-api";
+import { Kysely, ParseJSONResultsPlugin } from "kysely";
+import { DuckDbDialect } from "kysely-duckdb";
+import { type Database, tableMappings } from "./database-schema";
 
-const dbPath = process.env.CRAWL_DATABASE_PATH ?? ':memory:'
+const dbPath = process.env.CRAWL_DATABASE_PATH ?? ":memory:";
 const instance = await DuckDBInstance.create(dbPath).catch((error) => {
-  throw new Error(
-    `Failed to initialize DuckDB at "${dbPath}": ${error.message}`,
-  )
-})
+  throw new Error(`Failed to initialize DuckDB at "${dbPath}": ${error.message}`);
+});
 
 export const db = new Kysely<Database>({
   dialect: new DuckDbDialect({
@@ -21,4 +19,4 @@ export const db = new Kysely<Database>({
   //     { sql: params.query.sql, parameters: params.query.parameters },
   //     { depth: null },
   //   ),
-})
+});

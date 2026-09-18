@@ -1,29 +1,27 @@
-import { categories } from '@hyperlocal/consts'
-import { Link, Outlet } from 'react-router'
-import { Card, CardContent, HStack, Stack } from '~/components/ui'
-import { getPathParams } from '~/features/admin/get-path-params'
-import { CategoryNav, CategoryNavItem } from './+components/category-nav-item'
-import { GoogleMapPopover } from './+components/google-map-popover'
-import type { Route } from './+types/route'
+import { categories } from "@hyperlocal/consts";
+import { Link, Outlet } from "react-router";
+import { Card, CardContent, HStack, Stack } from "~/components/ui";
+import { getPathParams } from "~/features/admin/get-path-params";
+import { CategoryNav, CategoryNavItem } from "./+components/category-nav-item";
+import { GoogleMapPopover } from "./+components/google-map-popover";
+import type { Route } from "./+types/route";
 
 export const meta: Route.MetaFunction = ({ loaderData }) => [
   {
     title: `${loaderData?.area.i18n.en} - Hyperlocal Admin`,
   },
-]
+];
 
 export const loader = ({ params }: Route.LoaderArgs) => {
-  const { city, area } = getPathParams(params)
+  const { city, area } = getPathParams(params);
   if (!area) {
-    throw new Response(null, { status: 404, statusText: 'Not Found' })
+    throw new Response(null, { status: 404, statusText: "Not Found" });
   }
 
-  return { city, area }
-}
+  return { city, area };
+};
 
-export default function AdminCityAreaLayout({
-  loaderData: { city, area },
-}: Route.ComponentProps) {
+export default function AdminCityAreaLayout({ loaderData: { city, area } }: Route.ComponentProps) {
   return (
     <Card className="mb-6">
       <CardContent className="p-4">
@@ -32,10 +30,7 @@ export default function AdminCityAreaLayout({
             <div>
               <h2 className="text-xl font-semibold">
                 <Link to={`/${city.cityId}/${area.areaId}`}>
-                  {area.i18n.en}{' '}
-                  <small className="text-muted-foreground">
-                    {city.i18n.en}
-                  </small>
+                  {area.i18n.en} <small className="text-muted-foreground">{city.i18n.en}</small>
                 </Link>
               </h2>
               <HStack className="text-muted-foreground text-xs">
@@ -59,5 +54,5 @@ export default function AdminCityAreaLayout({
         </Stack>
       </CardContent>
     </Card>
-  )
+  );
 }

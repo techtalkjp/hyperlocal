@@ -1,7 +1,7 @@
-import { languages } from '@hyperlocal/consts'
-import { db, selfIdFromSourceUri } from '@hyperlocal/db'
-import consola from 'consola'
-import { db as duckdb } from '~/services/duckdb.server'
+import { languages } from "@hyperlocal/consts";
+import { db, selfIdFromSourceUri } from "@hyperlocal/db";
+import consola from "consola";
+import { db as duckdb } from "~/services/duckdb.server";
 
 /**
  * localizedPlaces に存在しないカテゴリがある場合は、localizedPlaces に追加する
@@ -9,40 +9,40 @@ import { db as duckdb } from '~/services/duckdb.server'
  */
 export const fixMultiCategories = async () => {
   const allPlaces = await duckdb
-    .selectFrom('ranked_restaurants')
-    .select(['url', 'area', 'category', 'ranking_type'])
-    .execute()
+    .selectFrom("ranked_restaurants")
+    .select(["url", "area", "category", "ranking_type"])
+    .execute();
 
-  let processed = 0
+  let processed = 0;
   for (const place of allPlaces) {
-    const placeId = selfIdFromSourceUri(place.url)
+    const placeId = selfIdFromSourceUri(place.url);
     for (const lang of languages) {
       // 言語ごとの翻訳データを取得
       const translated = await db
-        .selectFrom('localizedPlaces')
+        .selectFrom("localizedPlaces")
         .selectAll()
-        .where('placeId', '==', placeId)
-        .where('language', '==', lang.id)
-        .executeTakeFirst()
+        .where("placeId", "==", placeId)
+        .where("language", "==", lang.id)
+        .executeTakeFirst();
       if (!translated) {
-        consola.error('not found translated', place)
-        continue
+        consola.error("not found translated", place);
+        continue;
       }
 
-      for (const rankingType of ['rating', 'review']) {
+      for (const rankingType of ["rating", "review"]) {
         const test = await db
-          .selectFrom('localizedPlaces')
-          .select('placeId')
-          .where('cityId', '==', 'tokyo')
-          .where('areaId', '==', place.area)
-          .where('categoryId', '==', place.category)
-          .where('rankingType', '==', rankingType)
-          .where('language', '==', lang.id)
-          .executeTakeFirst()
+          .selectFrom("localizedPlaces")
+          .select("placeId")
+          .where("cityId", "==", "tokyo")
+          .where("areaId", "==", place.area)
+          .where("categoryId", "==", place.category)
+          .where("rankingType", "==", rankingType)
+          .where("language", "==", lang.id)
+          .executeTakeFirst();
         if (!test) {
           // 存在しない場合は翻訳データを元に追加
           const inserted = await db
-            .insertInto('localizedPlaces')
+            .insertInto("localizedPlaces")
             .values({
               ...translated,
               areaId: place.area,
@@ -51,29 +51,29 @@ export const fixMultiCategories = async () => {
               language: lang.id,
             })
             .returningAll()
-            .execute()
+            .execute();
 
-          consola.info('inserted:', inserted)
-          return
+          consola.info("inserted:", inserted);
+          return;
         }
       }
     }
-    processed++
-    consola.info(`processed: ${processed}/${allPlaces.length}`)
+    processed++;
+    consola.info(`processed: ${processed}/${allPlaces.length}`);
   }
-}
+};
 
 const test = async () => {
   const place = await duckdb
-    .selectFrom('ranked_restaurants')
-    .select(['url', 'area', 'category', 'ranking_type'])
+    .selectFrom("ranked_restaurants")
+    .select(["url", "area", "category", "ranking_type"])
     .limit(5)
-    .execute()
+    .execute();
 
-  consola.debug(place)
+  consola.debug(place);
   if (!place) {
-    return
+    return;
   }
-}
+};
 //await fixMultiCategories()
-await test()
+await test();

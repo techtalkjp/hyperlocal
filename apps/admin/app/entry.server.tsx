@@ -1,7 +1,7 @@
-import { isbot } from 'isbot'
-import { renderToReadableStream } from 'react-dom/server'
-import { ServerRouter } from 'react-router'
-import type { EntryContext, RouterContextProvider } from 'react-router'
+import { isbot } from "isbot";
+import { renderToReadableStream } from "react-dom/server";
+import { ServerRouter } from "react-router";
+import type { EntryContext, RouterContextProvider } from "react-router";
 
 export default async function handleRequest(
   request: Request,
@@ -16,17 +16,17 @@ export default async function handleRequest(
       signal: request.signal,
       onError(error: unknown) {
         // eslint-disable-next-line no-console
-        console.error(error)
+        console.error(error);
       },
     },
-  )
-  if (isbot(request.headers.get('user-agent') ?? '')) {
-    await body.allReady
+  );
+  if (isbot(request.headers.get("user-agent") ?? "")) {
+    await body.allReady;
   }
 
-  responseHeaders.set('Content-Type', 'text/html')
+  responseHeaders.set("Content-Type", "text/html");
   return new Response(body, {
     headers: responseHeaders,
     status: responseStatusCode,
-  })
+  });
 }

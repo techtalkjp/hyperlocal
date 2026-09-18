@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from "zod";
 
 const envSchema = z.object({
   GA_TRACKING_ID: z.string(),
@@ -9,9 +9,9 @@ const envSchema = z.object({
   R2_BUCKET_NAME: z.string(),
   R2_ACCESS_KEY_ID: z.string(),
   R2_SECRET_ACCESS_KEY: z.string(),
-})
+});
 
-envSchema.parse(process.env)
+envSchema.parse(process.env);
 
 declare global {
   namespace NodeJS {

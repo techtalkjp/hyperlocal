@@ -1,7 +1,7 @@
-import { LogOut, User } from 'lucide-react'
-import { useNavigate } from 'react-router'
-import { signOut, useSession } from '~/lib/auth-client'
-import { Button } from './ui/button'
+import { LogOut, User } from "lucide-react";
+import { useNavigate } from "react-router";
+import { signOut, useSession } from "~/lib/auth-client";
+import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,18 +9,18 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from './ui/dropdown-menu'
+} from "./ui/dropdown-menu";
 
 export function UserMenu() {
-  const navigate = useNavigate()
-  const { data: session } = useSession()
+  const navigate = useNavigate();
+  const { data: session } = useSession();
 
   const handleSignOut = async () => {
-    await signOut()
-    navigate('/login')
-  }
+    await signOut();
+    navigate("/login");
+  };
 
-  if (!session?.user) return null
+  if (!session?.user) return null;
 
   return (
     <DropdownMenu>
@@ -41,9 +41,7 @@ export function UserMenu() {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium">{session.user.name}</p>
-            <p className="text-muted-foreground text-xs">
-              {session.user.email}
-            </p>
+            <p className="text-muted-foreground text-xs">{session.user.email}</p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -53,5 +51,5 @@ export function UserMenu() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
