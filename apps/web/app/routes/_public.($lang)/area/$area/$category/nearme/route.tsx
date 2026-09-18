@@ -192,7 +192,7 @@ export default function CategoryIndexPage() {
           </TabsTrigger>
           <TabsTrigger
             value="nearme"
-            className="border data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
+            className="data-[state=active]:border-brand data-[state=active]:text-brand border"
             asChild
           >
             <NavLink
@@ -212,9 +212,9 @@ export default function CategoryIndexPage() {
       </Tabs>
 
       {!position && (
-        <div className="flex items-center gap-2 rounded-md border border-yellow-200 bg-yellow-50 p-3 text-sm text-yellow-800 dark:border-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-200">
-          <AlertCircle className="h-4 w-4 shrink-0" />
-          <p>
+        <div className="bg-muted/50 flex items-center gap-2 rounded-md border p-3 text-sm">
+          <AlertCircle className="text-muted-foreground h-4 w-4 shrink-0" />
+          <p className="text-muted-foreground">
             Unable to get your location. Showing places sorted by rating
             instead.
           </p>
@@ -255,12 +255,12 @@ export const HydrateFallback = () => {
           </TabsTrigger>
           <TabsTrigger
             value="nearme"
-            className="border data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
+            className="data-[state=active]:border-brand data-[state=active]:text-brand border"
             asChild
           >
             <NavLink to={'../nearme'} prefetch="viewport" viewTransition>
               Near Me
-              <LoaderIcon className="ml-2 inline h-4 w-4 animate-spin text-blue-500" />
+              <LoaderIcon className="text-brand ml-2 inline h-4 w-4 animate-spin" />
             </NavLink>
           </TabsTrigger>
         </TabsList>
@@ -268,7 +268,7 @@ export const HydrateFallback = () => {
 
       <div className="bg-muted/50 flex items-center justify-between rounded-md border p-4">
         <div className="flex items-center gap-3">
-          <LoaderIcon className="h-5 w-5 animate-spin text-blue-500" />
+          <LoaderIcon className="text-brand h-5 w-5 animate-spin" />
           <div className="text-sm">
             <div className="font-medium">Getting your location...</div>
             <div className="text-muted-foreground text-xs">

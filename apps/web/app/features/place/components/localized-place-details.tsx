@@ -51,7 +51,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
           </div>
           {area && language && (
             <div className="flex items-center space-x-2">
-              <MapPin className="h-5 w-5 text-gray-600" />
+              <MapPin className="text-muted-foreground h-5 w-5" />
               <span>{area.i18n[language.id]}</span>
             </div>
           )}
@@ -74,13 +74,6 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
                           index === 0 ? `hero-${place.placeId}` : '',
                       }}
                     />
-                    {/* <img
-                      src={getSquareImageUrl(photoUrl, 1200)}
-                      width={400}
-                      loading={index === 0 ? 'eager' : 'lazy'}
-                      alt={`${place.displayName} - ${index + 1}`}
-                      className="aspect-square w-full rounded-lg object-cover"
-                    /> */}
                   </CarouselItem>
                 ))}
               </CarouselContent>
@@ -109,7 +102,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
                   {place.rating.toFixed(1)}
                 </span>
               </div>
-              <span className="text-gray-600">
+              <span className="text-muted-foreground">
                 Tabelog · ({place.userRatingCount} reviews)
               </span>
 

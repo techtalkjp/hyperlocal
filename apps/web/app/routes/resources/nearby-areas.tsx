@@ -82,8 +82,8 @@ export const NearbyAreasSelector = ({
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         {fetcher.state === 'loading' && (
-          <DropdownMenuItem className="text-blue-500">
-            <LoaderIcon className="mr-2 inline h-4 w-4 animate-spin text-blue-500" />
+          <DropdownMenuItem className="text-brand">
+            <LoaderIcon className="text-brand mr-2 inline h-4 w-4 animate-spin" />
             Loading...
           </DropdownMenuItem>
         )}
@@ -105,7 +105,7 @@ export const NearbyAreasSelector = ({
               >
                 <div>{area.i18n[languageId]}</div>
                 {area.distance && (
-                  <HStack className="text-xs text-blue-500">
+                  <HStack className="text-brand text-xs">
                     {/* 距離 */}
                     <div className="whitespace-nowrap">
                       <MapPinIcon className="mr-1 mb-1 inline h-4 w-4" />

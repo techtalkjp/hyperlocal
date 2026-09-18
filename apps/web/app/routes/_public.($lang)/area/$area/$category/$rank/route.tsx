@@ -146,7 +146,7 @@ export default function CategoryIndexPage({
                 <span>
                   Near Me
                   {isPending && (
-                    <LoaderIcon className="ml-2 inline h-4 w-4 animate-spin text-blue-500" />
+                    <LoaderIcon className="text-brand ml-2 inline h-4 w-4 animate-spin" />
                   )}
                 </span>
               )}

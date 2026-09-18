@@ -41,7 +41,7 @@ export const LocalizedPlaceCard = ({
   return (
     <div
       className={cn(
-        'text-card-foreground hover:bg-secondary relative grid grid-cols-1 rounded-md border p-0 text-sm hover:shadow-md sm:text-base md:text-lg',
+        'text-card-foreground hover:bg-secondary relative grid grid-cols-1 rounded-md border p-0 text-sm transition-colors sm:text-base md:text-lg',
         className,
       )}
     >
@@ -60,7 +60,7 @@ export const LocalizedPlaceCard = ({
           <ActionButtons place={place} distance={distance} className="z-20" />
 
           {distance && (
-            <HStack className="text-sm font-semibold text-blue-500">
+            <HStack className="text-brand text-sm font-semibold">
               {/* 距離 */}
               <div className="whitespace-nowrap">
                 <MapPinIcon className="mr-1 mb-1 inline h-4 w-4" />

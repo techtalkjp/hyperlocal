@@ -206,7 +206,7 @@ export default function AreaGuideScenePage({
     return (
       <Link
         to={placePath}
-        className="hover:bg-secondary my-6 block rounded-lg border p-0 shadow-sm transition-all hover:shadow-md"
+        className="hover:bg-secondary my-6 block rounded-lg border p-0 transition-colors"
         viewTransition
       >
         <div className="flex gap-4">

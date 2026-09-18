@@ -22,7 +22,7 @@ export const InfoSection: React.FC<InfoSectionProps> = ({
       className="text-base leading-none font-semibold sm:text-xl md:text-2xl"
       style={{ viewTransitionName: `displayName-${place.placeId}` }}
     >
-      {no && `${no}.`} {place.displayName}
+      {no && <span className="text-brand">{no}.</span>} {place.displayName}
     </div>
 
     <RatingSection place={place} />

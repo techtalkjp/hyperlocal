@@ -60,9 +60,7 @@ function Button({
       disabled={isLoading || disabled}
       {...props}
     >
-      {isLoading && (
-        <Loader2 className="mr-2 h-4 w-4 animate-spin text-blue-500" />
-      )}
+      {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
       <SlotPrimitive.Slottable>{children}</SlotPrimitive.Slottable>
     </Comp>
   )
