@@ -38,7 +38,10 @@ export const headers: Route.HeadersFunction = () => ({
 export const meta: Route.MetaFunction = ({ loaderData, location }) => {
   const placeName = loaderData?.place.displayName ?? 'Place'
   const cityName = loaderData?.city.i18n[loaderData.lang.id] ?? 'Tokyo'
-  const rating = loaderData?.place.rating
+  const rating =
+    loaderData?.place.rating != null
+      ? Number(loaderData.place.rating).toFixed(2)
+      : null
   const reviewCount = loaderData?.place.userRatingCount
   return [
     {
