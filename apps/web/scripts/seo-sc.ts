@@ -247,22 +247,33 @@ async function cmdInspect() {
   const origin = getArg('origin') ?? 'https://tokyo.hyper-local.app'
   const urls = extra.length > 0 ? extra : DEFAULT_INSPECT_URLS(origin)
 
+  // Inspection API は日次quota制だが、数件のバーストは問題ないため並列実行
+  // （順序は入力順に復元）。大量URLの一括検査が必要になったら直列に戻すこと。
+  const inspected = await Promise.all(
+    urls.map(async (url) => {
+      try {
+        const res = await sc.urlInspection.index.inspect({
+          requestBody: { inspectionUrl: url, siteUrl: SITE_URL },
+        })
+        return { url, result: res.data.inspectionResult ?? {} }
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : String(e)
+        return { url, result: null, error: msg }
+      }
+    }),
+  )
   const results: Array<Record<string, unknown>> = []
-  for (const url of urls) {
-    try {
-      const res = await sc.urlInspection.index.inspect({
-        requestBody: { inspectionUrl: url, siteUrl: SITE_URL },
-      })
-      const r = res.data.inspectionResult ?? {}
-      results.push({ url, ...r })
-      console.log(
-        `- ${url}: coverage=${r.indexStatusResult?.coverageState ?? '?'} crawl=${r.indexStatusResult?.lastCrawlTime ?? '?'} indexed=${r.indexStatusResult?.verdict ?? '?'}`,
-      )
-    } catch (e) {
-      const msg = e instanceof Error ? e.message : String(e)
-      results.push({ url, error: msg })
-      console.log(`- ${url}: ERROR ${msg.slice(0, 160)}`)
+  for (const { url, result, error } of inspected) {
+    if (!result) {
+      results.push({ url, error })
+      console.log(`- ${url}: ERROR ${(error ?? '').slice(0, 160)}`)
+      continue
     }
+    const r = result
+    results.push({ url, ...r })
+    console.log(
+      `- ${url}: coverage=${r.indexStatusResult?.coverageState ?? '?'} crawl=${r.indexStatusResult?.lastCrawlTime ?? '?'} indexed=${r.indexStatusResult?.verdict ?? '?'}`,
+    )
   }
   const file = saveSnapshot('sc-inspect', {
     siteUrl: SITE_URL,

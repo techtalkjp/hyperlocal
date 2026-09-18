@@ -1,6 +1,7 @@
 import { areas, categories, scenes } from '@hyperlocal/consts'
 import { Link } from 'react-router'
 import { Badge, Card, CardHeader, CardTitle, Stack } from '~/components/ui'
+import { AreaLinkCard } from '~/components/area-link-card'
 import { getPathParams } from '~/features/city-area/utils'
 import { generateAlternateLinks } from '~/features/seo/alternate-links'
 import { generateCanonicalLink } from '~/features/seo/canonical-url'
@@ -147,36 +148,12 @@ export default function AreaIndexPage({
           <h4 className="font-semibold">Nearby Areas</h4>
           <div className="grid gap-1">
             {nearbyAreas.map((area) => (
-              <Link
-                to={`../${area.areaId}`}
-                relative="path"
+              <AreaLinkCard
                 key={area.areaId}
-                viewTransition
-              >
-                <div className="hover:bg-secondary flex rounded-md border p-2">
-                  <div className="flex-1">
-                    <div
-                      className="font-semibold"
-                      style={{
-                        viewTransitionName: `area-title-${area.areaId}`,
-                      }}
-                    >
-                      {area.i18n[lang.id]}
-                    </div>
-                    <div
-                      className="text-muted-foreground text-xs"
-                      style={{
-                        viewTransitionName: `area-description-${area.areaId}`,
-                      }}
-                    >
-                      {area.description[lang.id]}
-                    </div>
-                  </div>
-                  <div>
-                    <Badge variant="secondary">Area</Badge>
-                  </div>
-                </div>
-              </Link>
+                to={`${lang.path}area/${area.areaId}`}
+                area={area}
+                languageId={lang.id}
+              />
             ))}
           </div>
         </div>

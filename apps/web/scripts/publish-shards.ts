@@ -52,9 +52,14 @@ const Bucket = process.env.R2_BUCKET_NAME ?? ''
 const publicBase = (process.env.R2_PUBLIC_URL ?? '').replace(/\/+$/, '')
 if (publicBase && !dryRun) {
   try {
-    const remote = (await (
-      await fetch(`${publicBase}/shards/manifest.json`)
-    ).json()) as { version: string; files: Record<string, string> }
+    const mfRes = await fetch(`${publicBase}/shards/manifest.json`)
+    if (!mfRes.ok) {
+      throw new Error(`remote manifest HTTP ${mfRes.status} (first publish?)`)
+    }
+    const remote = (await mfRes.json()) as {
+      version: string
+      files: Record<string, string>
+    }
     if (remote.version === version) {
       const localManifest = JSON.parse(
         fs.readFileSync(path.join(dir, 'manifest.json'), 'utf8'),
@@ -175,7 +180,12 @@ if (doPurge && !dryRun) {
       },
       body: JSON.stringify({ prefixes: ['shards/'] }),
     })
-    console.log('purge:', res.status, await res.text())
+    const text = await res.text()
+    if (!res.ok) {
+      console.error(`purge failed: HTTP ${res.status} ${text.slice(0, 200)}`)
+    } else {
+      console.log('purge:', res.status, text)
+    }
   }
 }
 process.exit(0)

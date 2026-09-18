@@ -120,10 +120,8 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
 export const clientLoader = async ({
   serverLoader,
 }: ClientLoaderFunctionArgs) => {
-  const { places, ...loaderResponses } = await serverLoader<typeof loader>()
-
-  // 位置情報取得を10秒でタイムアウト
-  const position = await Promise.race([
+  // 位置情報取得はサーバ応答待ちと並列に開始する
+  const positionPromise: Promise<GeolocationPosition | null> = Promise.race([
     new Promise<GeolocationPosition>((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resolve, reject, {
         timeout: 10000,
@@ -138,6 +136,9 @@ export const clientLoader = async ({
     console.log('Geolocation error:', e)
     return null
   })
+
+  const { places, ...loaderResponses } = await serverLoader<typeof loader>()
+  const position = await positionPromise
 
   // 位置情報が取得できない場合は、rating順でソート
   if (!position) {

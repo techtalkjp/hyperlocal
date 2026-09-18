@@ -3,7 +3,7 @@ import type React from 'react'
 /**
  * デバイスごとの画像サイズ設定
  */
-export const IMAGE_SIZES = {
+const IMAGE_SIZES = {
   MOBILE: 400, // モバイル基本サイズ
   TABLET: 640, // タブレット基本サイズ
   DESKTOP: 1200, // デスクトップ基本サイズ
@@ -14,7 +14,7 @@ export const IMAGE_SIZES = {
  * @param imageUrl 元のGoogle Places画像URL
  * @returns デバイスごとの最適化された画像URL
  */
-export const getResponsiveImageUrls = (imageUrl: string) => {
+const getResponsiveImageUrls = (imageUrl: string) => {
   // URLが正しいフォーマットかチェック
   if (!imageUrl.includes('googleusercontent.com/places/')) {
     throw new Error('Invalid Google Places image URL')

@@ -107,8 +107,9 @@ export const generatePlaceSitemap = (
   const urls: string[] = []
   for (const key of Object.keys(manifest.files)) {
     if (!key.startsWith(prefix) || !key.endsWith('.json')) continue
-    // place/{lang}/{placeId}.json
-    const placeId = key.split('/')[2].replace(/\.json$/, '')
+    // place/{lang}/{placeId}.json（形式外は捨てる）
+    const placeId = key.split('/')[2]?.replace(/\.json$/, '')
+    if (!placeId) continue
     urls.push(entry(`${origin}${langPrefix(langId)}/place/${placeId}`, lastmod))
   }
   return `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('')}</urlset>`

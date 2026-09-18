@@ -58,23 +58,33 @@ const combos = await db
   .distinct()
   .execute()
 
-// 1. listing
+// 1. listing（DB負荷を抑えるため8件ずつ並列）
 counts.listing = 0
 if (only.has('listing')) {
-  for (const c of combos) {
-    if (c.rankingType !== 'rating' && c.rankingType !== 'review') continue
-    const places = await listLocalizedPlaces({
-      cityId: c.cityId,
-      areaId: c.areaId,
-      categoryId: c.categoryId,
-      language: c.language,
-      rankingType: c.rankingType,
-    })
-    bytes += write(
-      `listing/${c.language}/${c.areaId}/${c.categoryId}/${c.rankingType}.json`,
-      places,
+  const targets = combos.filter(
+    (c): c is typeof c & { rankingType: 'rating' | 'review' } =>
+      c.rankingType === 'rating' || c.rankingType === 'review',
+  )
+  for (let i = 0; i < targets.length; i += 8) {
+    const chunk = await Promise.all(
+      targets.slice(i, i + 8).map(async (c) => {
+        const places = await listLocalizedPlaces({
+          cityId: c.cityId,
+          areaId: c.areaId,
+          categoryId: c.categoryId,
+          language: c.language,
+          rankingType: c.rankingType,
+        })
+        return { c, places }
+      }),
     )
-    counts.listing++
+    for (const { c, places } of chunk) {
+      bytes += write(
+        `listing/${c.language}/${c.areaId}/${c.categoryId}/${c.rankingType}.json`,
+        places,
+      )
+      counts.listing++
+    }
   }
 }
 

@@ -54,6 +54,15 @@ async function fetchText(url: string, ua: string) {
       signal: ctrl.signal,
     })
     const ms = Date.now() - started
+    if (!res.ok) {
+      // redirect:'manual' のため 3xx は正常系として本文を読む。
+      // status 自体は呼び出し側が記録・判定する。
+      const body =
+        res.status >= 300 && res.status < 400
+          ? await res.text().catch(() => '')
+          : ''
+      return { res, body, ms }
+    }
     const body = await res.text().catch(() => '')
     return { res, body, ms }
   } finally {
@@ -236,33 +245,45 @@ const main = async () => {
   for (const lang of languages) {
     sampledUrls.push(`${ORIGIN}${lang.path}`)
   }
-  for (const child of childSitemaps) {
-    try {
-      const { res, body } = await fetchText(child, BROWSER_UA)
-      if (!res.ok) {
-        lines.push(`- ${child}: HTTP ${res.status} ←要修正`)
-        warn.push(`子sitemapがHTTP ${res.status}: ${child}`)
-        continue
+  // 子sitemapは互いに独立なので並列取得（順序は入力順に復元）
+  const childResults = await Promise.all(
+    childSitemaps.map(async (child) => {
+      try {
+        const { res, body } = await fetchText(child, BROWSER_UA)
+        return { child, ok: true as const, res, body }
+      } catch (error) {
+        return { child, ok: false as const, error }
       }
-      const urls = locsFromXml(body, 'loc')
-      lines.push(`- ${child}: ${urls.length}件`)
-      if (urls.length === 0) warn.push(`空の子sitemap: ${child}`)
-      if (urls.length > 50000)
-        warn.push(`50,000件超の子sitemap: ${child}(${urls.length}件)`)
-      // 先頭だけでなく中盤・末尾からも均等サンプル(カテゴリ/下層の偏り防止)
-      const picks: string[] = []
-      const n = Math.min(SAMPLES_PER_SITEMAP, urls.length)
-      for (let i = 0; i < n; i++) {
-        const idx = Math.floor((i * urls.length) / n)
-        picks.push(urls[idx])
-      }
-      sampledUrls.push(...picks)
-    } catch (e) {
+    }),
+  )
+  for (const result of childResults) {
+    if (!result.ok) {
+      const { child, error } = result
       lines.push(
-        `- ${child}: 取得失敗(${e instanceof Error ? e.message : e}) ←要修正`,
+        `- ${child}: 取得失敗(${error instanceof Error ? error.message : error}) ←要修正`,
       )
       warn.push(`子sitemap取得失敗: ${child}`)
+      continue
     }
+    const { child, res, body } = result
+    if (!res.ok) {
+      lines.push(`- ${child}: HTTP ${res.status} ←要修正`)
+      warn.push(`子sitemapがHTTP ${res.status}: ${child}`)
+      continue
+    }
+    const urls = locsFromXml(body, 'loc')
+    lines.push(`- ${child}: ${urls.length}件`)
+    if (urls.length === 0) warn.push(`空の子sitemap: ${child}`)
+    if (urls.length > 50000)
+      warn.push(`50,000件超の子sitemap: ${child}(${urls.length}件)`)
+    // 先頭だけでなく中盤・末尾からも均等サンプル(カテゴリ/下層の偏り防止)
+    const picks: string[] = []
+    const n = Math.min(SAMPLES_PER_SITEMAP, urls.length)
+    for (let i = 0; i < n; i++) {
+      const idx = Math.floor((i * urls.length) / n)
+      picks.push(urls[idx])
+    }
+    sampledUrls.push(...picks)
   }
   lines.push('')
 
@@ -272,9 +293,11 @@ const main = async () => {
     languages.length + childSitemaps.length * SAMPLES_PER_SITEMAP,
   )
   lines.push(`## 4. 代表URLチェック(${uniq.length}件)`)
+  // 自CDNへの取得は10件ずつ並列（順序は入力順に復元）
   const results: UrlCheck[] = []
-  for (const url of uniq) {
-    results.push(await checkUrl(url))
+  for (let i = 0; i < uniq.length; i += 10) {
+    const chunk = await Promise.all(uniq.slice(i, i + 10).map(checkUrl))
+    results.push(...chunk)
   }
   lines.push(
     '| URL | 状態 | 応答 | canonical | hreflang | title | description | robots | cache |',
