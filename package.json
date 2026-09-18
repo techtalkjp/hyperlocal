@@ -14,10 +14,12 @@
     "db:generate": "pnpm --filter @hyperlocal/db db:generate",
     "db:diff": "pnpm --filter @hyperlocal/db db:diff",
     "db:replica": "pnpm --filter @hyperlocal/web make:replica",
-    "db:reset": "pnpm --filter @hyperlocal/web db:reset"
+    "db:reset": "pnpm --filter @hyperlocal/web db:reset",
+    "doctor": "npx react-doctor@latest"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
+    "react-doctor": "catalog:",
     "turbo": "catalog:"
   },
   "packageManager": "pnpm@12.4.1",
