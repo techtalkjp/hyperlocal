@@ -1,9 +1,8 @@
 import { cities, languages } from '@hyperlocal/consts'
 import { Outlet } from 'react-router'
-import { HStack } from '~/components/ui'
+import { SiteFooter } from '~/components/site-footer'
+import { SiteHeader } from '~/components/site-header'
 import { generateCanonicalLink } from '~/features/seo/canonical-url'
-import { NearbyAreasSelector } from '~/routes/resources/nearby-areas'
-import { AreaTitle, LanguageSelect } from './+components'
 import type { Route } from './+types/_layout'
 
 export const meta: Route.MetaFunction = ({ loaderData, location }) => {
@@ -36,31 +35,13 @@ export default function PublicLayout({
 }: Route.ComponentProps) {
   return (
     <div className="grid min-h-dvh grid-rows-[auto_1fr_auto]">
-      <header className="flex items-center border-b px-2 py-2 sm:px-4 md:px-6">
-        <AreaTitle city={city} languageId={lang.id} />
-        <div className="flex-1" />
-        <HStack>
-          <LanguageSelect currentLanguageId={lang.id} />
-          <NearbyAreasSelector languageId={lang.id} />
-        </HStack>
-      </header>
+      <SiteHeader city={city} languageId={lang.id} />
 
       <main className="px-1 py-2 sm:px-4 md:px-6">
         <Outlet />
       </main>
 
-      <footer className="flex items-center border-t px-2 py-2 sm:px-4 md:px-6">
-        <div>
-          <p className="text-sm">
-            © {new Date().getFullYear()}{' '}
-            <a href="/" className="underline">
-              Hyperlocal
-            </a>
-          </p>
-        </div>
-        <div className="flex-1" />
-        <LanguageSelect currentLanguageId={lang.id}>Language</LanguageSelect>
-      </footer>
+      <SiteFooter languageId={lang.id} />
     </div>
   )
 }

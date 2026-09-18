@@ -49,6 +49,7 @@
     "react-router": "catalog:",
     "react-twc": "catalog:",
     "remix-utils": "catalog:",
+    "sonner": "catalog:",
     "tailwind-merge": "catalog:",
     "ts-pattern": "catalog:",
     "zod": "catalog:"

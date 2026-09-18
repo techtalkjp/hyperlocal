@@ -83,7 +83,8 @@
     'ヒラギノ角ゴ ProN W3', 'Yu Gothic', '游ゴシック体', YuGothic, Meiryo,
     sans-serif;
   --font-heading:
-    Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    Inter, 'Noto Sans JP', 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans TC',
+    system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -144,5 +145,45 @@
   :lang(en) h5,
   :lang(en) h6 {
     @apply font-heading tracking-tight;
+  }
+
+  :lang(ja) h1,
+  :lang(ja) h2,
+  :lang(ja) h3,
+  :lang(ja) h4,
+  :lang(ja) h5,
+  :lang(ja) h6 {
+    font-family: Inter, 'Noto Sans JP', sans-serif;
+    @apply tracking-tight;
+  }
+
+  :lang(ko) h1,
+  :lang(ko) h2,
+  :lang(ko) h3,
+  :lang(ko) h4,
+  :lang(ko) h5,
+  :lang(ko) h6 {
+    font-family: Inter, 'Noto Sans KR', sans-serif;
+    @apply tracking-tight;
+  }
+
+  :lang(zh-cn) h1,
+  :lang(zh-cn) h2,
+  :lang(zh-cn) h3,
+  :lang(zh-cn) h4,
+  :lang(zh-cn) h5,
+  :lang(zh-cn) h6 {
+    font-family: Inter, 'Noto Sans SC', sans-serif;
+    @apply tracking-tight;
+  }
+
+  :lang(zh-tw) h1,
+  :lang(zh-tw) h2,
+  :lang(zh-tw) h3,
+  :lang(zh-tw) h4,
+  :lang(zh-tw) h5,
+  :lang(zh-tw) h6 {
+    font-family: Inter, 'Noto Sans TC', sans-serif;
+    @apply tracking-tight;
   }
 }

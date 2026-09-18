@@ -10,6 +10,7 @@ import {
 import type { Route } from './+types/root'
 import { PageLoadingProgress } from './components/page-loading-progress'
 import { ThemeProvider } from './components/theme-provider'
+import { Toaster } from './components/ui'
 import { RouteErrorBoundary } from './features/error/components/route-error-boundary'
 import { generateCanonicalLink } from './features/seo/canonical-url'
 import './styles/globals.css'
@@ -52,7 +53,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700&family=Noto+Sans+JP:wght@600;700&family=Noto+Sans+KR:wght@600;700&family=Noto+Sans+SC:wght@600;700&family=Noto+Sans+TC:wght@600;700&display=swap"
           rel="stylesheet"
         />
         <Meta />
@@ -67,6 +68,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           disableTransitionOnChange
         >
           {children}
+          <Toaster />
         </ThemeProvider>
         <ScrollRestoration
           getKey={(location) => {

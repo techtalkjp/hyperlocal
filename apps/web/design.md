@@ -31,7 +31,7 @@
 
 - 欧文見出し: Inter（現行通り、`font-heading` + `tracking-tight`）
 - 欧文本文: system stack（現行通り）
-- 日中韓の見出し: 下記を `font-heading` のフォールバックに足し、`:lang()` ごとの出し分けをやめて全言語で見出し書体を統一する。
+- 日中韓の見出し: `font-heading` のフォールバックに Noto 4種を追加済み。漢字の字体差（日／韓／簡／繁）を正しく出すため `:lang(ja|ko|zh-cn|zh-tw)` ごとに見出しフォントを指定する。欧文部分は Inter が先に当たる。
   - ja: Noto Sans JP 600/700
   - ko: Noto Sans KR 600/700
   - zh-cn: Noto Sans SC 600/700
