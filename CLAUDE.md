@@ -42,9 +42,15 @@ pnpm test          # Run tests
 # Build all packages
 pnpm build
 
-# Deploy web app to Fly.io
-pnpm deploy
+# Deploy web app to Cloudflare Workers (custom domain: tokyo.hyper-local.app)
+pnpm --filter @hyperlocal/web run build
+pnpm --filter @hyperlocal/web run deploy
 ```
+
+NOTE: `pnpm deploy` without `run` does not work — `deploy` is a pnpm reserved
+subcommand. Always use `run deploy`. The web `deploy` script runs
+`wrangler deploy --config build/server/wrangler.json`, so `run build` must
+come first to generate `build/server/wrangler.json`.
 
 ### Pull Request Review
 
@@ -114,7 +120,7 @@ pnpm crawl         # Run crawler with environment variables
 - **Styling**: Tailwind CSS + shadcn/ui components
 - **Build**: Turbo + Vite
 - **Package Manager**: pnpm with workspaces
-- **Deployment**: Fly.io (Docker containers)
+- **Deployment**: Cloudflare Workers (dynamic SSR + edge cache, D1 + R2)
 
 ### Data Model
 
