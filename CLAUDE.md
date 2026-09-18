@@ -143,21 +143,18 @@ Core entities:
 - `apps/web/app/routes/`: Web app routes
 - `apps/admin/app/routes/`: Admin app routes
 - `apps/crawler/src/commands/`: Crawler command implementations
-
 ## Git Workflow
 
-### CRITICAL: Never Commit Directly to Main
-
-**ALWAYS create a feature branch and pull request. NEVER commit directly to the main branch.**
+Direct commits and pushes to main are allowed. Small, validated changes can go straight to main without a feature branch or pull request.
 
 Workflow:
-1. Create a new branch: `git checkout -b feature/description`
-2. Make your changes and commit to the feature branch
-3. Push the branch: `git push -u origin feature/description`
-4. Create a pull request using `gh pr create`
-5. After review and approval, merge via GitHub UI or `gh pr merge`
 
-This rule applies to ALL changes, no matter how small. Direct commits to main are strictly prohibited.
+1. Make your changes
+2. Run `pnpm validate` to ensure code quality
+3. Commit: `git commit -m "..."`
+4. Push: `git push origin main`
+
+Use a feature branch and pull request only for large or risky changes that benefit from review.
 
 ## Documentation Policy
 
