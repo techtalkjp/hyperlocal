@@ -38,7 +38,6 @@ export const transform = async () => {
     .addColumn('budgetDinner', 'varchar')
     .addColumn('closedDay', 'varchar')
     .addColumn('address', 'varchar')
-    .addColumn('placeId', 'varchar')
     .execute()
 
   // Step 1: ジャンルを抽出してテーブルに保存
@@ -136,7 +135,6 @@ export const transform = async () => {
       'closedDay',
       'address',
       'url',
-      'placeId',
     ])
     .expression(
       db
@@ -154,7 +152,6 @@ export const transform = async () => {
           'closedDay',
           'address',
           'url',
-          sql<null>`NULL::VARCHAR`.as('placeId'),
         ])
         .groupBy([
           'area',
@@ -180,7 +177,6 @@ export const transform = async () => {
         budgetDinner: (eb) => eb.ref('excluded.budgetDinner'),
         closedDay: (eb) => eb.ref('excluded.closedDay'),
         address: (eb) => eb.ref('excluded.address'),
-        // 'placeId' は更新しない
       }),
     )
     .execute()
@@ -205,7 +201,6 @@ export const transform = async () => {
           'closedDay',
           'address',
           'url',
-          'placeId',
         ]),
     )
     .execute()
@@ -231,7 +226,6 @@ export const transform = async () => {
           'closedDay',
           'address',
           'url',
-          'placeId',
         ]),
     )
     .execute()
@@ -258,7 +252,6 @@ export const transform = async () => {
           'closedDay',
           'address',
           'url',
-          'placeId',
         ]),
     )
     .execute()
@@ -281,7 +274,6 @@ export const transform = async () => {
     .addColumn('closedDay', 'varchar')
     .addColumn('address', 'varchar')
     .addColumn('url', 'varchar')
-    .addColumn('placeId', 'varchar')
     .execute()
   await db
     .insertInto('ranked_restaurants')
@@ -299,7 +291,6 @@ export const transform = async () => {
       'closedDay',
       'address',
       'url',
-      'placeId',
     ])
     .expression(
       db

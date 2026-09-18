@@ -1,25 +1,27 @@
 import { languages } from '@hyperlocal/consts'
-import { db } from '@hyperlocal/db'
+import { db, selfIdFromSourceUri } from '@hyperlocal/db'
 import consola from 'consola'
 import { db as duckdb } from '~/services/duckdb.server'
 
 /**
  * localizedPlaces に存在しないカテゴリがある場合は、localizedPlaces に追加する
+ * 突合キーはTabelog URL (自社IDはsourceUriから導出)
  */
 export const fixMultiCategories = async () => {
   const allPlaces = await duckdb
     .selectFrom('ranked_restaurants')
-    .select(['placeId', 'area', 'category', 'ranking_type'])
+    .select(['url', 'area', 'category', 'ranking_type'])
     .execute()
 
   let processed = 0
   for (const place of allPlaces) {
+    const placeId = selfIdFromSourceUri(place.url)
     for (const lang of languages) {
       // 言語ごとの翻訳データを取得
       const translated = await db
         .selectFrom('localizedPlaces')
         .selectAll()
-        .where('placeId', '==', place.placeId)
+        .where('placeId', '==', placeId)
         .where('language', '==', lang.id)
         .executeTakeFirst()
       if (!translated) {
@@ -64,8 +66,8 @@ export const fixMultiCategories = async () => {
 const test = async () => {
   const place = await duckdb
     .selectFrom('ranked_restaurants')
-    .select(['placeId', 'area', 'category', 'ranking_type'])
-    .where('placeId', '==', 'ChIJvcRQHESLGGARSZaZn_rHFFI')
+    .select(['url', 'area', 'category', 'ranking_type'])
+    .limit(5)
     .execute()
 
   consola.debug(place)

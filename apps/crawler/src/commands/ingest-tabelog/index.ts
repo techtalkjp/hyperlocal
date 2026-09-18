@@ -7,7 +7,7 @@ import {
 } from '@hyperlocal/db'
 import { defineCommand } from 'citty'
 import consola from 'consola'
-import { upsertPlace } from '../retrieve-place-details/mutations'
+import { upsertPlace } from '../mutations'
 import { geocodeBlock } from '~/services/gsi'
 import { db as duckdb } from '~/services/duckdb.server'
 

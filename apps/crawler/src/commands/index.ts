@@ -1,5 +1,3 @@
 export * from './crawl-tabelog'
 export * from './localize'
-export * from './lookup-google-place-ids'
-export * from './retrieve-place-details'
 export * from './transform'

@@ -11,7 +11,6 @@ export interface Database {
     closedDay: string
     address: string
     url: string
-    placeId: string | null
   }
   ranked_restaurants: {
     area: string
@@ -27,7 +26,6 @@ export interface Database {
     closedDay: string
     address: string
     url: string
-    placeId: string | null
   }
   crawled_restaurants: {
     url: string
@@ -103,7 +101,6 @@ export interface Database {
     closedDay: string
     address: string
     url: string
-    placeId: string | null
   }
   tr_rating_rank: {
     area: string
@@ -119,7 +116,6 @@ export interface Database {
     url: string
     ranking_type: string
     rank: number
-    placeId: string | null
   }
   tr_review_rank: {
     area: string
@@ -135,7 +131,6 @@ export interface Database {
     url: string
     ranking_type: string
     rank: number
-    placeId: string | null
   }
 }
 

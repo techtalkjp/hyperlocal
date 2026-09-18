@@ -11,10 +11,10 @@ export const translatePlaceTask = async ({ placeId }: { placeId: string }) => {
     .where('id', '==', placeId)
     .executeTakeFirstOrThrow()
 
-  // duckdb側はGoogle ID世界のままなのでURLで突合 (stagingは自社ID)
+  // ランキングとの突合はTabelog URL (stagingは自社ID)
   const ranked = await duckdb
     .selectFrom('ranked_restaurants')
-    .select('placeId')
+    .select('url')
     .where('url', '==', place.sourceUri)
     .executeTakeFirst()
   if (!ranked) {
