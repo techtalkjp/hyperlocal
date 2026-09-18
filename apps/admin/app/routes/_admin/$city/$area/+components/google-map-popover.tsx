@@ -26,6 +26,7 @@ export const GoogleMapPopover = ({ children, area }: GoogleMapPopoverProps) => {
           height="320"
           loading="lazy"
           title="map"
+          sandbox="allow-scripts"
           src={`https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${area.latitude},${area.longitude}`}
         />
 

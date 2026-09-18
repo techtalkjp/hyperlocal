@@ -56,6 +56,9 @@ interface IngestTabelogOptions {
   url?: string;
 }
 export const ingestTabelog = async (opts: IngestTabelogOptions) => {
+  const areaById = new Map<string, (typeof areas)[number]>(
+    areas.map((a) => [a.areaId, a]),
+  );
   let restaurants = await duckdb.selectFrom("restaurants").selectAll().execute();
   if (opts.url) restaurants = restaurants.filter((r) => r.url.includes(opts.url as string));
   if (opts.limit) restaurants = restaurants.slice(0, opts.limit);
@@ -137,7 +140,7 @@ export const ingestTabelog = async (opts: IngestTabelogOptions) => {
         .where("url", "==", r.url)
         .execute();
       for (const rk of ranked) {
-        const area = areas.find((a) => a.areaId === rk.area);
+        const area = areaById.get(rk.area);
         if (!area) continue;
         await db
           .insertInto("placeListings")

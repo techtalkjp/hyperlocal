@@ -1,20 +1,8 @@
 import { areas } from "@hyperlocal/consts";
 import { Link } from "react-router";
-import {
-  Button,
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  HStack,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "~/components/ui";
+import { Button, Card, CardContent, Table, TableBody, TableCell, TableRow } from "~/components/ui";
+import { PageHeader } from "~/components/page-header";
+import { TableHeadRow } from "~/components/table-head-row";
 import type { Route } from "./+types/_index";
 
 export const loader = () => {
@@ -24,30 +12,20 @@ export const loader = () => {
 export default function AdminAreasIndexPage({ loaderData: { areas } }: Route.ComponentProps) {
   return (
     <Card>
-      <CardHeader>
-        <HStack className="items-start">
-          <div className="flex-1">
-            <CardTitle>Areas</CardTitle>
-            <CardDescription>Area master data</CardDescription>
-          </div>
+      <PageHeader
+        title="Areas"
+        description="Area master data"
+        action={
           <Button variant="outline" asChild>
             <Link to="add">Add New</Link>
           </Button>
-        </HStack>
-      </CardHeader>
+        }
+      />
       <CardContent>
         <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Area ID</TableHead>
-              <TableHead>City ID</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>i18n</TableHead>
-              <TableHead>Longitude</TableHead>
-              <TableHead>Latitude</TableHead>
-              <TableHead>Radius</TableHead>
-            </TableRow>
-          </TableHeader>
+          <TableHeadRow
+            heads={["Area ID", "City ID", "Name", "i18n", "Longitude", "Latitude", "Radius"]}
+          />
           <TableBody>
             {areas.map((area) => (
               <TableRow key={area.areaId}>

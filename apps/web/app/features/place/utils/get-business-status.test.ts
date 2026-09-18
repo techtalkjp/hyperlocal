@@ -8,7 +8,7 @@ import {
 describe("getBusinessStatus with timezone", () => {
   const businessHours: BusinessHours = {
     periods: [
-      // 月曜日　（テスト対象)
+      // 月曜日 （テスト対象)
       {
         open: { day: 1, hour: 11, minute: 0 },
         close: { day: 1, hour: 15, minute: 30 },

@@ -56,7 +56,8 @@ const dumpTable = async (table: string, orderBy: string, chunkSize = 0) => {
     if (rows.length === 0) break;
     part++;
     const conflict = CONFLICT_COLS[table] ?? ["id"];
-    const updatable = cols.filter((c) => c !== "id" && !conflict.includes(c));
+    const conflictSet = new Set(conflict);
+    const updatable = cols.filter((c) => c !== "id" && !conflictSet.has(c));
     const lines = (rows as Record<string, unknown>[]).map((r) => {
       // kysely CamelCasePlugin済み (google_place_id -> googlePlaceId) の両対応
       const val = (c: string) => r[c] ?? r[camel(c)];

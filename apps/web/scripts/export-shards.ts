@@ -158,9 +158,12 @@ counts.guide = 0;
 if (only.has("guide")) {
   for (const a of articles) {
     const row = a as unknown as Record<string, unknown>;
-    const content = String(row.content ?? "");
+    const content = (row.content as string | null) ?? "";
     const placeIds = [...new Set([...content.matchAll(/<Place id="([^"]+)"/g)].map((m) => m[1]))];
-    bytes += write(`guide/${row.language}/${row.areaId}/${row.sceneId}.json`, {
+    const language = String(row.language ?? "");
+    const areaId = String(row.areaId ?? "");
+    const sceneId = String(row.sceneId ?? "");
+    bytes += write(`guide/${language}/${areaId}/${sceneId}.json`, {
       ...row,
       placeIds,
     });

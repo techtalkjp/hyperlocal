@@ -25,6 +25,8 @@ const BROWSER_UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) hyperlocal-s
 const GOOGLEBOT_UA =
   "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html) hyperlocal-seo-check/1.0";
 
+const errMsg = (e: unknown) => (e instanceof Error ? e.message : String(e));
+
 interface UrlCheck {
   url: string;
   status: number | string;
@@ -195,8 +197,8 @@ const main = async () => {
       lines.push("- 注: GPTBot/SemrushBotのDisallowあり(Googlebotには影響なし)");
     }
   } catch (e) {
-    warn.push(`robots.txt取得失敗: ${e instanceof Error ? e.message : e}`);
-    lines.push(`- 取得失敗: ${e instanceof Error ? e.message : e}`);
+    warn.push(`robots.txt取得失敗: ${errMsg(e)}`);
+    lines.push(`- 取得失敗: ${errMsg(e)}`);
   }
   lines.push("");
 
@@ -214,7 +216,7 @@ const main = async () => {
       for (const loc of childSitemaps) lines.push(`  - ${loc}`);
     }
   } catch (e) {
-    warn.push(`sitemap.xml取得失敗: ${e instanceof Error ? e.message : e}`);
+    warn.push(`sitemap.xml取得失敗: ${errMsg(e)}`);
   }
   lines.push("");
 
@@ -239,7 +241,7 @@ const main = async () => {
   for (const result of childResults) {
     if (!result.ok) {
       const { child, error } = result;
-      lines.push(`- ${child}: 取得失敗(${error instanceof Error ? error.message : error}) ←要修正`);
+      lines.push(`- ${child}: 取得失敗(${errMsg(error)}) ←要修正`);
       warn.push(`子sitemap取得失敗: ${child}`);
       continue;
     }
@@ -306,7 +308,7 @@ const main = async () => {
         warn.push(`UAでステータスが変わる: ${browser.res.status} vs ${bot.res.status}`);
       }
     } catch (e) {
-      lines.push(`- 差分取得失敗: ${e instanceof Error ? e.message : e}`);
+      lines.push(`- 差分取得失敗: ${errMsg(e)}`);
     }
   }
   lines.push("");

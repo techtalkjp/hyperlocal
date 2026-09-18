@@ -63,7 +63,8 @@ export default function App() {
     <>
       <script
         dangerouslySetInnerHTML={{
-          __html: `window.ENV = ${JSON.stringify(ENV)}`,
+          // `</script>` による script 突破対策
+          __html: `window.ENV = ${JSON.stringify(ENV).replace(/</g, "\\u003c")}`,
         }}
       />
       <Outlet />

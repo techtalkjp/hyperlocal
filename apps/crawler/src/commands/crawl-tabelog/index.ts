@@ -62,18 +62,17 @@ const crawlTabelog = async (
   const reviewDataset = await Dataset.open("review");
   await reviewDataset.drop();
 
-  for (const area of areas) {
-    if (!opts.all && !areaIds.includes(area.areaId)) {
-      continue;
-    }
+  const areaIdSet = new Set(areaIds);
+  const requests = areas
+    .filter((area) => opts.all || areaIdSet.has(area.areaId))
+    .map((area) => ({
+      url: area.tabelogUrl,
+      label: HandlerLabel.RESTAURANT_LIST,
+      userData: { area: area.areaId },
+    }));
 
-    await crawler.addRequests([
-      {
-        url: area.tabelogUrl,
-        label: HandlerLabel.RESTAURANT_LIST,
-        userData: { area: area.areaId },
-      },
-    ]);
+  if (requests.length > 0) {
+    await crawler.addRequests(requests);
   }
 
   await crawler.run();

@@ -48,7 +48,7 @@ export const NearbyAreasSelector = ({ languageId }: { languageId: LanguageId }) 
   const handleOpenChange = (open: boolean) => {
     setIsOpen(open);
     if (open) {
-      fetcher.load("/resources/nearby-areas");
+      void fetcher.load("/resources/nearby-areas");
     }
   };
 

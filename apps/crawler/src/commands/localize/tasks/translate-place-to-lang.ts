@@ -33,10 +33,13 @@ export const translatePlaceToLangTask = async ({
   }
 
   const sourceHash = sourceHashOf(place as unknown as Place);
+  const areaById = new Map<string, (typeof areas)[number]>(
+    areas.map((a) => [a.areaId, a]),
+  );
 
   // 全ての掲載キー (city/area/category/ranking) が同ハッシュ済みならスキップ
   const expectedKeys = ranked.flatMap((areaCategory) => {
-    const area = areas.find((a) => a.areaId === areaCategory.area);
+    const area = areaById.get(areaCategory.area);
     if (!area) {
       return [];
     }
@@ -81,7 +84,7 @@ export const translatePlaceToLangTask = async ({
 
   // localized place 保存
   for (const areaCategory of ranked) {
-    const area = areas.find((a) => a.areaId === areaCategory.area);
+    const area = areaById.get(areaCategory.area);
     if (!area) {
       consola.error("no area found for areaId", areaCategory.area);
       continue;

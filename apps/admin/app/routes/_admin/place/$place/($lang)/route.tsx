@@ -55,8 +55,8 @@ export default function AdminPlaceLayout({
         </HStack>
 
         <Stack>
-          {place.reviews.map((review, idx) => (
-            <div key={`${idx}-${review.originalText?.text}`}>
+          {place.reviews.map((review) => (
+            <div key={review.originalText?.text ?? review.rating}>
               <Rating star={review.rating} size={14} withLabel className="shrink-0" />
               <div>{review.originalText?.text}</div>
             </div>

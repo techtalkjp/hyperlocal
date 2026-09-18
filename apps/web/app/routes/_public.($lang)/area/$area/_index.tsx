@@ -37,7 +37,7 @@ export const meta: Route.MetaFunction = ({ loaderData, location }) => {
 };
 
 export const loader = async ({ request, params }: Route.LoaderArgs) => {
-  const { lang, city, area } = await getPathParams(request, params, {
+  const { lang, city, area } = getPathParams(request, params, {
     require: { area: true },
   });
 

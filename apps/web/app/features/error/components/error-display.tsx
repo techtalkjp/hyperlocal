@@ -18,7 +18,7 @@ export const ErrorDisplay = ({ errorType, languageId = "en" }: ErrorDisplayProps
 
   const handleRetry = () => {
     setIsRetrying(true);
-    revalidator.revalidate();
+    void revalidator.revalidate();
 
     // 3秒後に再試行ボタンを再度有効化
     setTimeout(() => {

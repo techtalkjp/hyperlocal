@@ -19,6 +19,8 @@ function runCompiled(
   globals: Record<string, unknown> = {},
 ): { default: (props: { components?: object }) => React.ReactElement } {
   const scope = { React, _jsx_runtime: jsxRuntime, ...globals };
+  // 本番と同じくコンパイル済みMDXを実行するための new Function。テスト対象の仕様。
+  // eslint-disable-next-line no-implied-eval
   const fn = new Function(...Object.keys(scope), code);
   return fn(...Object.values(scope));
 }

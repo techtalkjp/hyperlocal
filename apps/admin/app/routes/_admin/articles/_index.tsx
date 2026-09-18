@@ -5,17 +5,13 @@ import {
   Button,
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  HStack,
   Table,
   TableBody,
   TableCell,
-  TableHead,
-  TableHeader,
   TableRow,
 } from "~/components/ui";
+import { PageHeader } from "~/components/page-header";
+import { TableHeadRow } from "~/components/table-head-row";
 import { getEnv } from "~/lib/request-context";
 import { listAreaArticles } from "./+queries.server";
 import type { Route } from "./+types/_index";
@@ -26,32 +22,24 @@ export const loader = async ({ context }: Route.LoaderArgs) => {
 };
 
 export default function ArticlesIndexPage({ loaderData: { articles } }: Route.ComponentProps) {
+  const areaById = new Map<string, (typeof areas)[number]>(areas.map((a) => [a.areaId, a]));
+  const sceneById = new Map<string, (typeof scenes)[number]>(scenes.map((s) => [s.id, s]));
   return (
     <Card>
-      <CardHeader>
-        <HStack className="items-start">
-          <div className="flex-1">
-            <CardTitle>Area Articles</CardTitle>
-            <CardDescription>Manage hyperlocal area guide articles</CardDescription>
-          </div>
+      <PageHeader
+        title="Area Articles"
+        description="Manage hyperlocal area guide articles"
+        action={
           <Button asChild>
             <Link to="/articles/new">Create New Article</Link>
           </Button>
-        </HStack>
-      </CardHeader>
+        }
+      />
       <CardContent>
         <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Title</TableHead>
-              <TableHead>Area</TableHead>
-              <TableHead>Scene</TableHead>
-              <TableHead>Language</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Updated</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
+          <TableHeadRow
+            heads={["Title", "Area", "Scene", "Language", "Status", "Updated", "Actions"]}
+          />
           <TableBody>
             {articles.length === 0 ? (
               <TableRow>
@@ -61,8 +49,8 @@ export default function ArticlesIndexPage({ loaderData: { articles } }: Route.Co
               </TableRow>
             ) : (
               articles.map((article) => {
-                const area = areas.find((a) => a.areaId === article.areaId);
-                const scene = scenes.find((s) => s.id === article.sceneId);
+                const area = areaById.get(article.areaId);
+                const scene = sceneById.get(article.sceneId);
                 return (
                   <TableRow key={article.id}>
                     <TableCell className="font-medium">{article.title}</TableCell>

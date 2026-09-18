@@ -17,7 +17,7 @@ export function UserMenu() {
 
   const handleSignOut = async () => {
     await signOut();
-    navigate("/login");
+    await navigate("/login");
   };
 
   if (!session?.user) return null;
@@ -45,7 +45,7 @@ export function UserMenu() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleSignOut}>
+        <DropdownMenuItem onClick={() => void handleSignOut()}>
           <LogOut className="mr-2 h-4 w-4" />
           ログアウト
         </DropdownMenuItem>
