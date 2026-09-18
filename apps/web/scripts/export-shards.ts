@@ -160,9 +160,9 @@ if (only.has("guide")) {
     const row = a as unknown as Record<string, unknown>;
     const content = (row.content as string | null) ?? "";
     const placeIds = [...new Set([...content.matchAll(/<Place id="([^"]+)"/g)].map((m) => m[1]))];
-    const language = String(row.language ?? "");
-    const areaId = String(row.areaId ?? "");
-    const sceneId = String(row.sceneId ?? "");
+    const language = (row.language as string) ?? "";
+    const areaId = (row.areaId as string) ?? "";
+    const sceneId = (row.sceneId as string) ?? "";
     bytes += write(`guide/${language}/${areaId}/${sceneId}.json`, {
       ...row,
       placeIds,

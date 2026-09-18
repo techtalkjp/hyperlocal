@@ -11,6 +11,7 @@ allowBuilds:
 
 catalog:
   "@ai-sdk/google": 4.0.69
+  "@shadcn/lint": 0.1.1
   "@coji/zodix": 0.7.0
   "@conform-to/react": 1.21.1
   "@conform-to/zod": 1.21.1
@@ -80,6 +81,7 @@ catalog:
 
 minimumReleaseAgeExclude:
   - googleapis@181.0.0
+  - '@shadcn/lint@0.1.1'
 overrides:
   vite@*: "catalog:"
   vitest@*: "catalog:"
