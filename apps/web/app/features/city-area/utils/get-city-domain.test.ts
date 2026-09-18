@@ -1,5 +1,5 @@
 import type { City } from '@hyperlocal/consts' // Adjust the import path as needed
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 import { getCityDomain } from './get-city-domain' // Adjust the import path as needed
 
 describe('getCityDomain', () => {

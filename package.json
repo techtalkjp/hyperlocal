@@ -20,7 +20,9 @@
   "devDependencies": {
     "@biomejs/biome": "catalog:",
     "react-doctor": "catalog:",
-    "turbo": "catalog:"
+    "turbo": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
   },
   "packageManager": "pnpm@12.4.1",
   "devEngines": {

@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 import React from 'react'
 import * as jsxRuntime from 'react/jsx-runtime'
 import { renderToStaticMarkup } from 'react-dom/server'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 import { compileMDX } from './mdx.server'
 
 const dir = dirname(fileURLToPath(import.meta.url))
