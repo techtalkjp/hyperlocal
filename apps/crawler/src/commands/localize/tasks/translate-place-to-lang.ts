@@ -1,7 +1,7 @@
 import { areas } from "@hyperlocal/consts/src";
 import { db, type Place } from "@hyperlocal/db";
 import consola from "consola";
-import { upsertLocalizedPlace } from "~/features/localize/mutations.server";
+import { upsertLocalizedPlaces } from "~/features/localize/mutations.server";
 import { sourceHashOf } from "~/features/localize/source-hash";
 import { translatePlace } from "~/features/localize/translate-place";
 import { db as duckdb } from "~/services/duckdb.server";
@@ -82,15 +82,24 @@ export const translatePlaceToLangTask = async ({
   // 翻訳
   const translated = await translatePlace(place as unknown as Place, from, to);
 
-  // localized place 保存
+  // localized place 保存 (全掲載キー分を1文でupsert)
+  const rows: {
+    cityId: string;
+    areaId: string;
+    categoryId: string;
+    languageId: string;
+    rankingType: string;
+    place: Place;
+    translated: Awaited<ReturnType<typeof translatePlace>>;
+    sourceHash: string;
+  }[] = [];
   for (const areaCategory of ranked) {
     const area = areaById.get(areaCategory.area);
     if (!area) {
       consola.error("no area found for areaId", areaCategory.area);
       continue;
     }
-
-    await upsertLocalizedPlace({
+    rows.push({
       cityId: area.cityId,
       areaId: area.areaId,
       categoryId: areaCategory.category,
@@ -101,4 +110,6 @@ export const translatePlaceToLangTask = async ({
       sourceHash,
     });
   }
+
+  await upsertLocalizedPlaces(rows);
 };
