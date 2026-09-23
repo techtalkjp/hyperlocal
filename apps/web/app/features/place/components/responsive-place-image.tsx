@@ -14,15 +14,16 @@ const IMAGE_SIZES = {
  * @param imageUrl 元のGoogle Places画像URL
  * @returns デバイスごとの最適化された画像URL
  */
-const getResponsiveImageUrls = (imageUrl: string) => {
-  // URLが正しいフォーマットかチェック
-  if (!imageUrl.includes("googleusercontent.com/places/")) {
-    throw new Error("Invalid Google Places image URL");
-  }
+const isGooglePlacesImage = (url: string) => url.includes("googleusercontent.com/places/");
 
+/**
+ * Google Places 画像URLならデバイスごとのサイズ指定URLを生成する。
+ * それ以外 (ホットペッパー等、サイズ指定できない画像) は同じURLをそのまま返す。
+ */
+const getResponsiveImageUrls = (imageUrl: string) => {
   const [baseUrl] = imageUrl.split("=");
-  if (!baseUrl) {
-    throw new Error("Invalid URL format");
+  if (!isGooglePlacesImage(imageUrl) || !baseUrl) {
+    return { mobile: imageUrl, tablet: imageUrl, desktop: imageUrl } as const;
   }
 
   return {

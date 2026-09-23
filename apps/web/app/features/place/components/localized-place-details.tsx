@@ -56,24 +56,30 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
       <CardContent className="p-2 md:p-4">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <div className="md:col-span-2">
-            <Carousel>
-              <CarouselContent>
-                {place.photos.map((photoUrl, index) => (
-                  <CarouselItem key={photoUrl}>
-                    <ResponsivePlacesImage
-                      imageUrl={photoUrl}
-                      alt={`${place.displayName} - ${index + 1}`}
-                      className="aspect-square w-full rounded-lg object-cover"
-                      style={{
-                        viewTransitionName: index === 0 ? `hero-${place.placeId}` : "",
-                      }}
-                    />
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
+            {place.photos.length === 0 ? (
+              <div className="bg-muted text-muted-foreground grid aspect-square w-full place-content-center rounded-lg text-sm">
+                No Photo
+              </div>
+            ) : (
+              <Carousel>
+                <CarouselContent>
+                  {place.photos.map((photoUrl, index) => (
+                    <CarouselItem key={photoUrl}>
+                      <ResponsivePlacesImage
+                        imageUrl={photoUrl}
+                        alt={`${place.displayName} - ${index + 1}`}
+                        className="aspect-square w-full rounded-lg object-cover"
+                        style={{
+                          viewTransitionName: index === 0 ? `hero-${place.placeId}` : "",
+                        }}
+                      />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
+            )}
           </div>
 
           <Stack className="gap-2">
