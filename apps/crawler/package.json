@@ -13,7 +13,9 @@
     "format": "vp fmt --check .",
     "format:fix": "vp fmt --write .",
     "lint": "vp lint .",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "test": "vp test --run",
+    "validate": "run-s lint format typecheck test"
   },
   "dependencies": {
     "@ai-sdk/google": "catalog:",
@@ -36,6 +38,9 @@
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "typescript": "catalog:"
+    "npm-run-all": "catalog:",
+    "typescript": "catalog:",
+    "vite-plus": "catalog:",
+    "vitest": "catalog:"
   }
 }

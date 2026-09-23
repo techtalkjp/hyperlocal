@@ -13,6 +13,15 @@ export const SiteFooter = ({ languageId }: { languageId: LanguageId }) => {
         </p>
       </div>
       <div className="flex-1" />
+      {/* ホットペッパーグルメ Webサービスの利用規約で必須のクレジット表記 (店舗写真の出典) */}
+      <a
+        href="http://webservice.recruit.co.jp/"
+        target="_blank"
+        rel="noreferrer"
+        className="text-muted-foreground mr-3 text-xs"
+      >
+        Powered by ホットペッパーグルメ Webサービス
+      </a>
       <LanguageSelect currentLanguageId={languageId}>Language</LanguageSelect>
     </footer>
   );

@@ -25,6 +25,8 @@ const main = defineCommand({
     localize: (await import("./commands/localize")).default,
     // 04. Tabelog直結でstagingに取込 (Google不使用)
     ingestTabelog: (await import("./commands/ingest-tabelog")).default,
+    // 05. 写真の無い店にホットペッパーの店舗写真を補完する (無料)
+    enrichHotpepper: (await import("./commands/enrich-hotpepper")).default,
   },
 });
 

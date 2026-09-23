@@ -34,19 +34,24 @@ export const listLocalizedPlaces = async ({
       "regularOpeningHours",
       () =>
         sql`
-          JSON_ARRAY
-          (
-            JSON_SET(
-              JSON_EXTRACT(reviews, '$[0]'),
-              '$.text',
-              SUBSTRING(
-                JSON_EXTRACT(reviews, '$[0].text'),
-                1,
-                350
+          CASE WHEN JSON_ARRAY_LENGTH(reviews) > 0 THEN
+            JSON_ARRAY
+            (
+              JSON_SET(
+                JSON_EXTRACT(reviews, '$[0]'),
+                '$.text',
+                SUBSTRING(
+                  JSON_EXTRACT(reviews, '$[0].text'),
+                  1,
+                  350
+                )
               )
             )
-          )`.as("reviews"), // 最初のレビューを取得し、内容を350文字に制限
-      () => sql`JSON_ARRAY(JSON_EXTRACT(photos, '$[0]'))`.as("photos"), // 最初の写真だけ取得
+          ELSE JSON_ARRAY() END`.as("reviews"), // 最初のレビューだけ (350文字まで)。空なら [] (null要素を作らない)
+      () =>
+        sql`CASE WHEN JSON_ARRAY_LENGTH(photos) > 0 THEN JSON_ARRAY(JSON_EXTRACT(photos, '$[0]')) ELSE JSON_ARRAY() END`.as(
+          "photos",
+        ), // 最初の写真だけ。空なら [] (null要素を作らない)
     ])
     .distinct()
     .where("cityId", "==", cityId)

@@ -56,10 +56,10 @@ export const translatePlaceToLangTask = async ({
         .map((row) => `${row.cityId}/${row.areaId}/${row.categoryId}/${row.rankingType}`),
     );
     if (expectedKeys.every((key) => doneKeys.has(key))) {
-      // 原文不変でも評価・件数は追随 (APIなしの安価UPDATE)
+      // 原文不変でも評価・件数・写真・営業時間・価格帯は追随 (APIなしの安価UPDATE)
       const current = await db
         .selectFrom("places")
-        .select(["rating", "userRatingCount"])
+        .select(["rating", "userRatingCount", "photos", "regularOpeningHours", "priceLevel"])
         .where("id", "==", placeId)
         .executeTakeFirstOrThrow();
       await db
@@ -67,6 +67,11 @@ export const translatePlaceToLangTask = async ({
         .set({
           rating: current.rating,
           userRatingCount: current.userRatingCount,
+          photos: JSON.stringify(current.photos),
+          regularOpeningHours: current.regularOpeningHours
+            ? JSON.stringify(current.regularOpeningHours)
+            : null,
+          priceLevel: current.priceLevel,
         })
         .where("placeId", "==", placeId)
         .where("language", "==", to)

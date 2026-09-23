@@ -12,7 +12,7 @@ export const PlaceCard = ({ place, no }: PlaceCardProps) => {
   return (
     <HStack className="items-start gap-4" key={place.id}>
       <div className="bg-muted text-muted-foreground grid h-32 w-32 shrink-0 place-content-center place-items-center rounded">
-        {place.photos.length > 0 ? (
+        {place.photos[0] ? (
           <img
             className="h-32 w-32 rounded object-cover"
             src={place.photos[0]}

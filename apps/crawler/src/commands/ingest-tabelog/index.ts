@@ -3,6 +3,7 @@ import { db, extractStation, googleMapsSearchUrl, selfIdFromSourceUri } from "@h
 import { defineCommand } from "citty";
 import consola from "consola";
 import { upsertPlace } from "../mutations";
+import { parseTabelogOpeningHours } from "~/features/tabelog/parse-opening-hours";
 import { geocodeBlock } from "~/services/gsi";
 import { db as duckdb } from "~/services/duckdb.server";
 
@@ -119,8 +120,11 @@ export const ingestTabelog = async (opts: IngestTabelogOptions) => {
       rating,
       userRatingCount,
       priceLevel: priceLevelOf([r.budgetDinner, r.budgetLunch]),
-      // reviews/photos/hoursは既存温存 (Google-legacy凍結)、新規は空
-      regularOpeningHours: existing ? asText(existing.regularOpeningHours) : null,
+      // 営業時間: Tabelogの営業時間欄を構造化できたらそれを採用 (Google凍結値より新しい)。
+      // 解析できなければ既存を温存。reviews/photosは既存温存 (Google-legacy凍結)、新規は空
+      regularOpeningHours:
+        asText(parseTabelogOpeningHours(features["営業時間"])) ??
+        (existing ? asText(existing.regularOpeningHours) : null),
       photos: existing ? (asText(existing.photos) ?? "[]") : "[]",
       reviews: existing ? (asText(existing.reviews) ?? "[]") : "[]",
       categories: JSON.stringify(r.categories.split(",")),
