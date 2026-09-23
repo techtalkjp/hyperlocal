@@ -18,9 +18,11 @@
 
 `seo:sc perf` の直近28日では clicks 0、impressions 1(前回比+1)だった。クエリは `hyperlocal`、対象は apex の `http://hyper-local.app/`、掲載順位は81位である。まだ誤差のような数字だが、9月15日時点の完全なゼロからは初めての動きであり、クロール再開と sitemap 再送信が実績に反映され始めた兆しと読める。
 
-## 気になる点: place 件数の減少
+## place 件数減の原因: 9/16〜17の再ingest
 
-place 系 sitemap の件数が現在は各言語2,203〜2,205件で、9月15日の記録にあった約3,900件から減っている。実ファイルと Search Console の検出値は一致しているため、給餌の不具合ではなくデータ側の変化と見られる。意図した pruning であれば問題ないが、心当たりがなければ母数の変化を確認したい。
+place 系 sitemap の件数は現在は各言語2,203〜2,205件で、9月15日の記録にあった約3,900件から減っている。公開中の shard manifest(`version 202609171627`、9月17日発行)の `place: 11018`(5言語合計)とも一致するため、給餌の不具合ではない。
+
+タイムラインを追うと、9月16日の `Google-free ingest: Tabelog-direct staging writer`、9月17日の `Ingest guards: skip unscored new`・`Localize by URL join`・`DuckDB脱Google-ID` という再ingestの一連があり、直後に shard が再発行されている。つまり9/15〜9/17の間にデータが新しいパイプラインで作り直され、スコアなし新規の除外や URL 突合への切替で約1,700件/言語が落ちたものと見られる。意図した絞り込みの範囲内だが、どのガードで何件落ちたかの内訳は取っていない。必要なら新旧の place 集合差分で特定できる。
 
 ## 次回
 
