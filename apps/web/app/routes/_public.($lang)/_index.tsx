@@ -24,12 +24,17 @@ export const headers: Route.HeadersFunction = () => ({
   "Cache-Tag": "top",
 });
 
-const metaDescriptions: Record<string, string> = {
-  en: "Discover top-rated restaurants and places across Tokyo. Explore 20 areas with real-time status, ratings, and instant guides for cafes, dining, and local spots.",
-  ja: "東京の厳選レストランとスポットを発見。20エリアのカフェ、グルメ、ローカルスポットをリアルタイムの営業状況と評価でチェック。",
-  "zh-cn": "探索东京的顶级餐厅和场所。覆盖20个地区，提供咖啡馆、餐饮和本地景点的实时状态和评分。",
-  "zh-tw": "探索東京的頂級餐廳和場所。覆蓋20個地區，提供咖啡廳、餐飲和本地景點的即時狀態和評分。",
-  ko: "도쿄의 최고 평점 레스토랑과 장소를 발견하세요. 20개 지역의 카페, 맛집, 로컬 명소를 실시간 영업 정보와 평점으로 확인하세요.",
+const metaDescriptions: Record<string, (n: number) => string> = {
+  en: (n) =>
+    `Discover top-rated restaurants and places across Tokyo. Explore ${n} areas with real-time status, ratings, and instant guides for cafes, dining, and local spots.`,
+  ja: (n) =>
+    `東京の厳選レストランとスポットを発見。${n}エリアのカフェ、グルメ、ローカルスポットをリアルタイムの営業状況と評価でチェック。`,
+  "zh-cn": (n) =>
+    `探索东京的顶级餐厅和场所。覆盖${n}个地区，提供咖啡馆、餐饮和本地景点的实时状态和评分。`,
+  "zh-tw": (n) =>
+    `探索東京的頂級餐廳和場所。覆蓋${n}個地區，提供咖啡廳、餐飲和本地景點的即時狀態和評分。`,
+  ko: (n) =>
+    `도쿄의 최고 평점 레스토랑과 장소를 발견하세요. ${n}개 지역의 카페, 맛집, 로컬 명소를 실시간 영업 정보와 평점으로 확인하세요.`,
 };
 
 export const meta: Route.MetaFunction = ({ loaderData, location }) => {
@@ -40,7 +45,9 @@ export const meta: Route.MetaFunction = ({ loaderData, location }) => {
     },
     {
       name: "description",
-      content: metaDescriptions[loaderData.lang.id] || metaDescriptions.en,
+      content: (metaDescriptions[loaderData.lang.id] ?? metaDescriptions.en)(
+        loaderData.areas.length,
+      ),
     },
     generateCanonicalLink(location.pathname),
     ...generateAlternateLinks({

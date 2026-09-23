@@ -4,7 +4,13 @@ import consola from "consola";
 import { db as duckdb } from "~/services/duckdb.server";
 import { translatePlaceToLangTask } from "./translate-place-to-lang";
 
-export const translatePlaceTask = async ({ placeId }: { placeId: string }) => {
+export const translatePlaceTask = async ({
+  placeId,
+  langs,
+}: {
+  placeId: string;
+  langs?: string[];
+}) => {
   const place = await db
     .selectFrom("places")
     .select(["id", "sourceUri"])
@@ -22,8 +28,9 @@ export const translatePlaceTask = async ({ placeId }: { placeId: string }) => {
     return;
   }
 
-  // 各言語に翻訳
-  for (const lang of languages) {
+  // 各言語に翻訳 (langs 指定時はその言語だけ)
+  const targets = langs ? languages.filter((l) => langs.includes(l.id)) : languages;
+  for (const lang of targets) {
     consola.info(`translate ${place.id} to ${lang.id}`);
     await translatePlaceToLangTask({
       placeId: place.id,

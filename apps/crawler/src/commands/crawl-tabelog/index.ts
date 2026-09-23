@@ -22,13 +22,24 @@ export default defineCommand({
     },
     all: {
       type: "boolean",
-      description: "全てのエリアをクロールする",
+      description: "全てのエリアをクロールする (既存データセットをパージしてから)",
+    },
+    area: {
+      type: "string",
+      description: "エリアIDをカンマ区切りで指定 (既存データセットに追記。パージしない)",
+      default: undefined,
     },
   },
   run: async ({ args }) => {
     const delay = args.delay ? Number.parseInt(args.delay, 10) : undefined;
     const maxRequest = args.max ? Number.parseInt(args.max, 10) : undefined;
-    await crawlTabelog({ delay, maxRequest, all: args.all }, []);
+    const areaIds = args.area
+      ? args.area
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean)
+      : [];
+    await crawlTabelog({ delay, maxRequest, all: args.all }, areaIds);
   },
 });
 
@@ -56,13 +67,21 @@ const crawlTabelog = async (
     sameDomainDelaySecs: opts.delay,
   });
 
-  // データセットをパージ
-  const restaurantDataset = await Dataset.open("restaurant");
-  await restaurantDataset.drop();
-  const reviewDataset = await Dataset.open("review");
-  await reviewDataset.drop();
+  // --all のときだけデータセットをパージ。エリア指定時は追記し、
+  // 重複は duckdb 側 (crawled_restaurants view) で url+area の最新を採る
+  if (opts.all) {
+    const restaurantDataset = await Dataset.open("restaurant");
+    await restaurantDataset.drop();
+    const reviewDataset = await Dataset.open("review");
+    await reviewDataset.drop();
+  }
 
   const areaIdSet = new Set(areaIds);
+  const unknown = areaIds.filter((id) => !areas.some((a) => a.areaId === id));
+  if (unknown.length > 0) {
+    consola.error(`Unknown area ids: ${unknown.join(", ")}`);
+    return;
+  }
   const requests = areas
     .filter((area) => opts.all || areaIdSet.has(area.areaId))
     .map((area) => ({

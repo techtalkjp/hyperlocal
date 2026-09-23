@@ -27,6 +27,11 @@ export default defineCommand({
       description: "指定した場所のみ翻訳する",
       default: undefined,
     },
+    langs: {
+      type: "string",
+      description: "翻訳先言語をカンマ区切りで限定する (例: ja,en)。省略時は全言語",
+      default: undefined,
+    },
   },
   run: async ({ args }) => {
     const count = Number.parseInt(args.count, 10);
@@ -38,6 +43,12 @@ export default defineCommand({
       all: args.all ?? false,
       refresh: args.refresh ?? false,
       placeId: args.placeId,
+      langs: args.langs
+        ? args.langs
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean)
+        : undefined,
     });
   },
 });
@@ -54,6 +65,7 @@ interface LocalizeOptions {
   all: boolean;
   refresh: boolean;
   placeId?: string;
+  langs?: string[];
 }
 export const localize = async (opts: LocalizeOptions) => {
   const updatedPlaces = await db
@@ -85,6 +97,7 @@ export const localize = async (opts: LocalizeOptions) => {
       chunk.map((place) =>
         translatePlaceTask({
           placeId: place.id,
+          langs: opts.langs,
         }),
       ),
     );

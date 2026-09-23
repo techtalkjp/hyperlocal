@@ -135,8 +135,10 @@ export interface Database {
 }
 
 export const tableMappings = {
+  // エリア指定クロールは追記なので、同一 url+area はファイル名(=クロール順)が最新の1件を採る
   crawled_restaurants: `
-    read_json('./storage/datasets/restaurant/*.json',
+    (SELECT * EXCLUDE (filename) FROM read_json('./storage/datasets/restaurant/*.json',
+      filename=true,
       columns={
         "url": "STRING",
         "area": "STRING",
@@ -150,7 +152,8 @@ export const tableMappings = {
         "categories": "JSON",
         "genres": "JSON",
         "features": "JSON"
-      })`,
+      })
+    QUALIFY ROW_NUMBER() OVER (PARTITION BY url, area ORDER BY filename DESC) = 1)`,
   tabelog_genres: `
     read_json('./tabelog-genres.json',
       columns={
