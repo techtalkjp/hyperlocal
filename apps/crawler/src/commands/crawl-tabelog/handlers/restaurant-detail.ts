@@ -15,6 +15,7 @@ export const restaurantDetailHandler: Handler = async ({ request, $, log }) => {
     budgetLunch: $(".rdheader-budget__icon:eq(1) .c-rating-v3__val").text().trim(),
     closedDay: $("#short-comment").text().trim(),
     address: $(".rstinfo-table__address").text().trim(),
+    imageUrl: $('meta[property="og:image"]').attr("content")?.trim() || undefined,
     features: {},
   };
 

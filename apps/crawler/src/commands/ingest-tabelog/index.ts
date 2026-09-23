@@ -64,11 +64,22 @@ export const ingestTabelog = async (opts: IngestTabelogOptions) => {
 
   const crawled = await duckdb
     .selectFrom("crawled_restaurants")
-    .select(["url", "features"])
+    .select(["url", "features", "imageUrl"])
     .execute();
   const featuresByUrl = new Map(
     crawled.map((c) => [c.url, c.features as unknown as Record<string, string>]),
   );
+  const imageUrlByUrl = new Map(crawled.map((c) => [c.url, c.imageUrl]));
+
+  // 写真の優先順位: Google (Places API 由来、許諾あり) > Tabelog og:image (640px) > それ以外の既存 (Hotpepper 238px)
+  const pickPhotos = (existingPhotos: unknown, tabelogImage: string | null | undefined): string => {
+    const current = Array.isArray(existingPhotos) ? (existingPhotos as string[]) : [];
+    if (current.some((u) => typeof u === "string" && u.includes("googleusercontent.com/"))) {
+      return JSON.stringify(current);
+    }
+    if (tabelogImage) return JSON.stringify([tabelogImage]);
+    return JSON.stringify(current);
+  };
 
   let added = 0;
   let updated = 0;
@@ -121,11 +132,11 @@ export const ingestTabelog = async (opts: IngestTabelogOptions) => {
       userRatingCount,
       priceLevel: priceLevelOf([r.budgetDinner, r.budgetLunch]),
       // 営業時間: Tabelogの営業時間欄を構造化できたらそれを採用 (Google凍結値より新しい)。
-      // 解析できなければ既存を温存。reviews/photosは既存温存 (Google-legacy凍結)、新規は空
+      // 解析できなければ既存を温存。reviewsは既存温存 (Google-legacy凍結)、新規は空
       regularOpeningHours:
         asText(parseTabelogOpeningHours(features["営業時間"])) ??
         (existing ? asText(existing.regularOpeningHours) : null),
-      photos: existing ? (asText(existing.photos) ?? "[]") : "[]",
+      photos: pickPhotos(existing?.photos, imageUrlByUrl.get(r.url)),
       reviews: existing ? (asText(existing.reviews) ?? "[]") : "[]",
       categories: JSON.stringify(r.categories.split(",")),
       genres: JSON.stringify(r.genres.split(",")),

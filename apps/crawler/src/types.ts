@@ -8,6 +8,8 @@ export interface CrawledRestaurants {
   budgetLunch: string;
   closedDay: string;
   address: string;
+  // 代表写真 (og:image, 640x640)。旧クロール分は無い
+  imageUrl?: string;
   features: Record<string, string>;
 }
 

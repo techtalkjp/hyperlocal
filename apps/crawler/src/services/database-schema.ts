@@ -37,6 +37,7 @@ export interface Database {
     budgetLunch: string;
     closedDay: string;
     address: string;
+    imageUrl: string | null;
     features: Record<string, string>;
   };
   tabelog_genres: {
@@ -149,6 +150,7 @@ export const tableMappings = {
         "budgetLunch": "STRING",
         "closedDay": "STRING",
         "address": "STRING",
+        "imageUrl": "STRING",
         "categories": "JSON",
         "genres": "JSON",
         "features": "JSON"
