@@ -15,9 +15,9 @@ export const ReviewSection: React.FC<ReviewSectionProps> = React.memo(({ place, 
   return (
     <div className={cn(className)}>
       {isValidText && (
-        <HStack className="text-muted-foreground items-start">
-          <MessageSquareIcon className="mt-0.5 h-3 w-3 shrink-0 sm:mt-1 sm:h-4 sm:w-4 md:h-5 md:w-5" />
-          <div className="line-clamp-3">"{reviewText}"</div>
+        <HStack className="items-start">
+          <MessageSquareIcon className="text-muted-foreground mt-0.5 h-3 w-3 shrink-0 sm:mt-1 sm:h-4 sm:w-4 md:h-5 md:w-5" />
+          <div className="text-muted-foreground line-clamp-3">"{reviewText}"</div>
         </HStack>
       )}
       {/* 「Read more...」リンクはカード全体がリンクになっているため不要です。必要に応じて削除してください。 */}

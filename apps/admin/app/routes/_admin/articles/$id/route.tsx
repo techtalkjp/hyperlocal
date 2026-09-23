@@ -136,7 +136,7 @@ export default function EditArticlePage({
               <HStack className="justify-between">
                 <Button type="submit">Update Article</Button>
                 {actionData && "success" in actionData && actionData.success && (
-                  <span className="text-green-600">Saved successfully!</span>
+                  <span className="text-success">Saved successfully!</span>
                 )}
               </HStack>
             </Stack>

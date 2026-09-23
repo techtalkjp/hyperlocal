@@ -46,7 +46,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
           </div>
           {area && language && (
             <div className="flex items-center space-x-2">
-              <MapPin className="h-5 w-5 text-gray-600" />
+              <MapPin className="text-muted-foreground h-5 w-5" />
               <span>{area.i18n[language.id]}</span>
             </div>
           )}
@@ -81,7 +81,7 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
           <Stack className="gap-2">
             <div className="flex flex-wrap gap-2">
               {place.genres.map((genre) => (
-                <Badge key={genre} variant="secondary" className="text-base capitalize">
+                <Badge key={genre} variant="tag">
                   {genre}
                 </Badge>
               ))}
@@ -89,10 +89,10 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
 
             <div className="flex items-center gap-4">
               <div className="flex items-center">
-                <Star className="h-6 w-6 fill-current text-yellow-400" />
+                <Star className="h-6 w-6 fill-current text-star" />
                 <span className="ml-2 text-2xl font-bold">{place.rating.toFixed(1)}</span>
               </div>
-              <span className="text-gray-600">({place.userRatingCount} reviews)</span>
+              <span className="text-muted-foreground">({place.userRatingCount} reviews)</span>
 
               <div className="flex-1" />
 
@@ -134,13 +134,13 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
           Recent Reviews
         </h3>
         {place.reviews.map((review) => (
-          <Stack key={review.text} className="rounded-lg bg-gray-50 p-2 md:p-4">
+          <div key={review.text} className="flex flex-col gap-2 rounded-lg bg-secondary p-2 md:p-4">
             <div className="flex items-center">
-              <Star className="h-5 w-5 fill-current text-yellow-400" />
+              <Star className="h-5 w-5 fill-current text-star" />
               <span className="ml-2 font-bold">{review.rating.toFixed(1)}</span>
             </div>
-            <p className="break-words whitespace-pre-wrap text-gray-700">{review.text}</p>
-          </Stack>
+            <p className="text-muted-foreground break-words whitespace-pre-wrap">{review.text}</p>
+          </div>
         ))}
       </CardContent>
     </Card>

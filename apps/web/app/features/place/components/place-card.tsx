@@ -34,11 +34,7 @@ export const PlaceCard = ({ place, no }: PlaceCardProps) => {
 
         <HStack className="my-0.5 flex-wrap gap-1">
           {place.genres.map((genre) => (
-            <Badge
-              key={genre}
-              variant="outline"
-              className="bg-muted text-muted-foreground px-2 py-0.5 capitalize"
-            >
+            <Badge key={genre} variant="tag">
               {genre}
             </Badge>
           ))}

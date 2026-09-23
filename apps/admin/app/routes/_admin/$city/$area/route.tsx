@@ -33,10 +33,10 @@ export default function AdminCityAreaLayout({ loaderData: { city, area } }: Rout
                   {area.i18n.en} <small className="text-muted-foreground">{city.i18n.en}</small>
                 </Link>
               </h2>
-              <HStack className="text-muted-foreground text-xs">
-                <p>{area.latitude}</p>
-                <p>{area.longitude}</p>
-                <p>{area.radius}m</p>
+              <HStack>
+                <p className="text-muted-foreground text-xs">{area.latitude}</p>
+                <p className="text-muted-foreground text-xs">{area.longitude}</p>
+                <p className="text-muted-foreground text-xs">{area.radius}m</p>
                 <GoogleMapPopover area={area}>Map</GoogleMapPopover>
               </HStack>
             </div>

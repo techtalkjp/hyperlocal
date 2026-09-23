@@ -37,7 +37,7 @@ export const RouteErrorBoundary = ({ languageId = "en" }: RouteErrorBoundaryProp
             <summary className="text-muted-foreground cursor-pointer text-sm">
               Error Details (Development Only)
             </summary>
-            <pre className="mt-2 overflow-auto rounded bg-gray-100 p-4 text-xs">
+            <pre className="bg-muted mt-2 overflow-auto rounded p-4 text-xs">
               {isRouteErrorResponse(error)
                 ? JSON.stringify(error, null, 2)
                 : error instanceof Error

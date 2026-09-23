@@ -77,7 +77,7 @@ export default function IndexPage({
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
         {areas.map((area) => (
           <Link key={area.areaId} to={`area/${area.areaId}`} prefetch="viewport" viewTransition>
-            <Card className="hover:bg-secondary h-full">
+            <Card interactive className="h-full">
               <CardHeader className="h-full">
                 <CardTitle style={{ viewTransitionName: `area-title-${area.areaId}` }}>
                   {area.i18n[lang.id]}

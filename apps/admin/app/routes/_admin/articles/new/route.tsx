@@ -179,7 +179,7 @@ export default function NewArticlePage({ loaderData, actionData }: Route.Compone
                   </SelectContent>
                 </Select>
                 {generateFields.areaId.errors && (
-                  <p className="mt-1 text-sm text-red-600">{generateFields.areaId.errors}</p>
+                  <p className="mt-1 text-sm text-destructive">{generateFields.areaId.errors}</p>
                 )}
               </div>
 
@@ -202,7 +202,7 @@ export default function NewArticlePage({ loaderData, actionData }: Route.Compone
                   </SelectContent>
                 </Select>
                 {generateFields.sceneId.errors && (
-                  <p className="mt-1 text-sm text-red-600">{generateFields.sceneId.errors}</p>
+                  <p className="mt-1 text-sm text-destructive">{generateFields.sceneId.errors}</p>
                 )}
               </div>
 
@@ -225,7 +225,7 @@ export default function NewArticlePage({ loaderData, actionData }: Route.Compone
                   </SelectContent>
                 </Select>
                 {generateFields.language.errors && (
-                  <p className="mt-1 text-sm text-red-600">{generateFields.language.errors}</p>
+                  <p className="mt-1 text-sm text-destructive">{generateFields.language.errors}</p>
                 )}
               </div>
 
@@ -244,7 +244,9 @@ export default function NewArticlePage({ loaderData, actionData }: Route.Compone
                   </SelectContent>
                 </Select>
                 {generateFields.categoryId.errors && (
-                  <p className="mt-1 text-sm text-red-600">{generateFields.categoryId.errors}</p>
+                  <p className="mt-1 text-sm text-destructive">
+                    {generateFields.categoryId.errors}
+                  </p>
                 )}
               </div>
 
@@ -290,7 +292,7 @@ export default function NewArticlePage({ loaderData, actionData }: Route.Compone
                     defaultValue={generated.title}
                   />
                   {saveFields.title.errors && (
-                    <p className="mt-1 text-sm text-red-600">{saveFields.title.errors}</p>
+                    <p className="mt-1 text-sm text-destructive">{saveFields.title.errors}</p>
                   )}
                 </div>
 
@@ -304,7 +306,7 @@ export default function NewArticlePage({ loaderData, actionData }: Route.Compone
                     className="font-mono text-sm"
                   />
                   {saveFields.content.errors && (
-                    <p className="mt-1 text-sm text-red-600">{saveFields.content.errors}</p>
+                    <p className="mt-1 text-sm text-destructive">{saveFields.content.errors}</p>
                   )}
                   <p className="text-muted-foreground mt-1 text-sm">
                     MDX format. Use &lt;Place id="..." /&gt; components to embed places
@@ -321,7 +323,7 @@ export default function NewArticlePage({ loaderData, actionData }: Route.Compone
                     className="font-mono text-sm"
                   />
                   {saveFields.metadata.errors && (
-                    <p className="mt-1 text-sm text-red-600">{saveFields.metadata.errors}</p>
+                    <p className="mt-1 text-sm text-destructive">{saveFields.metadata.errors}</p>
                   )}
                 </div>
 
@@ -337,7 +339,7 @@ export default function NewArticlePage({ loaderData, actionData }: Route.Compone
                     </SelectContent>
                   </Select>
                   {saveFields.status.errors && (
-                    <p className="mt-1 text-sm text-red-600">{saveFields.status.errors}</p>
+                    <p className="mt-1 text-sm text-destructive">{saveFields.status.errors}</p>
                   )}
                 </div>
 

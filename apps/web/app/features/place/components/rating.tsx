@@ -14,14 +14,12 @@ export const Rating = ({ star, size = 24, withLabel = false, className, ...rest 
     <div className={cn("flex items-center gap-2", className)} {...rest}>
       <div className="relative inline-block cursor-auto items-center select-none">
         <div
-          className="flex overflow-hidden whitespace-nowrap text-[#e6e6e6]"
-          style={{
-            fontSize: `${size}px`,
-          }}
+          className="text-border flex overflow-hidden whitespace-nowrap"
+          style={{ fontSize: `${size}px` }}
         >
           {arr.map((num: number) => {
             return (
-              <span key={`star-${num}`} className="p-[0.1]">
+              <span key={`star-${num}`} className="p-0">
                 ☆
               </span>
             );
@@ -29,15 +27,12 @@ export const Rating = ({ star, size = 24, withLabel = false, className, ...rest 
         </div>
         {star && (
           <div
-            className="absolute top-0 left-0 flex overflow-hidden whitespace-nowrap text-yellow-400"
-            style={{
-              fontSize: `${size}px`,
-              width: `${star * 2 * 10}%`,
-            }}
+            className="text-star absolute top-0 left-0 flex overflow-hidden whitespace-nowrap"
+            style={{ fontSize: `${size}px`, width: `${star * 2 * 10}%` }}
           >
             {arr.map((num: number) => {
               return (
-                <span key={`star-active-${num}`} className="p-[0.1]">
+                <span key={`star-active-${num}`} className="p-0">
                   ★
                 </span>
               );
@@ -47,7 +42,7 @@ export const Rating = ({ star, size = 24, withLabel = false, className, ...rest 
       </div>
 
       {withLabel && star ? (
-        <span className="text-sm font-bold text-yellow-500">{star.toFixed(1)}</span>
+        <span className="text-star text-sm font-bold">{star.toFixed(1)}</span>
       ) : null}
     </div>
   );

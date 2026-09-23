@@ -52,13 +52,15 @@ export const LanguageSelect = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className={cn(className)} {...rest} asChild>
-        <Button variant="outline" className="rounded-full" size="sm">
+        <Button variant="outline" size="sm">
           <GlobeIcon className={cn("inline h-4 w-4", children && "mr-2")} />
           {children}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem className="font-semibold">{currentLang?.displayName}</DropdownMenuItem>
+        <DropdownMenuItem>
+          <span className="font-semibold">{currentLang?.displayName}</span>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         {languageUrls
           .filter((l) => l.id !== currentLang?.id)

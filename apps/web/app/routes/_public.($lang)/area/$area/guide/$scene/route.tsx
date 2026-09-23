@@ -203,13 +203,13 @@ export default function AreaGuideScenePage({ loaderData }: Route.ComponentProps)
             {/* Rating */}
             {place.rating && (
               <div className="text-muted-foreground flex items-center gap-2 text-sm">
-                <span className="font-semibold text-yellow-600">★ {place.rating.toFixed(1)}</span>
+                <span className="text-star font-semibold">★ {place.rating.toFixed(1)}</span>
                 <span className="text-xs">({place.userRatingCount} reviews)</span>
               </div>
             )}
 
             {/* Business Status & Price */}
-            <HStack className="text-xs">
+            <HStack>
               <ClientOnly fallback={<span className="text-xs text-transparent">Status</span>}>
                 {() => {
                   const date = new UTCDate();
@@ -223,8 +223,10 @@ export default function AreaGuideScenePage({ loaderData }: Route.ComponentProps)
               </ClientOnly>
               {place.priceLevel && (
                 <>
-                  <span className="text-muted-foreground mx-1">⋅</span>
-                  <span className="text-muted-foreground">{priceLevelLabel(place.priceLevel)}</span>
+                  <span className="text-muted-foreground mx-1 text-xs">⋅</span>
+                  <span className="text-muted-foreground text-xs">
+                    {priceLevelLabel(place.priceLevel)}
+                  </span>
                 </>
               )}
             </HStack>
@@ -240,11 +242,7 @@ export default function AreaGuideScenePage({ loaderData }: Route.ComponentProps)
             {place.genres.length > 0 && (
               <div className="flex flex-wrap gap-x-2 gap-y-0.5">
                 {place.genres.slice(0, 3).map((genre) => (
-                  <Badge
-                    key={genre}
-                    variant="outline"
-                    className="bg-muted text-muted-foreground rounded border-none px-1 py-1 text-xs font-semibold capitalize"
-                  >
+                  <Badge key={genre} variant="tag">
                     {genre}
                   </Badge>
                 ))}
@@ -295,7 +293,7 @@ export default function AreaGuideScenePage({ loaderData }: Route.ComponentProps)
                   prefetch="viewport"
                   viewTransition
                 >
-                  <Card className="hover:bg-secondary">
+                  <Card interactive>
                     <CardHeader>
                       <CardTitle className="text-base">{otherArticle.title}</CardTitle>
                       {otherScene && (

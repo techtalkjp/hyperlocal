@@ -92,7 +92,7 @@ export default function AreaIndexPage({
                   prefetch="viewport"
                   viewTransition
                 >
-                  <Card className="hover:bg-secondary">
+                  <Card interactive>
                     <CardHeader>
                       <CardTitle className="text-base">{article.title}</CardTitle>
                       {scene && (
@@ -114,7 +114,7 @@ export default function AreaIndexPage({
         <div className="grid grid-cols-2 gap-2">
           {categories.map((category) => (
             <Link to={`${category.id}/rating`} key={category.id} prefetch="viewport" viewTransition>
-              <Card className="hover:bg-secondary">
+              <Card interactive>
                 <CardHeader>
                   <CardTitle
                     style={{

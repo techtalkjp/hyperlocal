@@ -56,9 +56,7 @@ interface IngestTabelogOptions {
   url?: string;
 }
 export const ingestTabelog = async (opts: IngestTabelogOptions) => {
-  const areaById = new Map<string, (typeof areas)[number]>(
-    areas.map((a) => [a.areaId, a]),
-  );
+  const areaById = new Map<string, (typeof areas)[number]>(areas.map((a) => [a.areaId, a]));
   let restaurants = await duckdb.selectFrom("restaurants").selectAll().execute();
   if (opts.url) restaurants = restaurants.filter((r) => r.url.includes(opts.url as string));
   if (opts.limit) restaurants = restaurants.slice(0, opts.limit);

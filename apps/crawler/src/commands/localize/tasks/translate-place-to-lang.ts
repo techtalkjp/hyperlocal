@@ -33,9 +33,7 @@ export const translatePlaceToLangTask = async ({
   }
 
   const sourceHash = sourceHashOf(place as unknown as Place);
-  const areaById = new Map<string, (typeof areas)[number]>(
-    areas.map((a) => [a.areaId, a]),
-  );
+  const areaById = new Map<string, (typeof areas)[number]>(areas.map((a) => [a.areaId, a]));
 
   // 全ての掲載キー (city/area/category/ranking) が同ハッシュ済みならスキップ
   const expectedKeys = ranked.flatMap((areaCategory) => {

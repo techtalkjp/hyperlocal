@@ -1,12 +1,12 @@
 import { UTCDate } from "@date-fns/utc";
 import { cities } from "@hyperlocal/consts";
 import type { LocalizedPlace } from "@hyperlocal/db";
-import { FootprintsIcon, MapPinIcon } from "lucide-react";
 import { Link } from "react-router";
-import { HStack, Stack } from "~/components/ui";
+import { Stack } from "~/components/ui";
 import { cn } from "~/libs/utils";
 import { getBusinessStatus, type BusinessHours } from "@hyperlocal/google-place-api";
 import { ActionButtons } from "./action-button";
+import { DistanceLabel } from "../distance-label";
 import { ImageSection } from "./image-section";
 import { InfoSection } from "./info-section";
 import { ReviewSection } from "./review-section";
@@ -52,25 +52,7 @@ export const LocalizedPlaceCard = ({
 
           <ActionButtons place={place} distance={distance} className="z-20" />
 
-          {distance && (
-            <HStack className="text-brand text-sm font-semibold">
-              {/* 距離 */}
-              <div className="whitespace-nowrap">
-                <MapPinIcon className="mr-1 mb-1 inline h-4 w-4" />
-                {distance > 1000
-                  ? `${(distance / 1000).toFixed(1)} km`
-                  : `${distance.toFixed(0)} m`}
-              </div>
-
-              {/* 徒歩何分か。2キロ未満のときだけ表示 */}
-              {distance < 2000 && (
-                <div className="whitespace-nowrap">
-                  <FootprintsIcon className="mr-1 mb-1 inline h-4 w-4" />
-                  <span>{(distance / 80).toFixed(0)} min</span>
-                </div>
-              )}
-            </HStack>
-          )}
+          {distance && <DistanceLabel distance={distance} className="text-sm font-semibold" />}
         </Stack>
       </div>
 

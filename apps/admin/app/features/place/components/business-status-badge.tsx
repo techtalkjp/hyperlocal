@@ -12,7 +12,7 @@ interface BusinessStatusBadgeProps extends React.HTMLAttributes<HTMLDivElement> 
 export const BusinessStatusBadge = ({ statusResult, className }: BusinessStatusBadgeProps) => {
   const statusLabel = match(statusResult.status)
     .with(BusinessStatus.OPEN_24_HOURS, () => (
-      <div className="text-green-600">
+      <div className="text-success">
         <span className="font-semibold">Open</span>
         <span className="text-muted-foreground mx-0.5">⋅</span>
         <span>24 hours</span>
@@ -20,7 +20,7 @@ export const BusinessStatusBadge = ({ statusResult, className }: BusinessStatusB
     ))
     .with(BusinessStatus.OPEN, () => (
       <div>
-        <span className="font-semibold text-green-600">Open</span>
+        <span className="font-semibold text-success">Open</span>
         <span className="text-muted-foreground mx-0.5">⋅</span>
         <span className="text-muted-foreground">
           until {weekday[statusResult.details.closingDay ?? 0]} {statusResult.details.closingTime}
@@ -29,7 +29,7 @@ export const BusinessStatusBadge = ({ statusResult, className }: BusinessStatusB
     ))
     .with(BusinessStatus.OPEN_CLOSING_SOON, () => (
       <div>
-        <span className="font-semibold text-orange-600">Closing Soon</span>
+        <span className="font-semibold text-warning">Closing Soon</span>
         <span className="text-muted-foreground mx-0.5">⋅</span>
         <span className="text-muted-foreground">
           at {weekday[statusResult.details.closingDay ?? 0]} {statusResult.details.closingTime}
@@ -38,7 +38,7 @@ export const BusinessStatusBadge = ({ statusResult, className }: BusinessStatusB
     ))
     .with(BusinessStatus.CLOSED, () => (
       <div>
-        <span className="font-semibold text-red-600">Closed</span>
+        <span className="font-semibold text-destructive">Closed</span>
         <span className="text-muted-foreground mx-0.5">⋅</span>
         <span className="text-muted-foreground">
           open at {weekday[statusResult.details.nextOpenDay ?? 0]}{" "}
@@ -48,7 +48,7 @@ export const BusinessStatusBadge = ({ statusResult, className }: BusinessStatusB
     ))
     .with(BusinessStatus.CLOSED_OPENING_SOON, () => (
       <div>
-        <span className="font-semibold text-orange-500">Opening Soon</span>
+        <span className="font-semibold text-warning">Opening Soon</span>
         <span className="text-muted-foreground mx-0.5">⋅</span>
         <span className="text-muted-foreground">at {statusResult.details.nextOpenTime}</span>
       </div>
