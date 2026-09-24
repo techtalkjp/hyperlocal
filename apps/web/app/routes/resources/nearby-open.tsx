@@ -21,8 +21,11 @@ export const MAX_AREAS = 3;
 export const MAX_AREA_DISTANCE_M = 2500;
 const LIMIT = 30;
 
-// resource route の loader が返す data に直接付ける (headers export は data 応答に効かない)
+// resource route の loader が返す data に直接付ける。加えて workers/app.ts でも
+// このパスの応答に no-store を強制している (.data 応答に確実に効かせるため)
 const NO_STORE = { "Cache-Control": "private, no-store" };
+
+export const headers: Route.HeadersFunction = () => NO_STORE;
 
 export interface NearbyOpenPlace extends LocalizedPlace {
   distance: number;

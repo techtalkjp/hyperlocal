@@ -10,6 +10,19 @@ const requestHandler = createRequestHandler(
 
 let seeded = false;
 
+// 位置情報などで個別化される resource route。Workers Cache はヘッダ無しの 200 を
+// 既定2時間キャッシュするうえ、React Router の .data 応答には loader の headers が
+// 乗らないことがあるため、入口で no-store を強制する。
+const NO_STORE_PREFIXES = ["/resources/nearby-open"];
+
+const withNoStore = async (response: Promise<Response> | Response): Promise<Response> => {
+  const res = await response;
+  const out = new Response(res.body, res);
+  out.headers.set("Cache-Control", "private, no-store");
+  out.headers.delete("cloudflare-cdn-cache-control");
+  return out;
+};
+
 function seedProcessEnv(env: Record<string, unknown>) {
   // One-time bridge: existing code reads config from process.env
   // (root loader, shared db client). Bindings are identical for every
@@ -47,6 +60,8 @@ export default {
       passThroughOnException: ctx.passThroughOnException.bind(ctx),
       cache: (ctx as Record<string, unknown>).cache as never,
     });
-    return requestHandler(request, provider);
+    const { pathname } = new URL(request.url);
+    const response = requestHandler(request, provider);
+    return NO_STORE_PREFIXES.some((p) => pathname.startsWith(p)) ? withNoStore(response) : response;
   },
 };
