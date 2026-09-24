@@ -26,6 +26,7 @@ export const NearbyOpenSection = ({
   const timeZone = city?.timezone ?? "Asia/Tokyo";
   const [position, setPosition] = useState<Position | null>(null);
   const [geoError, setGeoError] = useState(false);
+  const [waitingLong, setWaitingLong] = useState(false);
   const [categoryId, setCategoryId] = useState(() => defaultCategoryForNow(new Date(), timeZone));
   const [openOnly, setOpenOnly] = useState(true);
   const fetcher = useFetcher<typeof nearbyOpenLoader>();
@@ -42,6 +43,14 @@ export const NearbyOpenSection = ({
       { timeout: 10000, maximumAge: 300000, enableHighAccuracy: false },
     );
   }, []);
+
+  // 外部同期: 許可ダイアログが出たままだと Geolocation のタイムアウトは進まないので、
+  // 一定時間たったら許可を促す一文を足す (タイマー)
+  useEffect(() => {
+    if (position || geoError) return;
+    const t = setTimeout(() => setWaitingLong(true), 6000);
+    return () => clearTimeout(t);
+  }, [position, geoError]);
 
   // 外部同期: 位置・カテゴリ・営業中フィルタが決まるたびにサーバへ問い合わせる
   useEffect(() => {
@@ -102,7 +111,9 @@ export const NearbyOpenSection = ({
       {!geoError && !position && (
         <p className="text-muted-foreground flex items-center gap-2 text-sm">
           <LoaderIcon className="text-brand h-4 w-4 animate-spin" />
-          {nearbyLabels.locating[languageId]}
+          {waitingLong
+            ? nearbyLabels.permissionHint[languageId]
+            : nearbyLabels.locating[languageId]}
         </p>
       )}
 

@@ -15,6 +15,13 @@ export const nearbyLabels = {
     "zh-cn": "正在获取当前位置…",
     "zh-tw": "正在取得目前位置…",
   },
+  permissionHint: {
+    en: "Still waiting. Allow location access in your browser to see places near you.",
+    ja: "ブラウザの位置情報の許可を確認してください。許可すると近くの店が出ます。",
+    ko: "브라우저의 위치 정보 권한을 확인하세요. 허용하면 근처 가게가 표시됩니다.",
+    "zh-cn": "请在浏览器中允许获取位置，允许后将显示附近的店。",
+    "zh-tw": "請在瀏覽器中允許取得位置，允許後將顯示附近的店。",
+  },
   noLocation: {
     en: "Location unavailable. Pick an area below.",
     ja: "位置情報が使えません。下のエリアから選んでください。",
