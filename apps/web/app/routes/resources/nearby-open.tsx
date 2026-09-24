@@ -7,6 +7,7 @@ import {
   getBusinessStatus,
 } from "@hyperlocal/google-place-api";
 import { listLocalizedPlaces } from "../_public.($lang)/area/$area/$category/$rank/+queries.server";
+import { data } from "react-router";
 import { readShard } from "~/features/shards/reader";
 import { calculateDistance, sortAreasByDistance } from "~/services/distance";
 import type { Route } from "./+types/nearby-open";
@@ -20,9 +21,8 @@ export const MAX_AREAS = 3;
 export const MAX_AREA_DISTANCE_M = 2500;
 const LIMIT = 30;
 
-export const headers: Route.HeadersFunction = () => ({
-  "Cache-Control": "private, no-store",
-});
+// resource route の loader が返す data に直接付ける (headers export は data 応答に効かない)
+const NO_STORE = { "Cache-Control": "private, no-store" };
 
 export interface NearbyOpenPlace extends LocalizedPlace {
   distance: number;
@@ -37,7 +37,7 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
   const openOnly = url.searchParams.get("open") !== "0";
 
   if (!Number.isFinite(lat) || !Number.isFinite(lng) || !lat || !lng) {
-    return Response.json({ error: "invalid position" }, { status: 400 });
+    return data({ error: "invalid position" }, { status: 400, headers: NO_STORE });
   }
   const lang = languages.find((l) => l.id === langId) ?? languages[0];
   const category = categories.find((c) => c.id === categoryId) ?? categories[0];
@@ -46,7 +46,10 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
     .filter((a) => a.distance <= MAX_AREA_DISTANCE_M)
     .slice(0, MAX_AREAS);
   if (nearbyAreas.length === 0) {
-    return { places: [] as NearbyOpenPlace[], areas: [], category, outOfCoverage: true };
+    return data(
+      { places: [] as NearbyOpenPlace[], areas: [], category, outOfCoverage: true },
+      { headers: NO_STORE },
+    );
   }
 
   const lists = await Promise.all(
@@ -94,10 +97,13 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
   }
   places.sort((a, b) => a.distance - b.distance);
 
-  return {
-    places: places.slice(0, LIMIT),
-    areas: nearbyAreas.map((a) => ({ areaId: a.areaId, distance: Math.round(a.distance) })),
-    category,
-    outOfCoverage: false,
-  };
+  return data(
+    {
+      places: places.slice(0, LIMIT),
+      areas: nearbyAreas.map((a) => ({ areaId: a.areaId, distance: Math.round(a.distance) })),
+      category,
+      outOfCoverage: false,
+    },
+    { headers: NO_STORE },
+  );
 };
