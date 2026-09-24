@@ -1,3 +1,4 @@
+import { execSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -31,6 +32,12 @@ if (!dir || args.indexOf("--dir") < 0) throw new Error("--dir <export-sql out di
 
 const readToken = (): string => {
   if (process.env.CLOUDFLARE_API_TOKEN) return process.env.CLOUDFLARE_API_TOKEN;
+  // OAuth トークンは約1時間で切れる。wrangler を一度走らせて config を更新させる
+  try {
+    execSync("npx wrangler whoami", { stdio: "ignore" });
+  } catch {
+    // whoami が失敗しても config の既存トークンで試す
+  }
   const cfg = fs.readFileSync(`${process.env.HOME}/.wrangler/config/default.toml`, "utf8");
   const m = cfg.match(/^oauth_token = "([^"]+)"/m);
   if (!m) throw new Error("no oauth_token in wrangler config; run `wrangler login`");
