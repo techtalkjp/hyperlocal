@@ -155,7 +155,7 @@ if (doPurge && !dryRun) {
   if (!secret) {
     console.log("PURGE_SECRET not set. Purge manually:");
     console.log(
-      `  curl -X POST ${site}/api/internal/purge -H "Authorization: Bearer \$PURGE_SECRET" -H "Content-Type: application/json" -d '{"prefixes":["shards/"]}'`,
+      `  curl -X POST ${site}/api/internal/purge -H "Authorization: Bearer \$PURGE_SECRET" -H "Content-Type: application/json" -d '{"tags":["top","area","guide","place"],"prefixes":["shards/"]}'`,
     );
   } else {
     const res = await fetch(`${site}/api/internal/purge`, {
@@ -164,7 +164,8 @@ if (doPurge && !dryRun) {
         Authorization: `Bearer ${secret}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ prefixes: ["shards/"] }),
+      // shard が変わればページの中身も変わるので、ページのタグも一緒に purge する
+      body: JSON.stringify({ tags: ["top", "area", "guide", "place"], prefixes: ["shards/"] }),
     });
     const text = await res.text();
     if (!res.ok) {
