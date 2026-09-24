@@ -10,6 +10,8 @@ import {
   Stack,
 } from "~/components/ui";
 import { getPathParams } from "~/features/city-area/utils";
+import { NearbyOpenSection } from "~/features/nearby/nearby-open-section";
+import { nearbyLabels } from "~/features/nearby/labels";
 import { getCityDomain } from "~/features/city-area/utils/get-city-domain";
 import { generateAlternateLinks } from "~/features/seo/alternate-links";
 import { generateCanonicalLink } from "~/features/seo/canonical-url";
@@ -81,6 +83,11 @@ export default function IndexPage({
         ))}
       </HStack>
 
+      <NearbyOpenSection languageId={lang.id} cityId={city.cityId} />
+
+      <h2 className="font-heading mt-6 text-lg font-semibold tracking-tight sm:text-xl">
+        {nearbyLabels.allAreas[lang.id]}
+      </h2>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
         {areas.map((area) => (
           <Link key={area.areaId} to={`area/${area.areaId}`} prefetch="viewport" viewTransition>
