@@ -32,6 +32,8 @@ export const listLocalizedPlaces = async ({
       "sourceUri",
       "priceLevel",
       "regularOpeningHours",
+      "nearestStation",
+      "stationDistance",
       () =>
         sql`
           CASE WHEN JSON_ARRAY_LENGTH(reviews) > 0 THEN

@@ -76,6 +76,8 @@ export const upsertLocalizedPlaces = async (
         rating: eb.ref("excluded.rating"),
         userRatingCount: eb.ref("excluded.userRatingCount"),
         regularOpeningHours: eb.ref("excluded.regularOpeningHours"),
+        nearestStation: eb.ref("excluded.nearestStation"),
+        stationDistance: eb.ref("excluded.stationDistance"),
         sourceHash: eb.ref("excluded.sourceHash"),
         updatedAt: eb.ref("excluded.updatedAt"),
       })),
@@ -125,6 +127,8 @@ const localizedPlaceValues = ({
     regularOpeningHours: place.regularOpeningHours
       ? JSON.stringify(place.regularOpeningHours)
       : null,
+    nearestStation: place.nearestStation,
+    stationDistance: place.stationDistance,
     sourceHash,
     updatedAt: format(new UTCDate(), "yyyy-MM-dd HH:mm:ss"),
   };

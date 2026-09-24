@@ -71,6 +71,8 @@ CREATE TABLE `places` (
   `regular_opening_hours` text NULL,
   `reviews` text NOT NULL,
   `photos` text NOT NULL,
+  `nearest_station` text NULL,
+  `station_distance` integer NULL,
   `created_at` datetime NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `updated_at` datetime NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   PRIMARY KEY (`id`)
@@ -111,6 +113,8 @@ CREATE TABLE `localized_places` (
   `regular_opening_hours` text NULL,
   `reviews` text NOT NULL,
   `photos` text NOT NULL,
+  `nearest_station` text NULL,
+  `station_distance` integer NULL,
   `source_hash` text NULL,
   `created_at` datetime NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `updated_at` datetime NOT NULL DEFAULT (CURRENT_TIMESTAMP),

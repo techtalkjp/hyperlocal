@@ -94,6 +94,7 @@ export const ingestTabelog = async (opts: IngestTabelogOptions) => {
 
     const features = featuresByUrl.get(r.url) ?? {};
     const station = extractStation(features["交通手段"]);
+    const nearest = parseNearestStation(features["交通手段"]);
 
     // 評価未取得 (Tabelog無点数) は既存値を温存。0.00表示を作らない。
     // 新規かつ無点数は取込自体を見送り (次回クロールで点数が付けば自動追加)
@@ -141,6 +142,8 @@ export const ingestTabelog = async (opts: IngestTabelogOptions) => {
       reviews: existing ? (asText(existing.reviews) ?? "[]") : "[]",
       categories: JSON.stringify(r.categories.split(",")),
       genres: JSON.stringify(r.genres.split(",")),
+      nearestStation: nearest?.station ?? existing?.nearestStation ?? null,
+      stationDistance: nearest?.meters ?? existing?.stationDistance ?? null,
     });
 
     if (existing) updated++;
@@ -157,15 +160,7 @@ export const ingestTabelog = async (opts: IngestTabelogOptions) => {
         const area = areaById.get(rk.area);
         if (!area) continue;
         // 最寄駅がエリアの駅でない店 (隣駅の店) は載せない。最寄駅不明なら radius で判定
-        if (
-          !belongsToArea(
-            area,
-            parseNearestStation(features["交通手段"])?.station,
-            latitude,
-            longitude,
-          )
-        )
-          continue;
+        if (!belongsToArea(area, nearest?.station, latitude, longitude)) continue;
         await db
           .insertInto("placeListings")
           .values({

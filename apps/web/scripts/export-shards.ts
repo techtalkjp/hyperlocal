@@ -146,6 +146,8 @@ if (only.has("geo")) {
       categories: (p as Record<string, unknown>).categories,
       genres: (p as Record<string, unknown>).genres,
       hours: (p as Record<string, unknown>).regularOpeningHours,
+      station: (p as Record<string, unknown>).nearestStation,
+      stationDistance: (p as Record<string, unknown>).stationDistance,
     }));
     bytes += write(`geo/${areaId}.json`, geo);
     counts.geo++;

@@ -5,10 +5,9 @@
 
 import type { ColumnType } from "kysely";
 
-export type Generated<T> =
-  T extends ColumnType<infer S, infer I, infer U>
-    ? ColumnType<S, I | undefined, U>
-    : ColumnType<T, T | undefined, T>;
+export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
+  ? ColumnType<S, I | undefined, U>
+  : ColumnType<T, T | undefined, T>;
 
 export interface Account {
   accessToken: string | null;
@@ -52,6 +51,7 @@ export interface LocalizedPlaces {
   language: string;
   latitude: number;
   longitude: number;
+  nearestStation: string | null;
   originalDisplayName: string;
   photos: string;
   placeId: string;
@@ -62,6 +62,7 @@ export interface LocalizedPlaces {
   reviews: string;
   sourceHash: string | null;
   sourceUri: string | null;
+  stationDistance: number | null;
   updatedAt: Generated<string>;
   userRatingCount: number;
 }
@@ -86,12 +87,14 @@ export interface Places {
   id: string;
   latitude: number;
   longitude: number;
+  nearestStation: string | null;
   photos: string;
   priceLevel: string | null;
   rating: number;
   regularOpeningHours: string | null;
   reviews: string;
   sourceUri: string | null;
+  stationDistance: number | null;
   updatedAt: Generated<string>;
   userRatingCount: number;
 }

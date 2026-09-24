@@ -2,6 +2,7 @@ import type { LocalizedPlace } from "@hyperlocal/db";
 import type React from "react";
 import { Stack } from "~/components/ui";
 import type { getBusinessStatus } from "@hyperlocal/google-place-api";
+import { StationLabel } from "../station-label";
 import { GenresSection } from "./genre-sections";
 import { RatingSection } from "./rating-sections";
 import { StatusPriceSection } from "./status-price-section";
@@ -24,6 +25,8 @@ export const InfoSection: React.FC<InfoSectionProps> = ({ place, no, businessSta
     <RatingSection place={place} />
 
     <GenresSection genres={place.genres} />
+
+    <StationLabel station={place.nearestStation} distance={place.stationDistance} />
 
     <StatusPriceSection
       businessStatusResult={businessStatusResult}
