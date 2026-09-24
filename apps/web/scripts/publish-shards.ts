@@ -155,10 +155,10 @@ if (doPurge && !dryRun) {
   if (!secret) {
     console.log("PURGE_SECRET not set. Purge manually:");
     console.log(
-      `  curl -X POST ${site}/api.internal.purge -H "Authorization: Bearer \$PURGE_SECRET" -H "Content-Type: application/json" -d '{"prefixes":["shards/"]}'`,
+      `  curl -X POST ${site}/api/internal/purge -H "Authorization: Bearer \$PURGE_SECRET" -H "Content-Type: application/json" -d '{"prefixes":["shards/"]}'`,
     );
   } else {
-    const res = await fetch(`${site}/api.internal.purge`, {
+    const res = await fetch(`${site}/api/internal/purge`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${secret}`,
