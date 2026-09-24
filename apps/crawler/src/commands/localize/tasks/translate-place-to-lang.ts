@@ -1,4 +1,4 @@
-import { areas } from "@hyperlocal/consts/src";
+import { areas, isWithinArea } from "@hyperlocal/consts";
 import { db, type Place } from "@hyperlocal/db";
 import consola from "consola";
 import { upsertLocalizedPlaces } from "~/features/localize/mutations.server";
@@ -21,11 +21,18 @@ export const translatePlaceToLangTask = async ({
     .where("id", "==", placeId)
     .executeTakeFirstOrThrow();
 
-  const ranked = await duckdb
-    .selectFrom("ranked_restaurants")
-    .selectAll()
-    .where("url", "==", place.sourceUri)
-    .execute();
+  const areaById = new Map<string, (typeof areas)[number]>(areas.map((a) => [a.areaId, a]));
+  const ranked = (
+    await duckdb
+      .selectFrom("ranked_restaurants")
+      .selectAll()
+      .where("url", "==", place.sourceUri)
+      .execute()
+  ).filter((rk) => {
+    // エリア範囲外の掲載キーは作らない (ingest と同じ基準)
+    const area = areaById.get(rk.area);
+    return area ? isWithinArea(area, place.latitude, place.longitude) : false;
+  });
 
   if (ranked.length === 0) {
     consola.error("no area found for place", placeId);
@@ -33,7 +40,6 @@ export const translatePlaceToLangTask = async ({
   }
 
   const sourceHash = sourceHashOf(place as unknown as Place);
-  const areaById = new Map<string, (typeof areas)[number]>(areas.map((a) => [a.areaId, a]));
 
   // 全ての掲載キー (city/area/category/ranking) が同ハッシュ済みならスキップ
   const expectedKeys = ranked.flatMap((areaCategory) => {

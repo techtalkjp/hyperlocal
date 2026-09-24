@@ -1,4 +1,4 @@
-import { areas } from "@hyperlocal/consts";
+import { areas, isWithinArea } from "@hyperlocal/consts";
 import { db, extractStation, googleMapsSearchUrl, selfIdFromSourceUri } from "@hyperlocal/db";
 import { defineCommand } from "citty";
 import consola from "consola";
@@ -155,6 +155,8 @@ export const ingestTabelog = async (opts: IngestTabelogOptions) => {
       for (const rk of ranked) {
         const area = areaById.get(rk.area);
         if (!area) continue;
+        // エリア中心から radius を超える店は隣駅の店なので載せない
+        if (!isWithinArea(area, latitude, longitude)) continue;
         await db
           .insertInto("placeListings")
           .values({
@@ -170,4 +172,54 @@ export const ingestTabelog = async (opts: IngestTabelogOptions) => {
     }
   }
   consola.info(`ingest done: added=${added} updated=${updated}`);
+  await pruneOutOfRangeListings();
+};
+
+// 既存の掲載で、エリア中心から radius を超えるものを place_listings / localized_places から外す
+// (radius の見直しや座標の補正に追随するため毎回走らせる)
+export const pruneOutOfRangeListings = async () => {
+  const rows = await db
+    .selectFrom("placeListings")
+    .innerJoin("places", "places.id", "placeListings.placeId")
+    .select([
+      "placeListings.cityId",
+      "placeListings.areaId",
+      "placeListings.categoryId",
+      "placeListings.rankingType",
+      "placeListings.placeId",
+      "places.latitude",
+      "places.longitude",
+    ])
+    .execute();
+  const areaById = new Map<string, (typeof areas)[number]>(areas.map((a) => [a.areaId, a]));
+  let pruned = 0;
+  for (const row of rows) {
+    const area = areaById.get(row.areaId);
+    if (!area || isWithinArea(area, row.latitude, row.longitude)) continue;
+    const key = {
+      cityId: row.cityId,
+      areaId: row.areaId,
+      categoryId: row.categoryId,
+      rankingType: row.rankingType,
+      placeId: row.placeId,
+    };
+    await db
+      .deleteFrom("localizedPlaces")
+      .where("cityId", "==", key.cityId)
+      .where("areaId", "==", key.areaId)
+      .where("categoryId", "==", key.categoryId)
+      .where("rankingType", "==", key.rankingType)
+      .where("placeId", "==", key.placeId)
+      .execute();
+    await db
+      .deleteFrom("placeListings")
+      .where("cityId", "==", key.cityId)
+      .where("areaId", "==", key.areaId)
+      .where("categoryId", "==", key.categoryId)
+      .where("rankingType", "==", key.rankingType)
+      .where("placeId", "==", key.placeId)
+      .execute();
+    pruned++;
+  }
+  consola.info(`pruned out-of-range listings: ${pruned}`);
 };

@@ -289,8 +289,10 @@ export const transform = async () => {
     .execute();
 
   // step6: 20位より下のレストランをランキングから削除
-  consola.info("step 6: 20位より下のレストランをランキングから削除");
-  await db.deleteFrom("ranked_restaurants").where("rank", ">", 20).execute();
+  consola.info(
+    "step 6: 30位より下のレストランをランキングから削除 (取込時の距離フィルタ後に20件前後残す余裕)",
+  );
+  await db.deleteFrom("ranked_restaurants").where("rank", ">", 30).execute();
 
   // step7: ランキング外のレストランを削除
   consola.info("step 7: ランキング外のレストランを削除");

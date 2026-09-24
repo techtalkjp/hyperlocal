@@ -3,3 +3,4 @@ export * from "./consts/categories";
 export * from "./consts/cities";
 export * from "./consts/languages";
 export * from "./consts/scenes";
+export * from "./geo";
