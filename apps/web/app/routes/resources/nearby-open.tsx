@@ -14,10 +14,15 @@ import type { Route } from "./+types/nearby-open";
 // 現在地の周辺で「いま開いている店」を返す。トップの現在地セクション用。
 // 近い順に最大3エリア (2.5km以内) の rating 一覧 shard を束ね、距離順に並べる。
 // 位置情報で個別化される応答なのでキャッシュしない。
+// Workers Cache はヘッダ無しの 200 を既定で2時間キャッシュするため、明示的に no-store を返す。
 
 export const MAX_AREAS = 3;
 export const MAX_AREA_DISTANCE_M = 2500;
 const LIMIT = 30;
+
+export const headers: Route.HeadersFunction = () => ({
+  "Cache-Control": "private, no-store",
+});
 
 export interface NearbyOpenPlace extends LocalizedPlace {
   distance: number;
