@@ -1,8 +1,9 @@
-import { areas, isWithinArea } from "@hyperlocal/consts";
+import { areas, belongsToArea } from "@hyperlocal/consts";
 import { db, extractStation, googleMapsSearchUrl, selfIdFromSourceUri } from "@hyperlocal/db";
 import { defineCommand } from "citty";
 import consola from "consola";
 import { upsertPlace } from "../mutations";
+import { parseNearestStation } from "~/features/tabelog/parse-nearest-station";
 import { parseTabelogOpeningHours } from "~/features/tabelog/parse-opening-hours";
 import { geocodeBlock } from "~/services/gsi";
 import { db as duckdb } from "~/services/duckdb.server";
@@ -155,8 +156,16 @@ export const ingestTabelog = async (opts: IngestTabelogOptions) => {
       for (const rk of ranked) {
         const area = areaById.get(rk.area);
         if (!area) continue;
-        // エリア中心から radius を超える店は隣駅の店なので載せない
-        if (!isWithinArea(area, latitude, longitude)) continue;
+        // 最寄駅がエリアの駅でない店 (隣駅の店) は載せない。最寄駅不明なら radius で判定
+        if (
+          !belongsToArea(
+            area,
+            parseNearestStation(features["交通手段"])?.station,
+            latitude,
+            longitude,
+          )
+        )
+          continue;
         await db
           .insertInto("placeListings")
           .values({
@@ -172,12 +181,14 @@ export const ingestTabelog = async (opts: IngestTabelogOptions) => {
     }
   }
   consola.info(`ingest done: added=${added} updated=${updated}`);
-  await pruneOutOfRangeListings();
+  await pruneOutOfRangeListings(featuresByUrl);
 };
 
-// 既存の掲載で、エリア中心から radius を超えるものを place_listings / localized_places から外す
+// 既存の掲載で、エリアに属さなくなったもの (最寄駅が別、または範囲外) を place_listings / localized_places から外す
 // (radius の見直しや座標の補正に追随するため毎回走らせる)
-export const pruneOutOfRangeListings = async () => {
+export const pruneOutOfRangeListings = async (
+  featuresByUrl: Map<string, Record<string, string>>,
+) => {
   const rows = await db
     .selectFrom("placeListings")
     .innerJoin("places", "places.id", "placeListings.placeId")
@@ -189,13 +200,18 @@ export const pruneOutOfRangeListings = async () => {
       "placeListings.placeId",
       "places.latitude",
       "places.longitude",
+      "places.sourceUri",
     ])
     .execute();
   const areaById = new Map<string, (typeof areas)[number]>(areas.map((a) => [a.areaId, a]));
   let pruned = 0;
   for (const row of rows) {
     const area = areaById.get(row.areaId);
-    if (!area || isWithinArea(area, row.latitude, row.longitude)) continue;
+    if (!area) continue;
+    const station = parseNearestStation(
+      featuresByUrl.get(row.sourceUri ?? "")?.["交通手段"],
+    )?.station;
+    if (belongsToArea(area, station, row.latitude, row.longitude)) continue;
     const key = {
       cityId: row.cityId,
       areaId: row.areaId,

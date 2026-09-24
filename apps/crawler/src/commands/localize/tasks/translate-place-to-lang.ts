@@ -1,9 +1,10 @@
-import { areas, isWithinArea } from "@hyperlocal/consts";
+import { areas, belongsToArea } from "@hyperlocal/consts";
 import { db, type Place } from "@hyperlocal/db";
 import consola from "consola";
 import { upsertLocalizedPlaces } from "~/features/localize/mutations.server";
 import { sourceHashOf } from "~/features/localize/source-hash";
 import { translatePlace } from "~/features/localize/translate-place";
+import { parseNearestStation } from "~/features/tabelog/parse-nearest-station";
 import { db as duckdb } from "~/services/duckdb.server";
 
 export const translatePlaceToLangTask = async ({
@@ -22,6 +23,14 @@ export const translatePlaceToLangTask = async ({
     .executeTakeFirstOrThrow();
 
   const areaById = new Map<string, (typeof areas)[number]>(areas.map((a) => [a.areaId, a]));
+  const crawled = await duckdb
+    .selectFrom("crawled_restaurants")
+    .select("features")
+    .where("url", "==", place.sourceUri)
+    .executeTakeFirst();
+  const station = parseNearestStation(
+    (crawled?.features as unknown as Record<string, string> | undefined)?.["交通手段"],
+  )?.station;
   const ranked = (
     await duckdb
       .selectFrom("ranked_restaurants")
@@ -29,9 +38,9 @@ export const translatePlaceToLangTask = async ({
       .where("url", "==", place.sourceUri)
       .execute()
   ).filter((rk) => {
-    // エリア範囲外の掲載キーは作らない (ingest と同じ基準)
+    // エリアに属さない掲載キーは作らない (ingest と同じ基準: 最寄駅、無ければ範囲)
     const area = areaById.get(rk.area);
-    return area ? isWithinArea(area, place.latitude, place.longitude) : false;
+    return area ? belongsToArea(area, station, place.latitude, place.longitude) : false;
   });
 
   if (ranked.length === 0) {

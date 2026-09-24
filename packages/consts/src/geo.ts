@@ -20,3 +20,27 @@ export const isWithinArea = (
   if (!lat || !lng) return true;
   return distanceMeters(area.latitude, area.longitude, lat, lng) <= area.radius;
 };
+
+// 駅名の正規化 (ケ/ヶ、全角英数、括弧内の路線注記を揃える)
+export const normalizeStationName = (name: string) =>
+  name
+    .normalize("NFKC")
+    .replaceAll(/[（(][^）)]*[）)]/g, "")
+    .replaceAll("ヶ", "ケ")
+    .trim();
+
+// 店がエリアに属するか。
+// 1. エリアに stations があり、店の最寄駅が分かる → 最寄駅がその中にあるか
+// 2. それ以外 (最寄駅不明・stations 未設定) → 中心から radius 以内か
+export const belongsToArea = (
+  area: Pick<Area, "latitude" | "longitude" | "radius" | "stations">,
+  nearestStation: string | null | undefined,
+  lat: number,
+  lng: number,
+) => {
+  if (area.stations.length > 0 && nearestStation) {
+    const target = normalizeStationName(nearestStation);
+    return area.stations.some((s) => normalizeStationName(s) === target);
+  }
+  return isWithinArea(area, lat, lng);
+};
