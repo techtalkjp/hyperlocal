@@ -1,5 +1,5 @@
 import { beforeEach, expect, it, vi } from "vite-plus/test";
-import { loader } from "./route";
+import { loader } from "../app/routes/_public.($lang)/area/$area/guide/$scene/route";
 
 const mocks = vi.hoisted(() => ({
   readShard: vi.fn(),
@@ -9,7 +9,7 @@ const mocks = vi.hoisted(() => ({
 }));
 
 vi.mock("~/features/shards/reader", () => ({ readShard: mocks.readShard }));
-vi.mock("./+queries.server", () => ({
+vi.mock("../app/routes/_public.($lang)/area/$area/guide/$scene/+queries.server", () => ({
   getArticle: mocks.getArticle,
   getLocalizedPlacesByIds: mocks.getLocalizedPlacesByIds,
   getOtherArticlesForArea: mocks.getOtherArticlesForArea,
