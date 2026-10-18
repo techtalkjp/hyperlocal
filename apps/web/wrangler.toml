@@ -1,12 +1,13 @@
 #:schema node_modules/wrangler/config-schema.json
 name = "hyperlocal-web"
 account_id = "91ff95bcb91fbfa1b1c5c356262b1fe4"
+workers_dev = false
 
 main = "./workers/app.ts"
 compatibility_flags = ["nodejs_compat"]
 compatibility_date = "2026-09-14"
 
-assets = { directory = "./build/client", binding = "ASSETS", html_handling = "drop-trailing-slash" }
+assets = { directory = "./build/client", binding = "ASSETS", html_handling = "drop-trailing-slash", run_worker_first = true }
 
 routes = [{ pattern = "tokyo.hyper-local.app", custom_domain = true }]
 

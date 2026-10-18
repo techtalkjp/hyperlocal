@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vite-plus/test";
-import { safeTabelogUrl } from "./safe-tabelog-url";
+import { canFollowTabelogRedirect, safeTabelogUrl } from "./safe-tabelog-url";
 
 describe("safeTabelogUrl", () => {
   it("resolves relative links on Tabelog", () => {
@@ -17,5 +17,20 @@ describe("safeTabelogUrl", () => {
     "",
   ])("rejects a non-Tabelog destination: %s", (value) => {
     expect(safeTabelogUrl(value, "https://tabelog.com/tokyo/")).toBeUndefined();
+  });
+});
+
+describe("canFollowTabelogRedirect", () => {
+  const from = "https://tabelog.com/tokyo/list/";
+  it("follows a relative Tabelog redirect", () => {
+    expect(canFollowTabelogRedirect("/tokyo/next/", from)).toBe(true);
+  });
+  it.each([
+    "http://127.0.0.1/internal",
+    "https://10.0.0.1/internal",
+    "https://tabelog.com.evil.example/",
+    "http://tabelog.com/",
+  ])("blocks an unsafe redirect before its request: %s", (location) => {
+    expect(canFollowTabelogRedirect(location, from)).toBe(false);
   });
 });

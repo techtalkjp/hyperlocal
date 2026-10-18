@@ -3,7 +3,7 @@ import { defineCommand } from "citty";
 import consola from "consola";
 import { CheerioCrawler, Dataset, log } from "crawlee";
 import { HandlerLabel, router } from "./handlers";
-import { safeTabelogUrl } from "./safe-tabelog-url";
+import { restrictTabelogNavigation, safeTabelogUrl } from "./safe-tabelog-url";
 
 export default defineCommand({
   meta: {
@@ -66,6 +66,8 @@ const crawlTabelog = async (
     requestHandler: router,
     maxRequestsPerCrawl: opts.maxRequest,
     sameDomainDelaySecs: opts.delay,
+    ignoreSslErrors: false,
+    preNavigationHooks: [restrictTabelogNavigation],
   });
 
   // --all のときだけデータセットをパージ。エリア指定時は追記し、

@@ -1,6 +1,6 @@
 // Split the INSERT statements produced by export-sql.ts. Values may contain
 // newlines, semicolons, and doubled single quotes, so line boundaries are unsafe.
-export function splitExportSql(source: string): string[] {
+export function splitExportSql(source: string, expectedTable?: string): string[] {
   const statements: string[] = [];
   let start = 0;
   let quoted = false;
@@ -15,7 +15,8 @@ export function splitExportSql(source: string): string[] {
       }
     } else if (char === ";" && !quoted) {
       const statement = source.slice(start, i + 1).trim();
-      if (!/^INSERT INTO "[a-z_]+" /i.test(statement)) {
+      const table = /^INSERT INTO "([a-z_]+)" /i.exec(statement)?.[1];
+      if (!table || (expectedTable && table !== expectedTable)) {
         throw new Error("Export contains a non-INSERT statement");
       }
       statements.push(statement);
