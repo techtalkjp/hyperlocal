@@ -1,6 +1,6 @@
 # 2026-10-18 Shannon 監査記録
 
-hyperlocal の公開サイトと管理画面について、隔離したダミーデータ環境で脆弱性を調べた。修正は [PR #81](https://github.com/techtalkjp/hyperlocal/pull/81) と [PR #82](https://github.com/techtalkjp/hyperlocal/pull/82) でマージし、両 Worker のデプロイを確認した。2026-10-18 にシャードを新版 `202610181230` で公開し、旧版も検査した。
+hyperlocal の公開サイトと管理画面について、隔離したダミーデータ環境で脆弱性を調べた。修正は [PR #81](https://github.com/techtalkjp/hyperlocal/pull/81)、[PR #82](https://github.com/techtalkjp/hyperlocal/pull/82)、[PR #84](https://github.com/techtalkjp/hyperlocal/pull/84) でマージし、両 Worker のデプロイを確認した。2026-10-18 にシャードを新版 `202610181230` で公開し、旧版も検査した。
 
 ## 結果
 
@@ -27,6 +27,7 @@ hyperlocal の公開サイトと管理画面について、隔離したダミー
 - 管理画面の実行時 `BETTER_AUTH_URL` は `https://admin.hyper-local.app`。認証開始時の state Cookie と `sign-out` API が消去する session Cookie は、どちらも `Secure`、`HttpOnly`、`SameSite=Lax` を持つ。認証済みユーザーの Google OAuth 全体とセッション失効は、本番で実証していない。
 - R2 の旧版11版にあるガイド本文2,090件は全件 `published`。ガイド一覧950ファイルの全項目は同じ版の公開済みガイド本文を参照していた。削除対象はなかった。
 - 現行 R2 と staging DB のシャードは、ガイド一覧95ファイル以外のハッシュがすべて一致した。staging DB から全種類15,680ファイルを新版 `202610181230` に出力・公開し、キャッシュ更新 API は 200 を返した。公開マニフェストの新版への切替、公開 URL のガイド190件と一覧95件のハッシュ・公開状態、ガイドページの 200 応答を確認した。
+- PR #84 の反映後、公開サイトの HTTP `robots.txt` と `favicon.ico`、管理画面の HTTP `favicon.ico` と `/login` は、クエリを保った HTTPS への 308 転送を返した。それぞれの HTTPS 応答は 200 と HSTS `max-age=31536000` を返した。公開ガイドページも 200 と HSTS、管理画面の `/logout` は 404。両 Worker の `workers.dev` URL は 404。CI、React Doctor、CD はすべて成功した。
 
 ## 継続運用
 
@@ -35,7 +36,7 @@ hyperlocal の公開サイトと管理画面について、隔離したダミー
 - Crawler が取得する Tabelog のリンクは HTTPS の `tabelog.com` に限定する。写真配信元が変わる場合は実データを確認して許可リストを更新する。現在確認したホストは `lh3.googleusercontent.com`、`tblg.k-img.com`、`imgfp.hotp.jp`。
 - Tabelog のページ送り・詳細リンクだけでなく、初回リクエストとリダイレクト先も同じ許可条件で検証する。クロール設定では TLS 証明書の検査を有効にする。
 - D1 同期の入力ディレクトリは空で作成し、生成した4テーブルの SQL だけを適用する。SQL 文は文字列内の改行・セミコロンを考慮して分割し、ファイル名と INSERT 対象テーブルの一致も確認する。`data/`、`apps/`、`/tmp` の検索では不要な認証 SQL ダンプは見つからなかった。
-- 両 Worker は静的ファイルを先に返さず、HTTP 転送と HSTS を適用した後に Assets binding から配信する。`workers.dev` 経路を無効にする。変更前に公開サイトの HTTP `robots.txt` が 200、管理画面の HTTP `favicon.ico` が 200 を返すことを確認した。静的ファイルを含む修正後の本番再検証はデプロイ後に行う。
+- 両 Worker は静的ファイルを先に返さず、HTTP 転送と HSTS を適用した後に Assets binding から配信する。`workers.dev` 経路を無効にする。変更前に公開サイトの HTTP `robots.txt` が 200、管理画面の HTTP `favicon.ico` が 200 を返すことを確認した。修正後の本番応答は上記のとおり再検証した。
 
 ## 方法と限界
 
