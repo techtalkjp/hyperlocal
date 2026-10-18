@@ -270,7 +270,7 @@ def scan(run_dir: Path, target: str, validate_only: bool = False) -> None:
         status = call([str(binary), "status", workspace], cwd=binary.parent, env=env)
         if "completed" not in status.lower():
             raise RuntimeError(f"Shannon workspace is not complete: {workspace}")
-        if not (out / "comprehensive_security_assessment_report.md").exists():
+        if not (out / "Security-Assessment-Report.md").exists():
             raise RuntimeError(f"Shannon did not copy a final report into {out}")
         # --output publishes Markdown/PDF/SARIF. Preserve structured and SAST
         # results from a source build when its local workspace is available.
