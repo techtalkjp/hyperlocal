@@ -16,9 +16,9 @@ const debugEnabled = (process.env.DEBUG ?? "")
   .split(",")
   .some((pattern) => pattern.trim() === "app:db" || pattern.trim() === "*");
 
-function debugQuery(event: { query: { sql: string; parameters: unknown } }) {
+function debugQuery(event: { query: { sql: string } }) {
   if (debugEnabled) {
-    console.debug({ sql: event.query.sql, parameters: event.query.parameters });
+    console.debug({ sql: event.query.sql });
   }
 }
 

@@ -34,4 +34,11 @@ describe("buildTabelogLink", () => {
       "https://tabelog.com/en/osaka/A2701/A270101/27053354/",
     );
   });
+
+  it("rejects off-site and unsafe source URLs", () => {
+    expect(buildTabelogLink("https://attacker.example/tokyo/123/", "en")).toBeUndefined();
+    expect(buildTabelogLink("http://tabelog.com/tokyo/123/", "en")).toBeUndefined();
+    expect(buildTabelogLink("https://tabelog.com.attacker.example/", "en")).toBeUndefined();
+    expect(buildTabelogLink("javascript:alert(1)", "en")).toBeUndefined();
+  });
 });

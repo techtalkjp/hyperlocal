@@ -10,6 +10,7 @@ import {
   nameSimilarity,
   searchShopsAround,
 } from "~/features/hotpepper/client";
+import { safePhotoUrl } from "~/features/photos/safe-photo-url";
 
 // 店舗写真をホットペッパーグルメ Webサービスから補完する (Google不使用・無料)。
 // エリア中心から半径1kmの掲載店を全件取り、店名の類似度 + 距離で突合する。
@@ -35,6 +36,12 @@ export default defineCommand({
     const areaIds = args.area ? new Set(args.area.split(",").map((s) => s.trim())) : null;
     const minScore = Number(args.minScore);
     const maxDistance = Number(args.maxDistance);
+    if (!Number.isFinite(minScore) || minScore < 0 || minScore > 1) {
+      throw new Error("minScore must be between 0 and 1");
+    }
+    if (!Number.isFinite(maxDistance) || maxDistance <= 0) {
+      throw new Error("maxDistance must be a positive finite number");
+    }
 
     let matched = 0;
     let candidates = 0;
@@ -63,13 +70,18 @@ export default defineCommand({
           ? [...shops, ...(await searchShopsAround(key, place.latitude, place.longitude, 1))]
           : shops;
         for (const shop of pool) {
-          const dist = distanceMeters(
-            place.latitude,
-            place.longitude,
-            Number(shop.lat),
-            Number(shop.lng),
-          );
-          if (dist > maxDistance) continue;
+          const latitude = Number(shop.lat);
+          const longitude = Number(shop.lng);
+          if (
+            !Number.isFinite(latitude) ||
+            !Number.isFinite(longitude) ||
+            Math.abs(latitude) > 90 ||
+            Math.abs(longitude) > 180
+          ) {
+            continue;
+          }
+          const dist = distanceMeters(place.latitude, place.longitude, latitude, longitude);
+          if (!Number.isFinite(dist) || dist > maxDistance) continue;
           const score = nameSimilarity(place.displayName, shop.name);
           if (score < minScore) continue;
           if (!best || score > best.score || (score === best.score && dist < best.dist)) {
@@ -78,7 +90,7 @@ export default defineCommand({
         }
         if (!best) continue;
         matched++;
-        const photo = best.shop.photo?.pc?.l;
+        const photo = safePhotoUrl(best.shop.photo?.pc?.l);
         consola.log(
           `  ${args.dryRun ? "[dry]" : "[set]"} ${place.displayName} <= ${best.shop.name} (score=${best.score.toFixed(2)}, ${Math.round(best.dist)}m)`,
         );

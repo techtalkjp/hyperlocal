@@ -77,14 +77,15 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
     updatedAt: string;
     placeIds: string[];
   }>(`guide/${lang.id}/${area.areaId}/${sceneId}.json`);
-  if (guideShard) {
+  if (guideShard?.status === "published") {
     const [placeRows, indexRows] = await Promise.all([
       Promise.all(guideShard.placeIds.map((id) => readShard(`place/${lang.id}/${id}.json`))),
-      readShard<Array<{ sceneId: string; title: string }>>(
+      readShard<Array<{ sceneId: string; title: string; status?: string }>>(
         `guide-index/${lang.id}/${area.areaId}.json`,
       ),
     ]);
-    if (placeRows.every(Boolean) && indexRows) {
+    // Old indexes lack status and may contain drafts. Fall back to the DB until republished.
+    if (placeRows.every(Boolean) && indexRows && indexRows.every((a) => a.status === "published")) {
       const places = placeRows as unknown as ParsedLocalizedPlace[];
       const article = {
         ...guideShard,

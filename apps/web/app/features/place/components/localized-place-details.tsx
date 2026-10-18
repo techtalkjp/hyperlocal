@@ -20,6 +20,7 @@ import {
 } from "~/components/ui";
 import { type BusinessHours, getBusinessStatus } from "@hyperlocal/google-place-api";
 import { buildTabelogLink, priceLevelLabel } from "../utils";
+import { safePhotoUrl } from "../utils/safe-photo-url";
 import { BusinessStatusBadge } from "./business-status-badge";
 import { ResponsivePlacesImage } from "./responsive-place-image";
 
@@ -33,6 +34,13 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
     date,
     city?.timezone ?? "Asia/Tokyo",
   );
+  const tabelogLink = place.sourceUri
+    ? buildTabelogLink(place.sourceUri, place.language)
+    : undefined;
+  const photos = place.photos.flatMap((url) => {
+    const safeUrl = safePhotoUrl(url);
+    return safeUrl ? [safeUrl] : [];
+  });
 
   return (
     <Card>
@@ -56,14 +64,14 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
       <CardContent className="p-2 md:p-4">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <div className="md:col-span-2">
-            {place.photos.length === 0 ? (
+            {photos.length === 0 ? (
               <div className="bg-muted text-muted-foreground grid aspect-square w-full place-content-center rounded-lg text-sm">
                 No Photo
               </div>
             ) : (
               <Carousel>
                 <CarouselContent>
-                  {place.photos.map((photoUrl, index) => (
+                  {photos.map((photoUrl, index) => (
                     <CarouselItem key={photoUrl}>
                       <ResponsivePlacesImage
                         imageUrl={photoUrl}
@@ -113,20 +121,16 @@ export const LocalizedPlaceDetails = ({ place }: { place: LocalizedPlace }) => {
               {() => <BusinessStatusBadge statusResult={businessStatusResult} />}
             </ClientOnly>
 
-            <div className="grid grid-cols-2 gap-2">
+            <div className={`grid gap-2 ${tabelogLink ? "grid-cols-2" : "grid-cols-1"}`}>
               <Button type="button" variant="outline" className="w-full" asChild>
                 <a href={place.googleMapsUri} target="_blank" rel="noopener noreferrer">
                   <MapIcon className="mr-2 h-4 w-4" />
                   Google Maps
                 </a>
               </Button>
-              {place.sourceUri && (
+              {tabelogLink && (
                 <Button type="button" variant="outline" className="w-full" asChild>
-                  <a
-                    href={buildTabelogLink(place.sourceUri, place.language)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <a href={tabelogLink} target="_blank" rel="noopener noreferrer">
                     <ExternalLink className="mr-2 h-4 w-4" />
                     Tabelog
                   </a>

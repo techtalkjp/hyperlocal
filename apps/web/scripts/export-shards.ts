@@ -6,7 +6,7 @@ import { listLocalizedPlaces } from "../app/routes/_public.($lang)/area/$area/$c
 
 // R2読み取りshardのexporter (v0: ローカル出力のみ、R2 PUTはpublish-shards.ts)
 // 使い方: pnpm tsx scripts/export-shards.ts --out /tmp/shards --version 20260915
-//         pnpm tsx scripts/export-shards.ts --out /tmp/surgical --version <現行版> --only guide-index
+//         pnpm tsx scripts/export-shards.ts --out /tmp/surgical --version <新版> --only guide,guide-index
 // DBは DATABASE_URL 環境変数 (.env) を見る。SELECTのみで無害。
 //
 // 出力:
@@ -29,10 +29,22 @@ const onlyArg = flag("--only");
 const only = new Set(
   onlyArg ? onlyArg.split(",") : ["listing", "place", "geo", "guide", "guide-index"],
 );
+// Guide content and its index must be refreshed together to avoid stale draft links or files.
+if (only.has("guide") || only.has("guide-index")) {
+  only.add("guide");
+  only.add("guide-index");
+}
 if (!outDir) {
   throw new Error("--out <dir> is required");
 }
 const version = versionArg ?? new Date().toISOString().slice(0, 13).replace(/[-T:]/g, "");
+if (!/^[A-Za-z0-9_-]+$/.test(version)) {
+  throw new Error("--version must contain only letters, numbers, underscores, or hyphens");
+}
+const refreshedGuideKinds = ["guide", "guide-index"].filter((kind) => only.has(kind));
+for (const kind of refreshedGuideKinds) {
+  fs.rmSync(path.join(outDir, version, kind), { recursive: true, force: true });
+}
 
 const files: Record<string, string> = {};
 const write = (logicalPath: string, data: unknown) => {
@@ -155,7 +167,11 @@ if (only.has("geo")) {
 }
 
 // 4. guide: 記事＋参照placeIds (カード結合はWorker側でplace shardを引く)
-const articles = await db.selectFrom("areaArticles").selectAll().execute();
+const articles = await db
+  .selectFrom("areaArticles")
+  .selectAll()
+  .where("status", "=", "published")
+  .execute();
 counts.guide = 0;
 if (only.has("guide")) {
   for (const a of articles) {
@@ -181,7 +197,7 @@ if (only.has("guide-index")) {
     const [language, areaId] = key.split("/");
     const list = articles
       .filter((a) => a.language === language && a.areaId === areaId)
-      .map((a) => ({ sceneId: a.sceneId, title: a.title }));
+      .map((a) => ({ sceneId: a.sceneId, title: a.title, status: a.status }));
     bytes += write(`guide-index/${language}/${areaId}.json`, list);
     counts["guide-index"]++;
   }
@@ -209,7 +225,14 @@ const manifest = {
   publishedAt: new Date().toISOString(),
   counts: { ...(prev.counts ?? {}), ...exportedCounts },
   bytes: (prev.bytes ?? 0) + bytes,
-  files: { ...(prev.files ?? {}), ...files },
+  files: {
+    ...Object.fromEntries(
+      Object.entries(prev.files ?? {}).filter(
+        ([logicalPath]) => !refreshedGuideKinds.some((kind) => logicalPath.startsWith(`${kind}/`)),
+      ),
+    ),
+    ...files,
+  },
 };
 fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
 console.log(JSON.stringify({ version, counts, bytes, files: Object.keys(files).length }, null, 2));

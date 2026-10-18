@@ -4,13 +4,14 @@ import { google } from "@ai-sdk/google";
 import { generateText, Output } from "ai";
 import consola from "consola";
 import { z } from "zod";
+import { validatedReviewTranslations } from "./validated-review-translations";
 
 // 店舗×言語あたり1リクエストにまとめるためのスキーマ
 const schema = z.object({
   displayName: z.string(),
   reviews: z.array(
     z.object({
-      index: z.number(),
+      index: z.number().int().nonnegative(),
       text: z.string(),
     }),
   ),
@@ -68,7 +69,13 @@ export const translatePlace = async (place: Place, from: string, to: string) => 
       prompt,
     });
 
-    const textsByIndex = new Map(result.output.reviews.map((r) => [r.index, r.text] as const));
+    const textsByIndex = validatedReviewTranslations(
+      reviewInputs.map((review) => review.index),
+      result.output.reviews,
+    );
+    if (!textsByIndex || !result.output.displayName.trim()) {
+      throw new Error("Translation output does not match the requested reviews");
+    }
 
     return {
       displayName: result.output.displayName,

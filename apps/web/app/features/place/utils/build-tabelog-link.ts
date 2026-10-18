@@ -14,5 +14,20 @@ export const buildTabelogLink = (url: string, language: string) => {
     .with("zh-TW", () => "tw/")
     .with("ko", () => "kr/")
     .otherwise(() => "en/");
-  return url.replace("https://tabelog.com/", `https://tabelog.com/${languagePrefix}`);
+  try {
+    const parsed = new URL(url);
+    if (
+      parsed.protocol !== "https:" ||
+      parsed.hostname !== "tabelog.com" ||
+      parsed.port ||
+      parsed.username ||
+      parsed.password
+    ) {
+      return undefined;
+    }
+    parsed.pathname = `/${languagePrefix}${parsed.pathname.replace(/^\//, "")}`;
+    return parsed.href;
+  } catch {
+    return undefined;
+  }
 };

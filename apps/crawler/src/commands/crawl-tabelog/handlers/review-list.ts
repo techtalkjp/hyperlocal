@@ -1,4 +1,5 @@
 import { type Handler, HandlerLabel } from "./types.js";
+import { safeTabelogUrl } from "../safe-tabelog-url.js";
 
 export const reviewListHandler: Handler = async ({ request, $, crawler }) => {
   // レビュー一覧からの個別レビューへのリンクを追加
@@ -7,10 +8,11 @@ export const reviewListHandler: Handler = async ({ request, $, crawler }) => {
     .slice(0, 5)
     .flatMap((elem) => {
       const reviewLink = $(elem).attr("href");
-      if (!reviewLink) return [];
+      const url = safeTabelogUrl(reviewLink ?? "", request.loadedUrl);
+      if (!url) return [];
       return [
         {
-          url: new URL(reviewLink, request.loadedUrl).href,
+          url,
           label: HandlerLabel.REVIEW_DETAIL,
           userData: request.userData,
         },

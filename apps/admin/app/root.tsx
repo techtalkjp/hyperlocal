@@ -16,7 +16,7 @@ export const loader = ({ context }: Route.LoaderArgs) => {
 };
 
 // Public routes that don't require authentication
-const publicRoutes = ["/login", "/logout", "/signup"];
+const publicRoutes = ["/login", "/signup"];
 
 const authMiddleware: Route.MiddlewareFunction = async (args) => {
   const url = new URL(args.request.url);
