@@ -1,0 +1,24 @@
+description: |
+  Authorized security audit of the Hyperlocal public web app in a disposable local environment.
+  Source is a committed snapshot with production credentials and data excluded.
+  The target has a fresh synthetic SQLite database and no outbound network access.
+agentic_sast:
+  enabled: 'true'
+exploit: 'true'
+rules_of_engagement: |
+  - Use only http://host.docker.internal:4174 and the supplied repository snapshot.
+  - Only the public web app is in scope; do not request the admin app on port 4176.
+  - Keep traffic under 2 requests per second per endpoint, and stop on 429 or instability.
+  - Confirm findings with the minimum benign proof required.
+  - Do not brute force, deny service, persist, exfiltrate, use external callbacks, or access other systems.
+  - Do not invoke external AI, Google APIs, Cloudflare APIs, or remote data services from the target.
+  - Do not modify source files. Minimal writes to the disposable local database are allowed if needed for proof.
+  - Treat unavailable external services and empty synthetic data as coverage limits, not vulnerabilities.
+rules:
+  avoid:
+    - description: Admin app is scanned separately
+      type: code_path
+      value: apps/admin/**
+    - description: Disposable audit harness is not deployed application code
+      type: code_path
+      value: tools/security-audit/**
