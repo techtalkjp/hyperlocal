@@ -34,7 +34,14 @@ def call(
     echo: bool = True, stream: bool = False,
 ) -> str:
     print("+", " ".join(args), flush=True)
-    result = subprocess.run(args, cwd=cwd, env=env, check=True, text=True, capture_output=not stream)
+    try:
+        result = subprocess.run(args, cwd=cwd, env=env, check=True, text=True, capture_output=not stream)
+    except subprocess.CalledProcessError as error:
+        if not stream:
+            for output in (error.stdout, error.stderr):
+                if output:
+                    print(output[-4000:].rstrip(), file=sys.stderr, flush=True)
+        raise
     if echo and result.stdout:
         print(result.stdout.rstrip(), flush=True)
     if echo and result.stderr:
@@ -225,6 +232,14 @@ def shannon_binary() -> Path:
     return Path(resolved).resolve()
 
 
+def validation_complete(binary: Path, workspace: str, env: dict[str, str]) -> bool:
+    result = subprocess.run(
+        [str(binary), "status", workspace], cwd=binary.parent, env=env,
+        capture_output=True, text=True,
+    )
+    return result.returncode == 0 and f"Scan: {workspace} completed" in result.stdout
+
+
 def scan(run_dir: Path, target: str, validate_only: bool = False) -> None:
     state = metadata(run_dir)
     binary = shannon_binary()
@@ -240,9 +255,13 @@ def scan(run_dir: Path, target: str, validate_only: bool = False) -> None:
         command = [str(binary), "start", "--url", f"http://host.docker.internal:{PORTS[name]}",
                    "--repo", str(run_dir / "snapshot"),
                    "--config", str(TOOL_DIR / f"{name}.yaml")]
-        call([*command, "--workspace", f"{workspace}-model", "--validate-model"], cwd=binary.parent, env=env)
+        model_workspace = f"{workspace}-model"
+        if not validation_complete(binary, model_workspace, env):
+            call([*command, "--workspace", model_workspace, "--validate-model"], cwd=binary.parent, env=env)
         if name == "admin":
-            call([*command, "--workspace", f"{workspace}-auth", "--validate-auth"], cwd=binary.parent, env=env)
+            auth_workspace = f"{workspace}-auth"
+            if not validation_complete(binary, auth_workspace, env):
+                call([*command, "--workspace", auth_workspace, "--validate-auth"], cwd=binary.parent, env=env)
         if validate_only:
             continue
         out = run_dir / "reports" / name
@@ -251,8 +270,17 @@ def scan(run_dir: Path, target: str, validate_only: bool = False) -> None:
         status = call([str(binary), "status", workspace], cwd=binary.parent, env=env)
         if "completed" not in status.lower():
             raise RuntimeError(f"Shannon workspace is not complete: {workspace}")
-        if not any(out.rglob("report.json")):
+        if not (out / "comprehensive_security_assessment_report.md").exists():
             raise RuntimeError(f"Shannon did not copy a final report into {out}")
+        # --output publishes Markdown/PDF/SARIF. Preserve structured and SAST
+        # results from a source build when its local workspace is available.
+        internal = binary.parent / "workspaces" / workspace / ".shannon"
+        for source, destination in (
+            (internal / "deliverables/report.json", out / "report.json"),
+            (internal / "capella/report.md", out / "capella-report.md"),
+        ):
+            if source.is_file():
+                shutil.copy2(source, destination)
 
 
 def clean(run_dir: Path) -> None:
@@ -287,6 +315,8 @@ def main() -> None:
         parser.error("--run-dir is required for an existing run")
     run_dir = (args.run_dir or (DEFAULT_RUNS / dt.datetime.now(dt.timezone.utc).strftime("%Y%m%d-%H%M%S"))).resolve()
     if args.command in ("prepare", "run"):
+        if run_dir.exists():
+            raise RuntimeError(f"Run directory already exists: {run_dir}")
         try:
             prepare(run_dir)
         except Exception:

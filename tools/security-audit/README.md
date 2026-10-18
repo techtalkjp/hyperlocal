@@ -26,7 +26,7 @@ python3 tools/security-audit/run.py scan --run-dir .cache/security-audit/manual-
 python3 tools/security-audit/run.py clean --run-dir .cache/security-audit/manual-001
 ```
 
-`--target web` と `--target admin` で片方ずつ実行できる。`SHANNON_AI_MODEL` の既定は `openai:gpt-6-sol`、認証方式の既定は `SHANNON_USE_PI_AUTH=1`。別モデルを使う場合は環境変数で指定する。レポートは実行ディレクトリの `reports/web/` と `reports/admin/` に保存され、実行ディレクトリを削除するまで残る。報告書には検証内容が含まれるため、公開リポジトリへそのままコミットしない。
+`--target web` と `--target admin` で片方ずつ実行できる。`SHANNON_AI_MODEL` の既定は `openai:gpt-6-sol`、認証方式の既定は `SHANNON_USE_PI_AUTH=1`。別モデルを使う場合は環境変数で指定する。レポートは実行ディレクトリの `reports/web/` と `reports/admin/` に保存され、実行ディレクトリを削除するまで残る。Shannon の `--output` による Markdown・PDF・SARIF に加え、ローカルのソースビルドで生成された JSON と静的解析レポートもコピーする。報告書には検証内容が含まれるため、公開リポジトリへそのままコミットしない。
 
 ## スキャン範囲と限界
 
@@ -34,6 +34,6 @@ python3 tools/security-audit/run.py clean --run-dir .cache/security-audit/manual
 - 毎回新しい合成 DB とランダムなセッションを作る。`/_audit/login` はゲートウェイだけにあるダミー認証画面で、管理画面の本番コードには含まれない。
 - `web.yaml` と `admin.yaml` は実証を有効にし、アクセス先・速度・対象外操作を制限する。URL やポートを変えるときは両設定と `run.py` を合わせて更新する。
 - アプリは Cloudflare Workers/D1 ではなく Node 開発サーバーと SQLite で動く。Google OAuth、公開 R2 の実データ、Worker/エッジ固有の挙動は別途確認する。
-- スキャン後は `status` が complete で、出力先に `report.json` がある場合だけ成功とする。Shannon の静的解析結果は動的な実証と分けて確認する。
+- スキャン後は Shannon の `status` が complete で、出力先に最終 Markdown 報告書がある場合だけ成功とする。Shannon の静的解析結果は動的な実証と分けて確認する。
 
 2026-10-18 の監査結果と個別対応は [親イシュー #66](https://github.com/techtalkjp/hyperlocal/issues/66) にある。
