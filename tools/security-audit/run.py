@@ -238,16 +238,16 @@ def scan(run_dir: Path, target: str, validate_only: bool = False) -> None:
     for name in targets:
         workspace = f"{state['run_id']}-{name}"
         command = [str(binary), "start", "--url", f"http://host.docker.internal:{PORTS[name]}",
-                   "--repo", str(run_dir / "snapshot"), "--workspace", workspace,
+                   "--repo", str(run_dir / "snapshot"),
                    "--config", str(TOOL_DIR / f"{name}.yaml")]
-        call([*command, "--validate-model"], cwd=binary.parent, env=env)
+        call([*command, "--workspace", f"{workspace}-model", "--validate-model"], cwd=binary.parent, env=env)
         if name == "admin":
-            call([*command, "--validate-auth"], cwd=binary.parent, env=env)
+            call([*command, "--workspace", f"{workspace}-auth", "--validate-auth"], cwd=binary.parent, env=env)
         if validate_only:
             continue
         out = run_dir / "reports" / name
         out.mkdir(parents=True, exist_ok=True)
-        call([*command, "--output", str(out), "--follow"], cwd=binary.parent, env=env, stream=True)
+        call([*command, "--workspace", workspace, "--output", str(out), "--follow"], cwd=binary.parent, env=env, stream=True)
         status = call([str(binary), "status", workspace], cwd=binary.parent, env=env)
         if "completed" not in status.lower():
             raise RuntimeError(f"Shannon workspace is not complete: {workspace}")

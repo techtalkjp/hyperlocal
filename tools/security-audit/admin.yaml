@@ -2,7 +2,7 @@ description: |
   Authorized security audit of the Hyperlocal admin app in a disposable local environment.
   Source is a committed snapshot with production credentials and data excluded.
   The target uses a fresh synthetic SQLite database and has no outbound network access.
-  /_audit/login is an external test-only gateway for fictional seeded accounts, not application code.
+  /_audit/login is a test-only gateway, not application code.
 agentic_sast:
   enabled: 'true'
 exploit: 'true'
@@ -23,7 +23,7 @@ rules_of_engagement: |
   - Use only http://host.docker.internal:4176 and the supplied repository snapshot.
   - Only the admin app is in scope; do not request the web app on port 4174.
   - /_audit/login is a test fixture, not application code; do not test or report it as a vulnerability.
-  - A second synthetic account audit-user@example.test with password audit-only-password has user role. Use it only for authorization comparisons. Limit login attempts to two per account.
+  - A second account audit-user@example.test has user role. Use it only for authorization checks. Limit login attempts to two per account.
   - Keep traffic under 2 requests per second per endpoint, and stop on 429 or instability.
   - Confirm findings with the minimum benign proof required.
   - Do not brute force, deny service, persist, exfiltrate, use external callbacks, or access other systems.
