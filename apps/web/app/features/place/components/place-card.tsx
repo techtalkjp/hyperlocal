@@ -3,22 +3,19 @@ import { MessageSquareIcon } from "lucide-react";
 import { Badge, HStack } from "~/components/ui";
 import { Rating } from "~/features/place/components/rating";
 import { priceLevelLabel } from "../utils";
+import { safePhotoUrl } from "../utils/safe-photo-url";
 
 interface PlaceCardProps extends React.ComponentProps<typeof HStack> {
   place: Place;
   no?: number;
 }
 export const PlaceCard = ({ place, no }: PlaceCardProps) => {
+  const photo = safePhotoUrl(place.photos[0]);
   return (
     <HStack className="items-start gap-4" key={place.id}>
       <div className="bg-muted text-muted-foreground grid h-32 w-32 shrink-0 place-content-center place-items-center rounded">
-        {place.photos[0] ? (
-          <img
-            className="h-32 w-32 rounded object-cover"
-            src={place.photos[0]}
-            loading="lazy"
-            alt="photo1"
-          />
+        {photo ? (
+          <img className="h-32 w-32 rounded object-cover" src={photo} loading="lazy" alt="photo1" />
         ) : (
           <div>No Photo</div>
         )}

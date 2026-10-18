@@ -1,4 +1,5 @@
 import type React from "react";
+import { safePhotoUrl } from "../utils/safe-photo-url";
 
 /**
  * デバイスごとの画像サイズ設定
@@ -47,7 +48,9 @@ export const ResponsivePlacesImage: React.FC<ResponsivePlacesImageProps> = ({
   className = "",
   style,
 }) => {
-  const urls = getResponsiveImageUrls(imageUrl);
+  const safeImage = safePhotoUrl(imageUrl);
+  if (!safeImage) return null;
+  const urls = getResponsiveImageUrls(safeImage);
 
   return (
     <picture>

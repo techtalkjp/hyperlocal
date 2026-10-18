@@ -2,6 +2,7 @@ import { RouterContextProvider, createRequestHandler } from "react-router";
 import { setD1Database } from "@hyperlocal/db";
 import type { D1Database } from "@cloudflare/workers-types";
 import { executionContext } from "../app/lib/worker-context";
+import { webTransport } from "../app/lib/web-transport";
 
 const requestHandler = createRequestHandler(
   () => import("virtual:react-router/server-build"),
@@ -53,15 +54,19 @@ export default {
       passThroughOnException(): void;
     },
   ) {
-    seedProcessEnv(env);
-    const provider = new RouterContextProvider();
-    provider.set(executionContext, {
-      waitUntil: ctx.waitUntil.bind(ctx),
-      passThroughOnException: ctx.passThroughOnException.bind(ctx),
-      cache: (ctx as Record<string, unknown>).cache as never,
+    return webTransport(request, async () => {
+      seedProcessEnv(env);
+      const provider = new RouterContextProvider();
+      provider.set(executionContext, {
+        waitUntil: ctx.waitUntil.bind(ctx),
+        passThroughOnException: ctx.passThroughOnException.bind(ctx),
+        cache: (ctx as Record<string, unknown>).cache as never,
+      });
+      const { pathname } = new URL(request.url);
+      const response = requestHandler(request, provider);
+      return NO_STORE_PREFIXES.some((p) => pathname.startsWith(p))
+        ? withNoStore(response)
+        : response;
     });
-    const { pathname } = new URL(request.url);
-    const response = requestHandler(request, provider);
-    return NO_STORE_PREFIXES.some((p) => pathname.startsWith(p)) ? withNoStore(response) : response;
   },
 };

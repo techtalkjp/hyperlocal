@@ -3,6 +3,7 @@ import { defineCommand } from "citty";
 import consola from "consola";
 import { CheerioCrawler, Dataset, log } from "crawlee";
 import { HandlerLabel, router } from "./handlers";
+import { safeTabelogUrl } from "./safe-tabelog-url";
 
 export default defineCommand({
   meta: {
@@ -84,11 +85,11 @@ const crawlTabelog = async (
   }
   const requests = areas
     .filter((area) => opts.all || areaIdSet.has(area.areaId))
-    .map((area) => ({
-      url: area.tabelogUrl,
-      label: HandlerLabel.RESTAURANT_LIST,
-      userData: { area: area.areaId },
-    }));
+    .map((area) => {
+      const url = safeTabelogUrl(area.tabelogUrl);
+      if (!url) throw new Error(`Invalid Tabelog URL for ${area.areaId}`);
+      return { url, label: HandlerLabel.RESTAURANT_LIST, userData: { area: area.areaId } };
+    });
 
   if (requests.length > 0) {
     await crawler.addRequests(requests);

@@ -5,7 +5,8 @@ import path from "node:path";
 // Turso(DATABASE_URL) -> D1用SQLダンプ。SELECTのみ。
 // 使い方: pnpm tsx src/scripts/export-sql.ts --out /tmp/d1dump
 //         pnpm tsx src/scripts/export-sql.ts --out /tmp/d1sync --upsert  (staging->D1同期用)
-// 空のD1への初回投入用 ( plain INSERT )。FK順に tables 出力。
+// 空のD1への初回投入用 ( plain INSERT )。コンテンツテーブルをFK順に出力。
+// 認証テーブルはセッションやトークンを含むため同期しない。
 // localized_places は5000行ずつ分割。
 // --upsert: INSERT ... ON CONFLICT DO UPDATE を出す。area_articlesは
 //   自然キー(city/area/scene/lang)のunique indexに合わせ、idは更新対象外。
@@ -15,13 +16,12 @@ const outDir = args[args.indexOf("--out") + 1];
 const upsert = args.includes("--upsert");
 if (!outDir) throw new Error("--out <dir> is required");
 fs.mkdirSync(outDir, { recursive: true });
+if (fs.readdirSync(outDir).length > 0) {
+  throw new Error("--out must be an empty directory so stale SQL cannot be applied");
+}
 
 // ON CONFLICT対象 (area_articlesは自然キーunique)
 const CONFLICT_COLS: Record<string, string[]> = {
-  user: ["id"],
-  account: ["id"],
-  session: ["id"],
-  verification: ["identifier"],
   places: ["id"],
   place_listings: ["city_id", "area_id", "category_id", "ranking_type", "place_id"],
   localized_places: ["city_id", "area_id", "category_id", "ranking_type", "place_id", "language"],
@@ -73,11 +73,7 @@ const dumpTable = async (table: string, orderBy: string, chunkSize = 0) => {
   }
 };
 
-// FK親 -> 子の順
-await dumpTable("user", "id");
-await dumpTable("account", "id");
-await dumpTable("session", "id");
-await dumpTable("verification", "identifier");
+// FK親 -> 子の順。認証情報は出力しない。
 await dumpTable("places", "id");
 await dumpTable("place_listings", "city_id, area_id, category_id, ranking_type, place_id");
 await dumpTable(

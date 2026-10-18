@@ -80,6 +80,11 @@ async function main() {
     process.exit(1);
   }
 
+  const safeId = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+  if (!safeId.test(article.area) || !safeId.test(article.scene)) {
+    throw new Error("area and scene must be lowercase, hyphenated IDs");
+  }
+
   if (!article.title || !article.description || !article.content) {
     console.error("Error: title, description, and content are required in the JSON");
     process.exit(1);
@@ -99,4 +104,7 @@ async function main() {
   console.log(`pnpm --filter @hyperlocal/admin generate:article --file ${filepath}`);
 }
 
-main().catch(console.error);
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});

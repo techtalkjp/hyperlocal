@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth";
 import { getAuthDb } from "./db";
 import type { AdminEnv } from "./request-context";
+import { newUserRole } from "./new-user-role";
 
 export function createAuth(env: AdminEnv) {
   const adminEmails = (env.ADMIN_EMAILS ?? "coji@techtalk.jp")
@@ -24,26 +25,9 @@ export function createAuth(env: AdminEnv) {
       user: {
         create: {
           before: async (user) => {
-            // coji@techtalk.jp 以外は作らせない
-            if (!adminEmails.includes(user.email.toLowerCase())) {
-              return false;
-            }
-            // 最初のユーザーを管理者にする
-            const existingUsers = await getAuthDb(env)
-              .selectFrom("user")
-              .select("id")
-              .limit(1)
-              .execute();
-
-            if (existingUsers.length === 0) {
-              return {
-                data: {
-                  ...user,
-                  role: "admin",
-                },
-              };
-            }
-            return { data: user };
+            const role = newUserRole(user.email, adminEmails);
+            if (!role) return false;
+            return { data: { ...user, role } };
           },
         },
       },

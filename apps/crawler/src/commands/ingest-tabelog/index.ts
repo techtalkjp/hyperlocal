@@ -4,6 +4,7 @@ import { defineCommand } from "citty";
 import consola from "consola";
 import { upsertPlace } from "../mutations";
 import { parseNearestStation } from "~/features/tabelog/parse-nearest-station";
+import { safePhotoUrl } from "~/features/photos/safe-photo-url";
 import { parseTabelogOpeningHours } from "~/features/tabelog/parse-opening-hours";
 import { geocodeBlock } from "~/services/gsi";
 import { db as duckdb } from "~/services/duckdb.server";
@@ -74,11 +75,17 @@ export const ingestTabelog = async (opts: IngestTabelogOptions) => {
 
   // 写真の優先順位: Google (Places API 由来、許諾あり) > Tabelog og:image (640px) > それ以外の既存 (Hotpepper 238px)
   const pickPhotos = (existingPhotos: unknown, tabelogImage: string | null | undefined): string => {
-    const current = Array.isArray(existingPhotos) ? (existingPhotos as string[]) : [];
-    if (current.some((u) => typeof u === "string" && u.includes("googleusercontent.com/"))) {
+    const current = Array.isArray(existingPhotos)
+      ? existingPhotos.flatMap((url) => {
+          const safeUrl = typeof url === "string" ? safePhotoUrl(url) : undefined;
+          return safeUrl ? [safeUrl] : [];
+        })
+      : [];
+    if (current.some((url) => new URL(url).hostname === "lh3.googleusercontent.com")) {
       return JSON.stringify(current);
     }
-    if (tabelogImage) return JSON.stringify([tabelogImage]);
+    const safeImage = safePhotoUrl(tabelogImage);
+    if (safeImage) return JSON.stringify([safeImage]);
     return JSON.stringify(current);
   };
 
