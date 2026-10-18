@@ -25,6 +25,11 @@ jobs:
         with:
           cache: true
 
+      - name: Generate React Router types for lint
+        run: |
+          pnpm --filter @hyperlocal/web exec react-router typegen
+          pnpm --filter @hyperlocal/admin exec react-router typegen
+
       - name: 🔬 Lint
         run: pnpm run lint
 
