@@ -53,7 +53,7 @@ let total = 0;
 for (const f of files) {
   const text = fs.readFileSync(path.join(dir, f), "utf8");
   if (!text) continue;
-  const stmts = splitExportSql(text);
+  const stmts = splitExportSql(text, ORDER[rank(f)]);
   for (let i = 0; i < stmts.length; i += BATCH) {
     const sql = stmts.slice(i, i + BATCH).join("\n");
     for (let attempt = 1; ; attempt++) {

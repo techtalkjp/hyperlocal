@@ -1,3 +1,5 @@
+import type { CheerioCrawlerOptions } from "crawlee";
+
 export const safeTabelogUrl = (href: string, base?: string): string | undefined => {
   if (!href.trim()) return undefined;
   try {
@@ -9,4 +11,19 @@ export const safeTabelogUrl = (href: string, base?: string): string | undefined 
   } catch {
     return undefined;
   }
+};
+
+export const canFollowTabelogRedirect = (
+  location: string | undefined,
+  currentUrl: string,
+): boolean => safeTabelogUrl(location ?? "", currentUrl) !== undefined;
+
+export const restrictTabelogNavigation: NonNullable<
+  CheerioCrawlerOptions["preNavigationHooks"]
+>[number] = ({ request }, gotOptions) => {
+  if (!safeTabelogUrl(request.url)) {
+    throw new Error(`Refusing non-Tabelog request: ${request.url}`);
+  }
+  gotOptions.followRedirect = (response) =>
+    canFollowTabelogRedirect(response.headers.location, response.url);
 };

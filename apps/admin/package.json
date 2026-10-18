@@ -14,7 +14,7 @@
     "format": "vp fmt --check .",
     "format:fix": "vp fmt --write .",
     "typecheck": "react-router typegen && tsc",
-    "test": "vp test run",
+    "test": "vp test run && tsx --test tests/logout.check.mjs",
     "validate": "run-s format lint typecheck test"
   },
   "dependencies": {
@@ -70,6 +70,7 @@
     "react-router-auto-routes": "1.0.0",
     "tailwindcss": "catalog:",
     "tailwindcss-animate": "catalog:",
+    "tsx": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:",

@@ -48,7 +48,7 @@ function seedProcessEnv(env: Record<string, unknown>) {
 export default {
   fetch(
     request: Request,
-    env: Record<string, unknown>,
+    env: Record<string, unknown> & { ASSETS: { fetch(request: Request): Promise<Response> } },
     ctx: {
       waitUntil(promise: Promise<unknown>): void;
       passThroughOnException(): void;
@@ -63,7 +63,15 @@ export default {
         cache: (ctx as Record<string, unknown>).cache as never,
       });
       const { pathname } = new URL(request.url);
-      const response = requestHandler(request, provider);
+      const response = (async () => {
+        if (request.method === "GET" || request.method === "HEAD") {
+          const assetUrl = new URL(request.url);
+          assetUrl.protocol = "https:";
+          const asset = await env.ASSETS.fetch(new Request(assetUrl, request));
+          if (asset.status !== 404) return asset;
+        }
+        return requestHandler(request, provider);
+      })();
       return NO_STORE_PREFIXES.some((p) => pathname.startsWith(p))
         ? withNoStore(response)
         : response;

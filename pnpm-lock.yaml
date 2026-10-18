@@ -531,6 +531,9 @@ importers:
       tailwindcss-animate:
         specifier: 'catalog:'
         version: 1.0.7(tailwindcss@4.3.3)
+      tsx:
+        specifier: 'catalog:'
+        version: 4.23.13
       typescript:
         specifier: 'catalog:'
         version: 7.0.2
@@ -604,6 +607,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 26.5.1
+      cheerio:
+        specifier: 1.0.0-rc.12
+        version: 1.0.0-rc.12
       npm-run-all:
         specifier: 'catalog:'
         version: 4.1.5

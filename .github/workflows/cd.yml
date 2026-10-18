@@ -131,7 +131,7 @@ jobs:
       - name: 🏗 Build admin
         run: pnpm --filter @hyperlocal/admin build
         env:
-          VITE_BETTER_AUTH_URL: https://hyperlocal-admin.techtalkjp.workers.dev
+          VITE_BETTER_AUTH_URL: https://admin.hyper-local.app
 
       - name: 🚀 Deploy admin to Workers
         run: pnpm --filter @hyperlocal/admin exec wrangler deploy --config build/server/wrangler.json
