@@ -1,7 +1,7 @@
+import { translationModel } from "@hyperlocal/ai";
 import { languages } from "@hyperlocal/consts";
 import type { Place } from "@hyperlocal/db";
-import { google } from "@ai-sdk/google";
-import { generateText, Output } from "ai";
+import { generateText } from "ai";
 import consola from "consola";
 import { z } from "zod";
 import { validatedReviewTranslations } from "./validated-review-translations";
@@ -17,8 +17,16 @@ const schema = z.object({
   ),
 });
 
-// 将来のモデル切替用 (例: TRANSLATE_MODEL=gemini-3.5-flash-lite)
-const MODEL = process.env.TRANSLATE_MODEL ?? "gemini-2.5-flash-lite";
+// ローカルモデル (LM Studio 等) は response_format=json_schema で崩れるため、
+// 構造化出力に頼らず JSON テキストを抽出してパースする
+const parseTranslation = (text: string) => {
+  const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+  const candidate = (fenced?.[1] ?? text).trim();
+  const start = candidate.indexOf("{");
+  const end = candidate.lastIndexOf("}");
+  const json = start >= 0 && end > start ? candidate.slice(start, end + 1) : candidate;
+  return schema.safeParse(JSON.parse(json));
+};
 
 // ビルド時に翻訳するレビュー件数 (表示は先頭のみ使うため、残りは訳さない)
 const REVIEW_LIMIT = Number(process.env.TRANSLATE_REVIEW_LIMIT ?? 2);
@@ -62,23 +70,28 @@ export const translatePlace = async (place: Place, from: string, to: string) => 
 
   try {
     const result = await generateText({
-      model: google(MODEL),
+      model: translationModel(),
       maxRetries: 3,
-      output: Output.object({ schema }),
-      system: `Translate the following ${sourceLang.displayName} restaurant name and customer reviews into ${targetLang.displayName}, item by item. Keep the original meaning and tone so they sound natural in ${targetLang.displayName}. Remove personal information, promotional content, and platform-specific remarks. Do not merge items and do not invent new ones.`,
+      system: `Translate the following ${sourceLang.displayName} restaurant name and customer reviews into ${targetLang.displayName}, item by item. Keep the original meaning and tone so they sound natural in ${targetLang.displayName}. Remove personal information, promotional content, and platform-specific remarks. Do not merge items and do not invent new ones.
+Respond with only a JSON object, no markdown code fences, in this shape: {"displayName": string, "reviews": [{"index": number, "text": string}]}. Include one review entry for every input review, keeping its original index.`,
       prompt,
     });
 
+    const parsed = parseTranslation(result.text);
+    if (!parsed.success) {
+      throw new Error("Translation output is not valid JSON");
+    }
+
     const textsByIndex = validatedReviewTranslations(
       reviewInputs.map((review) => review.index),
-      result.output.reviews,
+      parsed.data.reviews,
     );
-    if (!textsByIndex || !result.output.displayName.trim()) {
+    if (!textsByIndex || !parsed.data.displayName.trim()) {
       throw new Error("Translation output does not match the requested reviews");
     }
 
     return {
-      displayName: result.output.displayName,
+      displayName: parsed.data.displayName,
       originalDisplayName: place.displayName,
       reviews: place.reviews.map((review, index) => ({
         rating: review.rating,

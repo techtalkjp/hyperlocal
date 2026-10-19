@@ -1,4 +1,4 @@
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { translationModel } from "@hyperlocal/ai";
 import { generateText } from "ai";
 import fs from "node:fs";
 import path from "node:path";
@@ -6,10 +6,6 @@ import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-const google = createGoogleGenerativeAI({
-  apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
-});
 
 interface Article {
   area: string;
@@ -59,7 +55,7 @@ Please respond with a JSON object containing only the translated fields:
 `;
 
   const result = await generateText({
-    model: google("gemini-2.5-flash-lite"),
+    model: translationModel(),
     prompt,
   });
 

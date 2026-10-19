@@ -18,10 +18,10 @@
     "validate": "run-s lint format typecheck test"
   },
   "dependencies": {
-    "@ai-sdk/google": "catalog:",
     "@date-fns/tz": "catalog:",
     "@date-fns/utc": "catalog:",
     "@duckdb/node-api": "catalog:",
+    "@hyperlocal/ai": "workspace:*",
     "@hyperlocal/consts": "workspace:*",
     "@hyperlocal/db": "workspace:*",
     "@hyperlocal/google-place-api": "workspace:*",

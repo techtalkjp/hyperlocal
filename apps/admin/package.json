@@ -24,6 +24,7 @@
     "@conform-to/zod": "catalog:",
     "@date-fns/tz": "catalog:",
     "@date-fns/utc": "catalog:",
+    "@hyperlocal/ai": "workspace:*",
     "@hyperlocal/consts": "workspace:*",
     "@hyperlocal/db": "workspace:*",
     "@hyperlocal/google-place-api": "workspace:*",

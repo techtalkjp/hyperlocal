@@ -11,6 +11,7 @@ allowBuilds:
 
 catalog:
   "@ai-sdk/google": 4.0.69
+  "@ai-sdk/openai-compatible": 3.0.48
   "@shadcn/lint": 0.1.1
   "@coji/zodix": 0.7.0
   "@conform-to/react": 1.21.1
