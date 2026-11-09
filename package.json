@@ -19,16 +19,18 @@
   },
   "devDependencies": {
     "@shadcn/lint": "catalog:",
+    "@types/node": "catalog:",
     "react-doctor": "catalog:",
+    "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:"
   },
   "devEngines": {
     "runtime": {
       "name": "node",
-      "version": "^24.21.0",
+      "version": "^24.22.2",
       "onFail": "download"
     }
   },
-  "packageManager": "pnpm@12.4.1"
+  "packageManager": "pnpm@12.18.0"
 }

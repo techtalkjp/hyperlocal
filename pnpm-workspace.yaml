@@ -10,80 +10,83 @@ allowBuilds:
   workerd: true
 
 catalog:
-  "@ai-sdk/google": 4.0.69
-  "@ai-sdk/openai-compatible": 3.0.48
-  "@shadcn/lint": 0.1.1
+  "@ai-sdk/google": 4.0.114
+  "@ai-sdk/openai-compatible": 3.0.87
+  "@shadcn/lint": 0.2.5
   "@coji/zodix": 0.7.0
-  "@conform-to/react": 1.21.1
-  "@conform-to/zod": 1.21.1
+  "@conform-to/react": 1.21.3
+  "@conform-to/zod": 1.21.3
   "@date-fns/tz": 1.5.0
   "@date-fns/utc": 2.1.1
-  "@duckdb/node-api": 1.5.5-r.4
+  "@duckdb/node-api": 2.0.0-r.1
   "@libsql/client": 0.18.0
   "@libsql/kysely-libsql": 0.4.1
-  "@react-router/dev": 8.3.1
-  "@react-router/node": 8.3.1
-  "@react-router/remix-routes-option-adapter": 8.3.1
-  "@react-router/serve": 8.3.1
-  "@tailwindcss/vite": 4.3.3
-  "@tailwindcss/typography": 0.5.19
+  "@react-router/dev": 8.5.1
+  "@react-router/node": 8.5.1
+  "@react-router/remix-routes-option-adapter": 8.5.1
+  "@react-router/serve": 8.5.1
+  "@tailwindcss/vite": 4.3.5
+  "@tailwindcss/typography": 0.5.20
   "@types/debug": 4.1.13
-  "@types/node": 26.5.1
+  "@types/node": 24.19.2
   "@types/nprogress": 0.2.3
   "@types/react": 19.3.0
   "@types/react-dom": 19.3.0
   accept-language: 3.0.20
-  ai: 7.0.99
-  autoprefixer: 10.5.6
-  better-auth: 1.7.4
+  ai: 7.0.166
+  autoprefixer: 10.6.2
+  better-auth: 1.7.18
   class-variance-authority: 0.7.1
   clsx: 2.1.1
-  concurrently: 10.0.5
-  crawlee: 3.18.1
+  concurrently: 10.0.7
+  crawlee: 3.18.2
   date-fns: 4.4.0
   debug: 4.4.3
-  dotenv: 17.4.2
-  dotenv-cli: 11.0.0
+  dotenv: 18.0.10
+  dotenv-cli: 11.1.0
   embla-carousel-react: 8.6.0
-  googleapis: 181.0.0
+  googleapis: 189.0.0
   isbot: 5.2.2
-  kysely: 0.28.11
+  kysely: 0.29.8
   kysely-codegen: 0.20.0
   kysely-duckdb: 0.4.0
-  lucide-react: 1.45.0
+  lucide-react: 1.70.0
   mdx-bundler: 10.1.1
-  nanoid: 6.0.1
+  nanoid: 6.0.2
   next-themes: 0.4.6
   npm-run-all: 4.1.5
   nprogress: 0.2.0
-  postcss: 8.5.3
-  radix-ui: 1.6.7
-  react: 19.3.0
-  react-doctor: 0.9.14
-  react-dom: 19.3.0
-  react-router: 8.3.1
+  postcss: 8.5.32
+  radix-ui: 1.8.1
+  react: 19.3.1
+  react-doctor: 0.9.22
+  react-dom: 19.3.1
+  react-router: 8.5.1
   react-twc: 1.5.1
   rehype-highlight: 7.0.2
   remark-gfm: 4.0.1
   remix-flat-routes: 0.8.5
   remix-toast: 4.0.0
-  remix-utils: 10.0.0
+  remix-utils: 10.0.1
   sonner: 2.0.8
-  tailwind-merge: 3.6.0
-  tailwindcss: 4.3.3
+  tailwind-merge: 3.7.0
+  tailwindcss: 4.3.5
   tailwindcss-animate: 1.0.7
-  ts-pattern: 5.9.0
-  tsx: 4.23.13
+  ts-pattern: 5.9.2
+  tsx: 4.23.15
   typescript: 7.0.2
-  vite: npm:@voidzero-dev/vite-plus-core@0.3.2
-  vitest: 4.1.11
-  wrangler: 4.131.1
-  zod: 4.6.2
-  vite-plus: 0.3.2
+  vite: npm:@voidzero-dev/vite-plus-core@1.5.0
+  vitest: 5.1.0
+  wrangler: 4.158.0
+  zod: 4.6.7
+  vite-plus: 1.5.0
 
 minimumReleaseAgeExclude:
   - googleapis@181.0.0
-  - '@shadcn/lint@0.1.1'
+  - "@shadcn/lint@0.1.1"
+  - "@ai-sdk/gateway@4.0.139"
+  - ai@7.0.166
+  - dotenv@18.0.10
 overrides:
   vite@*: "catalog:"
   vitest@*: "catalog:"

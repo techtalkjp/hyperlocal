@@ -84,7 +84,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Install pnpm and Node.js
-        uses: pnpm/setup@v2
+        uses: pnpm/setup@v3
         with:
           cache: true
 
@@ -124,7 +124,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Install pnpm and Node.js
-        uses: pnpm/setup@v2
+        uses: pnpm/setup@v3
         with:
           cache: true
 
