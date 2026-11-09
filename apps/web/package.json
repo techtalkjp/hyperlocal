@@ -21,7 +21,7 @@
     "validate": "run-s lint format typecheck test"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1131.0",
+    "@aws-sdk/client-s3": "^3.1164.0",
     "@coji/zodix": "catalog:",
     "@date-fns/tz": "catalog:",
     "@date-fns/utc": "catalog:",
@@ -55,8 +55,8 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "^1.54.8",
-    "@cloudflare/workers-types": "^5.20260914.1",
+    "@cloudflare/vite-plugin": "^1.67.0",
+    "@cloudflare/workers-types": "^5.20261108.1",
     "@react-router/dev": "catalog:",
     "@tailwindcss/typography": "catalog:",
     "@tailwindcss/vite": "catalog:",
